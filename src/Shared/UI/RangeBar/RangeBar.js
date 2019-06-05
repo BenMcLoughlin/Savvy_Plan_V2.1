@@ -21,8 +21,6 @@ function RangeBar(props) {
     return (
         <RangebarContainerStyled>
         <RangeBarStyled
-            className={`rangebar rangebar__${props.className} rangebar__${props.className}--${props.name}`}
-            style={{color: "blue"}}
             type="range"
             currency={props.currency}
             name={props.name}
@@ -51,7 +49,6 @@ function RangeBar(props) {
 
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         age: state.age
     }

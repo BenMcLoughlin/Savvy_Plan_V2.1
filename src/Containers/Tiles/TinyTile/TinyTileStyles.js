@@ -1,11 +1,10 @@
 import styled from "styled-components"
 import {fontSizeSmallest, fontSizeMedium, fontSizeLargest} from "../../../Shared/Styles"
-import {BackgroundLightBlueGrey,BackgroundDarkerLightBlueGrey, colorSlateBlueGrey, ShadowLight, ShadowLifted} from "../../../Shared/Styles"
+import {BackgroundLightBlueGrey,BackgroundColorNavyDark, colorGreyLight, fontSizeLarge, colorSlateBlueGrey, ShadowLight, ShadowLifted} from "../../../Shared/Styles"
 
 export const TileTheme = styled.div`
+    height: 100%;
     border-radius: 6px
-    background-color: #D6E2EC;
-    ${colorSlateBlueGrey}
     ${ShadowLight}; 
     &:hover {
         cursor: pointer;
@@ -16,44 +15,29 @@ export const TileTheme = styled.div`
 `
 
 
-export const SquareTileStyled = styled(TileTheme)`
+export const TinyTileStyled = styled(TileTheme)`
 display: flex;
 flex-direction: column;
 height: 100%;
 width: 100%;
-
-${fontSizeMedium}
-`
-export const TileHeadingStyled = styled.div`
-display: block;
-float: left;
-padding: 1rem;
-${fontSizeMedium}
+background-color: #f7b032;
 `
 export const TileSubHeadingStyled = styled.div`
 display: block;
 float: left;
-font-weight: 300;
+font-weight: 400;
 ${fontSizeSmallest}
+${colorGreyLight}
 margin-bottom: 1rem;
 `
 export const TileMainStyled = styled.div`
 display: flex;
 flex-direction: column;
+padding-top: 1rem;
 align-items: center;
 float: left;
-${fontSizeLargest}
-font-weight: 800;
-justify-content: center;
-border-bottom: 1px solid white;
-`
-export const TileChartStyled = styled.div`
-display: flex;
-flex-direction: column;
-height: 100%;
-align-items: center;
-float: left;
-${fontSizeLargest}
+${fontSizeLarge}
+${colorGreyLight}
 font-weight: 800;
 justify-content: center;
 `

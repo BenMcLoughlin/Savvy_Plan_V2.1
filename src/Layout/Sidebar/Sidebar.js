@@ -38,7 +38,6 @@ import RangeBar from "../../Shared/UI/RangeBar/RangeBar"
 
 
 const mapStateToProps = (state) => {
-    console.log(state);
    return {timelineRanges: state.timelineRanges}
    return {financialsRanges: state.financialsRanges}
 }

@@ -2,18 +2,20 @@ import React from 'react'
 import { SquareTileStyled, TileHeadingStyled, TileMainStyled, TileSubHeadingStyled, TileChartStyled } from "./SquareTileStyles"
 import TaxMiniChart from "../../../assets/images/TaxMiniChart.png"
 
-export default function SquareTile() {
+export default function SquareTile(props) {
     return (
         <SquareTileStyled>
             <TileHeadingStyled>
-            Tax Position
+                {props.heading}
             </TileHeadingStyled>
             <TileMainStyled>
-            40%
-            <TileSubHeadingStyled>Marginal Tax Rate</TileSubHeadingStyled>
+                {props.mainValue}
+            <TileSubHeadingStyled>
+                 {props.subHeading}
+            </TileSubHeadingStyled>
             </TileMainStyled>
             <TileChartStyled> 
-             <img src={TaxMiniChart} style={{height: "4rem", width: "80%"}}alt=""/>
+             <img src={props.chart} style={{height: "4rem", width: "80%"}}alt=""/>
             </TileChartStyled>
         </SquareTileStyled>
     )

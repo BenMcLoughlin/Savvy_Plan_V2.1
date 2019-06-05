@@ -45,11 +45,14 @@ export const BackgroundColorGreyLight = 'background-color: #f5f5f5'
 export const BackgroundSalmonRed = `background-color: #ef6c67`
 export const BackgroundLightBlueGrey = `background-color: #F8FDFB`
 export const BackgroundDarkerLightBlueGrey = `background-color: #D6E2EC`
+export const BackgroundLinen = `background-color: #f7ebe1`
+export const BackgroundGoldenRod = `background-color: #f7b032`
 
-//Shadow themes
+//Shadow & Border themes
 
 export const ShadowLight = 'box-shadow: 4px 4px 8px 1px rgba(194,190,194,1)'
 export const ShadowLifted = 'box-shadow: 6px 7px 9px 2px rgba(194,190,194,0.9)'
+export const border = `border-bottom: 1px solid #e0e0e0;`
 
 
 
