@@ -1,13 +1,15 @@
 import {combineReducers} from "redux"
-import {timelineRanges, financialsRanges, investingStrategyRanges} from "./infoRanges"
-import {IncomeRangesReducer} from "./TaxReducers"
+import {timelineRanges} from "./infoRanges"
+import {initialState} from "./initialState"
 
-const age = (age = 20, action) => {
+const variablesReducer = (state = initialState, action) => {
     switch (action.type) {
-        case  "SET_AGE": return action.payload
-        break;
-        default: return age
+        case  "SET_CURRENT_AGE": return {...state, currentAge: action.payload}
+        case  "SET_RETIREMENT_AGE": return {...state, retirementAge: action.payload}
+        case  "SET_LIFESPAN": return {...state, lifeSpan: action.payload}
+        default: return state
     }
+
 }
 
 
@@ -15,11 +17,9 @@ const age = (age = 20, action) => {
 
 
 export default combineReducers({
-    age: age,
-    IncomeRanges: IncomeRangesReducer,
+
+    variables: variablesReducer, 
     timelineRanges: timelineRanges,
-    financialsRanges: financialsRanges,
-    investingStrategyRanges: investingStrategyRanges
 })
 
 

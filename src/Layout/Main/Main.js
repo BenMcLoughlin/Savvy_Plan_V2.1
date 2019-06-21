@@ -1,11 +1,21 @@
 import React from 'react'
-import {MainStyled } from "./MainStyles"
-import TilePane from "../../Containers/TilePane/TilePane"
+import styled from "styled-components"
+import Dashboard from "../../Containers/Dashboard/Dashboard"
 
 export default function Header() {
     return (
         <MainStyled>
-            <TilePane/>
+            <Dashboard/>
         </MainStyled>
     )
 }
+
+//--------STYLES----------------------------------------------------------------------------------------------------//
+
+
+export const MainStyled = styled.div`
+    grid-area: m;
+    display: grid;
+    height: 100%;
+    width: 100%;
+`

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {BackgroundLightBlueGrey, border, BackgroundDarkerLightBlueGrey, fontSizeMedium, colorSlateBlueGrey, ShadowLight, ShadowLifted} from "../../Shared/Styles"
+import {fontSize, color, backgroundColor, boxShadow, border} from "../../../Shared/Styles"
 
 
 //----------------SHARED THEMES-------------------------------------------------------------------------------
@@ -7,14 +7,14 @@ import {BackgroundLightBlueGrey, border, BackgroundDarkerLightBlueGrey, fontSize
 export const TileTheme = `
     border-radius: 6px
     background-color: #D6E2EC;
-    ${colorSlateBlueGrey}
-    ${ShadowLight}; 
+    ${color.slateBlueGrey}
+    ${boxShadow.light}; 
     height: 100%;
     &:hover {
         cursor: pointer;
         transform: scale(1.0008);
         transition: all .3s ease;
-        ${ShadowLifted}
+        ${boxShadow.lifted}
     }
 `
 
@@ -24,7 +24,7 @@ export const TilePaneStyled = styled.div`
     height: 100vh;
     width: 100%;
     display: grid;
-    ${BackgroundLightBlueGrey}
+    ${backgroundColor.lightBlueGrey}
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: 2rem repeat(2, minmax(5rem, 8rem)) 3rem repeat(6, 1fr);
     grid-gap: 1rem;
@@ -40,14 +40,13 @@ export const TilePaneStyled = styled.div`
     "l l l l l l l l l l l l l l l l"
     "l l l l l l l l l l l l l l l l"
     ;
-    
 `
 
 export const TilePaneFirstHeaderStyled = styled.div`
     grid-area: h;
-   ${fontSizeMedium}
+   ${fontSize.medium}
    margin-left: 3rem;
-   ${colorSlateBlueGrey}
+   ${color.slateBlueGrey}
    ${border}
 
 `

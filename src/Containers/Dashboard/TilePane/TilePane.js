@@ -12,8 +12,8 @@ TilePaneStyled,
  LifetimeIncomeTileStyled,
  SavingsPlanTileStyled} 
  from "./TilePaneStyles"
- import TaxMiniChart from "../../assets/images/TaxMiniChart.png"
- import NetWorthMiniChart from "../../assets/images/NetWorthMiniChart.png"
+ import TaxMiniChart from "../../../assets/images/TaxMiniChart.png"
+ import NetWorthMiniChart from "../../../assets/images/NetWorthMiniChart.png"
  import SquareTile from "../Tiles/SquareTile/SquareTile"
  import TinyTile from "../Tiles/TinyTile/TinyTile"
 

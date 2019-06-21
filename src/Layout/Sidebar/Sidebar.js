@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {SidebarStyled } from "./SidebarStyles"
-import RangeBar from "../../Shared/UI/RangeBar/RangeBar"
+import RangeBar from "../../Components/UI/RangeBar/RangeBar"
 
 
  class Sidebar extends Component {

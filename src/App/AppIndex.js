@@ -4,11 +4,12 @@ import Layout from "../Layout/Layout"
 import {BrowserRouter} from "react-router-dom"
 
 
+
 export default function App() {
     return (
         <StateManager>
           <BrowserRouter>
-            <Layout/>
+              <Layout/>
          </BrowserRouter>   
         </StateManager>
     )

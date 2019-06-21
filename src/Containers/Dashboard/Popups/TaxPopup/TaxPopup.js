@@ -1,28 +1,13 @@
 import React, { Component } from 'react'
 import {PopupStyled, PopupHeaderStyled, MainText, MainSubText, IncomeSliders, DeductionSliders, Results } from "./TaxPopupStyles"
 import {Link} from "react-router-dom"
-import RangeBar from "../../../Shared/UI/RangeBar/RangeBar"
+import RangeBar from "../../../../Components/UI/RangeBar/RangeBar"
 import { connect } from 'react-redux'
+
 
 class TaxPopup extends Component {
 
-    renderRangeBars() {
-       return this.props.IncomeRanges.map(a => {
-           return (
-               <RangeBar
-                    className={a.className}
-                    name={a.name}
-                    min={a.min}
-                    max={a.max}
-                    label={a.label}
-                    step={a.step}
-                    type={a.type}
-                    value={20}
-                    onChange={this.props.handleSlider}       
-                    explanation={a.explanation}    
-            />)
-       })
-    }
+
 
     render() {
         console.log(this.props.IncomeRanges);
@@ -37,7 +22,14 @@ class TaxPopup extends Component {
                 </PopupHeaderStyled>
                 <IncomeSliders>
                     Main Sources Of Income
-                    {this.renderRangeBars()}
+                <RangeBar
+                    type="range"
+                    label="Change your Age"
+                    value={20}
+                    step={10}
+                    onChange={22}
+                    min={0}
+                    max={90}/>
                 </IncomeSliders>
                 <DeductionSliders>
                 
@@ -56,4 +48,6 @@ const mapStateToProps = (state) => {
     return {IncomeRanges: state.IncomeRanges}
 }
 
-export default connect(mapStateToProps)(TaxPopup)
+export default connect(mapStateToProps
+
+    )(TaxPopup)

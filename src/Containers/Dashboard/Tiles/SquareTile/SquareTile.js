@@ -1,6 +1,6 @@
 import React from 'react'
 import { SquareTileStyled, TileHeadingStyled, TileMainStyled, TileSubHeadingStyled, TileChartStyled } from "./SquareTileStyles"
-import TaxMiniChart from "../../../assets/images/TaxMiniChart.png"
+import TaxMiniChart from "../../../../assets/images/TaxMiniChart.png"
 
 export default function SquareTile(props) {
     return (

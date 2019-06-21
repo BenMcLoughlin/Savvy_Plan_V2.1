@@ -1,18 +1,6 @@
-import styled from "styled-components"
-import {
-    colorSalmonRed, 
-    colorSandyBrown,
-    colorAquaBlue,
-    colorBrightBlue,
-    colorGreyLight,
-    BackgroundColorSandyBrown,
-    BackgroundColorNavyDark,
-    BackgroundColorGreyLight,
-    BackgroundSalmonRed,
-    fontSizeSmall, 
-    fontSizeMedium,
-
-} from "../../Styles"
+import styled, {css} from "styled-components"
+import { fontSize, color, backgroundColor,
+} from "../../../Shared/Styles"
 
 
 
@@ -27,6 +15,7 @@ export const RangebarContainerStyled = styled.div `
     width: 35rem;
 ` 
 
+
 export const RangeBarStyled = styled.input`
 
 height: 2.8rem;
@@ -35,31 +24,30 @@ outline: none;
 background-color: transparent;
 transition: all .3s;
 -webkit-appearance: none;
-width: 12rem;
-
+width: 18rem;
 &:active + &__value {
     box-sizing: border-box;
-    border-bottom: 4px solid ${colorSalmonRed};
+    border-bottom: 4px solid ${color.salmonRed};
     z-index: 1;
 }
 
 
 &::-webkit-slider-runnable-track{
 
-    ${BackgroundColorSandyBrown}
+    ${backgroundColor.sandyBrown}
     height: 3px; //track width
     border-radius: 4px;
     z-index: 2;
 }
 
 &:active::-webkit-slider-runnable-track {
-    ${BackgroundSalmonRed}
+    ${backgroundColor.salmonRed}
     z-index: 2;
 }
 
 &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    ${BackgroundColorSandyBrown}
+    ${backgroundColor.sandyBrown}
     width: 2.2rem;
     height: 2.2rem;
     border-radius: 50%;
@@ -70,7 +58,7 @@ width: 12rem;
     z-index: 2;
 }
 &:active::-webkit-slider-thumb  {
-    ${BackgroundSalmonRed}
+    ${backgroundColor.salmonRed}
     z-index: 2;;
 }
 
@@ -81,22 +69,22 @@ export const RangeBarValueStyled = styled.div`
         top: -2rem;
         left: 21rem;
         border-radius: 1px;
-        ${BackgroundColorNavyDark};
+        ${backgroundColor.navyDark};
         padding: .8rem;
         height: 3rem;
-       ${fontSizeMedium};
+       ${fontSize.medium};
         width: 6rem;
         align-content: center;
         text-align: center;
         right: 4rem;
-        ${colorGreyLight};
+        ${color.greyLight};
         z-index: 1;
 
 `
 
 export const RangeBarLabelStyled = styled.label`
         color: grey;
-        ${fontSizeMedium};
+        ${fontSize.medium};
         position: absolute;
         top: -1.2rem;
         left: 3rem;
@@ -108,12 +96,12 @@ export const QuestionBoxStyled = styled.div`
         right: 4rem;
         height: 2rem;
         width: 2rem;
-        ${BackgroundColorGreyLight};
+        ${backgroundColor.greyLight};
         display: flex;
         text-align: center;
         justify-content: center;
         align-items: center;
-        ${fontSizeMedium};
+        ${fontSize.medium};
 `
 
 export const QuestionExplanationStyled = styled.div`
@@ -121,10 +109,10 @@ export const QuestionExplanationStyled = styled.div`
         height: 15rem;
         width: 32rem;
         border-radius: 4px;
-        ${BackgroundColorGreyLight};
-        ${BackgroundColorNavyDark};
+        ${backgroundColor.greyLight};
+        ${backgroundColor.navyDark};
         position: absolute;
-        ${fontSizeMedium};
+        ${fontSize.medium};
         z-index: 1000;
         padding: 2rem;
         text-align: left;
@@ -136,7 +124,7 @@ export const QuestionExplanationStyled = styled.div`
 
         &:after {
             content: "";
-            ${BackgroundColorGreyLight};
+            ${backgroundColor.greyLight};
             position: absolute;
             width: 2rem;
             height: 2rem;

@@ -25,7 +25,111 @@ export const fontSizeLargest = 'font-size: 5rem';
 
 //FONT COLORS
 
+// export const darkTheme = {
+//     color: "green",
+// }
+export const darkTheme = {
+    color: {
+        primaryBackground1: "#33363F",
+        primaryBackground2: "#1E202A",
+        accent1: '#66d9e8',
+        accent2: '#77919A',
+        highlight1: '#ef6c67',
+        highlight2: '#eab462',
+        text1: '#f5f5f5',
+        text2: '#f7ebe1',
+    },
+    fontSize: {
+        small: "1.4rem",
+        smallMedium: "1.8rem'",
+        Medium: '2.2rem',
+        MediumLarge: '4rem',
+        Large: '9rem',
+    },
+    flexContent: {
+        center: '{display: flex; align-items: center; justify-content:center}'
+    },
+    boxShadow: {
+        small: "box-shadow: 0px 0px 4px 2px #757575",
 
+
+    }
+}
+export const lightTheme = {
+    color: {
+        primaryDark1: "#f5f5f5",
+        primaryDark2: "#f7ebe1",
+        accent1: '#ef6c67',
+        accent2: '#77919A',
+        highlight1: '#ef6c67',
+        highlight2: '#eab462',
+        text1: '#33363F',
+        text2: '#1E202A',
+    },
+    fontSize: {
+        small: "1.4rem",
+        smallMedium: "1.8rem'",
+        Medium: '2.2rem',
+        MediumLarge: '4rem',
+        Large: '9rem',
+    },
+    flexContent: {
+        center: '{display: flex; align-items: center; justify-content:center}'
+    },
+    boxShadow: {
+        small: "box-shadow: 0px 0px 4px 2px #757575",
+
+
+    }
+}
+
+export const boxShadow = {
+   subtle: `box-shadow: 4px 4px 8px 1px rgba(194,190,194,1)`,
+   lifted: `box-shadow: 6px 7px 9px 2px rgba(194,190,194,0.9)`,
+}
+export const fontSize = {
+    smallest: 'font-size: 1.2rem;',
+    small: 'font-size: 1.4rem',
+    medium: 'font-size: 1.6rem',
+    large: 'font-size: 2.4rem',
+    largest: 'font-size: 5rem',
+}
+
+export const color = {
+    salmonRed: 'color: #ef6c67',
+    sandyBrown: 'color: #eab462',
+    aquaBlue: 'color: #70bdc2',
+    brightBlue: 'color: #039be5',
+    greyLight: 'color: #f5f5f5',
+    slateBlueGrey: 'color: #6B8290',
+}
+export const backgroundColor = {
+    primaryDark1: 'background-color: #33363F',
+    primaryDark2: 'background-color: #1E202A',
+    accent1: 'background-color: #66d9e8',
+    accent2: 'background-color: #77919A',
+
+
+    sandyBrown: 'background-color: #eab462',
+    navyDark: 'background-color: #18212b',
+    greyLight: 'background-color: #f5f5f5',
+    salmonRed: `background-color: #ef6c67`,
+    blueGrey: `background-color: #F8FDFB`,
+    darkerLightBlueGrey: `background-color: #D6E2EC`,
+    linen: `background-color: #f7ebe1`,
+    goldenRod: `background-color: #f7b032`,
+    turquise: `background-color: #50aacb`,
+    steelBlue: `background-color: #35888b`,
+}
+
+
+
+//---------FLEX COMMANDS---------------//
+
+
+export const flexContent = {
+    center: '{display: flex; align-items: center; justify-content:center}',
+}
 
 
 //THEME COLORS
@@ -55,33 +159,3 @@ export const ShadowLifted = 'box-shadow: 6px 7px 9px 2px rgba(194,190,194,0.9)'
 export const border = `border-bottom: 1px solid #e0e0e0;`
 
 
-
-// const theme = 'dark';
-// //const theme = 'light';
-// export const lightTheme = theme === 'light';
-
-// export const color = #061a44'
-// export const color2 = #010e2c'
-// export const color3 =  #42ff3a
-
-// if (lightTheme) {
-//   document.body.style.background = '#e1eaee';
-//   document.body.style.color = '#061a44';
-// }
-
-// export const lightBlueBackground = `background-color: ${color}`;
-// export const backgroundColor2 = `background-color: ${color2};`;
-// export const greenBackgroundColor = `background-color: ${color3};`;
-
-// export const fontColorGreen = `color: #03A9F4`;
-// export const fontColorWhite = `color: white`;
-// export const subtleBoxShadow = `box-shadow: 0px 0px 5px 1px ${lightTheme ? '#a9b6ff' : '#121d5b'}`;
-// export const greenBoxShadow = `box-shadow: 0px 0px 4px 2px #5fff17`;
-// export const redBoxShadow = `box-shadow: 0px 0px 2px 2px #e41111`;
-
-// export const fontSizeBig = 'font-size: 2em';
-// export const fontSize1 = 'font-size: 1.5em;';
-// export const fontSize2 = 'font-size: 1.0em';
-// export const fontSize3 = 'font-size: .75em';
-
-// export const textAlignCenter = 'text-align: center;';

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "cryptocompare": "^1.0.0",
+    "font-awesome": "^4.7.0",
     "fontawesome": "^5.6.3",
     "lodash": "^4.17.11",
     "react": "^16.8.6",

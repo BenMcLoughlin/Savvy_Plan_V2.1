@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import {fontSizeSmallest, fontSizeMedium, fontSizeLargest} from "../../../Shared/Styles"
-import {BackgroundLightBlueGrey,BackgroundColorNavyDark, colorGreyLight, fontSizeLarge, colorSlateBlueGrey, ShadowLight, ShadowLifted} from "../../../Shared/Styles"
+import {fontSizeSmallest, fontSizeMedium, fontSizeLargest} from "../../../../Shared/Styles"
+import {BackgroundLightBlueGrey,BackgroundColorNavyDark, colorGreyLight, fontSizeLarge, colorSlateBlueGrey, ShadowLight, ShadowLifted} from "../../../../Shared/Styles"
 
 export const TileTheme = styled.div`
     height: 100%;

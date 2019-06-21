@@ -1,8 +1,6 @@
 import React from 'react'
-import styled from "styled-components"
 import FontAwesome from "react-fontawesome"
-import { connect } from 'react-redux'
-import {setAge, setRetirementAge} from "../../../actions"
+
 
 //STYLES
 import {RangeBarStyled, 
@@ -13,26 +11,21 @@ import {RangeBarStyled,
         QuestionExplanationStyled} 
         from "./RangeBarStyles"
 
-export const Age = styled.div`
-font-size: 2rem;
-color: blue;
-`
+
 function RangeBar(props) {
     return (
         <RangebarContainerStyled>
         <RangeBarStyled
             type="range"
+            classType={props.classType}
             currency={props.currency}
             name={props.name}
-            value={props.age}
-            onChange={(event) => setAge(event.target.value)}
+            value={props.value}
+            onChange={props.handleChange}
             step={props.step}
             min={props.min}
             max={props.max}/>
-        <RangeBarValueStyled>
-                {props.type === "percentage" ? `${(props.value * 100).toFixed(2)} %` :
-                props.type === "currency" ? `$${Number(props.value).toLocaleString()}` :
-                props.value}</RangeBarValueStyled>
+        <RangeBarValueStyled>{props.value}</RangeBarValueStyled>
         <div className="rangebar__arrow"></div>
         <RangeBarLabelStyled> {props.label} </RangeBarLabelStyled>
         <QuestionBoxStyled>
@@ -47,12 +40,4 @@ function RangeBar(props) {
 }
 
 
-
-const mapStateToProps = (state) => {
-    return {
-        age: state.age
-    }
-}
-export default connect (mapStateToProps,
-    {setAge, setRetirementAge}
-    )(RangeBar)
+export default RangeBar

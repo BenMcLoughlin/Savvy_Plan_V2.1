@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {BackgroundLightBlueGrey, fontSizeLarge, fontSizeSmall, BackgroundColorNavyDark} from "../../../Shared/Styles"
+import {fontSize, color, backgroundColor} from "../../../../Shared/Styles"
 
 export const PopupStyled = styled.div`
 position: relative;
@@ -9,7 +9,7 @@ margin: 0 auto;
 padding: 1rem;
 height: 100%;
 width: 100%;
-${BackgroundLightBlueGrey}
+${backgroundColor.lightBlueGrey}
 grid-template-columns: repeat(12, minmax(10rem, 30rem));
 grid-template-rows: 6rem repeat(4, minmax(8rem, 14rem));
 grid-gap: 1rem;
@@ -26,19 +26,19 @@ grid-area: h;
 display: grid;
 `
 export const MainText = styled.div`
-${fontSizeLarge}
+${fontSize.large}
 `
 export const MainSubText = styled.div`
 padding-top: 1rem;
 padding-left: 1rem;
-${fontSizeSmall}
+${fontSize.small}
 `
 export const IncomeSliders = styled.div`
 grid-area: i;
 padding-top: 1rem;
 padding-left: 1rem;
-${BackgroundColorNavyDark}
-${fontSizeSmall}
+${backgroundColor.navyDark}
+${fontSize.small}
 border-radius: 3px;
 color: white;
 `
@@ -48,13 +48,13 @@ grid-area: d;
 padding-top: 1rem;
 padding-left: 1rem;
 background-color: yellow;
-${fontSizeSmall}
+${fontSize.small}
 `
 export const Results = styled.div`
 grid-area: r;
 padding-top: 1rem;
 padding-left: 1rem;
 background-color: Green;
-${fontSizeSmall}
+${fontSize.small}
 `
  
