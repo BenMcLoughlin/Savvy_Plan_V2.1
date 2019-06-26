@@ -1,5 +1,6 @@
 import {combineReducers} from "redux"
 import {timelineRanges} from "./infoRanges"
+import {tilePaneReducer} from "./tilePaneReducers"
 import {initialState} from "./initialState"
 
 const variablesReducer = (state = initialState, action) => {
@@ -20,6 +21,7 @@ export default combineReducers({
 
     variables: variablesReducer, 
     timelineRanges: timelineRanges,
+    tilePaneData: tilePaneReducer,
 })
 
 

@@ -30,31 +30,44 @@ export const fontSizeLargest = 'font-size: 5rem';
 // }
 export const darkTheme = {
     color: {
-        primaryBackground1: "#33363F",
+        primaryBackground1: "#f5f5f5",
         primaryBackground2: "#1E202A",
+        background2: "#292f33",
+        background3: "#31393e",
+        primaryBackground3: "#33363F",
+        primaryBackground4: "#1E202A",
         accent1: '#66d9e8',
         accent2: '#77919A',
+        accent3: '#7DA4B7',
+        accent4: '#D9BB73',
         highlight1: '#ef6c67',
         highlight2: '#eab462',
         text1: '#f5f5f5',
-        text2: '#f7ebe1',
+        text2: '#c6c7c7',
+        text3: '#1E202A',
     },
     fontSize: {
         small: "1.4rem",
-        smallMedium: "1.8rem'",
-        Medium: '2.2rem',
-        MediumLarge: '4rem',
-        Large: '9rem',
+        smallMedium: "1.8rem",
+        medium: '2.2rem',
+        mediumLarge: '3.5rem',
+        large: '4.5rem',
+        largest: '8rem',
     },
     flexContent: {
         center: '{display: flex; align-items: center; justify-content:center}'
     },
     boxShadow: {
-        small: "box-shadow: 0px 0px 4px 2px #757575",
-
-
+        small: "9px 9px 10px -7px rgba(102,99,102,1);",
+        lifted: "11px 11px 22px -7px rgba(102,99,102,1);",
+    },
+    linearGradient: {
+        primary: "-webkit-gradient(linear, left top, right top, color-stop(0%, rgba(128,128,128,1)), color-stop(100%, rgba(38,47,61,1)))",
     }
 }
+
+
+
 export const lightTheme = {
     color: {
         primaryDark1: "#f5f5f5",
@@ -78,8 +91,9 @@ export const lightTheme = {
     },
     boxShadow: {
         small: "box-shadow: 0px 0px 4px 2px #757575",
-
-
+    },
+    linearGradient: {
+        primary: "-webkit-linear-gradient(200deg, rgba(255,255,255,1) 0%, rgba(212,212,212,1) 100%)",
     }
 }
 
@@ -92,7 +106,7 @@ export const fontSize = {
     small: 'font-size: 1.4rem',
     medium: 'font-size: 1.6rem',
     large: 'font-size: 2.4rem',
-    largest: 'font-size: 5rem',
+    largest: 'font-size: 8rem',
 }
 
 export const color = {

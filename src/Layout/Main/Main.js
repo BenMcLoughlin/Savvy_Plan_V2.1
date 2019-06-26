@@ -18,4 +18,5 @@ export const MainStyled = styled.div`
     display: grid;
     height: 100%;
     width: 100%;
+    background: ${props => props.theme.color.primaryBackground1};
 `

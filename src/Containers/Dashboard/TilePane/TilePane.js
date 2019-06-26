@@ -1,102 +1,68 @@
-import React from 'react' 
+import React, { Component } from 'react'
+import Tile from "./Tile"
+import styled from "styled-components"
+import {connect} from "react-redux"
 import {Link} from "react-router-dom"
-import {
-TilePaneStyled,
- TilePaneFirstHeaderStyled,
- TilePaneSecondHeaderStyled,
- TaxTileStyled,
- NetWorthTileStyled,
- SavingsTileStyled,
- CashflowTileStyled,
- RetirementIncomeTileStyled,
- LifetimeIncomeTileStyled,
- SavingsPlanTileStyled} 
- from "./TilePaneStyles"
- import TaxMiniChart from "../../../assets/images/TaxMiniChart.png"
- import NetWorthMiniChart from "../../../assets/images/NetWorthMiniChart.png"
- import SquareTile from "../Tiles/SquareTile/SquareTile"
- import TinyTile from "../Tiles/TinyTile/TinyTile"
 
-export default function TilePane() {
-    return (
-        <TilePaneStyled>
-          <TilePaneFirstHeaderStyled>Personal Finance Key Indicators</TilePaneFirstHeaderStyled>
 
-        <Link to="/TaxPopop" style={{ textDecoration: 'none', gridArea: "t"}}>
-                  <SquareTile
-                    heading="Tax tile"
-                    mainValue="40%"
-                    subHeading="Marginal tax Rate%"
-                    chart={TaxMiniChart}
-                  />
-          </Link>
-          <Link to="/NetWorth" style={{ textDecoration: 'none', gridArea: "n"}}>
-          <NetWorthTileStyled>
-            <SquareTile
-                    heading="Net Worth"
-                    mainValue="$182,000"
-                    subHeading="Total Value of what you own"
-                    chart={NetWorthMiniChart}
-            />
-         </NetWorthTileStyled>
-         </Link>
-          <Link to="/CashFlow" style={{ textDecoration: 'none', gridArea: "s"}}>
-          <NetWorthTileStyled>
-            <SquareTile
-                    heading="CashFlow"
-                    mainValue="$13,000"
-                    subHeading="Hard Limit"
-                    chart={NetWorthMiniChart}
-            />
-         </NetWorthTileStyled>
-         </Link>
-          <Link to="/NetWorth" style={{ textDecoration: 'none', gridArea: "g"}}>
-          <NetWorthTileStyled>
-            <TinyTile
-                    mainValue="73%"
-                    subHeading="Personal Finance Score"
-                    chart={NetWorthMiniChart}
-            />
-         </NetWorthTileStyled>
-         </Link>
-          <Link to="/Insurance" style={{ textDecoration: 'none', gridArea: "c"}}>
-          <NetWorthTileStyled>
-            <TinyTile
-                    mainValue="$400,000"
-                    subHeading="Minimum Reccomended Life Insurance"
-            />
-         </NetWorthTileStyled>
-         </Link>
-            <TilePaneSecondHeaderStyled>Long Term Financial Plan</TilePaneSecondHeaderStyled>
+class TilePane extends Component {
 
-        <Link to="/SavingsPlan" style={{ textDecoration: 'none', gridArea: "p"}}>
-            <SavingsPlanTileStyled>Savings Plan</SavingsPlanTileStyled>
-        </Link>
-        <Link to="/RetirementIncome" style={{ textDecoration: 'none', gridArea: "r"}}>
-            <RetirementIncomeTileStyled>RetirementIncome</RetirementIncomeTileStyled>
-        </Link>
-        <Link to="/LifeTimeIncome" style={{ textDecoration: 'none', gridArea: "l"}}>
-        <LifetimeIncomeTileStyled>LifetimeIncome</LifetimeIncomeTileStyled>
-        </Link>
-            
 
-        </TilePaneStyled>
-    )
+
+
+    renderData() {
+        return this.props.tilePaneData.map(tile => {
+            return (
+                  <Tile 
+                  tileType={tile.tileType}
+                  link={tile.link}
+                  icon={tile.icon}
+                  title={tile.title}
+                  value1={tile.value1}
+                  subTitle1={tile.subTitle1}
+                  value2={tile.value2}
+                  subTitle2={tile.subTitle2}
+                  value3={tile.value3}
+                  subTitle3={tile.subTitle3}
+                  chart={tile.chart}
+                  gridArea={tile.gridArea}      
+              />
+            )
+        })
+    }
+
+    render() {
+        return (
+            <StyledTilePane>
+                {this.renderData()}
+            </StyledTilePane>
+        )
+    }
 }
-// <TilePaneStyled>
-// <TilePaneFirstHeaderStyled></TilePaneFirstHeaderStyled>
 
-// <Link to="/TaxPopop" style={{ textDecoration: 'none', gridArea: "t"}}>
-//   <TaxTileStyled>
-//         <SquareTile/>
-//   </TaxTileStyled>
-// </Link>
 
-// <NetWorthTileStyled><SquareTile/></NetWorthTileStyled>
-//   <SavingsTileStyled><SquareTile/></SavingsTileStyled>
-//   <CashflowTileStyled><SquareTile/></CashflowTileStyled>
-//   <TilePaneSecondHeaderStyled>SecondHeader</TilePaneSecondHeaderStyled>
-//   <RetirementIncomeTileStyled>RetirementIncome</RetirementIncomeTileStyled>
-//   <LifetimeIncomeTileStyled>LifetimeIncome</LifetimeIncomeTileStyled>
-//   <SavingsPlanTileStyled>Savings Plan</SavingsPlanTileStyled>
-// </TilePaneStyled>
+const mapStateToProps = (state) => {
+    
+   return { tilePaneData: state.tilePaneData }
+}
+
+export default connect(mapStateToProps)(TilePane)
+
+//-----------------STYLES--------------------------------------------------//
+
+const StyledTilePane = styled.div`
+    margin: 0 auto;
+    width: 90vw;
+    height: 95vh;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: 4rem 1fr 4rem repeat(3, 1fr);
+    grid-template-areas: 
+    "h h h h h h h h h h h h h h h h"
+    "n n n n c c c c c t t t t s s s"
+    "r r r r r r r r r r r r r r r r"
+    "p p p p q q q q q q q q q q q q"
+    "l l l l l l l l l l l l l l l l"
+    "l l l l l l l l l l l l l l l l"
+`
