@@ -77,7 +77,7 @@ export const tilePaneReducer = () => {
             link: "/LifeTimeIncome",
             icon: "fas fa-landmark",
             title: "LifeTime Income",
-            chart: "lifetimeIncome",
+            chart: "LifeTimeIncome",
             gridArea: "l",
         },
 

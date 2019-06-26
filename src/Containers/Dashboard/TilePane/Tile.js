@@ -3,106 +3,75 @@ import styled from "styled-components"
 import {Link} from "react-router-dom"
 import FontAwesome from "react-fontawesome"
 
+import SavingsPlanChart from "./Charts/SavingsPlanChart"
+import LifetimeIncomeChart from "./Charts/LifetimeIncomeChart"
 
 const Tile = (props) => {
     return (
         <StyledLink to={props.link} gridArea={props.gridArea}>
-        {
-        props.tileType === "title" ? 
-        <StyledTitle gridArea={props.gridArea}>
-            {props.title}
-        </StyledTitle>
-        :
-        props.tileType === "single" ? 
-        <StyledSingleTile gridArea={props.gridArea}>
-            <heading>
-            <FontAwesomeStyled name={props.icon}/>
-              {props.title}
-            </heading>
-            <value>{props.value1}</value>
-            <subHeading>{props.subTitle1}</subHeading>
-        </StyledSingleTile>
-
-        : props.tileType === "dual" ?
-
-        <StyledDualTile gridArea={props.gridArea}>
-            <heading>
-                <FontAwesomeStyled name={props.icon}/>
-                {props.title}
-            </heading>
-            <outputContainer>
-                <output>
-                    <value>{props.value1}</value>
-                    <subHeading>{props.subTitle1}</subHeading>           
-                </output>
-                <output>
-                    <value>{props.value2}</value>
-                    <subHeading>{props.subTitle2}</subHeading>           
-                </output>
-             </outputContainer>
-         </StyledDualTile>
-
-        : props.tileType === "triple" ?
-
-        <StyledTripleTile gridArea={props.gridArea}>
-            <heading>
-                <FontAwesomeStyled name={props.icon}/>
-                {props.title}
-            </heading>
-            <outputContainer>
-                <output>
-                    <value>{props.value1}</value>
-                    <subHeading>{props.subTitle1}</subHeading>           
-                </output>
-                <output>
-                    <value>{props.value2}</value>
-                    <subHeading>{props.subTitle2}</subHeading>           
-                </output>
-                <output>
-                    <value>{props.value3}</value>
-                    <subHeading>{props.subTitle3}</subHeading>           
-                </output>
-             </outputContainer>
-         </StyledTripleTile>
-        : props.tileType === "chart" ?
-
-        <StyledTripleTile gridArea={props.gridArea}>
-            <heading>
-                <FontAwesomeStyled name={props.icon}/>
-                {props.title}
-            </heading>
-            <outputContainer>
-                <output>
-                    <value>{props.value1}</value>
-                    <subHeading>{props.subTitle1}</subHeading>           
-                </output>
-                <chart>
-                </chart>
-             </outputContainer>
-         </StyledTripleTile>
-      : null
+            {
+                props.tileType === "title" ?
+                <StyledTitle>
+                    {props.title}
+                </StyledTitle> : 
+                <StyledTile>
+                    <heading>
+                        <FontAwesomeStyled name={props.icon}/>
+                        {props.title}
+                    </heading>
+                    <OutputContainer tileType={props.tileType}>
+                            <output>
+                                <value>{props.value1}</value>
+                                <subHeading>{props.subTitle1}</subHeading>           
+                            </output>
+                        {
+                            props.tileType === "dual" ?
+                            <output>
+                                <value>{props.value2}</value>
+                                <subHeading>{props.subTitle2}</subHeading>           
+                            </output>
+                        :
+                            props.tileType === "triple" ?
+                            <>
+                            <output>
+                                <value>{props.value2}</value>
+                                <subHeading>{props.subTitle2}</subHeading>           
+                            </output>
+                            <output>
+                                <value>{props.value3}</value>
+                                <subHeading>{props.subTitle3}</subHeading>           
+                            </output>
+                            </>
+                        :
+                            props.tileType === "chart" ?
+                            <output>
+                               {
+                                   props.chart === "LifeTimeIncome" ? 
+                                   <LifetimeIncomeChart/> :
+                                   <SavingsPlanChart/>    
+                               }  
+                            </output>
+                        :
+                         null
+                        }
+                 </OutputContainer>
+                </StyledTile>
         }
         </StyledLink>
         
     )
 }
 
+export default Tile
+
+//================================STYLES----------------------------------------------//
+
+//-----LINK
 const StyledLink = styled(Link)`
     grid-area: ${props => props.gridArea};
     text-decoration: none;
 `
-
-const FontAwesomeStyled = styled(FontAwesome)`
-    font-size: 1.3rem;
-    margin-right: 0.5rem;
-    text-decoration: none;
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    font-size: ${props => props.theme.fontSize.smallMedium};
-    color: ${props => props.theme.color.text1};
-`
-
+//-----TITLE
 const StyledTitle = styled.div`
     font-family: 'Lato', sans-serif;
     grid-area: ${props => props.gridArea};
@@ -113,8 +82,7 @@ const StyledTitle = styled.div`
     align-items: center;
     color: ${props => props.theme.color.text3};
 `
-
-
+//-----STYLEDTILE
 const StyledTile = styled.div`
     margin: 0;
     background-color: ${props => props.theme.color.background2};
@@ -160,45 +128,26 @@ const StyledTile = styled.div`
         font-size: ${props => props.theme.fontSize.small};
 
     }
-`
-const StyledSingleTile = styled(StyledTile)`
+    
 
 `
-const StyledDualTile = styled(StyledTile)`
-
-    & outputContainer {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-
-    }
+//-----OUTPUT CONTAINER
+const OutputContainer = styled.div `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: ${props => props.tileType === "triple" ? "column" : "row"};
 `
-const StyledTripleTile = styled(StyledTile)`
+    
 
-    & value {
-        font-size: ${props => props.theme.fontSize.medium};
-    }
-
-    & outputContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-     
-
-    }
-
-    & chart {
-        background-color: blue;
-        & img {
-            width: 40rem;
-            height: 10rem;
-        }
-    }
+//-----FONTAWESOMESTYLED
+const FontAwesomeStyled = styled(FontAwesome)`
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+    text-decoration: none;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: ${props => props.theme.fontSize.smallMedium};
+    color: ${props => props.theme.color.tex};
 `
-
-
-
-export default Tile
-
-
