@@ -2,6 +2,7 @@ import React from 'react'
 import FontAwesome from "react-fontawesome"
 import {Link, NavLink} from "react-router-dom"
 import styled from "styled-components"
+import GoogleAuth from "../../Components/GoogleAuth"
 
 import logoLight from "../../assets/svgs/logoLight.svg"
 
@@ -47,7 +48,7 @@ export default function Header(props) {
                     <NavPanelRight>
                         <ThemeButton color="black" onClick={props.setDarkTheme}>Dark Theme</ThemeButton>
                         <ThemeButton color="white" onClick={props.setLightTheme}>Light Theme</ThemeButton>
-                        <Button>Login</Button>
+                        <GoogleAuth/>
                         <Button>Sign Up</Button>
                         <FontAwesome style={{fontSize:"1.3rem", marginRight: "0.5rem"}}name="fas fa-cog"/>
                     </NavPanelRight>

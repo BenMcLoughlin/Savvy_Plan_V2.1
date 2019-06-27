@@ -7,9 +7,6 @@ import {Link} from "react-router-dom"
 
 class TilePane extends Component {
 
-
-
-
     renderData() {
         return this.props.tilePaneData.map(tile => {
             return (

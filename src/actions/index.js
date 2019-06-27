@@ -1,3 +1,5 @@
+import {SIGN_IN, SIGN_OUT} from "./type"
+
 export const setVariable = (event) => {
     switch(event.target.name) {
         case("currentAge"): 
@@ -16,5 +18,17 @@ export const setVariable = (event) => {
                 payload: event.target.value
             }
         default: return null
+    }
+}
+
+export const signIn = (userId) => {
+    return {
+        type: SIGN_IN,
+        payload: userId,
+    }
+}
+export const signOut = () => {
+    return {
+        type: SIGN_OUT,
     }
 }

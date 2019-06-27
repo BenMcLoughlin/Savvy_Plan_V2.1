@@ -1,9 +1,10 @@
 import {combineReducers} from "redux"
 import {timelineRanges} from "./infoRanges"
 import {tilePaneReducer} from "./tilePaneReducers"
-import {initialState} from "./initialState"
+import { INITIAL_STATE } from "./initialState"
+import authReducer from "./authReducer"
 
-const variablesReducer = (state = initialState, action) => {
+const variablesReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case  "SET_CURRENT_AGE": return {...state, currentAge: action.payload}
         case  "SET_RETIREMENT_AGE": return {...state, retirementAge: action.payload}
@@ -22,6 +23,7 @@ export default combineReducers({
     variables: variablesReducer, 
     timelineRanges: timelineRanges,
     tilePaneData: tilePaneReducer,
+    auth: authReducer,
 })
 
 
