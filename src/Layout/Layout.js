@@ -17,7 +17,7 @@ import Dashboard from "../Containers/Dashboard/Dashboard"
 import Community from "../Containers/Community/Community"
 import Home from "../Containers/Home/Home"
 import {ThemeProvider} from "styled-components"
-import {darkTheme, lightTheme} from "../Shared/Styles"
+import {darkTheme, lightTheme, setFlex} from "../Shared/Styles"
 
 export default class Layout extends Component {
 

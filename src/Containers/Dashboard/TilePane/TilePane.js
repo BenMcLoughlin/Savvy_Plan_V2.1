@@ -15,12 +15,9 @@ class TilePane extends Component {
                   link={tile.link}
                   icon={tile.icon}
                   title={tile.title}
-                  value1={tile.value1}
-                  subTitle1={tile.subTitle1}
-                  value2={tile.value2}
-                  subTitle2={tile.subTitle2}
-                  value3={tile.value3}
-                  subTitle3={tile.subTitle3}
+                  value={tile.value}
+                  subTitle={tile.subTitle}
+                  abbreviation={tile.abbreviation}
                   chart={tile.chart}
                   gridArea={tile.gridArea}      
               />
@@ -59,7 +56,7 @@ const StyledTilePane = styled.div`
     "h h h h h h h h h h h h h h h h"
     "n n n n c c c c c t t t t s s s"
     "r r r r r r r r r r r r r r r r"
-    "p p p p q q q q q q q q q q q q"
-    "l l l l l l l l l l l l l l l l"
-    "l l l l l l l l l l l l l l l l"
+    "p p p p e e e e e e e e e e e e"
+    "q q q q l l l l l l l l l l l l"
+    "z z z z l l l l l l l l l l l l"
 `

@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from "styled-components"
 import {Link} from "react-router-dom"
-import FontAwesome from "react-fontawesome"
 
-import SavingsPlanChart from "./Charts/SavingsPlanChart"
-import LifetimeIncomeChart from "./Charts/LifetimeIncomeChart"
+import {PieChart} from "styled-icons/feather/PieChart"
+import {BarChart} from "styled-icons/feather/BarChart"
+
+
+import {setFlex} from "../../../Shared/Styles"
 
 const Tile = (props) => {
     return (
@@ -14,47 +16,48 @@ const Tile = (props) => {
                 <StyledTitle>
                     {props.title}
                 </StyledTitle> : 
-                <StyledTile>
-                    <heading>
-                        <FontAwesomeStyled name={props.icon}/>
-                        {props.title}
-                    </heading>
-                    <OutputContainer tileType={props.tileType}>
+                <StyledTile gridArea={props.gridArea}>
+                       { props.tileType === "smallChartsTile" ?
+                            <Output>
+                              <Left>
+                                <PieChart1/>
+                                 <subHeading>{props.subTitle}</subHeading> 
+                              </Left>
+                              <Right>
+                                 <value>{props.value}</value>
+                                 <heading>{props.title}</heading>
+                                 <BarChart1/>
+                              </Right>             
+                            </Output> :
+                        
+                            props.tileType === "largeTextTile" ?
                             <output>
-                                <value>{props.value1}</value>
-                                <subHeading>{props.subTitle1}</subHeading>           
-                            </output>
-                        {
-                            props.tileType === "dual" ?
-                            <output>
-                                <value>{props.value2}</value>
-                                <subHeading>{props.subTitle2}</subHeading>           
+                                    <LargeValue>
+                                        {props.value}
+                                        <value>{props.abbreviation}</value>
+                                    </LargeValue>
+
+                                <heading>{props.title}</heading>           
                             </output>
                         :
                             props.tileType === "triple" ?
                             <>
                             <output>
-                                <value>{props.value2}</value>
-                                <subHeading>{props.subTitle2}</subHeading>           
+                                <value>{props.value}</value>
+                                <subHeading>{props.subTitle}</subHeading>           
                             </output>
                             <output>
-                                <value>{props.value3}</value>
-                                <subHeading>{props.subTitle3}</subHeading>           
+                                <value>{props.value}</value>
+                                <subHeading>{props.subTitle}</subHeading>           
                             </output>
                             </>
                         :
                             props.tileType === "chart" ?
-                            <output>
-                               {
-                                   props.chart === "LifeTimeIncome" ? 
-                                   <LifetimeIncomeChart/> :
-                                   <SavingsPlanChart/>    
-                               }  
+                            <output> 
                             </output>
                         :
                          null
                         }
-                 </OutputContainer>
                 </StyledTile>
         }
         </StyledLink>
@@ -71,83 +74,100 @@ const StyledLink = styled(Link)`
     grid-area: ${props => props.gridArea};
     text-decoration: none;
 `
+
 //-----TITLE
+
 const StyledTitle = styled.div`
-    font-family: 'Lato', sans-serif;
-    grid-area: ${props => props.gridArea};
     font-weight: 300;
     font-size: 30px;
     letter-spacing: .2rem;
-    display: flex;
-    align-items: center;
     color: ${props => props.theme.color.text3};
 `
+
 //-----STYLEDTILE
+
 const StyledTile = styled.div`
-    margin: 0;
     background-color: ${props => props.theme.color.background2};
+    color: ${props => props.theme.color.text1};
     height: 100%;
     width: 100%;
-    text-align: center;
-    color: ${props => props.theme.color.text2};
-    font-family: 'Lato', sans-serif;
+    color: ${props => props.theme.color.text1};
     border-radius: 3px;
     overflow: hidden;
-    grid-area: ${props => props.gridArea};
     box-shadow: ${props => props.theme.boxShadow.small};
     transition: all .2s ease-in-out;
     position: relative;
     opacity: 0.9;
+    font-weight: 300;
+    text-align: center;
 
     &:hover {
         box-shadow: ${props => props.theme.boxShadow.lifted};
-        transform: translateY(-.03rem) scale(1.006);
-    }
+        transform: translateY(-.01rem) scale(1.0007);
 
+        &::after {
+            content: "";
+            height: 4rem;
+            width: 100%;
+            background: #ef6c67;
+            position: absolute;
+            bottom: 0rem;
+            left: 0rem;
+            clip-path: polygon(0 78%, 0% 100%, 100% 100%);
+             }
+         }
 
-    value {
-        font-weight: 400;
-        font-size: ${props => props.theme.fontSize.mediumLarge};
-        color: ${props => props.theme.color.text1};
-        padding: .5rem;
-        display: block;
+        value {
+            font-weight: 300;
+            font-size: ${props => props.theme.fontSize.mediumLarge}; 
+            padding: .5rem;
+            display: block;
+            text-transform: uppercase;
+        }
 
-    }
-    heading {
-        background-color: ${props => props.theme.color.background3};
-        border-bottom: 1px solid white;
-        font-size: ${props => props.theme.fontSize.medium};
-        width: 100%;
-        display: block;
-        padding: .5rem;
-        box-sizing: border-box;
-    }
-    subHeading {
-        color: ${props => props.theme.color.accent2};
-        display: block;
-        font-size: ${props => props.theme.fontSize.small};
-
-    }
-    
-
+        heading {
+                text-transform: uppercase;
+                font-size: ${props => props.theme.fontSize.smallMedium};
+        }
+        subHeading {
+            font-size: ${props => props.theme.fontSize.small};
+            font-weight: 700;
+        }
 `
 //-----OUTPUT CONTAINER
-const OutputContainer = styled.div `
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: ${props => props.tileType === "triple" ? "column" : "row"};
-`
-    
 
-//-----FONTAWESOMESTYLED
-const FontAwesomeStyled = styled(FontAwesome)`
-    font-size: 1.3rem;
-    margin-right: 0.5rem;
-    text-decoration: none;
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    font-size: ${props => props.theme.fontSize.smallMedium};
-    color: ${props => props.theme.color.tex};
+const Output = styled.div `
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    ${setFlex({align: "center", justify: "space-around"})};
 `
+
+//-----PIE AND BAR CHARTS
+
+const PieChart1 = styled(PieChart)`
+    height: 8rem;
+    width: 8rem;
+    color: white;
+
+`
+const BarChart1 = styled(BarChart)`
+    height: 2rem;
+    width: 5rem;
+    color: white;
+
+`
+const Left = styled.div `
+     ${setFlex({})};
+    flex-direction: column;
+`
+const Right = styled(Left) `
+
+`
+const LargeValue = styled.div `
+    font-size: ${props => props.theme.fontSize.largest};
+    font-weight: 300;
+    letter-spacing: 9px;
+    ${setFlex({align: "baseline", justify: "center"})};
+`
+

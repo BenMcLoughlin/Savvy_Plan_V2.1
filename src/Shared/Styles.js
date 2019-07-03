@@ -1,3 +1,21 @@
+import {createGlobalStyle} from "styled-components"
+
+
+ export const GlobalStyles = createGlobalStyle`
+ @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700&display=swap');
+ *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+body {
+    font-size: 100%;
+    background: #fff;
+    font-family: 'Lato', sans-serif;
+}
+`
+
+
 
 
 export const BackgroundLight = `background-color: #f9f8f6`;
@@ -42,7 +60,7 @@ export const darkTheme = {
         accent4: '#D9BB73',
         highlight1: '#ef6c67',
         highlight2: '#eab462',
-        text1: '#f5f5f5',
+        text1: '#f4f3f2',
         text2: '#c6c7c7',
         text3: '#1E202A',
     },
@@ -52,7 +70,7 @@ export const darkTheme = {
         medium: '2.2rem',
         mediumLarge: '3.5rem',
         large: '4.5rem',
-        largest: '8rem',
+        largest: '9rem',
     },
     flexContent: {
         center: '{display: flex; align-items: center; justify-content:center}'
@@ -62,10 +80,17 @@ export const darkTheme = {
         lifted: "11px 11px 22px -7px rgba(102,99,102,1);",
     },
     linearGradient: {
-        primary: "-webkit-gradient(linear, left top, right top, color-stop(0%, rgba(128,128,128,1)), color-stop(100%, rgba(38,47,61,1)))",
+        primary: "-webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(29,37,41,1)), color-stop(100%, rgba(0,110,110,1)))",
     }
 }
 
+export const setFlex = ({align="center",justify="center"}) => {
+    return `
+        display:flex;
+        align-items:${align};
+        justify-content:${justify}
+    `
+}
 
 
 export const lightTheme = {
