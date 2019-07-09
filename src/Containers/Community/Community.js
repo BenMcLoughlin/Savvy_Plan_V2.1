@@ -1,5 +1,5 @@
 import React from 'react'
-import { CommunityWrapper } from "./CommunityStyles"
+import styled from "styled-components"
 
 export default function Community() {
     return (
@@ -8,3 +8,11 @@ export default function Community() {
         </CommunityWrapper>
     )
 }
+
+
+export const CommunityWrapper = styled.div`
+    grid-area: m;
+    display: grid;
+    height: 100%;
+    width: 100%;
+`

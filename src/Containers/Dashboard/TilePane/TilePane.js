@@ -50,8 +50,8 @@ const StyledTilePane = styled.div`
     height: 95vh;
     display: grid;
     grid-gap: 5px;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: 4rem 1fr 4rem repeat(3, 1fr);
+    grid-template-columns: repeat(16, minmax(5rem, 10rem));
+    grid-template-rows: 4rem minmax(12rem, 14rem) 4rem repeat(3, minmax(14rem, 16rem));
     grid-template-areas: 
     "h h h h h h h h h h h h h h h h"
     "n n n n c c c c c t t t t s s s"

@@ -166,7 +166,7 @@ const Right = styled(Left) `
 `
 const LargeValue = styled.div `
     font-size: ${props => props.theme.fontSize.largest};
-    font-weight: 300;
+    font-weight: 200;
     letter-spacing: 9px;
     ${setFlex({align: "baseline", justify: "center"})};
 `

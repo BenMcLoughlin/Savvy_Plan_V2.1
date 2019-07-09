@@ -13,14 +13,42 @@ body {
     background: #fff;
     font-family: 'Lato', sans-serif;
 }
+html {
+    @media (min-width: 0px) {
+        font-size: 12.5%;
+    }
+    @media (min-width: 200px) {
+        font-size: 32.5%;
+    }
+    @media (min-width: 400px) {
+        font-size: 37.5%;
+    }
+    @media (min-width: 600px) {
+        font-size: 42.5%;
+    }
+    @media (min-width: 1000px) {
+        font-size: 47.5%;
+    }
+    @media (min-width: 1200px) {
+        font-size: 52.5%;
+    }
+    @media (min-width: 1400px) {
+        font-size: 62.5%;
+    }
+    @media (min-width: 1500px) {
+        font-size: 67.5%;
+    }
+    @media (min-width: 1700px) {
+        font-size: 72.5%;
+    }
+}
 `
-
-
 
 
 export const BackgroundLight = `background-color: #f9f8f6`;
 export const BackgroundDark = `background-color: #18212b`;
 export const BackgroundSlateGrey = `background-color: #31393e`;
+
 
 export const FontColorLight = `color: #f9f8f6`;
 export const FontColorDark = `color: #18212b`;
@@ -92,7 +120,6 @@ export const setFlex = ({align="center",justify="center"}) => {
     `
 }
 
-
 export const lightTheme = {
     color: {
         primaryDark1: "#f5f5f5",
@@ -147,8 +174,6 @@ export const backgroundColor = {
     primaryDark2: 'background-color: #1E202A',
     accent1: 'background-color: #66d9e8',
     accent2: 'background-color: #77919A',
-
-
     sandyBrown: 'background-color: #eab462',
     navyDark: 'background-color: #18212b',
     greyLight: 'background-color: #f5f5f5',
@@ -165,11 +190,9 @@ export const backgroundColor = {
 
 //---------FLEX COMMANDS---------------//
 
-
 export const flexContent = {
     center: '{display: flex; align-items: center; justify-content:center}',
 }
-
 
 //THEME COLORS
 
