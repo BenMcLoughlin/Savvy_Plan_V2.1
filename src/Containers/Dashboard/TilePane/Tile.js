@@ -78,10 +78,14 @@ const StyledLink = styled(Link)`
 //-----TITLE
 
 const StyledTitle = styled.div`
-    font-weight: 300;
-    font-size: 30px;
+    font-weight: 400;
+    font-size: 2.4rem;
     letter-spacing: .2rem;
-    color: ${props => props.theme.color.text3};
+    color: ${props => props.theme.color.text2};
+    height: 100%;
+    display: flex;
+    align-items: center;
+
 `
 
 //-----STYLEDTILE
@@ -109,7 +113,7 @@ const StyledTile = styled.div`
             content: "";
             height: 4rem;
             width: 100%;
-            background: #ef6c67;
+            background: ${props => props.theme.color.highlight1};
             position: absolute;
             bottom: 0rem;
             left: 0rem;
@@ -148,13 +152,13 @@ const Output = styled.div `
 const PieChart1 = styled(PieChart)`
     height: 8rem;
     width: 8rem;
-    color: white;
+    color: ${props => props.theme.color.text1};
 
 `
 const BarChart1 = styled(BarChart)`
     height: 2rem;
     width: 5rem;
-    color: white;
+    color: ${props => props.theme.color.text1};
 
 `
 const Left = styled.div `

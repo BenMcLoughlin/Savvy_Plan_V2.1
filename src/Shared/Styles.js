@@ -76,8 +76,7 @@ export const fontSizeLargest = 'font-size: 5rem';
 // }
 export const darkTheme = {
     color: {
-        primaryBackground1: "#f5f5f5",
-        primaryBackground2: "#1E202A",
+        background1: "#646c79",
         background2: "#292f33",
         background3: "#31393e",
         primaryBackground3: "#33363F",
@@ -89,7 +88,7 @@ export const darkTheme = {
         highlight1: '#ef6c67',
         highlight2: '#eab462',
         text1: '#f4f3f2',
-        text2: '#c6c7c7',
+        text2: '#93979d',
         text3: '#1E202A',
     },
     fontSize: {
@@ -122,30 +121,38 @@ export const setFlex = ({align="center",justify="center"}) => {
 
 export const lightTheme = {
     color: {
-        primaryDark1: "#f5f5f5",
-        primaryDark2: "#f7ebe1",
-        accent1: '#ef6c67',
+        background1: "#e8eaf0",
+        background2: "#f9f8f6",
+        background3: "#c6c7c7",
+        primaryBackground3: "#33363F",
+        primaryBackground4: "#1E202A",
+        accent1: '#66d9e8',
         accent2: '#77919A',
-        highlight1: '#ef6c67',
+        accent3: '#7DA4B7',
+        accent4: '#D9BB73',
+        highlight1: '#77919A',
         highlight2: '#eab462',
-        text1: '#33363F',
-        text2: '#1E202A',
+        text1: '#646c79',
+        text2: '#33363F',
+        text3: '#f4f3f2',
     },
     fontSize: {
         small: "1.4rem",
-        smallMedium: "1.8rem'",
-        Medium: '2.2rem',
-        MediumLarge: '4rem',
-        Large: '9rem',
+        smallMedium: "1.8rem",
+        medium: '2.2rem',
+        mediumLarge: '3.5rem',
+        large: '4.5rem',
+        largest: '9rem',
     },
     flexContent: {
         center: '{display: flex; align-items: center; justify-content:center}'
     },
     boxShadow: {
-        small: "box-shadow: 0px 0px 4px 2px #757575",
+        small: "9px 9px 10px -7px rgba(102,99,102,1);",
+        lifted: "11px 11px 22px -7px rgba(102,99,102,1);",
     },
     linearGradient: {
-        primary: "-webkit-linear-gradient(200deg, rgba(255,255,255,1) 0%, rgba(212,212,212,1) 100%)",
+        primary: "-webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(29,37,41,1)), color-stop(100%, rgba(0,110,110,1)))",
     }
 }
 

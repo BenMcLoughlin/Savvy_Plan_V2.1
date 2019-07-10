@@ -91,7 +91,7 @@ export const Logo = styled.div`
 
 export const JumboTron = styled.div`
         grid-area: j;
-        background-color: ${props => props.theme.color.primaryBackground2};
+        background-color: ${props => props.theme.color.background1};
         position: relative;
         ${props => props.theme.flexContent.center};
 `
@@ -100,7 +100,7 @@ export const AngleDiv = styled.div`
         height: 100%;
         position: absolute;
         clip-path: polygon(78% 0,100% 0,100% 100%,65% 100%);
-        background-color: ${props => props.theme.color.accent1};
+        background-color: ${props => props.theme.color.highlight1};
 `
 
 export const HeaderTextWrapper = styled.div`
@@ -111,7 +111,7 @@ export const HeaderText = styled.div`
 
        font-size: ${props => props.theme.fontSize.largest};
        font-weight: 200;
-       color: #efeae1;
+       color: ${props => props.theme.color.text1};
        z-index: 1;
 
        &:span {
@@ -134,7 +134,7 @@ export const SubText = styled.div`
 
 export const NavBar = styled.div`
         grid-area: n;
-        background-color: ${props => props.theme.color.primaryBackground2};
+        background-color: ${props => props.theme.color.background3};
         display: flex;
         justify-content: space-between;
 `

@@ -5,7 +5,7 @@ export const tilePaneReducer = () => {
             link: "",
             icon: "fas fa-landmark",
             title: "Current Financial Position",
-            gridArea: "h"
+            gridArea: "a"
         },
         {
             tileType: "smallChartsTile",
@@ -14,7 +14,7 @@ export const tilePaneReducer = () => {
             title: "Net Worth",
             value: "$172 K",
             subTitle: "What you own",
-            gridArea: "n"
+            gridArea: "b"
         },
         {
             tileType: "smallChartsTile",
@@ -32,16 +32,7 @@ export const tilePaneReducer = () => {
             title: "Marginal Tax Rate",
             value: "40%",
             subTitle: "Tax breakdown",
-            gridArea: "t"
-        },
-        {
-            tileType: "smallChartsTile",
-            link: "/TaxPopop",
-            icon: "fas fa-balance-scale",
-            title: "Pension Income",
-            value: "$18,000",
-            subTitle: "Est. Pension Income",
-            gridArea: "z"
+            gridArea: "d"
         },
         {
             tileType: "largeTextTile",
@@ -49,7 +40,23 @@ export const tilePaneReducer = () => {
             icon: "fas fa-landmark",
             title: "Credit Score",
             value: "783",
-            gridArea: "s"
+            gridArea: "e"
+        },
+        {
+            tileType: "title",
+            link: "/SavingsPlan",
+            icon: "fas fa-chart-line",
+            title: "Short Term Savings and Protection Plan",
+            gridArea: "f"
+        },
+        {
+            tileType: "smallChartsTile",
+            link: "/TaxPopop",
+            icon: "",
+            title: "Debt Paydown",
+            value: "$12,000",
+            subTitle: "",
+            gridArea: "g"
         },
         {
             tileType: "largeTextTile",
@@ -58,32 +65,50 @@ export const tilePaneReducer = () => {
             title: "Home Qualifying Max",
             value: "390",
             abbreviation: "k",
-            gridArea: "p"
+            gridArea: "h"
         },
         {
             tileType: "largeTextTile",
             link: "/TaxPopup",
             icon: "fas fa-landmark",
-            title: "Required Retirement Savings",
-            value: "1.4",
-            abbreviation: "m",
-            gridArea: "q"
+            title: "Home Qualifying Max",
+            value: "390",
+            abbreviation: "k",
+            gridArea: "i"
         },
-
         {
             tileType: "title",
             link: "/SavingsPlan",
             icon: "fas fa-chart-line",
-            title: "Savings and retirement plan",
-            gridArea: "r"
+            title: "Long Term Savings and Retirement Plan",
+            gridArea: "j"
         },
+        {
+            tileType: "smallChartsTile",
+            link: "/TaxPopop",
+            icon: "fas fa-balance-scale",
+            title: "Pension Income",
+            value: "$18,000",
+            subTitle: "Est. Pension Income",
+            gridArea: "k"
+        },
+
         {
             tileType: "chart",
             link: "/TaxPopup",
             icon: "fas fa-landmark",
             title: "Savings Plan",
             chart: "savingsChart",
-            gridArea: "e",
+            gridArea: "l",
+        },
+        {
+            tileType: "largeTextTile",
+            link: "/TaxPopup",
+            icon: "fas fa-landmark",
+            title: "Home Qualifying Max",
+            value: "390",
+            abbreviation: "k",
+            gridArea: "m"
         },
         {
             tileType: "chart",
@@ -91,7 +116,7 @@ export const tilePaneReducer = () => {
             icon: "fas fa-landmark",
             title: "LifeTime Income",
             chart: "LifeTimeIncome",
-            gridArea: "l",
+            gridArea: "n",
         },
 
     ]
