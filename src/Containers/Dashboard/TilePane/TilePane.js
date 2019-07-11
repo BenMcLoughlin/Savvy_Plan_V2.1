@@ -51,13 +51,11 @@ const StyledTilePane = styled.div`
     display: grid;
     grid-gap: 5px;
     grid-template-columns: repeat(16, minmax(5rem, 10rem));
-    grid-template-rows: 4rem minmax(12rem, 14rem) 4rem minmax(12rem, 14rem) 4rem;
-    grid-template-areas: 
+    grid-template-rows: 4rem minmax(12rem, 14rem) 4rem repeat(2, minmax(12rem, 24rem));
+    grid-template-areas:
     "a a a a a a a a a a a a a a a a"
     "b b b b c c c c c d d d d e e e"
     "f f f f f f f f f f f f f f f f"
-    "g g g g h h h h h h i i i i i i"
-    "j j j j j j j j j j j j j j j j"
-    "k k k k l l l l l l l l l l l l"
-    "m m m m n n n n n n n n n n n n"
+    "g g g g h h h h h h h h h h h h"
+    "i i i i j j j j j j j j j j j j"
 `

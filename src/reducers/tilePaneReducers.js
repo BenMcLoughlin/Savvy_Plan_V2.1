@@ -46,26 +46,26 @@ export const tilePaneReducer = () => {
             tileType: "title",
             link: "/SavingsPlan",
             icon: "fas fa-chart-line",
-            title: "Short Term Savings and Protection Plan",
+            title: "Long Term Savings and Retirement Plan",
             gridArea: "f"
         },
         {
             tileType: "smallChartsTile",
             link: "/TaxPopop",
-            icon: "",
-            title: "Debt Paydown",
-            value: "$12,000",
-            subTitle: "",
+            icon: "fas fa-balance-scale",
+            title: "Pension Income",
+            value: "$18,000",
+            subTitle: "Est. Pension Income",
             gridArea: "g"
         },
+
         {
-            tileType: "largeTextTile",
+            tileType: "chart",
             link: "/TaxPopup",
             icon: "fas fa-landmark",
-            title: "Home Qualifying Max",
-            value: "390",
-            abbreviation: "k",
-            gridArea: "h"
+            title: "Savings Plan",
+            chart: "savingsChart",
+            gridArea: "h",
         },
         {
             tileType: "largeTextTile",
@@ -77,46 +77,12 @@ export const tilePaneReducer = () => {
             gridArea: "i"
         },
         {
-            tileType: "title",
-            link: "/SavingsPlan",
-            icon: "fas fa-chart-line",
-            title: "Long Term Savings and Retirement Plan",
-            gridArea: "j"
-        },
-        {
-            tileType: "smallChartsTile",
-            link: "/TaxPopop",
-            icon: "fas fa-balance-scale",
-            title: "Pension Income",
-            value: "$18,000",
-            subTitle: "Est. Pension Income",
-            gridArea: "k"
-        },
-
-        {
-            tileType: "chart",
-            link: "/TaxPopup",
-            icon: "fas fa-landmark",
-            title: "Savings Plan",
-            chart: "savingsChart",
-            gridArea: "l",
-        },
-        {
-            tileType: "largeTextTile",
-            link: "/TaxPopup",
-            icon: "fas fa-landmark",
-            title: "Home Qualifying Max",
-            value: "390",
-            abbreviation: "k",
-            gridArea: "m"
-        },
-        {
             tileType: "chart",
             link: "/LifeTimeIncome",
             icon: "fas fa-landmark",
             title: "LifeTime Income",
             chart: "LifeTimeIncome",
-            gridArea: "n",
+            gridArea: "j",
         },
 
     ]
