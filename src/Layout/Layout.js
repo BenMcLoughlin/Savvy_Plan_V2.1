@@ -1,29 +1,27 @@
 import React, { Component } from 'react'
-import {GridContainer} from "./LayoutStyles"
-import Header from "./Header/Header"
-import Sidebar from "./Sidebar/Sidebar"
-import Main from "./Main/Main"
-import Footer from "./Footer/Footer"
+import Header from "./Header"
+import Footer from "./Footer"
 import {Route} from "react-router-dom"
-import TaxPopup from "../Containers/Dashboard/Popups/TaxPopup/TaxPopup"
-import NetWorthPopup from "../Containers/Dashboard/Popups/NetWorthPopup/NetWorthPopup"
-import CashFlowPopup from "../Containers/Dashboard/Popups/CashFlowPopup/CashFlowPopup"
-import LifeInsurancePopup from "../Containers/Dashboard/Popups/LifeInsurancePopup/LifeInsurancePopup"
-import SavingsPlanPopup from "../Containers/Dashboard/Popups/SavingsPlanPopup/SavingsPlanPopup"
-import RetirementIncomePopup from "../Containers/Dashboard/Popups/RetirementIncomePopup/RetirementIncomePopup"
-import LifetimeIncomePopup from "../Containers/Dashboard/Popups/LifetimeIncomePopup/LifetimeIncomePopup"
-import Learn from "../Containers/Learn/Learn"
-import Dashboard from "../Containers/Dashboard/Dashboard"
-import Community from "../Containers/Community/Community"
-import Home from "../Containers/Home/Home"
+import Dashboard from "../Dashboard/Dashboard"
+import TaxApp from "../Dashboard/Tax/TaxApp"
+import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
+import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
+import LifetimeIncomeApp from "../Dashboard/LifetimeIncome/LifetimeIncomeApp"
+import SavingsPlanApp from "../Dashboard/SavingsPlan/SavingsPlanApp"
+import SpendingApp from "../Dashboard/Spending/SpendingApp"
+import PropertyApp from "../Dashboard/Property/PropertyApp"
+import DebtApp from "../Dashboard/Debt/DebtApp"
+import UserAccountApp from "../UserAccount/UserAccountApp"
 import {ThemeProvider} from "styled-components"
-import {darkTheme, lightTheme, setFlex} from "../Shared/Styles"
+import {darkTheme, lightTheme} from "../Styles/Themes"
+import styled from "styled-components"
 
 export default class Layout extends Component {
 
    state = {
-       theme: darkTheme,
+       theme: lightTheme,
    }
+   //this is the state that holds the theme for the app. 
 
    setDarkTheme = () => {
        this.setState({
@@ -35,6 +33,8 @@ export default class Layout extends Component {
            theme: lightTheme
        })
    }
+    //these are the functions that change the theme state. These functions are passed to the button called "light Theme" or "dark them"
+    //in the header as props through Header.
     
     render() {
         return (
@@ -42,22 +42,16 @@ export default class Layout extends Component {
             <>
             <Header setDarkTheme={this.setDarkTheme} setLightTheme={this.setLightTheme}/>
             <GridContainer>
-                <Sidebar/>
-                    <Route path="/Learn" component={Learn}/>
                     <Route path="/Dashboard" component={Dashboard}/>
-                    <Route path="/Community" component={Community}/>
-                    <Route path="/Home" component={Home}/>
-                    <Route path="/Login" component={Learn}/>
-
-                    <Route path="/TaxPopop" component={TaxPopup}/>
-                    <Route path="/NetWorth" component={NetWorthPopup}/>
-                    <Route path="/CashFlow" component={CashFlowPopup}/>
-                    <Route path="/PersonalFinanceScore" component={TaxPopup}/>
-                    <Route path="/Insurance" component={LifeInsurancePopup}/>
-                    <Route path="/SavingsPlan" component={SavingsPlanPopup}/>
-                    <Route path="RetirementIncome" component={RetirementIncomePopup}/>
-                    <Route path="/LifeTimeIncome" component={LifetimeIncomePopup}/>
-                    <Route path="/" exact component={Main}/>
+                    <Route path="/UserAccount" component={UserAccountApp}/>
+                    <Route path="/NetWorth" component={NetWorthApp}/>
+                    <Route path="/Tax" component={TaxApp}/>
+                    <Route path="/LifeTimeIncome" component={LifetimeIncomeApp}/>  
+                    <Route path="/SavingsPlan" component={SavingsPlanApp}/>              
+                    <Route path="/CreditScore" component={CreditScoreApp}/>              
+                    <Route path="/Spending" component={SpendingApp}/>
+                    <Route path="/Property" component={PropertyApp}/>
+                    <Route path="/Debt" component={DebtApp}/>
                 <Footer/>
             </GridContainer>
             </>
@@ -65,3 +59,25 @@ export default class Layout extends Component {
         )
     }
 }
+
+
+//
+//------------------STYLES---------------------------------------------------------------
+ const GridContainer = styled.div`
+
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: 1fr 5rem;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas: 
+    "m m m m m m m m m m m m m"
+    "f f f f f f f f f f f f f";
+    /* The Grid container holds the grid item "m" for "main" and "f" for footer. When a sub-app is clicked
+     on its grid location becomes m placing it in the "main position" */
+`
+
+    //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
+    // This is the switch board of the app. The header and footer are rendred and always present. Then the 
+    // center panel can be changed using routing to move through and visit various sub apps such as the net worth
+    // calculator. 

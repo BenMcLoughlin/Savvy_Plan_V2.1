@@ -1,7 +1,8 @@
 import React from 'react'
 import Layout from "./Layout/Layout"
 import {BrowserRouter} from "react-router-dom"
-import { GlobalStyles } from "./Shared/Styles"
+import { GlobalStyles } from "./Styles/Themes"
+
 
 export default function App() {
     return (
@@ -13,3 +14,12 @@ export default function App() {
         </>
     )
 }
+
+
+
+
+
+//
+//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+// Here the Global styles are inserted and passed to all children in the app. Browser Router is 
+//also initiated to enable routing between pages. 
