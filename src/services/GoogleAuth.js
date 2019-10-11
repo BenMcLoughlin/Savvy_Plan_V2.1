@@ -64,7 +64,7 @@ export const Button = styled.div`
         width: 12rem;
         height: 3rem;
         font-size: ${props => props.theme.fontSize.small};
-        border: 1px solid ${props => props.theme.color.accent2};
+        border: 1px solid ${props => props.theme.color.dullSteelBlue};
         background-color: ${props => props.theme.color.primaryDaBackgroundrk1};
         border-radius: 3px;
         margin: 1rem;

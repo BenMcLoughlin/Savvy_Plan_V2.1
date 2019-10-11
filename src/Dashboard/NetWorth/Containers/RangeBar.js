@@ -15,7 +15,7 @@ class RangeBar extends Component {
         const logValue = roundNumber(logslider(event.target.value))
         //Challenge: the value has to accelerate as the slider moves between 0 and 1 million. log slider function accelerates the value. 
 
-        this.props.setVariable(event, catagory, section, logValue)
+        this.props.setFiancialValueFromSlider(event, catagory, section, logValue)
       }
       //objective: enable the user to set the value of an item such as house or car by using the range bar slider. 
       // it is passing the details gathered in the range bar to an action which sets the state in the reducer. 
@@ -23,7 +23,7 @@ class RangeBar extends Component {
 
       convertToRangeFromGivenFinancialValue = (event, catagory, section) => {
          const rangeBarValue = inverseLogslider(event.target.value)
-        this.props.setRangeBarValue(event, catagory, section, rangeBarValue)
+        this.props.setFiancialValueFromInputBox(event, catagory, section, rangeBarValue)
       }
        //objective: enable the user to set the value of an item by using the text input. 
 
@@ -34,7 +34,7 @@ class RangeBar extends Component {
             < RangeBarWrapper>
                 <RangeBarLabel
                      rangeBarProps={this.props.rangeBarProps}
-                     handleChange={(event) => this.props.changeLabel(event, this.props.rangeBarProps.catagory, this.props.rangeBarProps.section)}
+                     handleChange={this.props.setLabelForRangeBar}
                 />
                 {/*the label or item eg. "car", handleChange allows it to be editable */}
 
@@ -53,7 +53,7 @@ class RangeBar extends Component {
                 />
                 {/*the value which is also editable when clicked on and becomes a text input */}
 
-                <Delete onClick={() => this.props.removeItem(this.props.rangeBarProps.id, this.props.rangeBarProps.catagory, this.props.rangeBarProps.section )}/>
+                <Delete onClick={this.props.removeItem}/>
                 
                 {/*removes an item if it is deleted */}
 

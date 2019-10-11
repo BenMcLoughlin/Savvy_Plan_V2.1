@@ -1,14 +1,14 @@
 import React from "react"
 import UserInterface from "./Containers/UserInterface"
 import {ThemeProvider} from "styled-components"
-import {darkTheme} from "../../Styles/Themes"
+import {lightTheme} from "../../Styles/Themes"
 import styled from "styled-components"
 
 const NetWorthApp = () => {    
 
     return (
        
-        <ThemeProvider theme={darkTheme}> {/*//TODO link this theme to the main theme and remove this theme Provider*/}
+        <ThemeProvider theme={lightTheme}> 
             <NetWorthAppContainer>
                 <UserInterface/>
             </NetWorthAppContainer>

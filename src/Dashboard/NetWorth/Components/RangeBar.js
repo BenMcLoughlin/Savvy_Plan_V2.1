@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import {setVariable, changeLabel, setRangeBarValue, removeItem} from "../actions/netWorthActions"
 import {logslider, inverseLogslider, roundNumber} from "../../../services/logorithmicFunctions"
 import {CloseIcon} from "../../../Styles/Icons"
-import RangeBarLabel from "../NetWorthContainers/RangeBar/RangeBarLabel"
-import RangeBarValue from "../NetWorthContainers/RangeBar/RangeBarValue"
-import RangeBarInput from "../NetWorthContainers/RangeBar/RangeBarInput"
+import RangeBarLabel from "../Components/RangeBar/RangeBarLabel"
+import RangeBarValue from "../Components/RangeBar/RangeBarValue"
+import RangeBarInput from "../Components/RangeBar/RangeBarInput"
 
 class RangeBar extends Component {
 

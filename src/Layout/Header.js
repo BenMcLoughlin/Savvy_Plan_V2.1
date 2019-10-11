@@ -10,7 +10,7 @@ export default function Header(props) {
         <HeaderContainer>
                 <JumboTron>
                 <Logo>
-                    <img src={logoLight} height="100%" width="100%" fontSize="10rem" backgroundColor="blue" alt="logo"/>
+                    <img src={logoLight} height="100%" width="100%" fontSize="10rem" alt="logo"/>
                 </Logo>
                     <HeaderTextWrapper>
                         <HeaderText>
@@ -84,7 +84,7 @@ export const Logo = styled.div`
         position: absolute;
         left: 2rem;
         border-radius: 50%;
-        border: .5px solid ${props => props.theme.color.accent2};
+        border: .5px solid ${props => props.theme.color.dullSteelBlue};
         ${props => props.theme.flexContent.center};
 `
 
@@ -99,7 +99,7 @@ export const AngleDiv = styled.div`
         height: 100%;
         position: absolute;
         clip-path: polygon(78% 0,100% 0,100% 100%,65% 100%);
-        background-color: ${props => props.theme.color.highlight1};
+        background-color: ${props => props.theme.color.dullSteelBlue};
 `
 
 export const HeaderTextWrapper = styled.div`
@@ -110,7 +110,7 @@ export const HeaderText = styled.div`
 
        font-size: ${props => props.theme.fontSize.largest};
        font-weight: 200;
-       color: ${props => props.theme.color.text1};
+       color: ${props => props.theme.color.contrastText1};
        z-index: 1;
 
        &:span {
@@ -179,7 +179,7 @@ export const StyledNavLink = styled(NavLink)`
        text-decoration: none;
        color: white;
     &.active ${PagePointer} {
-        background-color: ${props => props.theme.color.highlight1};
+        background-color: ${props => props.theme.color.dullSteelblue};
     } 
   } 
   `
@@ -197,7 +197,7 @@ export const Button = styled.div`
         width: 12rem;
         height: 3rem;
         font-size: ${props => props.theme.fontSize.small};
-        border: 1px solid ${props => props.theme.color.accent2};
+        border: 1px solid ${props => props.theme.color.dullSteelBlue};
         background-color: ${props => props.theme.color.primaryDaBackgroundrk1};
         border-radius: 3px;
         margin: 1rem;
@@ -215,7 +215,7 @@ export const LeftNavDiv = styled.div`
 
 export const Runner = styled.div`
         grid-area: r;
-        background-color: ${props => props.theme.color.highlight1};
+        background-color: ${props => props.theme.color.dullSteelBlue};
 `
 
 

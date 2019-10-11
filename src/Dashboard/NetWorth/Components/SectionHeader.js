@@ -91,7 +91,7 @@ const Header = styled.div`
     color: ${props => props.theme.color.text1};
     cursor: pointer;
     &:hover {
-        background: ${props => props.theme.color.background1}
+        opacity: 0.96;
     }
 `
 

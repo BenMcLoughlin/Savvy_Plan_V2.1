@@ -36,7 +36,7 @@ export const tilePaneReducer = () => {
         },
         {
             tileType: "largeTextTile",
-            link: "/TaxPopup",
+            link: "/CreditScore",
             icon: "fas fa-landmark",
             title: "Credit Score",
             value: "783",

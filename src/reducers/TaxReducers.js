@@ -1,0 +1,10 @@
+export const IncomeRangesReducer = () => {
+    return [
+        {className: "tax-income", type: "currency", name: "employmentIncome", min: 0, max: 220000, step: 1000, label: "Employment Income", explanation: "This is income you have earned while working for someone else. Your employer makes a contribution to Canada Pension Plan and Employment insurance on your behalf."},
+        {className: "tax-income", type: "currency", name: "selfEmployedIncome", min: 0, max: 220000, step: 1000, label: "Self Employed Income", explanation: "Self Employed income also refers to any business, rental or interest income you've earned. It is seperate from Employment Income because you havent conttrubted to CPP or EI" },
+        {className: "tax-income", type: "currency", name: "rentalIncome", min: 0, max: 220000, step: 1000, label: "Rental/Passive Business", explanation: "Self Employed income also refers to any business, rental or interest income you've earned. It is seperate from Employment Income because you havent conttrubted to CPP or EI" },
+        {className: "tax-income", type: "currency", name: "capitalGains", min: 0, max: 220000, step: 1000, label: "Capital Gains", explanation: "This is the additional money you earn when you sell something, for instance a stock or a house, for a higher price than you paid for it. It is taxed at half the rate." },
+        {className: "tax-income", type: "currency", name: "eligibleDividends", min: 0, max: 220000, step: 1000, label: "Eligible Dividends", explanation: "This is dividend Income earned from a company that earns over $500,000 in income. It is given special tax treatment becasue of the taxes already paid by the corporation." },
+        {className: "tax-income", type: "currency", name: "nonEligibleDividends", min: 0, max: 220000, step: 1000, label: "Non-Eligible Dividends", explanation: "This is dividend Income earned from a company that earns less than $500,000 in income, often it is a company personally owned by the individual. It is also given special tax treatment." },
+    ]
+}

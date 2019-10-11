@@ -91,7 +91,7 @@ const SectionWrapper = styled.div`
 `
 const NetWorthTotal = styled.div`
     font-size: ${props => props.theme.fontSize.largest};
-    color: ${props => props.theme.color.text2};
+    color: ${props => props.theme.color.contrastText1};
     font-weight: 300;
     display: flex;
     flex-direction: column;

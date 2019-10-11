@@ -84,7 +84,7 @@ const StyledTitle = styled.div`
     font-weight: 400;
     font-size: 2.4rem;
     letter-spacing: .2rem;
-    color: ${props => props.theme.color.text2};
+    color: ${props => props.theme.color.contrastText1};
     height: 100%;
     display: flex;
     align-items: center;
@@ -95,10 +95,9 @@ const StyledTitle = styled.div`
 
 const StyledTile = styled.div`
     background-color: ${props => props.theme.color.background2};
-    color: ${props => props.theme.color.text1};
+    color: ${props => props.theme.color.contrastText1};
     height: 100%;
     width: 100%;
-    color: ${props => props.theme.color.text1};
     border-radius: 3px;
     overflow: hidden;
     /* box-shadow: ${props => props.theme.boxShadow.small}; */
@@ -116,7 +115,7 @@ const StyledTile = styled.div`
             content: "";
             height: 4rem;
             width: 100%;
-            background: ${props => props.theme.color.highlight1};
+            background: ${props => props.theme.color.dullSteelBlue};
             position: absolute;
             bottom: 0rem;
             left: 0rem;
@@ -155,13 +154,13 @@ const Output = styled.div `
 const PieChart1 = styled(PieChart)`
     height: 8rem;
     width: 8rem;
-    color: ${props => props.theme.color.text1};
+    color: ${props => props.theme.color.contrastText1};
 
 `
 const BarChart1 = styled(BarChart)`
     height: 2rem;
     width: 5rem;
-    color: ${props => props.theme.color.text1};
+    color: ${props => props.theme.color.contrastText1};
 
 `
 const Left = styled.div `

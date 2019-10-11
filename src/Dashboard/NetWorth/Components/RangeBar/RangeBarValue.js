@@ -31,7 +31,7 @@ import styled from "styled-components"
             {this.state.valueAsInput ? 
              <ValueAsInput 
                 type="number"
-                id={this.props.rangeBarProps.id}
+                name={this.props.rangeBarProps.name}
                 autoComplete="off"
                 onChange={this.props.handleChange}
                 value={this.props.rangeBarProps.financialValue}
@@ -75,7 +75,7 @@ const sharedStyles = `
 
 const ValueAsInput = styled.input`
         ${sharedStyles}
-        background: ${props => props.theme.color.accent3};
+        background: ${props => props.theme.color.dullSteelBlue};
         z-index: 23;
         outline: none;
         ::-webkit-inner-spin-button, 
@@ -101,7 +101,7 @@ export const Value = styled.div`
             left: -.5rem;
         };
         &:focus {
-           border-bottom: 3px solid ${props => props.theme.color.highlight1};
+           border-bottom: 3px solid ${props => props.theme.color.sandy};
            
         }
 `

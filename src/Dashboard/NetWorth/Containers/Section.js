@@ -94,7 +94,7 @@ const animationClose = keyframes`
 const Expanded = styled.div`
   animation: ${animationOpen} 0.9s 0s both;
   overflow: hidden;
-  background-color: ${props => props.theme.color.background4};
+  background-color: ${props => props.theme.color.background2};
   border: 1px solid  ${props => props.theme.color.background3};
   border-radius: 3px;
   overflow: hidden;
