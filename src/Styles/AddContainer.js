@@ -4,7 +4,7 @@ import {AddButton, NewButton} from "../NetWorthContainers/AddContainer/Buttons"
 import RangeBarInput from "../NetWorthContainers/RangeBar/RangeBarInput"
 import RangeBarValue from "../NetWorthContainers/RangeBar/RangeBarValue"
 import {logslider, inverseLogslider, roundNumber} from "../services/logorithmicFunctions"
-import {addItem} from "../actions/NetWorthActions"
+import {addItem} from "../Dashboard/NetWorth/actions/NetWorthActions"
 import {connect} from "react-redux"
 import {CloseIcon} from "../Styles/icons"
 

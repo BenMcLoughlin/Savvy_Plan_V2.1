@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import {PlusIcon} from "../../../Styles/Icons"
+import {PlusIcon} from "../../Styles/Icons"
 
 export const AddButton = (props) => {
     return (

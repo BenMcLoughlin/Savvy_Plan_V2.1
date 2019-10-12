@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import styled, {keyframes, css} from "styled-components"
-import RangeBar from "./RangeBar"
+import RangeBar from "../../../UI/RangeBar/RangeBar"
+import AddItemBox from "../../../UI/AddItemBox/AddItemBox"
 import SectionHeader from "../Components/SectionHeader"
-import AddNewItem from "./AddNewItem"
+import {setItemValue, changeLabel, addItem, removeItem} from "../actions/netWorthActions"
+import _ from "lodash"
 import { connect } from 'react-redux'
 
 class Section extends Component {
 
     state = {
-        sectionOpen: false,
+        sectionOpen: true,
     }
 
     //determines if this section is open or closed
@@ -20,14 +22,38 @@ class Section extends Component {
         })
     }
 
-    //enables the user to toggle between open and closed by clicking the header.
+    handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+          this.props.setItemValue(name, financialValue, rangeBarValue, rangeBarProps)
+ 
+    }
+
+    handleChangeLabel = (event, rangeBarProps) => {
+        const name = _.camelCase(event.target.value)
+        this.props.changeLabel( event, name, rangeBarProps.id, rangeBarProps.category, rangeBarProps.section)
+    }
+
+    handleRemoveItem = (rangeBarProps) => this.props.removeItem(rangeBarProps.id, rangeBarProps.category, rangeBarProps.section)
+
+    addItemToList = (newItem, listNewItemWillBeAddedToo) => {
+    
+        this.props.addItem(
+            newItem.id,
+            newItem.label,
+            newItem.financialValue,
+            newItem.rangeBarValue,
+            listNewItemWillBeAddedToo.title.section,
+            listNewItemWillBeAddedToo.title.category)
+    }
 
     renderRangeBars = (item) => {
       return  <SectionWrapper>
             {Object.values(item).slice(2).map(a => 
                 <RangeBar 
-                key={a.id}
-                rangeBarProps={a}
+                    key={a.id}
+                    rangeBarProps={a}
+                    handleSetParentRangeBarAndFinancialValue={this.handleSetParentRangeBarAndFinancialValue}
+                    handleChangeLabel={this.handleChangeLabel}
+                    handleRemoveItem={this.handleRemoveItem}
                 />
                 )}
              </SectionWrapper>
@@ -37,12 +63,12 @@ class Section extends Component {
     // this renders a range bar enabling them to change the value of their car.
 
     render() {
-
+   
         return (
             <div>
             <SectionHeader
                 allTitleProps={this.props.sectionProps.title}
-                catagory={this.props.sectionProps.catagory}
+                category={this.props.sectionProps.category}
                 section={this.props.sectionProps.section}
                 toggleState={this.toggleOpenAndClosed}
                 open={this.state.sectionOpen}
@@ -55,8 +81,10 @@ class Section extends Component {
 
                {/* header is clickable to open and close section */}
                
-             <AddNewItem
-                sectionProps={this.props.sectionProps}
+             <AddItemBox
+                firstButtonText={"Add New Item"}
+                listNewItemWillBeAddedToo={this.props.sectionProps}
+                addItemToList={this.addItemToList}
             />
 
                {/* a container enabling the user to add a new item */}
@@ -74,7 +102,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Section)
+export default connect(mapStateToProps, {setItemValue, addItem, changeLabel, removeItem})(Section)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 

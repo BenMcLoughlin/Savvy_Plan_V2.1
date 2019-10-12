@@ -5,7 +5,7 @@ import RRSPDetails from "./RRSPDetails"
 import PensionIncomeStartAges from "./PensionIncomeStartAges"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {setIncome, changeLabel, removeItem} from "../../actions"
+import {setIncome, changeLabel, removeItem, addItem} from "../../actions"
 
 
 class ControlPanel extends Component {
@@ -31,7 +31,7 @@ class ControlPanel extends Component {
                                 //This grabs the types of income and creates an array that will be used to render the rangebars
                                 //The filtering removes both oas and cpp Income from the array as they don't need rangeBars
 
-                                
+
     handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
         for (let age = this.state.fromAge; age < this.state.toAge; age++ ) {
           this.props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)
@@ -40,24 +40,37 @@ class ControlPanel extends Component {
 
 
 
-    handleChangeLabel = (e) => {
-        console.log(e.target.value);
+    handleChangeLabel = (e, rangeBarProps) => {
+     
         for (let age = this.state.fromAge; age < this.state.toAge; age++ ) {
             this.props.changeLabel(age, e.target.value, e.target.name)
           }
     }
 
-    handleRemoveItem = (name) => {
-console.log(name);
+    handleRemoveItem = (rangeBarProps) => {
+
           for (let age = this.state.fromAge; age < this.state.toAge; age++ ) {
-            this.props.removeItem(age, name)
+            this.props.removeItem(age, rangeBarProps.name)
           }
     }
 
+    addItemToList = (newItem, listNewItemWillBeAddedToo) => {
+        for (let age = this.state.fromAge; age < this.state.toAge; age++ ) {
+        this.props.addItem(
+            age,
+            newItem.name,
+            newItem.label,
+            newItem.financialValue,
+            newItem.rangeBarValue,
+            newItem.contributeToCpp)
+        }
+    }
+
+   
 
     render()
     {
-        const incomeTypeArrayForRangeBars = Object.values(this.props.lifetimeIncomeYearListState[this.state.fromAge].incomeType).filter(d => d.name !== "oasIncome").filter(d => d.name !== "cppIncome")
+        const incomeTypeArray = Object.values(this.props.lifetimeIncomeYearListState[this.state.fromAge].incomeType).filter(d => d.name !== "oasIncome").filter(d => d.name !== "cppIncome")
                                 //This grabs the types of income and creates an array that will be used to render the rangebars
                                 //The filtering removes both oas and cpp Income from the array as they don't need rangeBars
 
@@ -72,8 +85,9 @@ console.log(name);
                     handleChangeValueFromTextInput={this.handleChangeValueFromTextInput}
                     handleChangeLabel = {this.handleChangeLabel}
                     handleChangeValueFromTextInput = {this.handleChangeValueFromTextInput}
-                    incomeTypeArrayForRangeBars={incomeTypeArrayForRangeBars}
+                    incomeTypeArray={incomeTypeArray}
                     handleRemoveItem={this.handleRemoveItem}
+                    addItemToList={this.addItemToList}
                     fromAge={this.state.fromAge}
                     toAge={this.state.toAge}
                 />
@@ -92,7 +106,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {setIncome, changeLabel, removeItem})(ControlPanel )
+export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem})(ControlPanel )
 
 
 

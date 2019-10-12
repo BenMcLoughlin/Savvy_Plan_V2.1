@@ -3,6 +3,7 @@ import AddNewIncome from "./AddNewIncome"
 import styled, {keyframes, css} from "styled-components"
 import SectionHeader from "../../Components/SectionHeader"
 import RangeBar from "../../../../UI/RangeBar/RangeBar"
+import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
 
 
 
@@ -20,8 +21,12 @@ export default class IncomeInput extends Component {
         console.log(this.state.sectionOpen);
     }
 
-    renderRangeBars = (incomeInputArray) => {
-       return incomeInputArray.map(incomeType => <RangeBar id={incomeType.name}
+    handleClickToAddNewItem = () => {
+
+    }
+
+    renderRangeBars = (incomeTypeArrayrray) => {
+       return incomeTypeArrayrray.map(incomeType => <RangeBar id={incomeType.name}
                                                                  rangeBarProps={incomeType}
                                                                  handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
                                                                  handleChangeLabel = {this.props.handleChangeLabel}
@@ -42,15 +47,15 @@ export default class IncomeInput extends Component {
                     text="Input Income"
                     toggleOpenAndClosed={this.toggleOpenAndClosed}
                     sectionOpen={this.state.sectionOpen}
-                    incomeTypeArrayForRangeBars={this.props.incomeTypeArrayForRangeBars}
+                    incomeTypeArray={this.props.incomeTypeArray}
                 />
                 <Expanded open={this.state.sectionOpen}>
-                {this.renderRangeBars(this.props.incomeTypeArrayForRangeBars)}
+                {this.renderRangeBars(this.props.incomeTypeArray)}
   
-                    <AddNewIncome
-                        fromAge={this.props.fromAge}
-                        toAge={this.props.toAge}
-                        setRangeValueFromFinancialInput={this.setRangeValueFromFinancialInput}
+                    <AddItemBox
+                        firstButtonText={"Add New Income"}
+                        listNewItemWillBeAddedToo={this.props.incomeTypeArray}
+                        addItemToList={this.props.addItemToList}
 
                     />
 
@@ -76,11 +81,10 @@ const animationClose = keyframes`
 
 const Expanded = styled.div`
   animation: ${animationOpen} 0.9s 0s both;
-  overflow: hidden;
   background-color: ${props => props.theme.color.background1};
   border: 1px solid  ${props => props.theme.color.background3};
   border-radius: 3px;
-  overflow: hidden;
+  overflow: scroll;
   position: relative;
   text-align: left;
   height: 40rem;

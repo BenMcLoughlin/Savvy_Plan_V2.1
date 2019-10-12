@@ -16,7 +16,7 @@ class RangeBarInput extends Component {
                 step={0.1}
                 id={this.props.rangeBarProps.id}
                 percentage={`${(this.props.rangeBarProps.rangeBarValue/100)*100}%`}
-                catagory={this.props.rangeBarProps.catagory}
+                category={this.props.rangeBarProps.category}
                 autoComplete="off"
             />
         )
@@ -38,7 +38,7 @@ const Input = styled.input`
     height: 3px;
     -webkit-appearance: none;
     background: linear-gradient(90deg, 
-        ${props => props.catagory === "assets" ? props.theme.color.sandy : props.theme.color.salmon} ${props => props.percentage}, 
+        ${props => props.category === "assets" ? props.theme.color.sandy : props.theme.color.salmon} ${props => props.percentage}, 
         ${props => props.theme.color.dullSteelBlue} ${props => props.percentage});
     outline: none;
     opacity: 0.7;
@@ -59,7 +59,7 @@ const Input = styled.input`
     }
     &:active   {
         &:after{
-            background: ${props => props.catagory === "assets" ? props.theme.color.sandy : props.theme.color.salmon};
+            background: ${props => props.category === "assets" ? props.theme.color.sandy : props.theme.color.salmon};
         }
  
         }
@@ -78,7 +78,7 @@ const Input = styled.input`
 
 &:active::-webkit-slider-thumb
 {
-    background: ${props => props.catagory === "assets" ? props.theme.color.sandy : props.theme.color.salmon};
+    background: ${props => props.category === "assets" ? props.theme.color.sandy : props.theme.color.salmon};
 }
 
 `

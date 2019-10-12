@@ -6,15 +6,15 @@ const initialState = {
     netWorthTotal(){return this.assets.assetsTotal() - this.liabilities.liabilitiesTotal()},
 
     assets: {
-        cashAssetsTotal(){return Object.values(this.cashAssets).map(a => a.financialValue).reduce((acc, num) => acc + num)},
-        retirementAssetsTotal(){return Object.values(this.retirementAssets).map(a => a.financialValue).reduce((acc, num) => acc + num)},
-        propertyAssetsTotal(){return Object.values(this.propertyAssets).map(a => a.financialValue).reduce((acc, num) => acc + num)},
+        cashAssetsTotal(){return Object.values(this.cashAssets).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
+        retirementAssetsTotal(){return Object.values(this.retirementAssets).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
+        propertyAssetsTotal(){return Object.values(this.propertyAssets).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
         assetsTotal() {return this.cashAssetsTotal() + this.retirementAssetsTotal() + this.propertyAssetsTotal()},
 
         cashAssets: {
             
             title: {
-                catagory: "assets",
+                category: "assets",
                 section: "cashAssets", 
                 name: "cashAssetsTitle",
                 label: "Cash and Liquid Assets",
@@ -33,7 +33,7 @@ const initialState = {
             },
             id1000000: {
                 id: "id1000000", 
-                catagory: "assets",
+                category: "assets",
                 section: "cashAssets", 
                 name: "checkingAccount",
                 label: "Checking Account", 
@@ -44,7 +44,7 @@ const initialState = {
         }, 
         retirementAssets: {
             title: {
-                catagory: "assets",
+                category: "assets",
                 section: "retirementAssets", 
                 name: "retirementAssetsTitle",
                 label: "Retirement Assets",
@@ -62,7 +62,7 @@ const initialState = {
             },
             id2000000: {
                 id: "id2000000", 
-                catagory: "assets",
+                category: "assets",
                 section: "retirementAssets", 
                 name: "tfsa",
                 label: "Tax Free Savings Account", 
@@ -72,7 +72,7 @@ const initialState = {
         },
         propertyAssets: {
             title: {
-                catagory: "assets",
+                category: "assets",
                 section: "propertyAssets", 
                 name: "propertyAssetsTitle",
                 label: "Property Assets",
@@ -90,7 +90,7 @@ const initialState = {
             },
             id3000000: {
                 id: "id3000000", 
-                catagory: "assets",
+                category: "assets",
                 section: "propertyAssets", 
                 name: "vehicle",
                 label: "Personal Vehicle", 
@@ -101,14 +101,14 @@ const initialState = {
     },
     liabilities: {
 
-        unsecuredDebtTotal(){return Object.values(this.unsecuredDebt).map(a => a.financialValue).reduce((acc, num) => acc + num)},
-        securedDebtTotal(){return Object.values(this.securedDebt).map(a => a.financialValue).reduce((acc, num) => acc + num)},
-        otherDebtTotal(){return Object.values(this.otherDebt).map(a => a.financialValue).reduce((acc, num) => acc + num)},
+        unsecuredDebtTotal(){return Object.values(this.unsecuredDebt).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
+        securedDebtTotal(){return Object.values(this.securedDebt).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
+        otherDebtTotal(){return Object.values(this.otherDebt).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
         liabilitiesTotal() {return this.unsecuredDebtTotal() + this.securedDebtTotal() + this.otherDebtTotal()},
 
         unsecuredDebt: {
             title: {
-                catagory: "liabilities",
+                category: "liabilities",
                 section: "unsecuredDebt", 
                 name: "unsecuredDebtTitle",
                 label: "Unsecured Debt",
@@ -125,7 +125,7 @@ const initialState = {
             },
             id4000000: {
                 id: "id4000000", 
-                catagory: "liabilities",
+                category: "liabilities",
                 section: "unsecuredDebt", 
                 name: "creditCard",
                 label: "Credit Card", 
@@ -136,7 +136,7 @@ const initialState = {
         }, 
         securedDebt: {
             title: {
-                catagory: "liabilities",
+                category: "liabilities",
                 section: "securedDebt", 
                 name: "securedDebtitle",
                 label: "Secured Debt",
@@ -153,7 +153,7 @@ const initialState = {
             },
             id5000000: {
                 id: "id5000000", 
-                catagory: "liabilities",
+                category: "liabilities",
                 section: "securedDebt", 
                 name: "vehicleLoan",
                 label: "Vehicle Loan", 
@@ -163,7 +163,7 @@ const initialState = {
         },
         otherDebt: {
             title: {
-                catagory: "liabilities",
+                category: "liabilities",
                 section: "otherDebt", 
                 name: "otherDebttitle",
                 label: "Other Debt",
@@ -180,7 +180,7 @@ const initialState = {
             },
             id6000000: {
                 id: "id6000000", 
-                catagory: "liabilities",
+                category: "liabilities",
                 section: "otherDebt", 
                 name: "studentLoan",
                 label: "Student Loan", 
@@ -195,11 +195,9 @@ const initialState = {
 export const netWorthState = (state = initialState, action)=> {
 
 switch(action.type) {
-    case "ADD_ITEM": return { ...state, 
-                            [action.payload.catagory]:{
-                                    ...state[action.payload.catagory],
-                                    [action.payload.section]: {
-                                        ...state[action.payload.catagory][action.payload.section],
+    case "ADD_ITEM": return { ...state, [action.payload.category]:{
+                                    ...state[action.payload.category],[action.payload.section]: {
+                                        ...state[action.payload.category][action.payload.section],
                                              [action.payload.id]: action.payload }
                                     }
                                 }
@@ -207,52 +205,40 @@ switch(action.type) {
     //Each time it moves one layer deep into the object it has to create a copy. 
     // https://stackoverflow.com/questions/40096036/how-to-update-a-value-of-a-nested-object-in-a-reducer
 
-    case "CHANGE_LABEL": return {...state, 
-                                    [action.payload.catagory]:{
-                                    ...state[action.payload.catagory], 
+    case "CHANGE_LABEL": return {...state, [action.payload.category]:{
+                                    ...state[action.payload.category], 
                                     [action.payload.section]: {
-                                        ...state[action.payload.catagory][action.payload.section],
-                                            [action.payload.event.id]: {
-                                                ...state[action.payload.catagory][action.payload.section][action.payload.event.id],
-                                                    label: action.payload.event.value
+                                        ...state[action.payload.category][action.payload.section],
+                                            [action.payload.id]: {
+                                                ...state[action.payload.category][action.payload.section][action.payload.id],
+                                                    label: action.payload.event.value,
+                                                    name: action.payload.name
                                             }
                                     }
                                 }             
        }
                                     
     case "REMOVE_ITEM": return  { ...state, 
-                                    [action.payload.catagory]:{
-                                        ...state[action.payload.catagory],
-                                        [action.payload.section]: _.omit(state[action.payload.catagory][action.payload.section], action.payload.id)
+                                    [action.payload.category]:{
+                                        ...state[action.payload.category],
+                                        [action.payload.section]: _.omit(state[action.payload.category][action.payload.section], action.payload.id)
                                     }
                             }
   
-    case "SET_VARIABLE": return {...state, 
-                                     [action.payload.catagory]:{
-                                        ...state[action.payload.catagory], 
+    case "SET_ITEM_VALUE": return {...state, 
+                                     [action.payload.category]:{
+                                        ...state[action.payload.category], 
                                         [action.payload.section]: {
-                                            ...state[action.payload.catagory][action.payload.section],
-                                                [action.payload.event.id]: {
-                                                    ...state[action.payload.catagory][action.payload.section][action.payload.event.id],
+                                            ...state[action.payload.category][action.payload.section],
+                                                [action.payload.id]: {
+                                                    ...state[action.payload.category][action.payload.section][action.payload.id],
                                                         financialValue: action.payload.financialValue,
                                                         rangeBarValue: action.payload.rangeBarValue
                                                 }
                                         }
                                     }   
                                     }
-    case "SET_RANGEBAR_VALUE": return {...state, 
-                                     [action.payload.catagory]:{
-                                        ...state[action.payload.catagory], 
-                                        [action.payload.section]: {
-                                            ...state[action.payload.catagory][action.payload.section],
-                                                [action.payload.event.id]: {
-                                                    ...state[action.payload.catagory][action.payload.section][action.payload.event.id],
-                                                        financialValue: action.payload.financialValue,
-                                                        rangeBarValue: action.payload.rangeBarValue
-                                                }
-                                        }
-                                    }   
-                                    }
+
                                                          
     default: return state
 }

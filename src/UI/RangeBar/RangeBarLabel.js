@@ -1,29 +1,16 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {logslider, inverseLogslider, roundNumber} from "../../services/logorithmicFunctions"
+import {inverseLogslider, roundNumber} from "../../services/logorithmicFunctions"
 
  class RangeBarLabel extends Component {
 
-    state = {
-        logValue: 0,
-        rangeBarValue: 0
-    }
-
-    setLocalRangeandLogValue = (e) => {
-        const logValue = inverseLogslider(e.target.value)
-        this.setState({
-            logValue: roundNumber(logValue), 
-            rangeBarValue: e.target.value
-        })
-        this.props.handleChange(e.target.name, this.state.rangeBarValue, this.state.logValue )
-    }
     render() {
         return (
             <div>
              <LabelAsInput 
                 name={this.props.rangeBarProps.name}
                 autoComplete="off"
-                onChange={(e) => this.props.handleChangeLabel(e)}
+                onChange={(e) => this.props.handleChangeLabel(e, this.props.rangeBarProps)}
                 value={this.props.rangeBarProps.label}
                 />         
             </div>
