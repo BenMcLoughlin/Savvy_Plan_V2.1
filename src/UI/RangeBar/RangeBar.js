@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {logslider, inverseLogslider, roundNumber} from "../../services/logorithmicFunctions"
 import {CloseIcon} from "../../Styles/Icons"
 import RangeBarLabel from "./RangeBarLabel"
 import RangeBarValue from "./RangeBarValue"
@@ -52,11 +51,16 @@ const RangeBarWrapper = styled.div`
 `
 const Delete = styled(CloseIcon)`
     position: absolute;
-    top: .2rem;
-    left: 130%;
+    top: .9rem;
+    left: 135%;
     cursor: pointer;
-    width: 1.4rem;
     z-index: 300;
+    border-radius: 50%;
+    height: 1.3rem;
+    width: 1.3rem;
+    overflow: hidden;
+    color: ${props => props.theme.color.dullSteelBlue};
 `
+
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // This is the entire rangebar wrapper that contains the label, the range bar input and the value output. 

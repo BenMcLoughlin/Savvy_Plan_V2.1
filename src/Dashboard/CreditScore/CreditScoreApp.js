@@ -20,12 +20,10 @@ export default class CreditScoreApp extends Component {
     render() {
         return (
             <CreditScore>
-            Hello
-            <input type="number" name="creditScore" value={this.state.CreditScore} onClick={(e) => this.handleChange(e)}/>
-                {
-                    this.state.creditScore < 500 ? <BadCreditScore/> : <GoodCreditScore/>
-
-                }
+                <DonutChartWrapper/>
+                <BottomChartWrapper/>
+                <BarGraphWrapper/>
+                
             </CreditScore>
         )
     }
@@ -37,9 +35,32 @@ export default class CreditScoreApp extends Component {
 
 //-----------------------------------------------STYLES-----------------------------------------------/
 export const CreditScore = styled.div`
-grid-area: m;
-background-color: yellow;
-display: grid;
+    grid-area: m;
+    display: grid;
+    width: 80%;
+    margin: 0 auto;
+    grid-template-columns: repeat(16, minmax(5rem, 10rem));
+    grid-template-rows: 4rem minmax(12rem, 14rem) 4rem repeat(2, minmax(12rem, 24rem));
+grid-template-areas: '
+   h h h c c c c c c
+   h h h c c c c c c
+   h h h c c c c c c
+   d d d d d d d d d
+   d d d d d d d d d
+   d d d d d d d d d
+'
+`
+const DonutChartWrapper = styled.div`
+    grid-area: h;
+    background: blue;
+`
+const BottomChartWrapper = styled.div`
+    grid-area: d;
+    background: grey;
+`
+const BarGraphWrapper = styled.div`
+    grid-area: c;
+    background: green;
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

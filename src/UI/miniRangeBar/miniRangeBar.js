@@ -1,19 +1,16 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {logslider, inverseLogslider, roundNumber} from "../../services/logorithmicFunctions"
-import {CloseIcon} from "../../Styles/Icons"
-import RangeBarLabel from "./RangeBarLabel"
-import RangeBarValue from "./RangeBarValue"
-import RangeBarSlider from "./RangeBarSlider"
+import MiniRangeBarLabel from "./MiniRangeBarLabel"
+import MiniRangeBarValue from "./MiniRangeBarValue"
+import MiniRangeBarSlider from "./MiniRangeBarSlider"
 
 /*Props Required to be passed:
 1. handleSetParentRangeBarAndFinancialValue 
-      a function that receives a name, a logValue and a rangebar value and
+      a function that receives a name, rangebar value and the range bar props and
       uses those variables to pass into the action and set the reducer. 
 2. rangeBarProps
-     This is an object containing the item name, id, label, financial value and rangebar value. It 
-     can also contain variables useful to the parent state that will be passed back and used to guide
-     any changes to the correct position in the reducer via the action.  
+     This is an object containing the item name, id, label, and rangebar value. The mini range Bar also required a min, max and step
+     as well as a number types which will determine if it will display a percentage or a normal number. 
 */ 
 
 export default class RangeBar extends Component {
@@ -21,42 +18,36 @@ export default class RangeBar extends Component {
     render() {
         return (
             < RangeBarWrapper>
-                <RangeBarLabel
+                <MiniRangeBarLabel
                      rangeBarProps={this.props.rangeBarProps}
                      handleChangeLabel={this.props.handleChangeLabel}
                 />
-                <RangeBarSlider
+                <MiniRangeBarSlider
                      rangeBarProps={this.props.rangeBarProps}
                      handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
                 />
-                <RangeBarValue
+                <MiniRangeBarValue
                     rangeBarProps={this.props.rangeBarProps}
                     handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
                 />
                
-                <Delete  onClick={() => this.props.handleRemoveItem(this.props.rangeBarProps)}/>
             </RangeBarWrapper>
         )
     }
 }
 
 
-
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`
     margin-top: 3rem;
-    position: relative;
     padding-left: 2rem;
-    width: 23rem;
-`
-const Delete = styled(CloseIcon)`
-    position: absolute;
-    top: .2rem;
-    left: 130%;
-    cursor: pointer;
-    width: 1.4rem;
-    z-index: 300;
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // This is the entire rangebar wrapper that contains the label, the range bar input and the value output. 

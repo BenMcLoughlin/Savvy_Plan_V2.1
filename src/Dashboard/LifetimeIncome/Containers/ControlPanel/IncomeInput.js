@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import AddNewIncome from "./AddNewIncome"
 import styled, {keyframes, css} from "styled-components"
-import SectionHeader from "../../Components/SectionHeader"
+import SectionHeader from "../../../../UI/Headers/SectionHeader"
 import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
 
@@ -25,12 +24,12 @@ export default class IncomeInput extends Component {
 
     }
 
-    renderRangeBars = (incomeTypeArrayrray) => {
-       return incomeTypeArrayrray.map(incomeType => <RangeBar id={incomeType.name}
+    renderRangeBars = (incomeTypeArray) => {
+       return incomeTypeArray.map(incomeType => <RangeBar id={incomeType.name}
+                                                                 key={incomeType.name}
                                                                  rangeBarProps={incomeType}
                                                                  handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
                                                                  handleChangeLabel = {this.props.handleChangeLabel}
-                                                                 handleChangeValueFromTextInput={this.props.handleChangeValueFromTextInput}
                                                                  handleRemoveItem={this.props.handleRemoveItem}
                                                                  />
                                                                 
@@ -47,7 +46,8 @@ export default class IncomeInput extends Component {
                     text="Input Income"
                     toggleOpenAndClosed={this.toggleOpenAndClosed}
                     sectionOpen={this.state.sectionOpen}
-                    incomeTypeArray={this.props.incomeTypeArray}
+                    total={this.props.totalAnnualIncome}
+                    subText={"Total Income"}
                 />
                 <Expanded open={this.state.sectionOpen}>
                 {this.renderRangeBars(this.props.incomeTypeArray)}
@@ -84,10 +84,9 @@ const Expanded = styled.div`
   background-color: ${props => props.theme.color.background1};
   border: 1px solid  ${props => props.theme.color.background3};
   border-radius: 3px;
-  overflow: scroll;
+  overflow: hidden;
   position: relative;
   text-align: left;
-  height: 40rem;
 
   ${ props => !props.open && css`
      animation: ${animationClose} 0.4s 0s both;

@@ -26,7 +26,7 @@ class AddItemBox extends Component {
     }
 
     handleLabelChange= (event) => {
-        const {name, value} = event.target
+        const  value = event.target.value
         this.setState({
             label: value,
             name: _.camelCase(value)
@@ -55,11 +55,11 @@ class AddItemBox extends Component {
 
     toggleAddContainerOpen = () => {
         const opposite = !this.state.addContainerOpen
-        this.setState({addContainerOpen: !this.state.addContainerOpen})
+        this.setState({addContainerOpen: opposite})
     }
 
     render() {
-        console.log(this.props.listNewItemWillBeAddedToo);
+
         return (
             <div>
             {this.state.addContainerOpen ?

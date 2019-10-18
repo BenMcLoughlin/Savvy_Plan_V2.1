@@ -1,61 +1,33 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
+import {setFlex} from "../../Styles/Themes"
 
 
-const Tile = (props) => (
-    <StyledTile>
-         <StyledTitle>
-            
-        </StyledTitle> 
-        <Output>
-        <Left>
-     
-        </Left>
-        <Right>
-      
-        </Right>             
-</Output> 
-    </StyledTile>
 
-)
-
-export default class TileDisplay extends Component {
+export default class LifetimeIncomeTile extends Component {
     render() {
         return (
-            <TileDisplayWrapper>
-                <Tile/>
-                <Tile/>
-                <Tile/>
-                <Tile/>
-            </TileDisplayWrapper>
+            <Output>
+            <Left>
+            
+               <subHeading></subHeading> 
+            </Left>
+            <Right>
+               <value></value>
+               <heading></heading>
+            
+            </Right>             
+          </Output>
         )
     }
 }
 
+
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const TileDisplayWrapper = styled.div`
-    grid-area: t;
-    display: flex;
-    justify-content: space-around;
-`
 
-//-----TITLE
-
-const StyledTitle = styled.div`
-    font-weight: 400;
-    font-size: 2.4rem;
-    letter-spacing: .2rem;
-    color: ${props => props.theme.color.contrastText1};
-    height: 100%;
-    display: flex;
-    align-items: center;
-
-`
-
-//-----STYLEDTILE
-
-const StyledTile = styled.div`
+const LifetimeIncomeTileWrapper  = styled.div`
+    grid-area: j;
     background-color: ${props => props.theme.color.background2};
     color: ${props => props.theme.color.contrastText1};
     height: 100%;
@@ -97,7 +69,7 @@ const StyledTile = styled.div`
                 text-transform: uppercase;
                 font-size: ${props => props.theme.fontSize.smallMedium};
         }
-        SubHeading {
+        subHeading {
             font-size: ${props => props.theme.fontSize.small};
             font-weight: 700;
         }
@@ -108,16 +80,15 @@ const Output = styled.div `
     width: 100%;
     margin-top: 1rem;
     display: flex;
+    ${setFlex({align: "center", justify: "space-around"})};
 `
+
+//-----PIE AND BAR CHARTS
+
 const Left = styled.div `
-    display: flex;
+     ${setFlex({})};
     flex-direction: column;
 `
 const Right = styled(Left) `
 
-
 `
-
-
-//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// 

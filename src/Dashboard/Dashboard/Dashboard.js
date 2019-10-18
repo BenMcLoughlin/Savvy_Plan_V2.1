@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import Tile from "../UI/Dashboard/Tile"
+import Tile from "../../UI/Dashboard/Tile"
 import styled from "styled-components"
 import {connect} from "react-redux"
+import LifetimeIncomeTile from "./LifetimeIncomeTile"
 
 
 class Dashboard extends Component {
@@ -22,7 +23,9 @@ class Dashboard extends Component {
               />
             )
         })
+       
     }
+    
     // this is the function that takes the props from tilePaneData and maps through them rendering a new tile
     // for each section. The gridArea is used to place them in the correct position. 
 
@@ -31,7 +34,9 @@ class Dashboard extends Component {
             <DashboardContainer>
                 <StyledTilePane>
                     {this.renderData()}
+                    <LifetimeIncomeTile/>
                 </StyledTilePane>
+
             </DashboardContainer>
 
 
@@ -71,6 +76,13 @@ const StyledTilePane = styled.div`
     "g g g g h h h h h h h h h h h h"
     "i i i i j j j j j j j j j j j j"
 `
+const LifeTimeIncomeTile = styled.div`
+    grid-area: "j";
+    background: blue;
+    width: 100%;
+    
+`
+
 //This is the grid container that positions each of the tiles in the dashboard.
 
 

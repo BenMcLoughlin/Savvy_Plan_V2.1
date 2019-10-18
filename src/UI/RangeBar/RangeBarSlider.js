@@ -20,6 +20,7 @@ class RangeBarSlider extends Component {
     }
 
     render() {
+
         return (
             <Input
                 type="range"

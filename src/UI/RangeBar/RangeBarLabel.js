@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {inverseLogslider, roundNumber} from "../../services/logorithmicFunctions"
 
  class RangeBarLabel extends Component {
 
@@ -26,7 +25,7 @@ const LabelAsInput = styled.input`
         font-size: ${props =>props.theme.fontSize.small};
         color: ${props => props.theme.color.background3};
         position: absolute;
-        width: 75%;
+        width: 85%;
         top: -1.5rem;
         left: 1rem;
         padding: 0.3rem;

@@ -5,7 +5,7 @@ export const setIncome = (selectedAge, name, financialValue, rangeBarValue,  con
         payload: {
             selectedAge: selectedAge, 
             name: name,
-            financialValue: financialValue, 
+            financialValue: Math.round(financialValue*100)/100, 
             rangeBarValue: rangeBarValue,
             contributeToCPP: contributeToCPP
         }
@@ -13,12 +13,12 @@ export const setIncome = (selectedAge, name, financialValue, rangeBarValue,  con
 }
 
 
-export const setAgeRange = (startAge, endAge) => {
+export const setAgeRange = (fromAge, toAge) => {
     return ({
         type: "SET_AGE_RANGE", 
         payload: {
-            startAge: startAge, 
-            endAge: endAge
+            fromAge: fromAge, 
+            toAge: toAge
         }
     })
 }
@@ -57,4 +57,33 @@ export const addItem = (selectedAge, name, label,  financialValue, rangeBarValue
             contributeToCPP: contributeToCPP
         }
 }
+}
+export const setRRSPDetails = (currentAge, name, financialValue, rangeBarValue) => {
+    return {
+        type: "SET_RRSP_DETAILS", 
+        payload: {
+            currentAge: currentAge, 
+            name: name,
+            financialValue: financialValue, 
+            rangeBarValue: rangeBarValue,
+        }
+}
+}
+export const setFutureRRSPValue = (financialValue) => {
+    return {
+        type: "SET_FUTURE_RRSP_VALUE", 
+        payload: {
+            financialValue: financialValue, 
+        }
+}
+}
+
+export const setPensionStartAge = (name, rangeBarValue) => {
+    return {
+        type: "SET_PENSION_AGE", 
+        payload: {
+            name: name,
+            rangeBarValue: rangeBarValue
+        }
+    }
 }

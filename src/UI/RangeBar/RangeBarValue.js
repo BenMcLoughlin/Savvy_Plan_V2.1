@@ -67,7 +67,7 @@ const sharedStyles = `
     position: absolute;
     left: 95%;
     top: .8rem;
-    border-radius: 1px;
+    border-radius: 3px;
     padding: .4rem;
     height: 2.6rem;
     width: 8rem;

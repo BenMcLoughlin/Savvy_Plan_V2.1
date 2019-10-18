@@ -33,11 +33,6 @@ const ButtonComponent = styled.button`
     text-transform: uppercase;
     position: relative
 `
-const Button1 = styled(Button)`
-    position: absolute;
-    bottom: -.4rem;
-    left: .2rem;
-`
 
 const PlusIconButton = styled(PlusIcon)`
     position: absolute;

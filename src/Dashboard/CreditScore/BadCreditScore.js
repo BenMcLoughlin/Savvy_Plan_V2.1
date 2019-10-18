@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-
 import styled from "styled-components"
+
 
 export default class BadCreditScore extends Component {
 
     render() {
         return (
-            <div>
+            <BadCreditScoreWrapper>
                 You have a Bad credit score
-            </div>
+            </BadCreditScoreWrapper>
         )
     }
 }
 
+const BadCreditScoreWrapper = styled.div`
+background-color: ${props => props.theme.color.backgroundColor1}
+`

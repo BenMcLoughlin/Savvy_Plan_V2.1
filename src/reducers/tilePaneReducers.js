@@ -64,7 +64,7 @@ export const tilePaneReducer = () => {
             link: "/TaxPopup",
             icon: "fas fa-landmark",
             title: "Savings Plan",
-            chart: "savingsChart",
+            chart: "<StackedBarChart/>",
             gridArea: "h",
         },
         {
@@ -76,14 +76,14 @@ export const tilePaneReducer = () => {
             abbreviation: "k",
             gridArea: "i"
         },
-        {
-            tileType: "chart",
-            link: "/LifeTimeIncome",
-            icon: "fas fa-landmark",
-            title: "LifeTime Income",
-            chart: "LifeTimeIncome",
-            gridArea: "j",
-        },
+        // {
+        //     tileType: "chart",
+        //     link: "/LifeTimeIncome",
+        //     icon: "fas fa-landmark",
+        //     title: "LifeTime Income",
+        //     chart: "LifeTimeIncome",
+        //     gridArea: "j",
+        // },
 
     ]
 }

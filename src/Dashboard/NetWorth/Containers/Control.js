@@ -7,7 +7,7 @@ import {setItemValue, changeLabel, addItem, removeItem} from "../actions/netWort
 import _ from "lodash"
 import { connect } from 'react-redux'
 
-class Control extends Component {
+class Section extends Component {
 
     state = {
         sectionOpen: true,
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {setItemValue, addItem, changeLabel, removeItem})(Control)
+export default connect(mapStateToProps, {setItemValue, addItem, changeLabel, removeItem})(Section)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 

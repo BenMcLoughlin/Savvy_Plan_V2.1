@@ -77,7 +77,7 @@ export const fontSizeLargest = 'font-size: 5rem';
 export const lightTheme = {
     color: {
         background1: "white",
-        background2: "#D4D4D4",
+        background2: "#f4f4f4",
         background3: "#586975",
         contrastBackground1: "#536D7A",
         contrastBackground2: "#72929B",
@@ -93,6 +93,7 @@ export const lightTheme = {
         contrastText2: '#536D7A',
     },
     fontSize: {
+        smallest: "1rem",
         small: "1.4rem",
         smallMedium: "1.8rem",
         medium: '2.2rem',
@@ -128,11 +129,7 @@ export const darkTheme = {
         background4: "#f4f3f2",
         contrastBackground1: "#33363F",
         contrastBackground2: "#556976",
-        salmon: '#66d9e8',
-        dullSteelBlue: '#77919A',
-        dullSteelBlue: '#7DA4B7',
         sandy: '#D9BB73',
-        sandy: '#586975',
         salmon: '#ef6c67',
         dullSteelBlue: '#55869d',
         contrastText1: '#828F98',

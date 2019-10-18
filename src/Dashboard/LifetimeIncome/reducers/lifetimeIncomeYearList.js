@@ -19,35 +19,37 @@ const initialState = () => {
                     label: "Self Employment Income",
                     financialValue: 0, 
                     rangeBarValue: 0, 
-                    contributeToCpp: true,
-                },
-                businessIncome: {
-                    name: "businessIncome",
-                    label: "Business Income",
-                    financialValue: 0, 
-                    rangeBarValue: 0, 
-                    contributeToCpp: true,
+                    contributeToCpp: false,
                 },
                 cppIncome: {
                     name: "cppIncome",
                     label: "cpp income",
                     financialValue: 0, 
                     rangeBarValue: 0, 
-                    contributeToCpp: true,
+                    contributeToCpp: false,
                 },
                 oasIncome: {
                     name: "oasIncome",
                     label: "oas income",
                     financialValue: 0, 
                     rangeBarValue: 0, 
-                    contributeToCpp: true,
+                    contributeToCpp: false,
+                },
+                rrifIncome: {
+                    name: "rrifIncome",
+                    label: "RRIF Income",
+                    financialValue: 0, 
+                    rangeBarValue: 0, 
+                    contributeToCpp: false,
                 },
             },
         birthYear: 1988,
         ympe: 54000,
         adjustedPensionableEarningsMethod: function() {
             //explanation: see line 72
-            const pensionableIncome = this.employmentIncome + this.selfEmploymentIncome
+            const pensionableIncome = Object.values(this.incomeType).filter(d => d.contributeToCpp)
+                                                                    .map(d => d.financialValue)
+                                                                    .reduce((acc, num) => acc + num)
             const currentYear = this.birthYear + this.age
             const lastCPPYear = this.birthYear + 70
 
@@ -61,6 +63,7 @@ const initialState = () => {
         }, 
         }
     }
+
     return incomePerYear
 }
 
@@ -109,12 +112,7 @@ const lifetimeIncomeYearListState = (state = initialState(), action) => {
     }
 }
 
-// case "REMOVE_ITEM": return  { ...state, 
-//     [action.payload.catagory]:{
-//         ...state[action.payload.catagory],
-//         [action.payload.section]: _.omit(state[action.payload.catagory][action.payload.section], action.payload.id)
-//     }
-// }
+
 
 
 export default lifetimeIncomeYearListState

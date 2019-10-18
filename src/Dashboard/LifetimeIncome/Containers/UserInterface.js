@@ -1,19 +1,38 @@
 import React, { Component } from 'react'
 import ControlPanel from "./ControlPanel/ControlPanel"
 import TileDisplay from "./TileDisplay"
-import DualRangeBarSlider from "../Components/DualRangeSlider"
 import styled from "styled-components"
 import {connect} from "react-redux"
+import StackedBarChart from "../Chart/StackedBarChart.js"
 
  class UserInterface extends Component {
+     
     render() {
+        const data = Object.values(this.props.lifetimeIncomeYearListState).map(d => {
+            const incomeTypeArray = Object.keys(d.incomeType)
+            const financialValueArray = Object.keys(d.incomeType).map(income => d.incomeType[income].financialValue)
+            var result = {age: d.age};
+            incomeTypeArray.forEach((key, i) => result[key] = financialValueArray[i]);          
+          return result
+        })
+
+       const fromAge = this.props.lifetimeIncomeVariableState.fromAge
+     
+       const stackedKeys = Object.keys(this.props.lifetimeIncomeYearListState[18].incomeType)
+
         return (
             <UserInterfaceWrapper>
-            Lifetime Income Bar Chart
+            <Header>Lifetime Income Bar Chart</Header>
 
                 <ControlPanel/>
                 <TileDisplay/>
-                <ChartPlaceHolder>Chart</ChartPlaceHolder>
+                <ChartPlaceHolder>
+                    <StackedBarChart 
+                        data={data}
+                        height={400}
+                        stackedKeys={stackedKeys}
+                    />
+                </ChartPlaceHolder>
                
             </UserInterfaceWrapper>
         )
@@ -23,7 +42,8 @@ import {connect} from "react-redux"
 const mapStateToProps = (state) => {
 
     return {
-        netWorthState: state.lifetimeIncomeYearListState
+        lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
+        lifetimeIncomeYearListState: state.lifetimeIncomeYearListState
     }
 }
 
@@ -40,7 +60,7 @@ const UserInterfaceWrapper = styled.div`
     grid-template-areas:
     "h h h h h h h h h h h h h h h h"
     "p p p p p t t t t t t t t t t t"
-    "p p p p p t t t t t t t t t t t"
+    "p p p p p c c c c c c c c c c c"
     "p p p p p c c c c c c c c c c c"
     "p p p p p c c c c c c c c c c c"
     "p p p p p c c c c c c c c c c c"
@@ -48,7 +68,7 @@ const UserInterfaceWrapper = styled.div`
 `
 const ChartPlaceHolder = styled.div`
     grid-area: c;
-    background: #D4D4D4; 
+
 `
 const Header = styled.div`
     grid-area: h;

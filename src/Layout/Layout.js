@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
-import Dashboard from "../Dashboard/Dashboard"
+import Dashboard from "../Dashboard/Dashboard/Dashboard"
 import TaxApp from "../Dashboard/Tax/TaxApp"
 import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
 import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
