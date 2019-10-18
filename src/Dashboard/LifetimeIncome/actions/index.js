@@ -87,3 +87,12 @@ export const setPensionStartAge = (name, rangeBarValue) => {
         }
     }
 }
+
+export const setAverageLifetimeEarnings = (value) => {
+    return {
+        type: "SET_AVERAGE_LIFETIME_EARNINGS", 
+        payload: {
+            value: value
+        }
+    }
+}

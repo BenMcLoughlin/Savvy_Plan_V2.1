@@ -3,8 +3,6 @@ import styled, {keyframes, css} from "styled-components"
 import SectionHeader from "../../../../UI/Headers/SectionHeader"
 import MiniRangeBar from "../../../../UI/MiniRangeBar/MiniRangeBar"
 
-
-
 export default class PensionIncomeStartAges extends Component {
 
     state = {

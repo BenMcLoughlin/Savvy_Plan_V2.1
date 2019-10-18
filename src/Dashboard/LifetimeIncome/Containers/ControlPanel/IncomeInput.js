@@ -44,12 +44,12 @@ export default class IncomeInput extends Component {
             <React.Fragment>
                 <SectionHeader
                     text="Input Income"
-                    toggleOpenAndClosed={this.toggleOpenAndClosed}
-                    sectionOpen={this.state.sectionOpen}
+                    toggleOpenAndClosed={this.props.toggleOpenAndClosed}
+                    sectionOpen={this.props.sectionOpen}
                     total={this.props.totalAnnualIncome}
                     subText={"Total Income"}
                 />
-                <Expanded open={this.state.sectionOpen}>
+                <Expanded open={this.props.sectionOpen}>
                 {this.renderRangeBars(this.props.incomeTypeArray)}
   
                     <AddItemBox

@@ -2,7 +2,7 @@ import * as d3 from "d3"
 import "./ChartStyles.css"
 import _ from "lodash"
 
-const height = 600;
+const height = 700;
 const width = 850;
 const margin = {top: 20, right: 20, bottom: 100, left: 90}
 const graphHeight = height - margin.top - margin.bottom
@@ -20,11 +20,13 @@ const drawChart = (props) => {
     const svg = d3.select('.canvas').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
-    
+   
+
     const graph = svg.append("g").attr("height", graphHeight)
                                  .attr("width", graphWidth)
                                  .attr("transform", `translate(${margin.left}, ${margin.top})`)
-    
+                                 
+
     const xAxisGroup = graph.append("g")
                             .attr("transform", `translate(0, ${graphHeight})`)
                             .attr("class", "axis")
@@ -32,7 +34,6 @@ const drawChart = (props) => {
     const yAxisGroup = graph.append("g")
                         .attr("class", "axis")
 
-    const yAxisHorizontalLineGroup = graph.append("g")
     
        const stack = d3.stack()
         .keys(props.stackedKeys)
@@ -45,14 +46,26 @@ const drawChart = (props) => {
     
     const update = data => {
     
-        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 70000 ? 70000 : 
+        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 90000 ? 90000 : 
                         d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 10000
+        const d3Max1 = d3.max(data, d => 70000)
         const series = stack(data);
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
 
-    
+        var lineChartY = yScale(70000);
+
+        graph.append('line')
+            .style('stroke', '#ef6c67')
+            .style('stroke-width', '.8px')
+            .attr('x1', margin.left)
+            .attr('y1', lineChartY)
+            .attr('x2', width - margin.right)
+            .attr('y2', lineChartY);
+            
+
+
     const rects = graph.append("g")
         .selectAll("g")
         .data(series)
@@ -145,11 +158,8 @@ const drawChart = (props) => {
                            
                                     
             const yAxis = d3.axisLeft(yScale).ticks('3')
-                            .tickFormat(d => `$${d.toLocaleString()}`)
+                            .tickFormat(d => `${d/1000}k`)
 
-            const yAxisHorizontalLine = d3.axisBottom(xScale).tickValues([])
-
-            yAxisHorizontalLineGroup.call(yAxisHorizontalLine)
 
         xAxisGroup.call(xAxis)
         yAxisGroup.call(yAxis)

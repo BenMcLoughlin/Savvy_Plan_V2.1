@@ -78,7 +78,7 @@ export const lightTheme = {
     color: {
         background1: "white",
         background2: "#f4f4f4",
-        background3: "#586975",
+        background3: "#536D7A",
         contrastBackground1: "#536D7A",
         contrastBackground2: "#72929B",
         contrastBackground3: "#556976",

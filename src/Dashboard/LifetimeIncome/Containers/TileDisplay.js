@@ -1,61 +1,119 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-
+import {connect} from "react-redux"
 
 const Tile = (props) => (
     <StyledTile>
-         <StyledTitle>
-            
-        </StyledTitle> 
-        <Output>
-        <Left>
-     
-        </Left>
-        <Right>
-      
-        </Right>             
-</Output> 
+        <Title>
+          {props.value}
+        </Title>
+        <SubTitle>
+          {props.subText}
+        </SubTitle>
     </StyledTile>
-
+)
+const HighlightTile = (props) => (
+    <StyledTile style={{backgroundColor: "#536D7A"}}>
+        <Title style={{color: "#F29278"}}>
+          {props.value}
+        </Title>
+        <SubTitle style={{color: "#F29278"}}>
+          {props.subText}
+        </SubTitle>
+    </StyledTile>
 )
 
-export default class TileDisplay extends Component {
+class TileDisplay extends Component {
+
     render() {
+
+
+        const cppIncome = this.props.lifetimeIncomeYearListState[75].incomeType.cppIncome.financialValue
+        const oasIncome = this.props.lifetimeIncomeYearListState[75].incomeType.oasIncome.financialValue
+        const rrifIncome = this.props.lifetimeIncomeYearListState[75].incomeType.rrifIncome.financialValue
+        const totalPensionIncome = `${(cppIncome + oasIncome)/1000}k`
+        const totalRrifIncome = `${(rrifIncome)/1000}k`
+        const totalRetirementIncome = cppIncome + + oasIncome + rrifIncome
+
+        //Calculate AVERAGE Earnings
+        const pensionableEarningsArray = Object.values(this.props.lifetimeIncomeYearListState).map(d => d.adjustedPensionableEarningsMethod())
+        const totalAdustedPensionableEarnings = pensionableEarningsArray.reduce((acc, num) => acc + num)
+        const averagePensionableEarnings = Number(totalAdustedPensionableEarnings / 47)
+        const roundedAveragePensionableEarnings = Math.round(averagePensionableEarnings/1000)*1000
+
+
+        const shortFall = `${(roundedAveragePensionableEarnings - totalRetirementIncome)/1000}k`
+
         return (
             <TileDisplayWrapper>
-                <Tile/>
-                <Tile/>
-                <Tile/>
-                <Tile/>
+                <Tile
+                    value={22}
+                    gridArea="a"
+                    subText={"Tax Rate in Retirement"}
+                />
+                <Tile
+                    value={totalPensionIncome}
+                    gridArea="b"
+                    subText={"Government Pension Income"}
+                />
+                <Tile
+                    value={totalRrifIncome}
+                    gridArea="c"
+                    subText={"Minimum RRIF Withdrawal"}
+                />
+                <HighlightTile
+                    value={shortFall}
+                    gridArea="d"
+                    subText={"Retirement Income ShortFall"}
+                />
             </TileDisplayWrapper>
         )
     }
 }
 
+const mapStateToProps = (state) => {
+
+    return {
+        lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
+        lifetimeIncomeYearListState: state.lifetimeIncomeYearListState
+    }
+}
+
+export default connect(mapStateToProps)(TileDisplay)
+
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const TileDisplayWrapper = styled.div`
     grid-area: t;
-    display: flex;
     justify-content: space-around;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-areas: '
+              a b c d
+    '
 `
 
 //-----TITLE
 
-const StyledTitle = styled.div`
-    font-weight: 400;
-    font-size: 2.4rem;
+const Title = styled.div`
+    font-weight: 300;
+    font-size: ${props => props.theme.fontSize.mediumLarge};
+    text-align: center;
     letter-spacing: .2rem;
     color: ${props => props.theme.color.contrastText1};
     height: 100%;
     display: flex;
-    align-items: center;
+`
+
+const SubTitle = styled(Title)`
+    font-size: ${props => props.theme.fontSize.small};
 
 `
 
 //-----STYLEDTILE
 
 const StyledTile = styled.div`
+    grid-area: ${props => props.gridArea};;
     background-color: ${props => props.theme.color.background2};
     color: ${props => props.theme.color.contrastText1};
     height: 100%;
@@ -68,39 +126,11 @@ const StyledTile = styled.div`
     opacity: 0.9;
     font-weight: 300;
     text-align: center;
-
-    &:hover {
-        box-shadow: ${props => props.theme.boxShadow.lifted};
-        transform: translateY(-.01rem) scale(1.0007);
-
-        &::after {
-            content: "";
-            height: 4rem;
-            width: 100%;
-            background: ${props => props.theme.color.dullSteelBlue};
-            position: absolute;
-            bottom: 0rem;
-            left: 0rem;
-            clip-path: polygon(0 78%, 0% 100%, 100% 100%);
-             }
-         }
-
-        value {
-            font-weight: 300;
-            font-size: ${props => props.theme.fontSize.mediumLarge}; 
-            padding: .5rem;
-            display: block;
-            text-transform: uppercase;
-        }
-
-        heading {
-                text-transform: uppercase;
-                font-size: ${props => props.theme.fontSize.smallMedium};
-        }
-        SubHeading {
-            font-size: ${props => props.theme.fontSize.small};
-            font-weight: 700;
-        }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+     align-items: center;
+     padding: 2rem;
 `
 //-----OUTPUT CONTAINER
 

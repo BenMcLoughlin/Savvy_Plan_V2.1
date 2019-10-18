@@ -5,10 +5,25 @@ import RRSPDetails from "./RRSPDetails"
 import PensionIncomeStartAges from "./PensionIncomeStartAges"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge} from "../../actions"
+import {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings} from "../../actions"
 import {adjustCPP, adjustOAS} from "../../../../services/financialFunctions"
 
 class ControlPanel extends Component {
+
+    state = {
+        rrspSectionOpen: false,
+        incomeSectionOpen: true,
+    }
+
+    toggleOpenAndClosed = ()=> {
+        const showRRSP = this.state.rrspSectionOpen
+        const showIncome = this.state.incomeSectionOpen
+        this.setState({
+            rrspSectionOpen: !showRRSP,
+            incomeSectionOpen: !showIncome
+        })
+    
+    }
 
     fromAge = this.props.lifetimeIncomeVariableState.fromAge
     toAge = this.props.lifetimeIncomeVariableState.toAge
@@ -80,7 +95,8 @@ class ControlPanel extends Component {
         const adjustedCPPPayment = Math.round(adjustCPP(annualCPPPayment, this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue)/100)*100
         const adjustedOASPayment = Math.round(adjustOAS(7000, this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue)/100)*100
 
-        console.log(`cpp Start Age ${cppStartAge}, oasStartAge ${oasStartAge}`);
+        this.props.setAverageLifetimeEarnings(averagePensionableEarnings)
+        
          for (let age = cppStartAge; age <= 95; age++ ) {
             this.props.setIncome(age, "cppIncome", adjustedCPPPayment)
           }
@@ -127,6 +143,8 @@ class ControlPanel extends Component {
                     fromAge={this.props.lifetimeIncomeVariableState.fromAge}
                     toAge={this.props.lifetimeIncomeVariableState.toAge}
                     totalAnnualIncome={totalAnnualIncome}
+                    sectionOpen={this.state.incomeSectionOpen}
+                    toggleOpenAndClosed={this.toggleOpenAndClosed}
                     
                 />
               
@@ -137,13 +155,15 @@ class ControlPanel extends Component {
                     
                 />
                 <RRSPDetails
- 
-                handleSetRRSPDetails={this.handleSetRRSPDetails}
-                rrspDetailsRangeBarArray ={rrspDetailsRangeBarArray}
-                rrspDetailsMiniRangeBarArray ={rrspDetailsMiniRangeBarArray}
-                lifetimeIncomeVariableState={this.props.lifetimeIncomeVariableState}
-                setIncome={this.props.setIncome}
-                setFutureRRSPValue={this.props.setFutureRRSPValue}
+    
+                    handleSetRRSPDetails={this.handleSetRRSPDetails}
+                    rrspDetailsRangeBarArray ={rrspDetailsRangeBarArray}
+                    rrspDetailsMiniRangeBarArray ={rrspDetailsMiniRangeBarArray}
+                    lifetimeIncomeVariableState={this.props.lifetimeIncomeVariableState}
+                    setIncome={this.props.setIncome}
+                    setFutureRRSPValue={this.props.setFutureRRSPValue}
+                    sectionOpen={this.state.rrspSectionOpen}
+                    toggleOpenAndClosed={this.toggleOpenAndClosed}
 
             />
             </ControlPanelWrapper>
@@ -159,7 +179,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge})(ControlPanel )
+export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings})(ControlPanel )
 
 
 
@@ -170,6 +190,7 @@ const ControlPanelWrapper = styled.div`
     border: 1px solid ${props => props.theme.color.contrastBackground1};
     border-radius: 5px;
     overflow: scroll;
+    height: 95vh;
 `
 
 const Header = styled.div`

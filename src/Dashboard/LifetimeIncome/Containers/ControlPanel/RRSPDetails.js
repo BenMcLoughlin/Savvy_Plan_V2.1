@@ -9,17 +9,7 @@ import React, { Component } from 'react'
 export default class RRSPDetails extends Component {
 
 
-    state = {
-        sectionOpen: false,
-    }
 
-    toggleOpenAndClosed = ()=> {
-        const show = this.state.sectionOpen
-        this.setState({
-            sectionOpen: !show
-        })
-    
-    }
 
 
         handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
@@ -88,12 +78,12 @@ export default class RRSPDetails extends Component {
             <RRSPDetailsWrapper>
             <SectionHeader
                     text="RRSP Details"
-                    toggleOpenAndClosed={this.toggleOpenAndClosed}
-                    sectionOpen={this.state.sectionOpen}
+                    toggleOpenAndClosed={this.props.toggleOpenAndClosed}
+                    sectionOpen={this.props.sectionOpen}
                     total ={this.props.lifetimeIncomeVariableState.futureRRSPValue}
                     subText={"Est. Future Value"}
                 />
-                <Expanded open={this.state.sectionOpen}>           
+                <Expanded open={this.props.sectionOpen}>           
                 {this.renderRangeBars(this.props.rrspDetailsRangeBarArray)}     
 
                 <MiniRangeBarWrapper>
