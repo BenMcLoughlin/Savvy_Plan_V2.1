@@ -96,7 +96,7 @@ const TileDisplayWrapper = styled.div`
 //-----TITLE
 
 const Title = styled.div`
-    font-weight: 300;
+    font-weight: 400;
     font-size: ${props => props.theme.fontSize.mediumLarge};
     text-align: center;
     letter-spacing: .2rem;

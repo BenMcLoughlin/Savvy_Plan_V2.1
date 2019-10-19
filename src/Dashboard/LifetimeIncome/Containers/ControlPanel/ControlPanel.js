@@ -33,16 +33,19 @@ class ControlPanel extends Component {
         this.props.setRRSPDetails(18, name, financialValue, rangeBarValue)
     }
 
-    handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+     handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+        
         for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
           this.props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)
         }
         const cppStartAge = this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue
         const oasStartAge = this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue
-        this.calculateCPP(cppStartAge, oasStartAge)
+         this.calculateCPP(cppStartAge, oasStartAge)
     }
 
 
+    onst foo = async () => {
+ 
     handleChangeLabel = (e, rangeBarProps) => {
      
         for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
@@ -96,7 +99,7 @@ class ControlPanel extends Component {
         const adjustedOASPayment = Math.round(adjustOAS(7000, this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue)/100)*100
 
         this.props.setAverageLifetimeEarnings(averagePensionableEarnings)
-        
+
          for (let age = cppStartAge; age <= 95; age++ ) {
             this.props.setIncome(age, "cppIncome", adjustedCPPPayment)
           }
@@ -123,8 +126,10 @@ class ControlPanel extends Component {
 
         const rrspDetailsRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(0,2)
         const rrspDetailsMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(2)
+        
 
         return (
+           
             
             <ControlPanelWrapper>
             <Header>Income Streams</Header>

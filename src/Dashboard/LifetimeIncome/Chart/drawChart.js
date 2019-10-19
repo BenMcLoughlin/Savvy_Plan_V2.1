@@ -2,7 +2,7 @@ import * as d3 from "d3"
 import "./ChartStyles.css"
 import _ from "lodash"
 
-const height = 700;
+const height = 650;
 const width = 850;
 const margin = {top: 20, right: 20, bottom: 100, left: 90}
 const graphHeight = height - margin.top - margin.bottom
@@ -57,12 +57,21 @@ const drawChart = (props) => {
         var lineChartY = yScale(70000);
 
         graph.append('line')
-            .style('stroke', '#ef6c67')
-            .style('stroke-width', '.8px')
-            .attr('x1', margin.left)
+            .style('stroke', '#93979d')
+            .style('stroke-width', '1px')
+            .attr('x1', margin.left + 350)
             .attr('y1', lineChartY)
             .attr('x2', width - margin.right)
             .attr('y2', lineChartY);
+        
+        graph.append("g")
+                .append("text")
+                  .attr("fill", 'grey')
+                  .attr("font-size", "1.4rem")
+                  .text("Old Age Security ClawBack Threshold")
+                  .attr('x', margin.left + 370)
+                  .attr('y', lineChartY - 15)
+                // .attr('y', lineChartY);
             
 
 
