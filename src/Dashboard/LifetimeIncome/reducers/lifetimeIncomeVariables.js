@@ -57,7 +57,7 @@ const initialState = {
         },
     },
     futureRRSPValue: 0,
-    averageLifeTimeEarnings: 0,
+    averageLifeTimeEarningsValue: 0,
 
 }
 
@@ -80,8 +80,13 @@ const lifeTimeIncomeVariableState = (state = initialState, action) => {
                                                 ...state.pensionAges[action.payload.name], rangeBarValue: action.payload.rangeBarValue
                                             }
         } }
-        case "SET_AVERAGE_LIFETIME_EARNINGS": return {...state, averageLifeTimeEarnings: action.payload.value }
-         
+        //NOT WORKING!
+        // case "SET_PENSION_START_AGE": return {...state, pensionAges: {
+        //                                     ...state.pensionAges, [action.payload.name]: {
+        //                                         ...state.pensionAges[action.payload.name], 
+        //                                             rangeBarValue: action.payload.rangeBarValue,
+        //                                     }
+        // }}
 
         default: return state
     }

@@ -41,11 +41,9 @@ class ControlPanel extends Component {
         const cppStartAge = this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue
         const oasStartAge = this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue
          this.calculateCPP(cppStartAge, oasStartAge)
+         console.log(this.props.lifetimeIncomeYearListState);
     }
 
-
-    onst foo = async () => {
- 
     handleChangeLabel = (e, rangeBarProps) => {
      
         for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
@@ -100,16 +98,16 @@ class ControlPanel extends Component {
 
         this.props.setAverageLifetimeEarnings(averagePensionableEarnings)
 
-         for (let age = cppStartAge; age <= 95; age++ ) {
+         for (let age = this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue; age <= 95; age++ ) {
             this.props.setIncome(age, "cppIncome", adjustedCPPPayment)
           }
-         for (let age = 60; age < cppStartAge; age++ ) {
+         for (let age = 60; age < this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue; age++ ) {
             this.props.setIncome(age, "cppIncome", 0)
           }
-         for (let age = oasStartAge; age <= 95; age++ ) {
+         for (let age = this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue; age <= 95; age++ ) {
             this.props.setIncome(age, "oasIncome", adjustedOASPayment)
           }
-         for (let age = 60; age < oasStartAge; age++ ) {
+         for (let age = 60; age < this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue; age++ ) {
             this.props.setIncome(age, "oasIncome", 0)
           }
     }
@@ -195,7 +193,7 @@ const ControlPanelWrapper = styled.div`
     border: 1px solid ${props => props.theme.color.contrastBackground1};
     border-radius: 5px;
     overflow: scroll;
-    height: 95vh;
+    height: 80rem;
 `
 
 const Header = styled.div`

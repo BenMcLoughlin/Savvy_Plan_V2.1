@@ -3,6 +3,8 @@ import styled, {keyframes, css} from "styled-components"
 import SectionHeader from "../../../../UI/Headers/SectionHeader"
 import MiniRangeBar from "../../../../UI/MiniRangeBar/MiniRangeBar"
 
+
+
 export default class PensionIncomeStartAges extends Component {
 
     state = {
@@ -24,7 +26,7 @@ export default class PensionIncomeStartAges extends Component {
         const oasStartAge = name === "oasStartAge" ? rangeBarValue : this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue
         this.props.setPensionStartAge(name, rangeBarValue)
    
-        this.props.calculateCPP(cppStartAge, oasStartAge)        
+        this.props.calculateCPP()        
     }
 
     miniRenderRangeBars = (pensionStartAgeMiniRangeBarArray) => {
