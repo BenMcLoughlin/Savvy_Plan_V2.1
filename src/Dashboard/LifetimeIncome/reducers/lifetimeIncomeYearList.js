@@ -1,5 +1,6 @@
 import historicYMPE from "../services/historicYMPEdata"
 import _ from "lodash"
+import {adjustCPP, adjustOAS} from "../../../services/financialFunctions"
 
 const initialState = () => {
     const incomePerYear = {}
@@ -62,9 +63,10 @@ const initialState = () => {
             } else {return null}
         }, 
         }
-    }
+    };
 
     return incomePerYear
+    
 }
 
 

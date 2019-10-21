@@ -124,7 +124,7 @@ class ControlPanel extends Component {
 
         const rrspDetailsRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(0,2)
         const rrspDetailsMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(2)
-        
+
 
         return (
            
