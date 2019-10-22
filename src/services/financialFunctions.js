@@ -130,7 +130,7 @@ export const adjustOAS = (income, age) => {
       return value
    }
 
-   if (age > 70) {return income * 1.36}
+   if (age >= 70) {return income * 1.36}
 }
 
 

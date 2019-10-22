@@ -96,3 +96,37 @@ export const setAverageLifetimeEarnings = (value) => {
         }
     }
 }
+export const calculateCPP = (cppStartAge, selectedAge) => {
+    return {
+        type: "CALCULATE_CPP", 
+        payload: {
+            cppStartAge: cppStartAge,
+            selectedAge: selectedAge,
+        }
+    }
+}
+export const clearCPPIncomeBeforeStartAge = (selectedAge) => {
+    return {
+        type: "CLEAR_CPP_INCOME", 
+        payload: {
+           selectedAge: selectedAge
+        }
+    }
+}
+export const calculateOAS = (oasStartAge, selectedAge) => {
+    return {
+        type: "CALCULATE_OAS", 
+        payload: {
+            oasStartAge: oasStartAge,
+            selectedAge: selectedAge,
+        }
+    }
+}
+export const clearOASIncomeBeforeStartAge = (selectedAge) => {
+    return {
+        type: "CLEAR_OAS_INCOME", 
+        payload: {
+           selectedAge: selectedAge
+        }
+    }
+}

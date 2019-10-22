@@ -22,13 +22,32 @@ export default class PensionIncomeStartAges extends Component {
     
     handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue) => {
       
-        const cppStartAge = name === "cppStartAge" ? rangeBarValue : this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue
-        const oasStartAge = name === "oasStartAge" ? rangeBarValue : this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue
-        this.props.setPensionStartAge(name, rangeBarValue)
+        this.props.setPensionStartAge(name, rangeBarValue) 
+
+        if (name === "cppStartAge")  {
+            for (let age = rangeBarValue; age <=95; age ++) {
+                this.props.calculateCPP(rangeBarValue, age)
+            }
+    
+            for (let age = 60; age < rangeBarValue; age++) {
+                this.props.clearCPPIncomeBeforeStartAge(age)
+            }
+        }
+        else {
+        for (let age = rangeBarValue; age <=95; age ++) {
+            this.props.calculateOAS(rangeBarValue, age)
+        }
+
+        for (let age = 65; age < rangeBarValue; age++) {
+            this.props.clearOASIncomeBeforeStartAge(age)
+        }
+       }
        
-     console.log(this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue === rangeBarValue); 
+       console.log(this.props.lifetimeIncomeYearListState);
+     
     }
   
+
     miniRenderRangeBars = (pensionStartAgeMiniRangeBarArray) => {
         return pensionStartAgeMiniRangeBarArray.map(propsObject => <MiniRangeBar id={propsObject.name}
                                                                   className="oasStartAge"

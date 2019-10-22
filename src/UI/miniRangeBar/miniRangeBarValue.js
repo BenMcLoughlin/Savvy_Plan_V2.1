@@ -38,7 +38,8 @@ import {inverseLogslider} from "../../services/logorithmicFunctions"
         return (
             <Wrapper>
 
-             <Value onClick={this.toggleState}>{
+             <Value onClick={this.toggleState}
+             >{
                  this.props.rangeBarProps.numberType === "percentage" ?
                  `${(this.props.rangeBarProps.rangeBarValue*100).toFixed(1)} %` :
                  this.props.rangeBarProps.rangeBarValue

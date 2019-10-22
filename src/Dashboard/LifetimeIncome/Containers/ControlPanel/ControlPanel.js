@@ -5,8 +5,12 @@ import RRSPDetails from "./RRSPDetails"
 import PensionIncomeStartAges from "./PensionIncomeStartAges"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings} from "../../actions"
-import {adjustCPP, adjustOAS} from "../../../../services/financialFunctions"
+import {setIncome, changeLabel, removeItem, 
+        addItem, setRRSPDetails, setAgeRange, 
+        setFutureRRSPValue, setPensionStartAge, 
+        setAverageLifetimeEarnings, calculateCPP, 
+        clearCPPIncomeBeforeStartAge, calculateOAS, 
+        clearOASIncomeBeforeStartAge} from "../../actions"
 
 class ControlPanel extends Component {
 
@@ -38,10 +42,21 @@ class ControlPanel extends Component {
         for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
           this.props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)
         }
+
         const cppStartAge = this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue
+   
+
+        for (let age = cppStartAge; age <= 95; age++) {
+            this.props.calculateCPP(cppStartAge, age)
+        }
+
         const oasStartAge = this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue
-         this.calculateCPP(cppStartAge, oasStartAge)
-         console.log(this.props.lifetimeIncomeYearListState);
+   
+        for (let age = oasStartAge; age <= 95; age++) {
+            this.props.calculateOAS(oasStartAge, age)
+        }
+
+
     }
 
     handleChangeLabel = (e, rangeBarProps) => {
@@ -86,31 +101,7 @@ class ControlPanel extends Component {
        
     }
 
-    calculateCPP = (cppStartAge, oasStartAge) => {
-
-        const pensionableEarningsArray = Object.values(this.props.lifetimeIncomeYearListState).map(d => d.adjustedPensionableEarningsMethod())
-        const pensionableEarningsArrayAfterDropout = pensionableEarningsArray.sort().slice(8,47)
-        const totalAdustedPensionableEarnings = pensionableEarningsArrayAfterDropout.reduce((acc, num) => acc + num)
-        const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
-        const annualCPPPayment = averagePensionableEarnings * .25
-        const adjustedCPPPayment = Math.round(adjustCPP(annualCPPPayment, this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue)/100)*100
-        const adjustedOASPayment = Math.round(adjustOAS(7000, this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue)/100)*100
-
-        this.props.setAverageLifetimeEarnings(averagePensionableEarnings)
-
-         for (let age = this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue; age <= 95; age++ ) {
-            this.props.setIncome(age, "cppIncome", adjustedCPPPayment)
-          }
-         for (let age = 60; age < this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue; age++ ) {
-            this.props.setIncome(age, "cppIncome", 0)
-          }
-         for (let age = this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue; age <= 95; age++ ) {
-            this.props.setIncome(age, "oasIncome", adjustedOASPayment)
-          }
-         for (let age = 60; age < this.props.lifetimeIncomeVariableState.pensionAges.oasStartAge.rangeBarValue; age++ ) {
-            this.props.setIncome(age, "oasIncome", 0)
-          }
-    }
+  
     render()
     {
         
@@ -124,6 +115,7 @@ class ControlPanel extends Component {
 
         const rrspDetailsRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(0,2)
         const rrspDetailsMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(2)
+
 
 
         return (
@@ -154,7 +146,11 @@ class ControlPanel extends Component {
                 <PensionIncomeStartAges
                     lifetimeIncomeVariableState={this.props.lifetimeIncomeVariableState}
                     setPensionStartAge={this.props.setPensionStartAge}
-                    calculateCPP={this.calculateCPP}
+                    calculateCPP={this.props.calculateCPP}
+                    clearCPPIncomeBeforeStartAge = {this.props.clearCPPIncomeBeforeStartAge}
+                    calculateOAS={this.props.calculateOAS}
+                    clearOASIncomeBeforeStartAge = {this.props.clearOASIncomeBeforeStartAge}
+                    lifetimeIncomeYearListState={this.props.lifetimeIncomeYearListState}
                     
                 />
                 <RRSPDetails
@@ -182,7 +178,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings})(ControlPanel )
+export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings, calculateCPP, clearCPPIncomeBeforeStartAge, calculateOAS, clearOASIncomeBeforeStartAge})(ControlPanel )
 
 
 

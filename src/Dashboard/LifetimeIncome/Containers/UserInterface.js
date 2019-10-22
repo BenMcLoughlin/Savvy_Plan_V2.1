@@ -15,8 +15,6 @@ import StackedBarChart from "../Chart/StackedBarChart.js"
             incomeTypeArray.forEach((key, i) => result[key] = financialValueArray[i]);          
           return result
         })
-
-       const fromAge = this.props.lifetimeIncomeVariableState.fromAge
      
        const stackedKeys = Object.keys(this.props.lifetimeIncomeYearListState[18].incomeType)
 

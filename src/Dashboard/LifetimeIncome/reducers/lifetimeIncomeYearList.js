@@ -65,12 +65,35 @@ const initialState = () => {
         }
     };
 
-    return incomePerYear
+    const calculateCPP = () => {
+        const pensionableEarningsArray = Object.values(incomePerYear).map(d => d.adjustedPensionableEarningsMethod())
+        const pensionableEarningsArrayAfterDropout = pensionableEarningsArray.sort().slice(8,47)
+        const totalAdustedPensionableEarnings = pensionableEarningsArrayAfterDropout.reduce((acc, num) => acc + num)
+        const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
+        const annualCPPPayment = averagePensionableEarnings * .25
+        const adjustedCPPPayment = Math.round(adjustCPP(annualCPPPayment, 65)/100)*100
+        const adjustedOASPayment = Math.round(adjustOAS(7000, 65)/100)*100
     
+    
+        for (let i = 65; i <= 95; i++) {
+            incomePerYear[Number(i)] = {
+                ...incomePerYear[i], incomeType: {
+                    ...incomePerYear[i].incomeType, cppIncome: {
+                        ...incomePerYear[i].incomeType.cppIncome, financialValue: adjustedCPPPayment
+                    }
+                }
+            }
+        }
+        console.log(pensionableEarningsArray);
+        return incomePerYear
 }
 
 
-const lifetimeIncomeYearListState = (state = initialState(), action) => {
+return incomePerYear
+}
+
+
+ const incomePerYear = (state = initialState(), action) => {
     switch(action.type) {
         case "SET_INCOME": return {...state, [action.payload.selectedAge]: {
            ...state[action.payload.selectedAge], incomeType: {
@@ -109,6 +132,61 @@ const lifetimeIncomeYearListState = (state = initialState(), action) => {
             ...state[action.payload.selectedAge], incomeType: _.omit(state[action.payload.selectedAge].incomeType, action.payload.name)
             }
         }
+        case "CALCULATE_CPP": {
+            const pensionableEarningsArray = Object.values(state).map(d => d.adjustedPensionableEarningsMethod())
+            const pensionableEarningsArrayAfterDropout = pensionableEarningsArray.sort().slice(8,47)
+            const totalAdustedPensionableEarnings = pensionableEarningsArrayAfterDropout.reduce((acc, num) => acc + num)
+            const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
+            const annualCPPPayment = averagePensionableEarnings * .25
+            const adjustedCPPPayment = Math.round(adjustCPP(annualCPPPayment, action.payload.cppStartAge)/100)*100
+
+            return {...state, [action.payload.selectedAge]: {
+                ...state[action.payload.selectedAge], incomeType: {
+                    ...state[action.payload.selectedAge].incomeType, cppIncome: {
+                     ...state[action.payload.selectedAge].incomeType.cppIncome,
+                             financialValue: adjustedCPPPayment, 
+                    }
+                }
+             }}
+        
+        }
+        case "CLEAR_CPP_INCOME": {
+        console.log(action.payload.selectedAge);
+            return {...state, [action.payload.selectedAge]: {
+                ...state[action.payload.selectedAge], incomeType: {
+                    ...state[action.payload.selectedAge].incomeType, cppIncome: {
+                     ...state[action.payload.selectedAge].incomeType.cppIncome,
+                             financialValue: 0, 
+                    }
+                }
+             }}
+        
+        }
+        case "CALCULATE_OAS": {
+            const adjustedOASPayment = Math.round(adjustOAS(7000, action.payload.oasStartAge)/100)*100
+  
+            return {...state, [action.payload.selectedAge]: {
+                ...state[action.payload.selectedAge], incomeType: {
+                    ...state[action.payload.selectedAge].incomeType, oasIncome: {
+                     ...state[action.payload.selectedAge].incomeType.oasIncome,
+                             financialValue: adjustedOASPayment, 
+                    }
+                }
+             }}
+        
+        }
+        case "CLEAR_OAS_INCOME": {
+            console.log(action.payload.selectedAge);
+                return {...state, [action.payload.selectedAge]: {
+                    ...state[action.payload.selectedAge], incomeType: {
+                        ...state[action.payload.selectedAge].incomeType, oasIncome: {
+                         ...state[action.payload.selectedAge].incomeType.oasIncome,
+                                 financialValue: 0, 
+                        }
+                    }
+                 }}
+            
+            }
 
         default: return state
     }
@@ -117,7 +195,7 @@ const lifetimeIncomeYearListState = (state = initialState(), action) => {
 
 
 
-export default lifetimeIncomeYearListState
+export default incomePerYear
 
 
 
