@@ -13,7 +13,7 @@ class AddItemBox extends Component {
         label: "", 
         rangeBarValue: 0,
         financialValue: 0,
-        addContainerOpen: false,
+        addContainerOpen: true,
     }
 
   
@@ -83,7 +83,17 @@ class AddItemBox extends Component {
                     />
                     <Delete  onClick={() => this.toggleAddContainerOpen}/>
                   </RangeBarWrapper>
-                 
+                  {
+                    this.props.incomeInputLabel ? 
+                    <CheckBox>
+                        <input type="checkbox" id="checkbox"></input>
+
+                        <label htmlFor="checkbox">Contribute to CPP?</label>
+                    </CheckBox>
+                    : null
+                  }
+
+
                     <ButtonWrapper>
                         <Button
                         text={"Add"}
@@ -129,6 +139,15 @@ const TextInput = styled.input`
     z-index: 2;
     border-radius: 4px;
 `
+
+const CheckBox = styled.div`
+margin-left: 20%;
+& label {
+    margin-left: 5%;
+}
+`
+
+
 const Container = styled.div`
     width: 95%;
     height: 14rem;

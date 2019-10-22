@@ -47,7 +47,6 @@ const initialState = () => {
         birthYear: 1988,
         ympe: 54000,
         adjustedPensionableEarningsMethod: function() {
-            //explanation: see line 72
             const pensionableIncome = Object.values(this.incomeType).filter(d => d.contributeToCpp)
                                                                     .map(d => d.financialValue)
                                                                     .reduce((acc, num) => acc + num)
@@ -65,32 +64,9 @@ const initialState = () => {
         }
     };
 
-    const calculateCPP = () => {
-        const pensionableEarningsArray = Object.values(incomePerYear).map(d => d.adjustedPensionableEarningsMethod())
-        const pensionableEarningsArrayAfterDropout = pensionableEarningsArray.sort().slice(8,47)
-        const totalAdustedPensionableEarnings = pensionableEarningsArrayAfterDropout.reduce((acc, num) => acc + num)
-        const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
-        const annualCPPPayment = averagePensionableEarnings * .25
-        const adjustedCPPPayment = Math.round(adjustCPP(annualCPPPayment, 65)/100)*100
-        const adjustedOASPayment = Math.round(adjustOAS(7000, 65)/100)*100
-    
-    
-        for (let i = 65; i <= 95; i++) {
-            incomePerYear[Number(i)] = {
-                ...incomePerYear[i], incomeType: {
-                    ...incomePerYear[i].incomeType, cppIncome: {
-                        ...incomePerYear[i].incomeType.cppIncome, financialValue: adjustedCPPPayment
-                    }
-                }
-            }
-        }
-        console.log(pensionableEarningsArray);
         return incomePerYear
 }
 
-
-return incomePerYear
-}
 
 
  const incomePerYear = (state = initialState(), action) => {
