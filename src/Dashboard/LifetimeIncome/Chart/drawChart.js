@@ -2,14 +2,24 @@ import * as d3 from "d3"
 import "./ChartStyles.css"
 import _ from "lodash"
 
-const height = 650;
-const width = 850;
-const margin = {top: 20, right: 20, bottom: 100, left: 90}
-const graphHeight = height - margin.top - margin.bottom
-const graphWidth = width - margin.left - margin.right
-const color = ['#7DA4B7','#7bccc4','#43a2ca', "#ef6c67", "#039be5", '#88e6d0', "#272f33", "#fdec7c", '#ffd152'];
+function getDivWidth (div) {
+    var width = d3.select(div)
+      // get the width of div element
+      .style('width')
+      // take of 'px'
+      .slice(0, -2)
+    // return as an integer
+    return Math.round(Number(width))
+  }
 
 const drawChart = (props) => {
+
+    const height = props.height
+    const width = getDivWidth(".canvas");
+    const margin = {top: 20, right: 20, bottom: 100, left: 90}
+    const graphHeight = height - margin.top - margin.bottom
+    const graphWidth = width - margin.left - margin.right
+    const color = ['#7DA8B8',"#F7CDAB", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
     d3.select(".canvas > *").remove()
     d3.select(".tooltip").remove()
@@ -48,7 +58,7 @@ const drawChart = (props) => {
     
         const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 90000 ? 90000 : 
                         d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 10000
-        const d3Max1 = d3.max(data, d => 70000)
+
         const series = stack(data);
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
@@ -56,22 +66,32 @@ const drawChart = (props) => {
 
         var lineChartY = yScale(70000);
 
-        graph.append('line')
-            .style('stroke', '#93979d')
-            .style('stroke-width', '1px')
-            .attr('x1', margin.left + 350)
-            .attr('y1', lineChartY)
-            .attr('x2', width - margin.right)
-            .attr('y2', lineChartY);
+  
+
+            {
+                if (props.showOASThreshold) {
+
+                    graph.append('line')
+                    .style('stroke', '#93979d')
+                    .style('stroke-width', '1px')
+                    .attr('x1', margin.left + 350)
+                    .attr('y1', lineChartY)
+                    .attr('x2', width - margin.right)
+                    .attr('y2', lineChartY);
+
+                    graph.append("g")
+                    .append("text")
+                      .attr("fill", 'grey')
+                      .attr("font-size", "1.4rem")
+                      .text("Old Age Security ClawBack Threshold")
+                      .attr('x', margin.left + 370)
+                      .attr('y', lineChartY - 15)
+                }  
+                    
+
+            }
         
-        graph.append("g")
-                .append("text")
-                  .attr("fill", 'grey')
-                  .attr("font-size", "1.4rem")
-                  .text("Old Age Security ClawBack Threshold")
-                  .attr('x', margin.left + 370)
-                  .attr('y', lineChartY - 15)
-                // .attr('y', lineChartY);
+  
             
 
 

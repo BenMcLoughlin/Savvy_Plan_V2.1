@@ -42,8 +42,7 @@ export default class PensionIncomeStartAges extends Component {
             this.props.clearOASIncomeBeforeStartAge(age)
         }
        }
-       
-       console.log(this.props.lifetimeIncomeYearListState);
+ 
      
     }
   

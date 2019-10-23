@@ -2,41 +2,31 @@ import React, { Component } from 'react'
 import Tile from "../../UI/Dashboard/Tile"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import LifetimeIncomeTile from "./LifetimeIncomeTile"
+import CreditScoreTile from "./Tiles/CreditScoreTile"
+import HomePurchaseTile from "./Tiles/HomePurchaseTile"
+import LifetimeIncomeTile from "./Tiles/LifetimeIncomeTile"
+import NetWorthTile from "./Tiles/NetWorthTile"
+import SavingsPlanTile from "./Tiles/SavingsPlanTile"
+import SpendingTile from "./Tiles/SpendingTile"
+import TaxTile from "./Tiles/TaxTile"
 
 
 class Dashboard extends Component {
 
-    renderData() {
-        return this.props.tilePaneData.map(tile => {
-            return (
-                  <Tile 
-                  tileType={tile.tileType}
-                  link={tile.link}
-                  icon={tile.icon}
-                  title={tile.title}
-                  value={tile.value}
-                  subTitle={tile.subTitle}
-                  abbreviation={tile.abbreviation}
-                  chart={tile.chart}
-                  gridArea={tile.gridArea}      
-              />
-            )
-        })
-       
-    }
-    
-    // this is the function that takes the props from tilePaneData and maps through them rendering a new tile
-    // for each section. The gridArea is used to place them in the correct position. 
 
     render() {
         return (
             <DashboardContainer>
                 <StyledTilePane>
-                    {this.renderData()}
+                    <CreditScoreTile/>
+                    <HomePurchaseTile/>
                     <LifetimeIncomeTile/>
+                    <HorizontalLine />
+                    <NetWorthTile/>
+                    <SavingsPlanTile/>
+                    <SpendingTile/>
+                    <TaxTile/>
                 </StyledTilePane>
-
             </DashboardContainer>
 
 
@@ -66,21 +56,20 @@ const StyledTilePane = styled.div`
     width: 90vw;
     height: 100vh;
     display: grid;
-    grid-gap: 18px;
-    grid-template-columns: repeat(16, minmax(5rem, 10rem));
-    grid-template-rows: 4rem minmax(12rem, 14rem) 4rem repeat(2, minmax(12rem, 24rem));
+    grid-template-columns: repeat(12, minmax(5rem, 100%));
+    grid-template-rows: minmax(12rem, 14rem) 1rem repeat(2, minmax(18rem, 32rem));
     grid-template-areas:
-    "a a a a a a a a a a a a a a a a"
-    "b b b b c c c c c d d d d e e e"
-    "f f f f f f f f f f f f f f f f"
-    "g g g g h h h h h h h h h h h h"
-    "i i i i j j j j j j j j j j j j"
+    "a a a a a b b b b c c c"
+    "h h h h h h h h h h h h"
+    "d d d e e e e e e e e e"
+    "f f f g g g g g g g g g";
+    & > * {
+        background: ${props => props.theme.color.background2};
+    }
 `
-const LifeTimeIncomeTile = styled.div`
-    grid-area: "j";
-    background: blue;
-    width: 100%;
-    
+const HorizontalLine = styled.div`
+    grid-area: h;
+    border-top: ${props => props.theme.border.primary};
 `
 
 //This is the grid container that positions each of the tiles in the dashboard.

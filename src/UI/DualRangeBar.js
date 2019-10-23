@@ -264,10 +264,6 @@ const ValueBoxWrapper = styled.div`
     align-items: center;
     font-size: ${props =>props.theme.fontSize.smallMedium};
 `
-
-const ValueBox = styled.div`
-
-`
 const Button = styled.button`
         border-radius: 3px;
         padding: .6rem;

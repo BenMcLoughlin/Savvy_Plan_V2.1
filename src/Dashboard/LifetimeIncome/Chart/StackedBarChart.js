@@ -14,9 +14,10 @@ componentDidUpdate() {
 }
 
 
+
     render() {
         return (
-            <div className="canvas" >
+            <div className="canvas" style={{height: "80rem"}} >
                 
             </div>
         )

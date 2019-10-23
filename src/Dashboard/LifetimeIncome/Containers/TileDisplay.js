@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
+import calculateMarginalTaxRate from "../../../services/taxCalculationServices/taxCalculator"
 
 const Tile = (props) => (
     <StyledTile>
@@ -33,7 +34,8 @@ class TileDisplay extends Component {
         const rrifIncome = this.props.lifetimeIncomeYearListState[75].incomeType.rrifIncome.financialValue
         const totalPensionIncome = `${(cppIncome + oasIncome)/1000}k`
         const totalRrifIncome = `${(rrifIncome)/1000}k`
-        const totalRetirementIncome = cppIncome + + oasIncome + rrifIncome
+        const totalRetirementIncome = Object.values(this.props.lifetimeIncomeYearListState[75].incomeType).map(d => d.financialValue).reduce((acc, num) => acc + num)
+        const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ? calculateMarginalTaxRate(totalRetirementIncome) + 15 : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
         //Calculate AVERAGE Earnings
         const pensionableEarningsArray = Object.values(this.props.lifetimeIncomeYearListState).map(d => d.adjustedPensionableEarningsMethod())
@@ -47,7 +49,7 @@ class TileDisplay extends Component {
         return (
             <TileDisplayWrapper>
                 <Tile
-                    value={22}
+                    value={`${retirementTaxRate}%`}
                     gridArea="a"
                     subText={"Tax Rate in Retirement"}
                 />
@@ -132,22 +134,6 @@ const StyledTile = styled.div`
      align-items: center;
      padding: 2rem;
 `
-//-----OUTPUT CONTAINER
-
-const Output = styled.div `
-    width: 100%;
-    margin-top: 1rem;
-    display: flex;
-`
-const Left = styled.div `
-    display: flex;
-    flex-direction: column;
-`
-const Right = styled(Left) `
-
-
-`
-
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // 

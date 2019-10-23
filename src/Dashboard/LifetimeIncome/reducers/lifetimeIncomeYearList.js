@@ -89,7 +89,7 @@ const initialState = () => {
                         label: action.payload.label,
                         financialValue: Number(action.payload.financialValue), 
                         rangeBarValue: Number(action.payload.rangeBarValue), 
-                        contributeToCPP: action.payload.contributeToCPP
+                        contributeToCpp: action.payload.contributeToCpp
                }
            }
         }}
@@ -97,7 +97,8 @@ const initialState = () => {
             ...state[action.payload.selectedAge], incomeType: {
                 ...state[action.payload.selectedAge].incomeType, [action.payload.name]: {
                     ...state[action.payload.selectedAge]["incomeType"][action.payload.name],
-                    label: action.payload.label
+                    label: action.payload.label,
+                    name: action.payload.name
                 }
 
             }
@@ -115,7 +116,7 @@ const initialState = () => {
             const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
             const annualCPPPayment = averagePensionableEarnings * .25
             const adjustedCPPPayment = Math.round(adjustCPP(annualCPPPayment, action.payload.cppStartAge)/100)*100
-
+   
             return {...state, [action.payload.selectedAge]: {
                 ...state[action.payload.selectedAge], incomeType: {
                     ...state[action.payload.selectedAge].incomeType, cppIncome: {
@@ -152,7 +153,7 @@ const initialState = () => {
         
         }
         case "CLEAR_OAS_INCOME": {
-            console.log(action.payload.selectedAge);
+
                 return {...state, [action.payload.selectedAge]: {
                     ...state[action.payload.selectedAge], incomeType: {
                         ...state[action.payload.selectedAge].incomeType, oasIncome: {

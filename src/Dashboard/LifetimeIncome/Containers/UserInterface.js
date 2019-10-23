@@ -27,8 +27,10 @@ import StackedBarChart from "../Chart/StackedBarChart.js"
                 <ChartPlaceHolder>
                     <StackedBarChart 
                         data={data}
-                        height={400}
+                        height={650}
+                        width={400}
                         stackedKeys={stackedKeys}
+                        showOASThreshold = {true}
                     />
                 </ChartPlaceHolder>
                
@@ -66,6 +68,8 @@ const UserInterfaceWrapper = styled.div`
 `
 const ChartPlaceHolder = styled.div`
     grid-area: c;
+    width: 80rem;
+    height: 80rem;
 
 `
 const Header = styled.div`

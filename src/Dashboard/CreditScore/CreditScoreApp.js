@@ -23,6 +23,8 @@ export default class CreditScoreApp extends Component {
                 <DonutChartWrapper/>
                 <BottomChartWrapper/>
                 <BarGraphWrapper/>
+                <BadCreditScore/>
+                <GoodCreditScore/>
                 
             </CreditScore>
         )

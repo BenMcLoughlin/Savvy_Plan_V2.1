@@ -45,7 +45,7 @@ export const removeItem = (selectedAge, name) => {
         }
 }
 }
-export const addItem = (selectedAge, name, label,  financialValue, rangeBarValue,  contributeToCPP) => {
+export const addItem = (selectedAge, name, label,  financialValue, rangeBarValue,  contributeToCpp) => {
     return {
         type: "ADD_INCOME_TYPE", 
         payload: {
@@ -54,7 +54,7 @@ export const addItem = (selectedAge, name, label,  financialValue, rangeBarValue
             label: label,
             financialValue: financialValue, 
             rangeBarValue: rangeBarValue,
-            contributeToCPP: contributeToCPP
+            contributeToCpp: contributeToCpp
         }
 }
 }
@@ -84,6 +84,15 @@ export const setPensionStartAge = (name, rangeBarValue) => {
         payload: {
             name: name,
             rangeBarValue: rangeBarValue
+        }
+    }
+}
+export const setLifetimeIncomeVariable = (name, value) => {
+    return {
+        type: "SET_LIFETIME_INCOME_VARIABLE", 
+        payload: {
+            name: name,
+            value: value,
         }
     }
 }

@@ -56,7 +56,7 @@ export default class IncomeInput extends Component {
                         firstButtonText={"Add New Income"}
                         listNewItemWillBeAddedToo={this.props.incomeTypeArray}
                         addItemToList={this.props.addItemToList}
-                        incomeInputLabel={"Contribute To Canada Pension Plan?"}
+                        checkboxLabel={"Contribute To Canada Pension Plan?"}
 
                     />
 

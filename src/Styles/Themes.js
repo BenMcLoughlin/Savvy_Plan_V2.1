@@ -77,19 +77,19 @@ export const fontSizeLargest = 'font-size: 5rem';
 export const lightTheme = {
     color: {
         background1: "white",
-        background2: "#f4f4f4",
+        background2: "#FCFCFC",
         background3: "#536D7A",
         contrastBackground1: "#536D7A",
         contrastBackground2: "#72929B",
         contrastBackground3: "#556976",
         sandy: '#ffd152',
-        salmon: '#ef6c67',
+        salmon: '#F29278',
         dullSteelBlue: '#55869d',
         brightPopBlue: "#4BB9D0",
         fadedGreyBlue: "#B0CFE3",
         text1: '#F7F7F5',
         text2: '#FFFFFF',
-        contrastText1: '#828F98',
+        contrastText1: '#72929B',
         contrastText2: '#536D7A',
     },
     fontSize: {
@@ -99,7 +99,11 @@ export const lightTheme = {
         medium: '2.2rem',
         mediumLarge: '3.5rem',
         large: '4.5rem',
+        large2: '6.5rem',
         largest: '9rem',
+    },
+    border: {
+        primary: ".2px solid #DCDCDC",
     },
     flexContent: {
         center: '{display: flex; align-items: center; justify-content:center}'
@@ -142,6 +146,7 @@ export const darkTheme = {
         medium: '2.2rem',
         mediumLarge: '3.5rem',
         large: '4.5rem',
+        large2: '7.5rem',
         largest: '9rem',
     },
     flexContent: {

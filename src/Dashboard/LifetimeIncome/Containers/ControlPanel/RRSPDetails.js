@@ -37,8 +37,9 @@ export default class RRSPDetails extends Component {
             for (let i = 50; i < startAge; i++) {
                 this.props.setIncome(i, "rrifIncome", 0, 0, false)
             }
+
         }
-    //    (selectedAge, name, financialValue, rangeBarValue,  contributeToCPP)
+
 
         handleChangeLabel = (e, rangeBarProps) => null
 

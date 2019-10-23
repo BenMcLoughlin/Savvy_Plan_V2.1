@@ -5,12 +5,13 @@ import RRSPDetails from "./RRSPDetails"
 import PensionIncomeStartAges from "./PensionIncomeStartAges"
 import styled from "styled-components"
 import {connect} from "react-redux"
+import calculateMarginalTaxRate from "../../../../services/taxCalculationServices/taxCalculator"
 import {setIncome, changeLabel, removeItem, 
         addItem, setRRSPDetails, setAgeRange, 
         setFutureRRSPValue, setPensionStartAge, 
         setAverageLifetimeEarnings, calculateCPP, 
         clearCPPIncomeBeforeStartAge, calculateOAS, 
-        clearOASIncomeBeforeStartAge} from "../../actions"
+        clearOASIncomeBeforeStartAge, setLifetimeIncomeVariable} from "../../actions"
 
 class ControlPanel extends Component {
 
@@ -37,12 +38,7 @@ class ControlPanel extends Component {
         this.props.setRRSPDetails(18, name, financialValue, rangeBarValue)
     }
 
-     handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
-        
-        for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
-          this.props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)
-        }
-
+    renderCPPandOASIncome = () => {
         const cppStartAge = this.props.lifetimeIncomeVariableState.pensionAges.cppStartAge.rangeBarValue
    
 
@@ -55,7 +51,14 @@ class ControlPanel extends Component {
         for (let age = oasStartAge; age <= 95; age++) {
             this.props.calculateOAS(oasStartAge, age)
         }
-
+    }
+     handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+        
+        for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
+          this.props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)
+        }
+        this.renderCPPandOASIncome()
+        
 
     }
 
@@ -71,6 +74,7 @@ class ControlPanel extends Component {
           for (let age = this.props.lifetimeIncomeVariableState.fromAge; age < this.props.lifetimeIncomeVariableState.toAge; age++ ) {
             this.props.removeItem(age, rangeBarProps.name)
           }
+          this.renderCPPandOASIncome()
     }
 
     addItemToList = (newItem, listNewItemWillBeAddedToo) => {
@@ -90,8 +94,9 @@ class ControlPanel extends Component {
             newItem.label,
             newItem.financialValue,
             newItem.rangeBarValue,
-            newItem.contributeToCpp)
+            newItem.isChecked)
         }
+        this.renderCPPandOASIncome()
     }
 
     setParentDualRangeValues = (lower, higher) => {
@@ -101,7 +106,6 @@ class ControlPanel extends Component {
        
     }
 
-  
     render()
     {
         
@@ -115,8 +119,7 @@ class ControlPanel extends Component {
 
         const rrspDetailsRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(0,2)
         const rrspDetailsMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(2)
-
-
+        console.log(this.props.lifetimeIncomeVariableState);
 
         return (
            
@@ -151,6 +154,7 @@ class ControlPanel extends Component {
                     calculateOAS={this.props.calculateOAS}
                     clearOASIncomeBeforeStartAge = {this.props.clearOASIncomeBeforeStartAge}
                     lifetimeIncomeYearListState={this.props.lifetimeIncomeYearListState}
+                 
                     
                 />
                 <RRSPDetails
@@ -163,6 +167,7 @@ class ControlPanel extends Component {
                     setFutureRRSPValue={this.props.setFutureRRSPValue}
                     sectionOpen={this.state.rrspSectionOpen}
                     toggleOpenAndClosed={this.toggleOpenAndClosed}
+   
 
             />
             </ControlPanelWrapper>
@@ -178,7 +183,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings, calculateCPP, clearCPPIncomeBeforeStartAge, calculateOAS, clearOASIncomeBeforeStartAge})(ControlPanel )
+export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, addItem, setRRSPDetails, setAgeRange, setFutureRRSPValue, setPensionStartAge, setAverageLifetimeEarnings, calculateCPP, clearCPPIncomeBeforeStartAge, calculateOAS, clearOASIncomeBeforeStartAge, setLifetimeIncomeVariable})(ControlPanel )
 
 
 

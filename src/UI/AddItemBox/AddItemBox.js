@@ -5,6 +5,7 @@ import RangeBarSlider from "../RangeBar/RangeBarSlider"
 import RangeBarValue from "../RangeBar/RangeBarValue"
 import _ from "lodash"
 import {CloseIcon} from "../../Styles/Icons"
+import Checkbox from "../Buttons/Checkbox"
 
 class AddItemBox extends Component {
 
@@ -13,7 +14,8 @@ class AddItemBox extends Component {
         label: "", 
         rangeBarValue: 0,
         financialValue: 0,
-        addContainerOpen: true,
+        addContainerOpen: false,
+        isChecked: false,
     }
 
   
@@ -39,6 +41,14 @@ class AddItemBox extends Component {
             this.props.removeItem(age, rangeBarProps.name)
           }
     }
+    handleCheckboxChange = (event) => {
+        this.setState(({ isChecked }) => (
+            {
+              isChecked: !isChecked
+            }
+          ));
+          console.log(event.target.checked);
+    }
 
       handleClickToAddNewItem = () => {
         
@@ -49,6 +59,7 @@ class AddItemBox extends Component {
             financialValue: 0,
             rangeBarValue: 0,
             addContainerOpen: false,
+            isChecked: false,
         })
   
       }
@@ -81,26 +92,29 @@ class AddItemBox extends Component {
                         rangeBarProps={this.state}
                         handleSetParentRangeBarAndFinancialValue={this.handleSetParentRangeBarAndFinancialValue}
                     />
-                    <Delete  onClick={() => this.toggleAddContainerOpen}/>
+                   
                   </RangeBarWrapper>
-                  {
-                    this.props.incomeInputLabel ? 
-                    <CheckBox>
-                        <input type="checkbox" id="checkbox"></input>
-
-                        <label htmlFor="checkbox">Contribute to CPP?</label>
-                    </CheckBox>
-                    : null
-                  }
 
 
-                    <ButtonWrapper>
+                    <ButtonWrapper style={{marginTop: "2rem"}}>
                         <Button
                         text={"Add"}
                         handleClick={this.handleClickToAddNewItem}
                     />
                     </ButtonWrapper>
-     
+                    {
+                        this.props.checkboxLabel ? 
+                        <CheckboxWrapper>
+                            <Checkbox
+                            checked={this.state.isChecked}
+                            onChange={this.handleCheckboxChange}
+                            labelText ={this.props.checkboxLabel}
+                            />
+                        </CheckboxWrapper>
+    
+                        : null
+                      }
+                      <Delete  onClick={() => this.toggleAddContainerOpen}/>
                 </Container>
                 :
                 <ButtonWrapper>
@@ -140,26 +154,19 @@ const TextInput = styled.input`
     border-radius: 4px;
 `
 
-const CheckBox = styled.div`
-margin-left: 20%;
-& label {
-    margin-left: 5%;
-}
-`
-
 
 const Container = styled.div`
     width: 95%;
-    height: 14rem;
+    height: 17rem;
     position: relative;
-    border: 1px solid white;
+    border: 1px solid ${props => props.theme.color.contrastBackground1};
     border-radius: 3px;
     margin-left: 1rem;
     margin-bottom: 1rem;
     background-color: ${props => props.theme.color.background2}
 `
 const RangeBarWrapper = styled.div`
-    margin-top: 1rem;
+    margin-top: 2rem;
     position: relative;
     padding-left: 1rem;
     width: 25rem;
@@ -171,12 +178,22 @@ const ButtonWrapper = styled.div`
 `
 const Delete = styled(CloseIcon)`
     position: absolute;
-    top: -.3rem;
-    left: 127%;
+    top: 2%;
+    left: 93%;
     cursor: pointer;
     z-index: 300;
-    width: 1.4rem;
+    width: 1.8rem;
 `
+
+const CheckboxWrapper = styled.div`
+    position: absolute;
+    top: 8.5rem;
+    left: 2rem;
+
+`
+
+
+
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // A container that allows the user to add a new items to state. It collects the data locally as the user inputs it and 
 // then on submit sends all the data to the main state reducer to create a new item.  
