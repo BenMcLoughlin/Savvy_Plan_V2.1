@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
+import { NavLink} from "react-router-dom"
 
  class HomePurchaseTile extends Component {
 
     render() {
 
         return (
-            <HomePurchaseTileWrapper>
+            <HomePurchaseTileWrapper to="/Property">
             <img src={require("../../../assets/images/Home_Purchase_Plan.png")} style={{height: "290px", }}/>
             </HomePurchaseTileWrapper>
         )
@@ -25,7 +26,8 @@ export default connect(mapStateToProps)(HomePurchaseTile)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const HomePurchaseTileWrapper = styled.div`
+const HomePurchaseTileWrapper = styled(NavLink)`
+  text-decoration: none;
   grid-area: f;
   background: blue;
 `

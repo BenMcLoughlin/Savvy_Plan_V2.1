@@ -3,6 +3,7 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import StackedBarChart from "../../LifetimeIncome/Chart/StackedBarChart"
 import calculateMarginalTaxRate from "../../../services/taxCalculationServices/taxCalculator"
+import { NavLink} from "react-router-dom"
 
  class LifetimeIncomeTile extends Component {
      
@@ -34,7 +35,7 @@ import calculateMarginalTaxRate from "../../../services/taxCalculationServices/t
 
 
         return (
-            <LifetimeIncomeTileWrapper>
+            <LifetimeIncomeTileWrapper to="/LifeTimeIncome">
             <Top>
                     <Left>
                     <LargeTotal>
@@ -57,6 +58,10 @@ import calculateMarginalTaxRate from "../../../services/taxCalculationServices/t
                                 {`${rrifIncome/1000} k`}
                                 <span>RRIF</span>
                                 </Summary>
+                                <Summary style={{borderLeft: ".2px solid #DCDCDC"}}>
+                                {`${retirementTaxRate}%`}
+                                <span>Tax Rate</span>
+                                </Summary>
                         </PensionIncomeWrapper>
                         <Summary>
                         {totalPensionIncome}
@@ -69,12 +74,11 @@ import calculateMarginalTaxRate from "../../../services/taxCalculationServices/t
             <ChartWrapper>
                     <StackedBarChart 
                     data={data}
-                    height={300}
+                    height={270}
                     width={300}
                     stackedKeys={stackedKeys}
             />
             </ChartWrapper>
- 
             </LifetimeIncomeTileWrapper>
         )
     }
@@ -92,7 +96,8 @@ export default connect(mapStateToProps)(LifetimeIncomeTile)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const LifetimeIncomeTileWrapper = styled.div`
+const LifetimeIncomeTileWrapper = styled(NavLink)`
+  text-decoration: none;
   grid-area: e;
   color: ${props => props.theme.color.contrastText1};
   border-left: ${props => props.theme.border.primary};
@@ -122,7 +127,7 @@ const Right = styled.div`
     align-items: center;
 `
 const LargeTotal = styled.div`
-    font-size: ${props => props.theme.fontSize.large2};
+    font-size: ${props => props.theme.fontSize.large};
     font-weight: 300;
     text-align: center;
     color: ${props => props.theme.color.salmon};
@@ -136,7 +141,7 @@ const Title = styled.div `
    
 ` 
 const ChartWrapper = styled.div`
-    margin-top: -9rem;
+    margin-top: -8rem;
     margin-left: -2rem;
 
 
@@ -149,7 +154,7 @@ const Summary = styled.div`
     justify-content: center;
     text-align: center;
     margin-top: 1rem;
-    font-size: ${props => props.theme.fontSize.medium};
+    font-size: ${props => props.theme.fontSize.smallMedium};
     span {
         font-size: ${props => props.theme.fontSize.small};
         font-style: italic;
@@ -159,7 +164,7 @@ const Summary = styled.div`
 `
 const PensionIncomeWrapper = styled.div`
     display: flex;
-    width: 40%;
+    width: 60%;
     border-bottom: ${props => props.theme.border.primary};
 `
 

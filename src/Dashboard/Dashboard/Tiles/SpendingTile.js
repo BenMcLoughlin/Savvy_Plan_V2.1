@@ -1,44 +1,45 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
+import { NavLink} from "react-router-dom"
 
  class NetWorthTile extends Component {
      
     render() {
 
         return (
-            <NetWorthTileWrapper>
+            <NetWorthTileWrapper to="/Spending">
                 <Left>
+                <LargeTotal>
+                    140 k
+                    <span>
+                    Net Worth
+                    </span>
+                </LargeTotal>
+               </Left>
+               <Vr/>
+                <Right>
                     <LeftTop>
                         <Total>
-                            67 k
+                            242 k
                         </Total>
                         <Summary>
-                            Income
-                            <span>After Tax</span>
+                            Assets
+                            <span>What you own</span>
                         </Summary>
                     </LeftTop>
                     <Hr></Hr>
                     <LeftBottom>
                         <Total>
-                            31 k
+                            102 k
                         </Total>
                         <Summary y>
-                            Spending
-                            <span>Fixed Costs</span>
+                            Liabilities
+                            <span>What you owe</span>
                         </Summary>
                     </LeftBottom>
-                </Left>
-                <Vr/>
-                <Right>
-                    <LargeTotal>
-                        36 k
-                        <span>
-                        Variable Spending Limit
-                        </span>
-                    </LargeTotal>
-
                 </Right>
+             
             </NetWorthTileWrapper>
         )
     }
@@ -55,15 +56,21 @@ export default connect(mapStateToProps)(NetWorthTile)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const NetWorthTileWrapper = styled.div`
+const NetWorthTileWrapper = styled(NavLink)`
+  text-decoration: none;
   grid-area: b;
   display: flex;
   justify-content: center;
   color: ${props => props.theme.color.contrastText1};
   cursor: pointer;
+  border-radius: 5px;
+  border-right: ${props => props.theme.border.primary};
+  &:hover {
+
+  }
 
 `
-const Left = styled.div`
+const Right = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -80,7 +87,7 @@ const Total = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: -.5rem;
-    font-size: ${props => props.theme.fontSize.medium};
+    font-size: ${props => props.theme.fontSize.smallMedium};
     
     font-weight: 300;
 `
@@ -92,7 +99,7 @@ const Summary = styled.div`
     text-align: left;
     padding: 1rem;
     margin-top: 1rem;
-    font-size: ${props => props.theme.fontSize.medium};
+    font-size: ${props => props.theme.fontSize.smallMedium};
     span {
         font-size: ${props => props.theme.fontSize.small};
         font-style: italic;
@@ -123,11 +130,11 @@ const Vr = styled.div`
     border-left: ${props => props.theme.border.primary};
 `
 
-const Right = styled.div`
+const Left = styled.div`
     width: 45%;
 `
 const LargeTotal = styled.div`
-    font-size: ${props => props.theme.fontSize.large2};
+    font-size: ${props => props.theme.fontSize.large};
     font-weight: 300;
     text-align: center;
     margin-top: 3rem;

@@ -56,10 +56,11 @@ const StyledTilePane = styled.div`
     width: 90vw;
     height: 100vh;
     display: grid;
+    grid-gap: 1rem;
     grid-template-columns: repeat(12, minmax(5rem, 100%));
     grid-template-rows: minmax(12rem, 14rem) 1rem repeat(2, minmax(18rem, 32rem));
     grid-template-areas:
-    "a a a a a b b b b c c c"
+    "a a a a b b b b c c c c"
     "h h h h h h h h h h h h"
     "d d d e e e e e e e e e"
     "f f f g g g g g g g g g";
@@ -69,6 +70,7 @@ const StyledTilePane = styled.div`
 `
 const HorizontalLine = styled.div`
     grid-area: h;
+    height: 1px;
     border-top: ${props => props.theme.border.primary};
 `
 

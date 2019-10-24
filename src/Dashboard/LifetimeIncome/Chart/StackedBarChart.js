@@ -17,7 +17,7 @@ componentDidUpdate() {
 
     render() {
         return (
-            <div className="canvas" style={{height: "80rem"}} >
+            <div className="canvas" style={{marginLeft: "4rem"}} >
                 
             </div>
         )

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
+import { NavLink} from "react-router-dom"
 
  class CreditScore extends Component {
      
     render() {
 
         return (
-            <CreditScoreWrapper>
+            <CreditScoreWrapper to="/CreditScore">
                 <LargeTotal>
                     782 
                     <span>
@@ -30,7 +31,8 @@ export default connect(mapStateToProps)(CreditScore)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const CreditScoreWrapper = styled.div`
+const CreditScoreWrapper = styled( NavLink)`
+  text-decoration: none;
   grid-area: c;
   display: flex;
   justify-content: center;

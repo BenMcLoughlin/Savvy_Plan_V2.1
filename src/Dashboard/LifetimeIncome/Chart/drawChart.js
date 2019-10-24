@@ -16,7 +16,7 @@ const drawChart = (props) => {
 
     const height = props.height
     const width = getDivWidth(".canvas");
-    const margin = {top: 20, right: 20, bottom: 100, left: 90}
+    const margin = {top: 20, right: 20, bottom: 100, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ['#7DA8B8',"#F7CDAB", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
@@ -52,6 +52,9 @@ const drawChart = (props) => {
         const div = d3.select(".canvas").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
+                        .style("position", "absolute")
+                        .style("top", 0)
+                        .style("left", 0)
    
     
     const update = data => {
@@ -64,35 +67,6 @@ const drawChart = (props) => {
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
 
-        var lineChartY = yScale(70000);
-
-  
-
-            {
-                if (props.showOASThreshold) {
-
-                    graph.append('line')
-                    .style('stroke', '#93979d')
-                    .style('stroke-width', '1px')
-                    .attr('x1', margin.left + 350)
-                    .attr('y1', lineChartY)
-                    .attr('x2', width - margin.right)
-                    .attr('y2', lineChartY);
-
-                    graph.append("g")
-                    .append("text")
-                      .attr("fill", 'grey')
-                      .attr("font-size", "1.4rem")
-                      .text("Old Age Security ClawBack Threshold")
-                      .attr('x', margin.left + 370)
-                      .attr('y', lineChartY - 15)
-                }  
-                    
-
-            }
-        
-  
-            
 
 
     const rects = graph.append("g")

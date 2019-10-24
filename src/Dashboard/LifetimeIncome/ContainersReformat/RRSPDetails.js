@@ -1,8 +1,8 @@
-import SectionHeader from "../../../../UI/Headers/SectionHeader"
-import styled, {keyframes, css} from "styled-components"
-import RangeBar from "../../../../UI/RangeBar/RangeBar"
-import MiniRangeBar from "../../../../UI/MiniRangeBar/MiniRangeBar"
-import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../../services/financialFunctions"
+
+import styled from "styled-components"
+import RangeBar from "../../../UI/RangeBar/RangeBar"
+import MiniRangeBar from "../../../UI/MiniRangeBar/MiniRangeBar"
+import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../services/financialFunctions"
 
 import React, { Component } from 'react'
 
@@ -24,7 +24,7 @@ export default class RRSPDetails extends Component {
             const startAge = this.props.lifetimeIncomeVariableState.rrspDetails.widthdrawalStartAge.rangeBarValue
 
             const RRIFPaymentTable = calculateRRIFPaymentTable(65, futureRRSPValue, 0.03)
-            
+        
             let position = 0
             for (let i = startAge; i < 95; i++) {
                 position++
@@ -57,37 +57,21 @@ export default class RRSPDetails extends Component {
                                                                  
          )
      }
-    rrspDetailsMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(2)
 
-    miniRenderRangeBars = (miniRangeBarPropsArray) => {
-        return miniRangeBarPropsArray.map(propsObject => <MiniRangeBar id={propsObject.name}
-                                                                  key={propsObject.name}
-                                                                  handleSetParentRangeBarAndFinancialValue={this.handleSetParentRangeBarAndFinancialValue}
-                                                                  rangeBarProps={propsObject}
-                                                                  />
-                                                                 
-         )
-     }
   
     render() {
 
         return (
             <RRSPDetailsWrapper>
-            <SectionHeader
-                    text="RRSP Details"
-                    toggleOpenAndClosed={this.props.toggleOpenAndClosed}
-                    sectionOpen={this.props.sectionOpen}
-                    total ={this.props.lifetimeIncomeVariableState.futureRRSPValue}
-                    subText={"Est. Future Value"}
-                />
-                <Expanded open={this.props.sectionOpen}>           
-                {this.renderRangeBars(this.props.rrspDetailsRangeBarArray)}     
 
-                <MiniRangeBarWrapper>
-                    {this.miniRenderRangeBars(this.props.rrspDetailsMiniRangeBarArray)}
-                </MiniRangeBarWrapper>
+     
+            <RangeBarWrapper>
+            {this.renderRangeBars(this.props.rrspDetailsRangeBarArray)}     
+            </RangeBarWrapper>
+              
+
+
              
-            </Expanded>
         </RRSPDetailsWrapper>        )
     }
 }
@@ -104,30 +88,14 @@ const RRSPDetailsWrapper = styled.div`
 const MiniRangeBarWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    margin-top: -3rem;
 `
-
-const animationOpen = keyframes`
-  0% { max-height: 0rem; }
-  100% { max-height: 100rem; }
-`
-const animationClose = keyframes`
-  0% { max-height: 100rem; }
-  100% { max-height: 0rem; }
-`
-
-const Expanded = styled.div`
-  animation: ${animationOpen} 0.9s 0s both;
-  background-color: ${props => props.theme.color.background1};
-  border: 1px solid  ${props => props.theme.color.background3};
-  border-radius: 3px;
-  overflow: scroll;
-  position: relative;
-  text-align: left;
-  height: 30rem;
-
-  ${ props => !props.open && css`
-     animation: ${animationClose} 0.4s 0s both;
-  `};
+const RangeBarWrapper = styled.div`
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    margin-left: 2rem;
+    margin-top: 2rem;
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
