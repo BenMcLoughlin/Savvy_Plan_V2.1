@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Header from "./Header"
+import HeaderNew from "./HeaderNew"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "../Dashboard/Dashboard/Dashboard"
@@ -40,7 +41,7 @@ export default class Layout extends Component {
         return (
             <ThemeProvider theme={this.state.theme}>
             <>
-            <Header setDarkTheme={this.setDarkTheme} setLightTheme={this.setLightTheme}/>
+            <HeaderNew />
             <GridContainer>
                     <Route path="/Dashboard" component={Dashboard}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
@@ -66,7 +67,8 @@ export default class Layout extends Component {
  const GridContainer = styled.div`
 
     height: 100vh;
-    width: 100vw;
+    margin: 0 auto;
+    width: 80vw;
     display: grid;
     grid-template-rows: 1fr 5rem;
     grid-template-columns: repeat(12, 1fr);

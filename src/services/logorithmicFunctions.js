@@ -1,4 +1,4 @@
-export const logslider = (position) => {
+export const logslider = (value, max) => {
     var minp = 0;
     var maxp = 100;
   
@@ -9,7 +9,7 @@ export const logslider = (position) => {
     // calculate adjustment factor
     var scale = (maxv-minv) / (maxp-minp);
   
-    return Math.exp(minv + scale*(position-minp));
+    return Math.exp(minv + scale*(value-minp));
   }
 
   

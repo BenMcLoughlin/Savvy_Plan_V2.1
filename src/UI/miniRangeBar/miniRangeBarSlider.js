@@ -50,7 +50,7 @@ const Input = styled.input`
     opacity: 0.7;
     -webkit-transition: 0.2s;
     border-radius: 12px;
-    margin-top: 2rem;
+    margin-top: 1rem;
     margin-bottom: 2rem;
     transition: all 1s ease;
 

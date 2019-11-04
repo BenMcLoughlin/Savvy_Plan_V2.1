@@ -22,7 +22,6 @@ export default class ControlPanel extends Component {
                         incomeTypeArray={this.props.incomeTypeArray}
                         handleRemoveItem={this.props.handleRemoveItem}
                         addItemToList={this.props.addItemToList}
-                        totalAnnualIncome={this.props.totalAnnualIncome}
                     />
                 </Left>
                 <Center>
@@ -64,6 +63,8 @@ const ControlPanelWrapper = styled.div`
     grid-area: d;
     display: flex;
     color: ${props => props.theme.color.contrastText1};
+    border-top: ${props => props.theme.border.primary};
+    padding-top: 2rem;
 `
 
 const Left = styled.div`

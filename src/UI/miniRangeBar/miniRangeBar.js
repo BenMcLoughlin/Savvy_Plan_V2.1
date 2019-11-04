@@ -40,7 +40,7 @@ export default class RangeBar extends Component {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`
-    margin-top: 3rem;
+    margin-top: 1rem;
     padding-left: 2rem;
     width: 48%;
     display: flex;

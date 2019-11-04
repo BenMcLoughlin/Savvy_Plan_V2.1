@@ -1,28 +1,13 @@
 import React, { Component } from 'react'
-import styled, {keyframes, css} from "styled-components"
-import SectionHeader from "../../../UI/Headers/SectionHeader"
+import styled from "styled-components"
 import RangeBar from "../../../UI/RangeBar/RangeBar"
 import AddItemBox from "../../../UI/AddItemBox/AddItemBox"
 
 
 
 
-export default class IncomeInput extends Component {
-    state = {
-        sectionOpen: true,
-    }
+export default class RegularIncomeInput extends Component {
 
-   toggleOpenAndClosed = ()=> {
-        const show = this.state.sectionOpen
-        this.setState({
-            sectionOpen: !show
-        })
-        console.log(this.state.sectionOpen);
-    }
-
-    handleClickToAddNewItem = () => {
-
-    }
 
     renderRangeBars = (incomeTypeArray) => {
        return incomeTypeArray.map(incomeType => <RangeBar id={incomeType.name}
@@ -42,18 +27,11 @@ export default class IncomeInput extends Component {
 
         return (
 
-                <IncomeInputWrapper>
-                {this.renderRangeBars(this.props.incomeTypeArray)}
-  
-                    <AddItemBox
-                        firstButtonText={"Add New Income"}
-                        listNewItemWillBeAddedToo={this.props.incomeTypeArray}
-                        addItemToList={this.props.addItemToList}
-                        checkboxLabel={"Contribute To Canada Pension Plan?"}
+             <RegularIncomeWrapper>
 
-                    />
+             {this.renderRangeBars(this.props.regularIncomeRangeBarValues)}
 
-            </IncomeInputWrapper>
+            </RegularIncomeWrapper>
 
         )
     }
@@ -65,11 +43,12 @@ export default class IncomeInput extends Component {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 
-const IncomeInputWrapper = styled.div`
+const RegularIncomeWrapper = styled.div`
   overflow: hidden;
   position: relative;
   text-align: center;
   margin-left: 2rem;
+  margin-top: 2rem;
 
 `
 

@@ -1,4 +1,6 @@
+import {calculateFutureValue} from "../../../services/financialFunctions"
 const initialState = {
+    birthYear: 1988,
     fromAge: 18, 
     toAge: 65, 
     rrspDetails: {
@@ -25,9 +27,9 @@ const initialState = {
             numberType: "percentage",
 
         },
-        widthdrawalStartAge: {
-            name: "widthdrawalStartAge",
-            label: "Withdrawal Start Age",
+        withdrawalStartAge: {
+            name: "withdrawalStartAge",
+            label: "Convert RRSP to RRIF",
             rangeBarValue: 65, 
             min: 55,
             max: 72,
@@ -58,14 +60,23 @@ const initialState = {
     },
     futureRRSPValue: 0,
 
+
 }
 
 
 const lifeTimeIncomeVariableState = (state = initialState, action) => {
     switch(action.type) {
         case "SET_AGE_RANGE": return {...state, fromAge: action.payload.fromAge, toAge: action.payload.toAge}
-        case "SET_FUTURE_RRSP_VALUE": return {...state, futureRRSPValue: action.payload.financialValue
-        }
+        case "SET_FUTURE_RRSP_VALUE": {
+            const rrspReturn = state.rrspDetails.estimatedReturn.rangeBarValue
+            const rrspPresentValue = state.rrspDetails.rrspValue.financialValue
+            const rrspNumberOfPeriods = state.rrspDetails.withdrawalStartAge.rangeBarValue - 30
+            const rrspPayment = state.rrspDetails.rrspContributions.financialValue
+        
+            const futureRRSPValue = calculateFutureValue(rrspReturn, rrspNumberOfPeriods ,rrspPayment,rrspPresentValue)
+
+            return {...state, futureRRSPValue: futureRRSPValue
+        }}
         case "SET_LIFETIME_INCOME_VARIABLE": return {...state, [action.payload.name]: action.payload.value
         }
         case "SET_RRSP_DETAILS": return {...state, rrspDetails: {

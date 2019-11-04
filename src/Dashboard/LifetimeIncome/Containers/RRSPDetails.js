@@ -1,8 +1,7 @@
 
 import styled from "styled-components"
 import RangeBar from "../../../UI/RangeBar/RangeBar"
-import MiniRangeBar from "../../../UI/MiniRangeBar/MiniRangeBar"
-import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../services/financialFunctions"
+import {calculateFutureValue, calculateRRIFPaymentTable, abbreviateNum} from "../../../services/financialFunctions"
 
 import React, { Component } from 'react'
 
@@ -14,25 +13,25 @@ export default class RRSPDetails extends Component {
 
             const rrspReturn = this.props.lifetimeIncomeVariableState.rrspDetails.estimatedReturn.rangeBarValue
             const rrspPresentValue = this.props.lifetimeIncomeVariableState.rrspDetails.rrspValue.financialValue
-            const rrspNumberOfPeriods = this.props.lifetimeIncomeVariableState.rrspDetails.widthdrawalStartAge.rangeBarValue - 30
+            const rrspNumberOfPeriods = this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue - 30
             const rrspPayment = this.props.lifetimeIncomeVariableState.rrspDetails.rrspContributions.financialValue
         
             const futureRRSPValue = calculateFutureValue(rrspReturn, rrspNumberOfPeriods ,rrspPayment,rrspPresentValue)
 
-            this.props.setFutureRRSPValue(futureRRSPValue)
-
-            const startAge = this.props.lifetimeIncomeVariableState.rrspDetails.widthdrawalStartAge.rangeBarValue
+            const startAge = this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
 
             const RRIFPaymentTable = calculateRRIFPaymentTable(65, futureRRSPValue, 0.03)
         
             let position = 0
             for (let i = startAge; i < 95; i++) {
                 position++
-                this.props.setIncome(i, "rrifIncome", RRIFPaymentTable[position].withdrawal, 0, false)
+                const withdrawal = RRIFPaymentTable[position].withdrawal
+                this.props.setIncome(i, "rrifIncome", withdrawal, 0, false)
             }
             for (let i = 50; i < startAge; i++) {
                 this.props.setIncome(i, "rrifIncome", 0, 0, false)
             }
+            this.props.setFutureRRSPValue()
 
         }
 
@@ -61,6 +60,8 @@ export default class RRSPDetails extends Component {
   
     render() {
 
+        const rrspFutureValue = this.props.lifetimeIncomeVariableState.futureRRSPValue
+        const futureYear = this.props.lifetimeIncomeVariableState.birthYear + this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
         return (
             <RRSPDetailsWrapper>
 
@@ -68,7 +69,10 @@ export default class RRSPDetails extends Component {
             <RangeBarWrapper>
             {this.renderRangeBars(this.props.rrspDetailsRangeBarArray)}     
             </RangeBarWrapper>
-              
+            <Summary>
+            { abbreviateNum(rrspFutureValue, 2) }
+            <span>{`Year:${futureYear} `}</span>
+            </Summary>
 
 
              
@@ -97,6 +101,21 @@ const RangeBarWrapper = styled.div`
     margin-left: 2rem;
     margin-top: 2rem;
 `
-
+const Summary = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 18rem;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: ${props => props.theme.fontSize.medium};
+    span {
+        font-size: ${props => props.theme.fontSize.small};
+        font-style: italic;
+        text-align: center;
+    }
+    
+`
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // 

@@ -11,7 +11,7 @@ class TaxTileTile extends Component {
         return (
             <TaxTileTileWrapper to="/Tax">
             
-            <img src={require("../../../assets/images/Tax_Tile_Position_Holder.png")} style={{height: "260px"}}/>
+            <img src={require("../../../assets/images/Tax_Tile_Position_Holder.png")} style={{height: "200px"}}/>
             </TaxTileTileWrapper>
         )
     }
@@ -32,4 +32,5 @@ const TaxTileTileWrapper = styled(NavLink)`
   text-decoration: none;
   grid-area: d;
   background: purple;
+
 `

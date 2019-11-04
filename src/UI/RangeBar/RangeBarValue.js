@@ -34,13 +34,14 @@ import {inverseLogslider} from "../../services/logorithmicFunctions"
       //If the user presses enter the new value will be submitted and it will turn from input back to regular number. 
 
     render() {
-     
+        
         return (
             <div>
             {this.state.valueAsInput ? 
              <ValueAsInput 
-                type="number"
+                type="text"
                 name={this.props.rangeBarProps.name}
+                data-a-dec=","
                 autoComplete="off"
                 onChange={(e) => this.setLocalRangeAndLogValue(e)}
                 value={this.props.rangeBarProps.financialValue}

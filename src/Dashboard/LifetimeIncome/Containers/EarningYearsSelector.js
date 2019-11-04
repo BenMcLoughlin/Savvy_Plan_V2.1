@@ -4,18 +4,6 @@ import styled from "styled-components"
 
 
 export default class EarningYearsSelector extends Component {
-
-    state = {
-        lower: this.props.lower,
-        higher: this.props.higher
-    }
-    componentDidUpdate() {
-        return this.state.lower !== this.props.lower ? 
-        this.setState({
-            lower: this.props.lower,
-            higher: this.props.higher
-        }) : null
-    }
     render() {
        const lower= this.props.lower
        const higher= this.props.higher
@@ -24,8 +12,7 @@ export default class EarningYearsSelector extends Component {
             <EarningYearsSelectorWrapper>
             <Title>Estimate Future Income</Title>
             <SelectorTitleWrapper>
-                <SelectorTitle>From Age</SelectorTitle>
-               
+                <SelectorTitle>From Age</SelectorTitle>      
                 <SelectorTitle>To Age</SelectorTitle>
             </SelectorTitleWrapper>
                 <DualRangeBar

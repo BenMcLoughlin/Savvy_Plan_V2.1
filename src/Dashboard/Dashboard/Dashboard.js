@@ -21,7 +21,7 @@ class Dashboard extends Component {
                     <CreditScoreTile/>
                     <HomePurchaseTile/>
                     <LifetimeIncomeTile/>
-                    <HorizontalLine />
+            
                     <NetWorthTile/>
                     <SavingsPlanTile/>
                     <SpendingTile/>
@@ -52,8 +52,6 @@ const DashboardContainer = styled.div`
 `
 
 const StyledTilePane = styled.div`
-    margin: 0 auto;
-    width: 90vw;
     height: 100vh;
     display: grid;
     grid-gap: 1rem;

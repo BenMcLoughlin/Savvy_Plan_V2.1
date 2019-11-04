@@ -6,18 +6,19 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 20, right: 50, bottom: 30, left: 40}
+    const margin = {top: 100, right: 50, bottom: 30, left: 80}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ['#7DA8B8',"#F7CDAB", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
-    d3.select(".canvas > *").remove()
+    d3.select(".canvasTaxStacked > *").remove()
     d3.select(".tooltip").remove()
 
 
-    const data = props.data
+    const data = props.taxStackedData
+    console.log(props.taxStackedData[0].thisBracketIncome);
 
-    const svg = d3.select('.canvas').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select('.canvasTaxStacked').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
 
@@ -35,28 +36,27 @@ const drawChart = (props, width, height) => {
 
     
        const stack = d3.stack()
-        .keys(props.stackedKeys)
-        .order(d3.stackOrderNone)
-        .offset(d3.stackOffsetNone);
+                        .keys(props.taxStackedKeys)
+                        .order(d3.stackOrderNone)
+                        .offset(d3.stackOffsetNone);
         
-        const tooltip = d3.select(".canvas").append("div")
+        const tooltip = d3.select(".canvasTaxStacked").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
    
-    
+
     const update = data => {
     
-        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 90000 ? 90000 : 
-                        d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 10000
+        const d3Max = d3.max(data, d =>  d.incomeAfterTax ) < 90000 ? 90000 : 
+                        d3.max(data, d => d.incomeAfterTax ) + 10000
 
         const series = stack(data);
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
-        .domain(data.map(item => item.age))
-
+        .domain(data.map(item => item.bracket))
 
 
     const rects = graph.append("g")
@@ -68,7 +68,7 @@ const drawChart = (props, width, height) => {
         rects.selectAll("rect")
             .data(d => d)
             .enter().append("rect")
-                .attr("x", d => xScale(d.data.age))
+                .attr("x", d => xScale(d.data.bracket))
                 .attr("y", d => yScale(d[1]))
              .merge(rects)
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
@@ -81,15 +81,15 @@ const drawChart = (props, width, height) => {
             .selectAll("rect") 
             .data(d => d)
             .enter().append("rect")
-                .attr("x", d => xScale(d.data.age))
+                .attr("x", d => xScale(d.data.bracket))
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
                 .attr("width", xScale.bandwidth())
                             .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
-                                const nameIndex = props.stackedKeys.findIndex(type => type === name)
+                                const nameIndex = props.taxStackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                                const thisYearTotalIncome = Object.values(props.data[i]).slice(1).reduce((acc, num) => acc + num)
+                                const thisYearTotalIncome = props.taxStackedData[1].incomeAfterTax
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)
@@ -104,21 +104,20 @@ const drawChart = (props, width, height) => {
                                         tooltip.html(
                                             `
                                             <div class="topHeader">
-                                                <p> ${(d.data.age)} Yrs Old</p>
-                                                <p>  Year ${(d.data.age + 1988)} </p>
+                                          
                                             </div>
                                             <div class="financialOutput">
                                                 <div class="total" style="color: ${thisColor}; ">
                                                     <h3 class="title">  ${_.startCase(name)} </h3>
                                                     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                        ${(d[1] - d[0])/1000} 
+                                                    ${Math.round((d[1] - d[0]).toFixed()/1000)*1000/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
                                                 <div class="total">
-                                                    <h3 class="title">  Total Income </h3>
+                                                    <h3 class="title"> Total Income In Bracket </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${thisYearTotalIncome/1000} 
+                                                    
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -141,8 +140,8 @@ const drawChart = (props, width, height) => {
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
-            var ticks = [20,40, 60, 80, 95];
-            var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
+            var ticks = [1,2,3,4,5,6];
+            var tickLabels = ['Bracket 1','Bracket 2','Bracket 3','Bracket 4','Bracket 5']
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
@@ -188,17 +187,16 @@ componentDidUpdate() {
     drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
 }
 componentUnMount() {
-    console.log('unmounted');
-}
 
+}
 
 
     render() {
 
         window.addEventListener('resize', this.updateSize)
-        console.log(this.props.data);
+
         return (
-            <Canvas className="canvas" ref={taxDonutCanvas => this.divRef = taxDonutCanvas}>
+            <Canvas className="canvasTaxStacked" ref={taxStackedCanvas => this.divRef = taxStackedCanvas}>
                 
             </Canvas>
         )
@@ -214,3 +212,25 @@ const Canvas = styled.div`
         position: relative;
 
 `
+
+
+// <div class="topHeader">
+// <p> Marginal Rate: ${((+d.data.federalTax + +d.data.provincialTax + +d.data.CppAndEI )/thisYearTotalIncome *100).toFixed()}%</p>
+// </div>
+// <div class="financialOutput">
+// <div class="total" style="color: ${thisColor}; ">
+//     <h3 class="title">  ${_.startCase(name)} </h3>
+//     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
+//         ${Math.round((d[1] - d[0]).toFixed()/1000)*1000/1000} 
+//         <span> K</span>
+//     </p>
+// </div>
+// <div class="total">
+//     <h3 class="title"> Total Income In Bracket </h3>
+//     <p class="value" style="border-left: .3px solid #72929B;">  
+//         ${Math.round(thisYearTotalIncome/1000)*1000/1000} 
+//         <span> K</span>
+//     </p>
+// </div>
+// </div>
+// `

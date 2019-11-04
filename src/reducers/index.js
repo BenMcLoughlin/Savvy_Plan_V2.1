@@ -4,6 +4,7 @@ import {tilePaneReducer} from "./tilePaneReducers"
 import {netWorthState} from "../Dashboard/NetWorth/reducers/netWorthReducers"
 import lifetimeIncomeYearListState from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeYearList"
 import lifetimeIncomeVariableState from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeVariables"
+import taxVariables from "../Dashboard/Tax/reducers/taxVariables"
 
 export default combineReducers({
 
@@ -12,6 +13,7 @@ export default combineReducers({
     netWorthState,
     lifetimeIncomeYearListState,
     lifetimeIncomeVariableState,
+    taxVariables,
    
 })
 

@@ -45,23 +45,15 @@ export default class PensionIncomeStartAges extends Component {
  
      
     }
-    handleSetParentRRSPRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
-            
+    handleSetParentRRSPRangeBarAndFinancialValue = (name, financialValue, rangeBarValue) => {
+            console.log(name);
         this.props.handleSetRRSPDetails(name, financialValue, rangeBarValue,)
+        this.props.setFutureRRSPValue()
 
-        const rrspReturn = this.props.lifetimeIncomeVariableState.rrspDetails.estimatedReturn.rangeBarValue
-        const rrspPresentValue = this.props.lifetimeIncomeVariableState.rrspDetails.rrspValue.financialValue
-        const rrspNumberOfPeriods = this.props.lifetimeIncomeVariableState.rrspDetails.widthdrawalStartAge.rangeBarValue - 30
-        const rrspPayment = this.props.lifetimeIncomeVariableState.rrspDetails.rrspContributions.financialValue
-    
-        const futureRRSPValue = calculateFutureValue(rrspReturn, rrspNumberOfPeriods ,rrspPayment,rrspPresentValue)
-
-        this.props.setFutureRRSPValue(futureRRSPValue)
-
-        const startAge = this.props.lifetimeIncomeVariableState.rrspDetails.widthdrawalStartAge.rangeBarValue
-
-        const RRIFPaymentTable = calculateRRIFPaymentTable(65, futureRRSPValue, 0.03)
-        console.log(RRIFPaymentTable[3].withdrawal);
+        const startAge =  this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
+   
+        const RRIFPaymentTable = calculateRRIFPaymentTable(startAge, this.props.lifetimeIncomeVariableState.futureRRSPValue, 0.03)
+  
         let position = 0
         for (let i = startAge; i < 95; i++) {
             position++

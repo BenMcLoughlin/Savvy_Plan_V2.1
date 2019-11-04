@@ -41,6 +41,7 @@ import { NavLink} from "react-router-dom"
                     <LargeTotal>
                     <Title>Retirement Income Shortfall</Title>
                     {shortFall}
+                    <ToolTip>This is the tool Til</ToolTip> 
                     </LargeTotal>
                 </Left>
                 <Right>
@@ -131,8 +132,19 @@ const LargeTotal = styled.div`
     font-weight: 300;
     text-align: center;
     color: ${props => props.theme.color.salmon};
+    &:hover &:ToolTip {
+       
+            opacity: 1
+        
+    }
 
 `
+const ToolTip = styled.div`
+    background: red;
+    opacity: 0;
+`
+
+
 const Title = styled.div `
     font-size: ${props => props.theme.fontSize.smallMedium};
     text-align: center;
