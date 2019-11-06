@@ -102,6 +102,5 @@ const calculateMarginalTaxRate = (beforeTaxIncome) => {
     return Number(((provincialMarginalRate + federalMarginalRate) *100).toFixed())
 }
 
-console.log(calculateMarginalTaxRate(200000));
 
 export default calculateMarginalTaxRate

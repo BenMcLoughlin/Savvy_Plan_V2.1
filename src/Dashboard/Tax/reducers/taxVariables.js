@@ -24,13 +24,6 @@ const initialState = {
             rangeBarValue: 0,
             section: "regularIncome" 
         },
-        rentalIncome: {
-            name: "rentalIncome",
-            label: "Business / Rental Income",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "regularIncome" 
-        },
     },
     taxAdvantagedIncome: {
         capitalGains: {
@@ -89,7 +82,7 @@ const initialState = {
 }
 
 
- const lifeTimeIncomeVariableState = (state = initialState, action) => {
+ const taxVariables = (state = initialState, action) => {
     switch(action.type) {
         case "SET_INCOME_FOR_TAX_CALCULATOR": return {...state, [action.payload.section]: {
                                                             ...state[action.payload.section], [action.payload.name]: {
@@ -104,4 +97,4 @@ const initialState = {
     }
 }
 
-export default lifeTimeIncomeVariableState
+export default taxVariables

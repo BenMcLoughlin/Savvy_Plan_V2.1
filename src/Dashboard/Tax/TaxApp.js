@@ -6,8 +6,7 @@ import ControlPanel from "./Containers/ControlPanel"
 import TaxDonutChart  from "./Charts/TaxDonutChart"
 import TaxStackedBarChart  from "./Charts/TaxStackedBarChart"
 import {setIncomeForTaxCalculator} from "./actions"
-import {CRAFactors, provincialTaxRates, federalTaxRates} from "./services/TaxRateData"
-import {calculateFederalTaxes, calculateProvincialTaxes, calculateCPPandEI, calculateTaxesByBracket} from "./services/CRATaxCalculations"
+import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 class TaxApp extends Component {
 
@@ -26,47 +25,48 @@ class TaxApp extends Component {
     const EI = this.props.taxVariables.regularIncome.employmentIncome.financialValue 
     const SEI = this.props.taxVariables.regularIncome.selfEmploymentIncome.financialValue
     const II = this.props.taxVariables.regularIncome.interestIncome.financialValue
-    const RI = this.props.taxVariables.regularIncome.rentalIncome.financialValue
     const EDI = this.props.taxVariables.taxAdvantagedIncome.eligibleDividends.financialValue
     const NEDI = this.props.taxVariables.taxAdvantagedIncome.nonEligibleDividends.financialValue
     const CG = this.props.taxVariables.taxAdvantagedIncome.capitalGains.financialValue
 
-    const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG + RI
+    const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG 
 
-
-
-    const taxStackedData = calculateTaxesByBracket(EI, SEI, CG)
-    const federalTaxPayable = taxStackedData[4].totalFederalTax
+    const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI)
+    const federalTaxPayable = taxStackedData[4].totalFederalTax - taxStackedData[4].federalTaxCredits
     const provincialTaxPayable = taxStackedData[4].totalProvincialTax
     const CPPandEI = taxStackedData[4].cppAndEI
-    const totalCredits = taxStackedData[0].taxCredits
     const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + CPPandEI 
-
-    const afterTaxIncome = beforeTaxIncome - totalTaxLiability 
     const averageRate = totalTaxLiability/beforeTaxIncome 
 
 
     const taxStackedKeys = ["incomeAfterTax", "taxCredits","federalTax", "provincialTax", "cppAndEI",]
-
+    
+    const taxesByBracket = taxStackedData
+    const totalFederalTax = Object.values(taxesByBracket.map(d => d.federalTax)).reduce((acc,num) => acc + num)
+    const totalProvincialTax = Object.values(taxesByBracket.map(d => d.provincialTax)).reduce((acc,num) => acc + num)
+    const totalCppAndEI = Object.values(taxesByBracket.map(d => d.cppAndEI)).reduce((acc,num) => acc + num)
+    const totalCredits = Object.values(taxesByBracket.map(d => d.taxCredits)).reduce((acc,num) => acc + num)
+    const afterTaxIncome = Object.values(taxesByBracket.map(d => d.incomeAfterTax)).reduce((acc,num) => acc + num)
 
     const taxDonutChartData = [
       {name: "afterTaxIncome", 
       value: afterTaxIncome
       },
-      {name: "federalTaxPayable", 
-      value: federalTaxPayable
-      },
-      {name: "totalCredits", 
+      {name: "taxCredit", 
       value: totalCredits
       },
+      {name: "federalTaxPayable", 
+      value: totalFederalTax
+      },
       {name: "provincialTaxPayable", 
-      value: provincialTaxPayable
+      value: totalProvincialTax
       },
       {name: "CPPandEI", 
-      value: CPPandEI
+      value: totalCppAndEI
       }
     ]
 
+    console.log(taxStackedData);
      return (
        <UserInterfaceWrapper>
           <HeaderValues
@@ -119,26 +119,26 @@ const UserInterfaceWrapper = styled.div`
     background: ${props => props.theme.color.background2};
     display: grid;
     height: 100%;
-    grid-template-rows: minmax(12rem, 20rem) minmax(22rem, 25rem);
+    grid-template-rows: minmax(8rem, 10rem) minmax(24rem, 26rem);
     grid-template-columns: repeat(12, 1fr);
     grid-template-areas:
-    'a a a a a c c c c c c c'
-    'b b b b b c c c c c c c'
+    'a a a a a a a b b b b b'
+    'a a a a a a a c c c c c'
     'd d d d d d d d d d d d'
 `
-const DonutChartPlaceHolder = styled.div`
-    grid-area: b;
-    width: 100%;
-    height: 80%;
-    margin-top: -1rem;
-    
-
-`
 const StackedBarChartPlaceHolder = styled.div`
-    grid-area: c;
+    grid-area: a;
     width: 100%;
     height: 100%;  
 `
+const DonutChartPlaceHolder = styled.div`
+    grid-area: c;
+    width: 100%;
+    height: 100%;
+    
+
+`
+
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 //blank slate

@@ -8,6 +8,7 @@ import { NavLink} from "react-router-dom"
  class LifetimeIncomeTile extends Component {
      
     render() {
+
         const data = Object.values(this.props.lifetimeIncomeYearListState).map(d => {
             const incomeTypeArray = Object.keys(d.incomeType)
             const financialValueArray = Object.keys(d.incomeType).map(income => d.incomeType[income].financialValue)
@@ -17,7 +18,7 @@ import { NavLink} from "react-router-dom"
         })
      
        const stackedKeys = Object.keys(this.props.lifetimeIncomeYearListState[18].incomeType)
-
+       
        const cppIncome = this.props.lifetimeIncomeYearListState[75].incomeType.cppIncome.financialValue
        const oasIncome = this.props.lifetimeIncomeYearListState[75].incomeType.oasIncome.financialValue
        const rrifIncome = this.props.lifetimeIncomeYearListState[75].incomeType.rrifIncome.financialValue
@@ -74,10 +75,8 @@ import { NavLink} from "react-router-dom"
 
             <ChartWrapper>
                     <StackedBarChart 
-                    data={data}
-                    height={270}
-                    width={300}
-                    stackedKeys={stackedKeys}
+                        data={data}
+                        stackedKeys={stackedKeys}
             />
             </ChartWrapper>
             </LifetimeIncomeTileWrapper>
@@ -154,9 +153,8 @@ const Title = styled.div `
 ` 
 const ChartWrapper = styled.div`
     margin-top: -8rem;
-    margin-left: -2rem;
-
-
+    width: 100%;
+    height: 100%;
 `
 
 const Summary = styled.div`

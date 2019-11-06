@@ -47,11 +47,10 @@ export default class HeaderValues extends Component {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const HeaderValuesWrapper = styled.div`
-    grid-area: a;
+    grid-area: b;
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 4rem;
     color: ${props => props.theme.color.contrastText1};
 `
 

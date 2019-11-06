@@ -9,14 +9,15 @@ const drawChart = (props, width, height) => {
     const margin = {top: 100, right: 50, bottom: 30, left: 80}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#7DA8B8',"#F7CDAB", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
+    const color = ['#88adbf',"#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
 
     d3.select(".canvasTaxStacked > *").remove()
-    d3.select(".tooltip").remove()
+    d3.select(".tooltipStackedChart").remove()
+
 
 
     const data = props.taxStackedData
-    console.log(props.taxStackedData[0].thisBracketIncome);
+   
 
     const svg = d3.select('.canvasTaxStacked').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
@@ -28,7 +29,7 @@ const drawChart = (props, width, height) => {
                                  
 
     const xAxisGroup = graph.append("g")
-                            .attr("transform", `translate(0, ${graphHeight})`)
+                            .attr("transform", `translate(0, ${graphHeight + 10})`)
                             .attr("class", "axis")
                             
     const yAxisGroup = graph.append("g")
@@ -41,11 +42,12 @@ const drawChart = (props, width, height) => {
                         .offset(d3.stackOffsetNone);
         
         const tooltip = d3.select(".canvasTaxStacked").append("div")
-                        .attr("class", "tooltip")
+                        .attr("class", "tooltipStackedChart")
                         .style("opacity", 0)
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
+
    
 
     const update = data => {
@@ -58,6 +60,8 @@ const drawChart = (props, width, height) => {
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.bracket))
 
+
+ 
 
     const rects = graph.append("g")
         .selectAll("g")
@@ -73,7 +77,15 @@ const drawChart = (props, width, height) => {
              .merge(rects)
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
                 .attr("width", xScale.bandwidth())
-    
+            
+                rects.append("text")
+                .attr("text-anchor", "middle")
+                .attr("x", xScale.bandwidth()/2)
+                .attr("y", function(d) { return yScale("bboobies"); }) // d.total!
+                .style("fill", "black")
+                .text(function(d) { return "bboobies" });
+
+//    
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
             .attr("backgroundColor", (d,i) => color[i])
@@ -85,26 +97,26 @@ const drawChart = (props, width, height) => {
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
                 .attr("width", xScale.bandwidth())
+      
                             .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = props.taxStackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                                const thisYearTotalIncome = props.taxStackedData[1].incomeAfterTax
+                                const thisYearTotalIncome = props.taxStackedData[i].incomeAfterTax
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)
-                                        .attr("opacity", 0.7)
+                                        .attr("opacity", 0.9)
                                         .attr("cursor", "pointer")
                             
                                         tooltip.transition()
                                         .duration(200)
                                         .style("opacity", 1)
                                         .style("pointer-events", "none")
-
                                         tooltip.html(
                                             `
                                             <div class="topHeader">
-                                          
+                                          hi
                                             </div>
                                             <div class="financialOutput">
                                                 <div class="total" style="color: ${thisColor}; ">
@@ -117,7 +129,7 @@ const drawChart = (props, width, height) => {
                                                 <div class="total">
                                                     <h3 class="title"> Total Income In Bracket </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                    
+                                                
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -139,9 +151,10 @@ const drawChart = (props, width, height) => {
                                             tooltip.style('top', (d3.event.layerY - 20) + 'px') // always 10px below the cursor
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
-                        
+
             var ticks = [1,2,3,4,5,6];
             var tickLabels = ['Bracket 1','Bracket 2','Bracket 3','Bracket 4','Bracket 5']
+                
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)

@@ -3,7 +3,7 @@ import ControlPanel from "./Containers/ControlPanel"
 import HeaderValues from "./Containers/HeaderValues"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import StackedBarChart from "./Chart/StackedBarChart.js"
+import StackedBarChartLifetimeIncome from "./Chart/StackedBarChart.js"
 import {setIncome, changeLabel, removeItem, 
     addItem, setRRSPDetails, setAgeRange, 
     setFutureRRSPValue, setPensionStartAge, 
@@ -127,7 +127,7 @@ import {setIncome, changeLabel, removeItem,
                 lifetimeIncomeYearListState = {this.props.lifetimeIncomeYearListState}
                 />
                 <ChartPlaceHolder>
-                <StackedBarChart 
+                <StackedBarChartLifetimeIncome
                     data={data}
                     stackedKeys={stackedKeys}
                 />

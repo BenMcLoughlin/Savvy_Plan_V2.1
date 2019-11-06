@@ -73,6 +73,7 @@ const drawChart = (props, width, height) => {
              .merge(rects)
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
                 .attr("width", xScale.bandwidth())
+                
     
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
@@ -161,7 +162,7 @@ const drawChart = (props, width, height) => {
     
 }
 
-export default class StackedBarChart extends Component {
+export default class StackedBarChartLifetimeIncome extends Component {
 
     state = {
         elementWidth: 0,
