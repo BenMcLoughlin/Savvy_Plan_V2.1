@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {inverseLogslider} from "../../services/logorithmicFunctions"
+import {inverseLogslider} from "../../../services/logorithmicFunctions"
 
  class MiniRangeBarValue extends Component {
     state = {

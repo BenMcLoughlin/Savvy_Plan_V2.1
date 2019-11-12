@@ -2,8 +2,8 @@ import {combineReducers} from "redux"
 import {tilePaneReducer} from "./tilePaneReducers"
 //import authReducer from "./authReducer"
 import {netWorthState} from "../Dashboard/NetWorth/reducers/netWorthReducers"
-import lifetimeIncomeYearListState from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeYearList"
-import lifetimeIncomeVariableState from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeVariables"
+import lifetimeIncomeYearList from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeYearList"
+import lifetimeIncomeVariables from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeVariables"
 import taxVariables from "../Dashboard/Tax/reducers/taxVariables"
 
 export default combineReducers({
@@ -11,8 +11,8 @@ export default combineReducers({
     tilePaneData: tilePaneReducer,
  //   auth: authReducer,
     netWorthState,
-    lifetimeIncomeYearListState,
-    lifetimeIncomeVariableState,
+    lifetimeIncomeYearList,
+    lifetimeIncomeVariables,
     taxVariables,
    
 })

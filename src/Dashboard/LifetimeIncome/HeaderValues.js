@@ -20,14 +20,14 @@ export default class HeaderValues extends Component {
             incomeType : { cppIncome : {financialValue: cppIncome }},                                           //Grabs and assigns variable names from reducer
             incomeType : { oasIncome : {financialValue: oasIncome }},
             incomeType : { rrifIncome : {financialValue: rrifIncome }},
-        } = this.props.lifetimeIncomeYearListState[75]
+        } = this.props.lifetimeIncomeYearList[75]
 
 //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
         const totalRetirementIncome = Object.values(incomeType)                                                 //Determines total income in retirement
                                                     .map(d => d.financialValue)
                                                     .reduce((acc, num) => acc + num)
 
-        const workingLifetimeEarnings = Object.values(this.props.lifetimeIncomeYearListState)                   // turn object into array
+        const workingLifetimeEarnings = Object.values(this.props.lifetimeIncomeYearList)                   // turn object into array
                                                 .map(d => Object.values(d.incomeType)                           // create array of income types for each year
                                                 .map(d => d.financialValue)                                     // make sub arrays just show financial value
                                                 .reduce((acc, num) => acc + num))                               // sum the earned value for each year. 

@@ -9,16 +9,16 @@ export default class RRSPDetails extends Component {
 
         setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
             
-            this.props.handleSetRRSPDetails(name, financialValue, rangeBarValue,)
+            this.props.setValue(name, financialValue, rangeBarValue, rangeBarProps)
 
-            const rrspReturn = this.props.lifetimeIncomeVariableState.rrspDetails.estimatedReturn.rangeBarValue
-            const rrspPresentValue = this.props.lifetimeIncomeVariableState.rrspDetails.rrspValue.financialValue
-            const rrspNumberOfPeriods = this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue - 30
-            const rrspPayment = this.props.lifetimeIncomeVariableState.rrspDetails.rrspContributions.financialValue
+            const rrspReturn = this.props.lifetimeIncomeVariables.pensionStartAges.rrspReturn.rangeBarValue
+            const rrspPresentValue = this.props.lifetimeIncomeVariables.rrspDetails.rrspValue.financialValue
+            const rrspNumberOfPeriods = this.props.lifetimeIncomeVariables.pensionStartAges.rrifStartAge.rangeBarValue - 30
+            const rrspPayment = this.props.lifetimeIncomeVariables.rrspDetails.rrspContributions.financialValue
         
             const futureRRSPValue = calculateFutureValue(rrspReturn, rrspNumberOfPeriods ,rrspPayment,rrspPresentValue)
 
-            const startAge = this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
+            const startAge = this.props.lifetimeIncomeVariables.pensionStartAges.rrifStartAge.rangeBarValue
 
             const RRIFPaymentTable = calculateRRIFPaymentTable(startAge, futureRRSPValue, 0.03)
         
@@ -42,7 +42,7 @@ export default class RRSPDetails extends Component {
 
         addItemToList = (newItem, listNewItemWillBeAddedToo) =>  null
     
-    rrspDetailsRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(0,2)
+    rrspDetailsRangeBarArray = Object.values(this.props.lifetimeIncomeVariables.rrspDetails).slice(0,2)
        
         
     renderRangeBars = (rangeBarPropsArray) => {
@@ -60,8 +60,8 @@ export default class RRSPDetails extends Component {
   
     render() {
 
-        const rrspFutureValue = this.props.lifetimeIncomeVariableState.futureRRSPValue
-        const futureYear = this.props.lifetimeIncomeVariableState.birthYear + this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
+        const rrspFutureValue = this.props.lifetimeIncomeVariables.futureRRSPValue
+        const futureYear = this.props.lifetimeIncomeVariables.birthYear + this.props.lifetimeIncomeVariables.pensionStartAges.rrifStartAge.rangeBarValue
         return (
             <RRSPDetailsWrapper>
 

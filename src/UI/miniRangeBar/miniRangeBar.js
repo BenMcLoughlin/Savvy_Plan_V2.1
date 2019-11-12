@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import MiniRangeBarLabel from "./MiniRangeBarLabel"
-import MiniRangeBarValue from "./MiniRangeBarValue"
-import MiniRangeBarSlider from "./MiniRangeBarSlider"
+import MiniRangeBarLabel from "./Components/MiniRangeBarLabel"
+import MiniRangeBarValue from "./Components/MiniRangeBarValue"
+import MiniRangeBarSlider from "./Components/MiniRangeBarSlider"
+
 
 /*Props Required to be passed:
 1. setRangeBarAndFinancialValue 
@@ -13,7 +14,7 @@ import MiniRangeBarSlider from "./MiniRangeBarSlider"
      as well as a number types which will determine if it will display a percentage or a normal number. 
 */ 
 
-export default class RangeBar extends Component {
+export default class MiniRangeBar extends Component {
 
     render() {
         return (
@@ -24,7 +25,7 @@ export default class RangeBar extends Component {
                 />
                 <MiniRangeBarSlider
                      rangeBarProps={this.props.rangeBarProps}
-                     setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
+                     setValueInReduer={this.props.setValueInReduer}
                 />
                 <MiniRangeBarValue
                     rangeBarProps={this.props.rangeBarProps}

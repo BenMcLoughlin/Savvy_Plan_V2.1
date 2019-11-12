@@ -25,34 +25,31 @@ export default class ControlPanel extends Component {
                 <Center>
                      <Title>Estimate Future RRSP Value</Title>
                      <RRSPDetails
-                        handleSetRRSPDetails={this.props.handleSetRRSPDetails}
                         rrspDetailsRangeBarArray ={this.props.rrspDetailsRangeBarArray}
-                        lifetimeIncomeVariableState={this.props.lifetimeIncomeVariableState}
+                        lifetimeIncomeVariables={this.props.lifetimeIncomeVariables}
                         setIncome={this.props.setIncome}
                         setFutureRRSPValue={this.props.setFutureRRSPValue}
                         toggleOpenAndClosed={this.toggleOpenAndClosed}
                         clearIncomeBeforeStartAge = {this.props.clearIncomeBeforeStartAge}
+                        setValue={this.props.setValue}
                      />
                 </Center>
                 <Right>
                      <Title>Select Retirement Age</Title>
                      <PensionIncomeStartAges
-                        lifetimeIncomeVariableState={this.props.lifetimeIncomeVariableState}
-                        setPensionStartAge={this.props.setPensionStartAge}
+                        lifetimeIncomeVariables={this.props.lifetimeIncomeVariables}
                         calculateCPP={this.props.calculateCPP}
                         clearIncomeBeforeStartAge = {this.props.clearIncomeBeforeStartAge}
                         calculateOAS={this.props.calculateOAS}
-                        lifetimeIncomeYearListState={this.props.lifetimeIncomeYearListState}
-                        rrspDetailsMiniRangeBarArray ={this.props.rrspDetailsMiniRangeBarArray}
-                        handleSetRRSPDetails={this.props.handleSetRRSPDetails}
-                        setFutureRRSPValue={this.props.setFutureRRSPValue}
                         setIncome={this.props.setIncome}
+                        setValue={this.props.setValue}
                      />
                 </Right>
             </ControlPanelWrapper>
         )
     }
 }
+
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 

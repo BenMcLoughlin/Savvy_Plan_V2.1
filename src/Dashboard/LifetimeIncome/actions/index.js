@@ -78,15 +78,7 @@ export const setFutureRRSPValue = (financialValue) => {
 }
 }
 
-export const setPensionStartAge = (name, rangeBarValue) => {
-    return {
-        type: "SET_PENSION_AGE", 
-        payload: {
-            name: name,
-            rangeBarValue: rangeBarValue
-        }
-    }
-}
+
 export const setLifetimeIncomeVariable = (name, value) => {
     return {
         type: "SET_LIFETIME_INCOME_VARIABLE", 
@@ -142,11 +134,44 @@ export const clearIncomeBeforeStartAge = (selectedAge, rangeBarProps) => {
     }
    
 }
+
+export const clearRrifIncomeBeforeStartAge = (selectedAge, rangeBarProps) => {
+
+    return {
+        type: "CLEAR_RRIF_INCOME_BEFORE_START_AGE", 
+        payload: {
+           selectedAge: selectedAge,
+           name: rangeBarProps.valueThisRangeBarChanges
+        }
+    }
+   
+}
+export const calculateRRIF = (oasStartAge, selectedAge) => {
+    return {
+        type: "CALCULATE_OAS", 
+        payload: {
+            oasStartAge: oasStartAge,
+            selectedAge: selectedAge,
+        }
+    }
+}
+
 export const clearRRIFIncomeBeforeStartAge = (selectedAge) => {
     return {
         type: "CLEAR_RRIF_INCOME", 
         payload: {
            selectedAge: selectedAge
+        }
+    }
+}
+export const setValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+    return {
+        type: "SET_VALUE_IN_REDUCER", 
+        payload: {
+            name,
+            financialValue,
+            rangeBarValue,
+            section: rangeBarProps.section
         }
     }
 }

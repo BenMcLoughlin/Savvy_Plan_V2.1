@@ -1,125 +1,71 @@
-import React, { Component } from 'react'
-import styled, {keyframes, css} from "styled-components"
-import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../services/financialFunctions"
+import React from 'react'
+import {calculateRRIFPaymentTable} from "../../../services/financialFunctions"
 import MiniRangeBar from "../../../UI/MiniRangeBar/MiniRangeBar"
+import styled from "styled-components"
 
+export default function PensionIncomeStartAges( {setIncome, setValue, 
+    calculateCPP, clearIncomeBeforeStartAge, calculateOAS,
+     lifetimeIncomeVariables: {futureRRSPValue, pensionStartAges}} = this.props) {                                    //Use Destructing to assign variables and functions
+   
+    pensionStartAges = Object.values(pensionStartAges)                                                                //Converts pensionStartAges to an array so they can be mapped through to render mini rangeBars                                                          
 
-
-export default class PensionIncomeStartAges extends Component {
-
-    state = {
-        cppAge: 65,
-        sectionOpen: true,
-    }
-
-    toggleOpenAndClosed = ()=> {
-        const show = this.state.sectionOpen
-        this.setState({
-            sectionOpen: !show
-        })
-        
-    }
-    
-    handleSetParentPensionAgeRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
-      
-        console.log(rangeBarProps);
-        this.props.setPensionStartAge(name, rangeBarValue) 
-
-        if (name === "cppStartAge")  {
-            for (let age = rangeBarValue; age <=95; age ++) {
-                this.props.calculateCPP(rangeBarValue, age)
-            }
-    
-            for (let age = 60; age < rangeBarValue; age++) {
-                this.props.clearIncomeBeforeStartAge(age, rangeBarProps)
+    const setValueInReduer = (name, financialValue, rangeBarValue, rangeBarProps)  => {   
+        setValue(name, financialValue, rangeBarValue, rangeBarProps)                                                 //Takes value from rangeBar and sets it into the lifetimeIncomeVariables state
+        if  (name === "cppStartAge") {                                                                               //Checks name of value being changed and sets it into the lifetimeIncomeYearList 
+        for (let age = rangeBarValue; age <=95; age ++) {                                                            //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
+            calculateCPP(rangeBarValue, age)
             }
         }
-        else {
-        for (let age = rangeBarValue; age <=95; age ++) {
-            this.props.calculateOAS(rangeBarValue, age)
-        }
-
-        for (let age = 65; age < rangeBarValue; age++) {
-            this.props.clearIncomeBeforeStartAge(age, rangeBarProps)
+        else if  (name === "oasStartAge") {
+        for (let age = rangeBarValue; age <=95; age ++) {                                                            //Same as above but for OAS
+            calculateOAS(rangeBarValue, age)
         }
        }
- 
-     
-    }
-    handleSetParentRRSPRangeBarAndFinancialValue = (name, financialValue, rangeBarValue) => {
-        this.props.handleSetRRSPDetails(name, financialValue, rangeBarValue,)
-        this.props.setFutureRRSPValue()
+        else if  (name === "rrifStartAge") {                                                                         //Same as above but for OAS
+            let position = 0
+            const RRIFPaymentTable = calculateRRIFPaymentTable(rangeBarValue, futureRRSPValue, 0.03)                 //This table builds a withdrawal plan according to government withdrawal requirements
+            for (let i = rangeBarValue; i <= 95; i++) {                                                              //This steps through the table and sets the RRIF income for each year
+                position++
+                setIncome(i, "rrifIncome", RRIFPaymentTable[position].withdrawal, 0, false)
+            }
+       }
 
-        const startAge =  this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
-   
-        const RRIFPaymentTable = calculateRRIFPaymentTable(startAge, this.props.lifetimeIncomeVariableState.futureRRSPValue, 0.03)
-  
-        let position = 0
-        for (let i = startAge; i < 95; i++) {
-            position++
-            this.props.setIncome(i, "rrifIncome", RRIFPaymentTable[position].withdrawal, 0, false)
+       for (let age = 50; age < rangeBarValue; age++) {
+        clearIncomeBeforeStartAge(age, rangeBarProps)                                                               //As the user changes their start age the old income added to the reducer is removed
         }
-        for (let i = 50; i < startAge; i++) {
-            this.props.setIncome(i, "rrifIncome", 0, 0, false)
-        }
-
     }
 
-  
 
-    miniPensionRenderRangeBars = (pensionStartAgeMiniRangeBarArray) => {
-        return pensionStartAgeMiniRangeBarArray.map(propsObject => <MiniRangeBar id={propsObject.name}
-                                                                  className="oasStartAge"
-                                                                  key={propsObject.name}
-                                                                  setRangeBarAndFinancialValue={this.handleSetParentPensionAgeRangeBarAndFinancialValue}
-                                                                  rangeBarProps={propsObject}
-                                                                  />
-                                                                 
-         )
-         
-     }
-     rrspDetailsMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.rrspDetails).slice(2)
-
-     miniRRSPRenderRangeBars = (miniRangeBarPropsArray) => {
-         return miniRangeBarPropsArray.map(propsObject => <MiniRangeBar id={propsObject.name}
-                                                                   key={propsObject.name}
-                                                                   setRangeBarAndFinancialValue={this.handleSetParentRRSPRangeBarAndFinancialValue}
-                                                                   rangeBarProps={propsObject}
-                                                                   />
-                                                                  
-          )
-      }
-
-    render() {
-        const pensionStartAgeMiniRangeBarArray = Object.values(this.props.lifetimeIncomeVariableState.pensionAges)
-      
-        return (
-
-            <Wrapper open={this.state.sectionOpen}>
-                <MiniRangeBarWrapper>
-                {this.miniPensionRenderRangeBars(pensionStartAgeMiniRangeBarArray)}
-                </MiniRangeBarWrapper>
-                <MiniRangeBarWrapper>
-                {this.miniRRSPRenderRangeBars(this.props.rrspDetailsMiniRangeBarArray)}
-                </MiniRangeBarWrapper>
-            </Wrapper>
-
-        )
-    }
+    return (
+        <Wrapper>                                                                                                   {/* This walks through the pensionStartAges provided from the reducer and rendersa MiniRangeBar for each */}
+            {
+                pensionStartAges.map(d => <MiniRangeBar 
+                                            id={d.name}
+                                            key={d.name}
+                                            setValueInReduer={setValueInReduer}
+                                            rangeBarProps={d}
+                    />)
+            }
+        </Wrapper>                            
+    )
 }
+
+
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const MiniRangeBarWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-`
 
 const Wrapper= styled.div`
-  overflow: scroll;
-  position: relative;
-  text-align: left;
+
+  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// 
+/*
 
+This component renders the MiniRangeBars on the bottom right of the Control panel. These range bars change the pension start ages such as
+CPP, OAS, and RRIF ages at which the user would begin collecting pension. There is also one rangebar that changes the interest rate return of the
+RRSP savings. 
+
+*/

@@ -6,19 +6,19 @@ import {connect} from "react-redux"
 import StackedBarChartLifetimeIncome from "./Chart/StackedBarChart.js"
 import {setIncome, changeLabel, removeItem, 
         addItem, setRRSPDetails, setAgeRange, 
-        setFutureRRSPValue, setPensionStartAge, 
+        setFutureRRSPValue,  
         setAverageLifetimeEarnings, calculateCPP, 
         calculateOAS, 
-        clearIncomeBeforeStartAge, setLifetimeIncomeVariable} from "./actions"
+        clearIncomeBeforeStartAge, setLifetimeIncomeVariable, setValue} from "./actions"
 
 
 const LifetimeIncomeApp = (props) => {
 
 //DESTRUCTURE REDUCERS TO ASSIGN VARIABLES
         const { fromAge, toAge, rrspDetails,                                                                 //Using nested Object destructing to grab and assign main variables. 
-            pensionAges : { cppStartAge : {rangeBarValue: cppStartAge }},            
-            pensionAges : { oasStartAge : {rangeBarValue: oasStartAge }},
-        } = props.lifetimeIncomeVariableState
+            pensionStartAges : { cppStartAge : {rangeBarValue: cppStartAge }},            
+            pensionStartAges : { oasStartAge : {rangeBarValue: oasStartAge }},
+        } = props.lifetimeIncomeVariables
      
 
 //DUAL RANGEBAR SETS AGE RANGE
@@ -84,13 +84,9 @@ const LifetimeIncomeApp = (props) => {
           renderCPPandOASIncome()
       }
 
- //RRSP CALCULATIONS
-      const handleSetRRSPDetails = (name, financialValue, rangeBarValue) => {                               //used to set the rrsp details that will be used to determine rrsp income
-          props.setRRSPDetails(18, name, financialValue, rangeBarValue)
-      }
 
 //DATA CONVERSTION FOR CHART
-        const data = Object.values(props.lifetimeIncomeYearListState).map(d => {                           //the year list needs to be converted to an array so the chart can render the data
+        const data = Object.values(props.lifetimeIncomeYearList).map(d => {                           //the year list needs to be converted to an array so the chart can render the data
             const incomeTypeArray = Object.keys(d.incomeType)
             const financialValueArray = Object.keys(d.incomeType).map(income => d.incomeType[income].financialValue)
             var result = {age: d.age};
@@ -98,10 +94,10 @@ const LifetimeIncomeApp = (props) => {
           return result
         })
      
-       const stackedKeys = Object.keys(props.lifetimeIncomeYearListState[18].incomeType)                    //this provides and array of the income types that is used in building the chart
+       const stackedKeys = Object.keys(props.lifetimeIncomeYearList[18].incomeType)                    //this provides and array of the income types that is used in building the chart
        
 //DATA CONVERSTION FOR INCOME RANGEBARS
-       const incomeTypeArray = Object.values(props.lifetimeIncomeYearListState[fromAge]                     //the list of income types is mapped and a rangebar is rendered for each 
+       const incomeTypeArray = Object.values(props.lifetimeIncomeYearList[fromAge]                     //the list of income types is mapped and a rangebar is rendered for each 
         .incomeType).filter(d => d.name !== "oasIncome")                                                    //Only the income the user inputs needs a range bar so these are removed 
                     .filter(d => d.name !== "cppIncome")
                     .filter(d => d.name !== "rrifIncome") 
@@ -109,14 +105,11 @@ const LifetimeIncomeApp = (props) => {
  //DATA CONVERSTION FOR RRSP RANGEBARS
         const rrspDetailsRangeBarArray = Object.values(rrspDetails).slice(0,2)
 
- //DATA CONVERSTION FOR MINI RANGEBARS
-        const rrspDetailsMiniRangeBarArray = Object.values(rrspDetails).slice(2)
-        console.log(props.lifetimeIncomeYearListState);
 
         return (
             <UserInterfaceWrapper>
                 <HeaderValues                                                                             
-                lifetimeIncomeYearListState = {props.lifetimeIncomeYearListState} 
+                lifetimeIncomeYearList = {props.lifetimeIncomeYearList} 
                 />                                                                                          {/*Displays all the key values along the top of the page */}
                 <ChartPlaceHolder>
                 <StackedBarChartLifetimeIncome
@@ -133,17 +126,15 @@ const LifetimeIncomeApp = (props) => {
                     incomeTypeArray={incomeTypeArray}
                     handleRemoveItem={handleRemoveItem}
                     addItemToList={addItemToList}
-                    handleSetRRSPDetails={handleSetRRSPDetails}
-                    lifetimeIncomeVariableState={props.lifetimeIncomeVariableState}
+                    lifetimeIncomeVariables={props.lifetimeIncomeVariables}
                     rrspDetailsRangeBarArray ={rrspDetailsRangeBarArray}
-                    rrspDetailsMiniRangeBarArray ={rrspDetailsMiniRangeBarArray}
                     setIncome={props.setIncome}
                     setFutureRRSPValue={props.setFutureRRSPValue}
-                    setPensionStartAge={props.setPensionStartAge}
                     calculateCPP={props.calculateCPP}
                     clearIncomeBeforeStartAge = {props.clearIncomeBeforeStartAge}
                     calculateOAS={props.calculateOAS}
-                    lifetimeIncomeYearListState={props.lifetimeIncomeYearListState}
+                    lifetimeIncomeYearList={props.lifetimeIncomeYearList}
+                    setValue={props.setValue}
                 />
             </UserInterfaceWrapper>
         )
@@ -153,17 +144,17 @@ const LifetimeIncomeApp = (props) => {
 const mapStateToProps = (state) => {
 
     return {
-        lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
-        lifetimeIncomeYearListState: state.lifetimeIncomeYearListState
+        lifetimeIncomeVariables: state.lifetimeIncomeVariables,
+        lifetimeIncomeYearList: state.lifetimeIncomeYearList
     }
 }
 
 export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, 
                                         addItem, setRRSPDetails, setAgeRange,
-                                         setFutureRRSPValue, setPensionStartAge,
+                                         setFutureRRSPValue, 
                                           setAverageLifetimeEarnings, calculateCPP, 
                                           clearIncomeBeforeStartAge, calculateOAS, 
-                                          clearIncomeBeforeStartAge, setLifetimeIncomeVariable})(LifetimeIncomeApp)
+                                          clearIncomeBeforeStartAge, setLifetimeIncomeVariable, setValue})(LifetimeIncomeApp)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
