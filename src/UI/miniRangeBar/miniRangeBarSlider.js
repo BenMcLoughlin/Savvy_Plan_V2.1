@@ -14,7 +14,7 @@ class MiniRangeBarSlider extends Component {
             <Input
                 type="range"
                 name={this.props.rangeBarProps.name}
-                onChange={(e) => this.props.handleSetParentRangeBarAndFinancialValue(e.target.name, null, Number(e.target.value))}
+                onChange={(e) => this.props.setRangeBarAndFinancialValue(e.target.name, null, +e.target.value, this.props.rangeBarProps)}
                 value={this.props.rangeBarProps.rangeBarValue}
                 max={this.props.rangeBarProps.max}
                 min={this.props.rangeBarProps.min}

@@ -20,8 +20,9 @@ export default class PensionIncomeStartAges extends Component {
         
     }
     
-    handleSetParentPensionAgeRangeBarAndFinancialValue = (name, financialValue, rangeBarValue) => {
+    handleSetParentPensionAgeRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
       
+        console.log(rangeBarProps);
         this.props.setPensionStartAge(name, rangeBarValue) 
 
         if (name === "cppStartAge")  {
@@ -30,7 +31,7 @@ export default class PensionIncomeStartAges extends Component {
             }
     
             for (let age = 60; age < rangeBarValue; age++) {
-                this.props.clearCPPIncomeBeforeStartAge(age)
+                this.props.clearIncomeBeforeStartAge(age, rangeBarProps)
             }
         }
         else {
@@ -39,14 +40,13 @@ export default class PensionIncomeStartAges extends Component {
         }
 
         for (let age = 65; age < rangeBarValue; age++) {
-            this.props.clearOASIncomeBeforeStartAge(age)
+            this.props.clearIncomeBeforeStartAge(age, rangeBarProps)
         }
        }
  
      
     }
     handleSetParentRRSPRangeBarAndFinancialValue = (name, financialValue, rangeBarValue) => {
-            console.log(name);
         this.props.handleSetRRSPDetails(name, financialValue, rangeBarValue,)
         this.props.setFutureRRSPValue()
 
@@ -71,7 +71,7 @@ export default class PensionIncomeStartAges extends Component {
         return pensionStartAgeMiniRangeBarArray.map(propsObject => <MiniRangeBar id={propsObject.name}
                                                                   className="oasStartAge"
                                                                   key={propsObject.name}
-                                                                  handleSetParentRangeBarAndFinancialValue={this.handleSetParentPensionAgeRangeBarAndFinancialValue}
+                                                                  setRangeBarAndFinancialValue={this.handleSetParentPensionAgeRangeBarAndFinancialValue}
                                                                   rangeBarProps={propsObject}
                                                                   />
                                                                  
@@ -83,7 +83,7 @@ export default class PensionIncomeStartAges extends Component {
      miniRRSPRenderRangeBars = (miniRangeBarPropsArray) => {
          return miniRangeBarPropsArray.map(propsObject => <MiniRangeBar id={propsObject.name}
                                                                    key={propsObject.name}
-                                                                   handleSetParentRangeBarAndFinancialValue={this.handleSetParentRRSPRangeBarAndFinancialValue}
+                                                                   setRangeBarAndFinancialValue={this.handleSetParentRRSPRangeBarAndFinancialValue}
                                                                    rangeBarProps={propsObject}
                                                                    />
                                                                   

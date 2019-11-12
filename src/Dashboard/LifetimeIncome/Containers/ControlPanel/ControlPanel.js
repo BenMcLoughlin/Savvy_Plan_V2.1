@@ -3,7 +3,7 @@ import styled from "styled-components"
 import DualRangeBar from "../../../UI/DualRangeBar"
 import EarningYearsSelector from "./EarningYearsSelector"
 import IncomeInput from "./IncomeInput"
-import RRSPDetails from "./RRSPDetails"
+import RRSPDetails from "../RRSPDetails"
 import PensionIncomeStartAges from "./PensionIncomeStartAges"
 
 export default class ControlPanel extends Component {
@@ -17,7 +17,7 @@ export default class ControlPanel extends Component {
                         setParentDualRangeValues={this.props.setParentDualRangeValues}
                     />
                     <IncomeInput
-                        handleSetParentRangeBarAndFinancialValue = {this.props.handleSetParentRangeBarAndFinancialValue}
+                        setRangeBarAndFinancialValue = {this.props.setRangeBarAndFinancialValue}
                         handleChangeLabel = {this.props.handleChangeLabel}
                         incomeTypeArray={this.props.incomeTypeArray}
                         handleRemoveItem={this.props.handleRemoveItem}
@@ -33,7 +33,7 @@ export default class ControlPanel extends Component {
                         setIncome={this.props.setIncome}
                         setFutureRRSPValue={this.props.setFutureRRSPValue}
                         toggleOpenAndClosed={this.toggleOpenAndClosed}
-   
+                        clearIncomeBeforeStartAge = {this.props.clearIncomeBeforeStartAge}
                      />
                 </Center>
                 <Right>
@@ -42,9 +42,8 @@ export default class ControlPanel extends Component {
                         lifetimeIncomeVariableState={this.props.lifetimeIncomeVariableState}
                         setPensionStartAge={this.props.setPensionStartAge}
                         calculateCPP={this.props.calculateCPP}
-                        clearCPPIncomeBeforeStartAge = {this.props.clearCPPIncomeBeforeStartAge}
+                        clearIncomeBeforeStartAge = {this.props.clearIncomeBeforeStartAge}
                         calculateOAS={this.props.calculateOAS}
-                        clearOASIncomeBeforeStartAge = {this.props.clearOASIncomeBeforeStartAge}
                         lifetimeIncomeYearListState={this.props.lifetimeIncomeYearListState}
                         rrspDetailsMiniRangeBarArray ={this.props.rrspDetailsMiniRangeBarArray}
                         handleSetRRSPDetails={this.props.handleSetRRSPDetails}

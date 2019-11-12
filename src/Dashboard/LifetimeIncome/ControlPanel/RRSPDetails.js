@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 
 export default class RRSPDetails extends Component {
 
-        handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+        setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
             
             this.props.handleSetRRSPDetails(name, financialValue, rangeBarValue,)
 
@@ -20,7 +20,7 @@ export default class RRSPDetails extends Component {
 
             const startAge = this.props.lifetimeIncomeVariableState.rrspDetails.withdrawalStartAge.rangeBarValue
 
-            const RRIFPaymentTable = calculateRRIFPaymentTable(65, futureRRSPValue, 0.03)
+            const RRIFPaymentTable = calculateRRIFPaymentTable(startAge, futureRRSPValue, 0.03)
         
             let position = 0
             for (let i = startAge; i < 95; i++) {
@@ -48,7 +48,7 @@ export default class RRSPDetails extends Component {
     renderRangeBars = (rangeBarPropsArray) => {
         return rangeBarPropsArray.map(propsObject => <RangeBar id={propsObject.name}
                                                                  key={propsObject.name}
-                                                                  handleSetParentRangeBarAndFinancialValue={this.handleSetParentRangeBarAndFinancialValue}
+                                                                  setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
                                                                   rangeBarProps={propsObject}
                                                                   handleChangeLabel = {this.handleChangeLabel}
                                                                   handleRemoveItem={this.handleRemoveItem}

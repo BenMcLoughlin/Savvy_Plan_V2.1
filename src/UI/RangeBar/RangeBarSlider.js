@@ -16,7 +16,7 @@ class RangeBarSlider extends Component {
             logValue: roundNumber(logValue), 
             rangeBarValue: Number(e.target.value)
         })
-        this.props.handleSetParentRangeBarAndFinancialValue(e.target.name, this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
+        this.props.setRangeBarAndFinancialValue(e.target.name, this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
     }
 
     render() {

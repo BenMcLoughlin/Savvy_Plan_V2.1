@@ -62,21 +62,54 @@ const initialState = {
             label: "Education",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "credits" 
+            section: "credits",
+            min: 0, 
+            max: 20000, 
         },
         charitableGiving: {
             name: "charitableGiving",
             label: "Charitable Giving",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "credits" 
+            section: "credits",
+            min: 0,
+            max: 40000,
         },
         medicalExpense: {
             name: "medicalExpense",
             label: "Medical Expense",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "credits" 
+            section: "credits", 
+            min: 0,
+            max: 40000,
+        },
+        homeBuyers: {
+            name: "homeBuyers",
+            label: "Home Buyers",
+            financialValue: 0, 
+            rangeBarValue: 0,
+            section: "credits",
+            min: 0, 
+            max: 5000, 
+        },
+        charitableGiving1: {
+            name: "charitableGiving1",
+            label: "Charitable Giving1",
+            financialValue: 0, 
+            rangeBarValue: 0,
+            section: "credits",
+            min: 0,
+            max: 40000,
+        },
+        medicalExpense1: {
+            name: "medicalExpense1",
+            label: "Medical Expense1",
+            financialValue: 0, 
+            rangeBarValue: 0,
+            section: "credits", 
+            min: 0,
+            max: 40000,
         },
     },
 }
@@ -91,8 +124,6 @@ const initialState = {
                                                                     rangeBarValue: action.payload.rangeBarValue, 
                                                             }
         }}
-  
-
         default: return state
     }
 }

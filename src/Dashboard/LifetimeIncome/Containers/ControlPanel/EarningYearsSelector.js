@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import DualRangeBar from "../../../UI/DualRangeBar"
+import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 
 
@@ -10,7 +10,7 @@ export default class EarningYearsSelector extends Component {
 
         return (
             <EarningYearsSelectorWrapper>
-            <Title>Estimate Future Income</Title>
+            <Title>Input Income By Year</Title>
             <SelectorTitleWrapper>
                 <SelectorTitle>From Age</SelectorTitle>      
                 <SelectorTitle>To Age</SelectorTitle>
@@ -43,6 +43,7 @@ const Title = styled.div `
     font-size: ${props => props.theme.fontSize.medium};
     text-align: center;
     font-weight: 300;
+    padding-bottom: 1rem;
    
 ` 
 

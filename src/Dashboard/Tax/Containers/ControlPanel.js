@@ -14,21 +14,21 @@ export default class ControlPanel extends Component {
                 <Title>Regular Income</Title>
                     <RegularIncome
                         regularIncomeRangeBarValues={this.props.regularIncomeRangeBarValues}
-                        handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
+                        setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
                     />
                 </Left>
                 <Center>
                      <Title>Tax Advantaged Income</Title>
                      <TaxAdvantagedIncome  
                        taxAdvantagedIncomeRangeBarValues={this.props.taxAdvantagedIncomeRangeBarValues}
-                       handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
+                       setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
                      />
                 </Center>
                 <Right>
                      <Title>Tax Credits & Deductions</Title>
                      <TaxCredits
                          creditsRangeBarValues={this.props.creditsRangeBarValues}
-                         handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
+                         setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
                      />
                 </Right>
             </ControlPanelWrapper>

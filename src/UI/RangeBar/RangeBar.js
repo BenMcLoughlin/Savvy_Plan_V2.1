@@ -6,7 +6,7 @@ import RangeBarValue from "./RangeBarValue"
 import RangeBarSlider from "./RangeBarSlider"
 
 /*Props Required to be passed:
-1. handleSetParentRangeBarAndFinancialValue 
+1. setRangeBarAndFinancialValue 
       a function that receives a name, a logValue and a rangebar value and
       uses those variables to pass into the action and set the reducer. 
 2. rangeBarProps
@@ -26,11 +26,11 @@ export default class RangeBar extends Component {
                 />
                 <RangeBarSlider
                      rangeBarProps={this.props.rangeBarProps}
-                     handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
+                     setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
                 />
                 <RangeBarValue
                     rangeBarProps={this.props.rangeBarProps}
-                    handleSetParentRangeBarAndFinancialValue={this.props.handleSetParentRangeBarAndFinancialValue}
+                    setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
                 />
                
                 <Delete  onClick={() => this.props.handleRemoveItem(this.props.rangeBarProps)}/>

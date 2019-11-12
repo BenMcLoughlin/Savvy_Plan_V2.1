@@ -131,9 +131,20 @@ export const calculateOAS = (oasStartAge, selectedAge) => {
         }
     }
 }
-export const clearOASIncomeBeforeStartAge = (selectedAge) => {
+export const clearIncomeBeforeStartAge = (selectedAge, rangeBarProps) => {
+
     return {
-        type: "CLEAR_OAS_INCOME", 
+        type: "CLEAR_INCOME_BEFORE_START_AGE", 
+        payload: {
+           selectedAge: selectedAge,
+           name: rangeBarProps.valueThisRangeBarChanges
+        }
+    }
+   
+}
+export const clearRRIFIncomeBeforeStartAge = (selectedAge) => {
+    return {
+        type: "CLEAR_RRIF_INCOME", 
         payload: {
            selectedAge: selectedAge
         }

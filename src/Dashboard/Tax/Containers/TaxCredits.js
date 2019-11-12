@@ -4,7 +4,6 @@ import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../services
 import MiniRangeBar from "../../../UI/MiniRangeBar/MiniRangeBar"
 
 
-
 export default class TaxCredits extends Component {
 
 
@@ -12,7 +11,7 @@ export default class TaxCredits extends Component {
      miniRenderRangeBars = (miniRangeBarPropsArray) => {
          return miniRangeBarPropsArray.map(propsObject => <MiniRangeBar id={propsObject.name}
                                                                    key={propsObject.name}
-                                                                   handleSetParentRangeBarAndFinancialValue={this.handleSetParentRRSPRangeBarAndFinancialValue}
+                                                                   setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
                                                                    rangeBarProps={propsObject}
                                                                    />
                                                                   
@@ -20,12 +19,14 @@ export default class TaxCredits extends Component {
       }
 
     render() {
+        console.log(this.props.creditsRangeBarValues);
 
         return (
 
-            <Wrapper>
+            <MiniRangeBarWrapper>
             {this.miniRenderRangeBars(this.props.creditsRangeBarValues)}
-            </Wrapper>
+            </MiniRangeBarWrapper>
+
 
         )
     }
@@ -36,13 +37,9 @@ export default class TaxCredits extends Component {
 const MiniRangeBarWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 `
 
-const Wrapper= styled.div`
-  overflow: scroll;
-  position: relative;
-  text-align: left;
-`
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // 
 

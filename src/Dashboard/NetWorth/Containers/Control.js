@@ -22,7 +22,7 @@ class Section extends Component {
         })
     }
 
-    handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+    setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
           this.props.setItemValue(name, financialValue, rangeBarValue, rangeBarProps)
  
     }
@@ -51,7 +51,7 @@ class Section extends Component {
                 <RangeBar 
                     key={a.id}
                     rangeBarProps={a}
-                    handleSetParentRangeBarAndFinancialValue={this.handleSetParentRangeBarAndFinancialValue}
+                    setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
                     handleChangeLabel={this.handleChangeLabel}
                     handleRemoveItem={this.handleRemoveItem}
                 />

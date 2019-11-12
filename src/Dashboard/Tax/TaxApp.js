@@ -10,12 +10,8 @@ import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 class TaxApp extends Component {
 
-  handleSetParentRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
-        
+  setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {      
   this.props.setIncomeForTaxCalculator(name, financialValue, rangeBarValue, rangeBarProps.section)
-  this.setState({
-    [name]: financialValue
-  })
 }
   render() {
   
@@ -66,7 +62,7 @@ class TaxApp extends Component {
       }
     ]
 
-    console.log(taxStackedData);
+    console.log(this.props.taxVariables);
      return (
        <UserInterfaceWrapper>
           <HeaderValues
@@ -95,7 +91,7 @@ class TaxApp extends Component {
              regularIncomeRangeBarValues={regularIncomeRangeBarValues}
              taxAdvantagedIncomeRangeBarValues={taxAdvantagedIncomeRangeBarValues}
              creditsRangeBarValues={creditsRangeBarValues}
-             handleSetParentRangeBarAndFinancialValue={this.handleSetParentRangeBarAndFinancialValue}
+             setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
           />
        </UserInterfaceWrapper>
       )

@@ -9,3 +9,5 @@ export const setIncomeForTaxCalculator = (name, financialValue, rangeBarValue, s
         }
     })
 }
+
+

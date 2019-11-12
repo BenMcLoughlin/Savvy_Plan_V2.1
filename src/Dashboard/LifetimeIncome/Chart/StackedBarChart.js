@@ -171,8 +171,8 @@ export default class StackedBarChartLifetimeIncome extends Component {
 
     updateSize = () => {
         this.setState({ 
-            elementWidth: this.divRef.clientWidth || 400, 
-            elementHeight: this.divRef.clientHeight || 400 
+            elementWidth: this.divRef.clientWidth, 
+            elementHeight: this.divRef.clientHeight, 
         });
         drawChart(this.props, this.state.elementWidth, this.state.elementHeight )
       }
@@ -188,16 +188,15 @@ componentDidMount() {
 componentDidUpdate() {
     drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
 }
-componentUnMount() {
-    console.log('unmounted');
-}
 
-
-
+componentWillUnmount() {
+    window.removeEventListener('resize', this.updateSize);
+   }
+   
     render() {
 
         window.addEventListener('resize', this.updateSize)
-        console.log(this.props.data);
+ 
         return (
             <Canvas className="canvas" ref={taxDonutCanvas => this.divRef = taxDonutCanvas}>
                 

@@ -47,6 +47,7 @@ const initialState = {
             max: 70,
             step: 1,
             numberType: "age",
+            valueThisRangeBarChanges: "cppIncome"
         },
         oasStartAge: {
             name: "oasStartAge",
@@ -56,6 +57,7 @@ const initialState = {
             max: 70,
             step: 1,
             numberType: "age",
+            valueThisRangeBarChanges: "oasIncome"
         },
     },
     futureRRSPValue: 0,
@@ -92,6 +94,7 @@ const lifeTimeIncomeVariableState = (state = initialState, action) => {
                                                 ...state.pensionAges[action.payload.name], rangeBarValue: action.payload.rangeBarValue
                                             }
         } }
+        
 
         default: return state
     }

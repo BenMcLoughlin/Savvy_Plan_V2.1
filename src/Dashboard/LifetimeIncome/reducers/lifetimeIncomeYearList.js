@@ -127,20 +127,8 @@ const initialState = () => {
              }}
         
         }
-        case "CLEAR_CPP_INCOME": {
-        console.log(action.payload.selectedAge);
-            return {...state, [action.payload.selectedAge]: {
-                ...state[action.payload.selectedAge], incomeType: {
-                    ...state[action.payload.selectedAge].incomeType, cppIncome: {
-                     ...state[action.payload.selectedAge].incomeType.cppIncome,
-                             financialValue: 0, 
-                    }
-                }
-             }}
-        
-        }
         case "CALCULATE_OAS": {
-            const adjustedOASPayment = Math.round(adjustOAS(7000, action.payload.oasStartAge)/100)*100
+            const adjustedOASPayment = Math.round(adjustOAS(7200, action.payload.oasStartAge)/100)*100
   
             return {...state, [action.payload.selectedAge]: {
                 ...state[action.payload.selectedAge], incomeType: {
@@ -152,12 +140,12 @@ const initialState = () => {
              }}
         
         }
-        case "CLEAR_OAS_INCOME": {
 
+        case "CLEAR_INCOME_BEFORE_START_AGE": {
                 return {...state, [action.payload.selectedAge]: {
                     ...state[action.payload.selectedAge], incomeType: {
-                        ...state[action.payload.selectedAge].incomeType, oasIncome: {
-                         ...state[action.payload.selectedAge].incomeType.oasIncome,
+                        ...state[action.payload.selectedAge].incomeType, [action.payload.name]: {
+                         ...state[action.payload.selectedAge].incomeType[action.payload.name],
                                  financialValue: 0, 
                         }
                     }
