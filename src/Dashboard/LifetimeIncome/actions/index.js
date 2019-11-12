@@ -72,9 +72,6 @@ export const setRRSPDetails = (currentAge, name, financialValue, rangeBarValue) 
 export const setFutureRRSPValue = (financialValue) => {
     return {
         type: "SET_FUTURE_RRSP_VALUE", 
-        payload: {
-            financialValue: financialValue, 
-        }
 }
 }
 

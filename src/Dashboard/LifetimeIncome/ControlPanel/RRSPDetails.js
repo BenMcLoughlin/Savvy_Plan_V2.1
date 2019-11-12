@@ -5,6 +5,8 @@ import {calculateFutureValue, calculateRRIFPaymentTable, abbreviateNum} from "..
 
 import React, { Component } from 'react'
 
+
+
 export default class RRSPDetails extends Component {
 
         setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {

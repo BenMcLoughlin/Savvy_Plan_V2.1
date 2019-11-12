@@ -13,6 +13,10 @@ export const calculateFutureValue = (rate, n, pmt, pv) => {
 
 
 const RRIFMinimumTable = {
+    46:	0.025,
+    47:	0.026,
+    48:	0.026,
+    49:	0.027,
     50:	0.025,
     51:	0.026,
     52:	0.026,
