@@ -41,6 +41,7 @@ const initialState = {
             max: 70,
             step: 1,
             numberType: "age",
+            valueThisRangeBarChanges: "oasIncome"
             
         },
         rrspReturn: {
@@ -58,7 +59,7 @@ const initialState = {
             name: "rrifStartAge",
             label: "Convert RRSP to RRIF",
             rangeBarValue: 65, 
-            min: 55,
+            min: 50,
             max: 72,
             step: 1,
             numberType: "age",

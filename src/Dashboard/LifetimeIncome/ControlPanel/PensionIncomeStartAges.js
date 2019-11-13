@@ -23,11 +23,13 @@ export default function PensionIncomeStartAges( {setIncome, setValue,
        }
         else if  (name === "rrifStartAge") {                                                                         //Same as above but for OAS
             let position = 0
-            const RRIFPaymentTable = calculateRRIFPaymentTable(rangeBarValue, futureRRSPValue, 0.03)                 //This table builds a withdrawal plan according to government withdrawal requirements
+            const RRIFPaymentTable = calculateRRIFPaymentTable(rangeBarValue, futureRRSPValue, 0.03)                 //This table builds a withdrawal plan according to government withdrawal requirements, eg at age 82 a user must withdraw at least 7% of pension
             for (let i = rangeBarValue; i <= 95; i++) {                                                              //This steps through the table and sets the RRIF income for each year
-                position++
+              
                 setIncome(i, "rrifIncome", RRIFPaymentTable[position].withdrawal, 0, false)
+                position++
             }
+          
        }
 
        for (let age = 50; age < rangeBarValue; age++) {
@@ -42,8 +44,8 @@ export default function PensionIncomeStartAges( {setIncome, setValue,
                 pensionStartAges.map(d => <MiniRangeBar 
                                             id={d.name}
                                             key={d.name}
-                                            setValueInReduer={setValueInReduer}
-                                            rangeBarProps={d}
+                                            setValueInReduer={setValueInReduer}                                      //Function Defined Above
+                                            rangeBarProps={d}                                                        //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
                     />)
             }
         </Wrapper>                            
