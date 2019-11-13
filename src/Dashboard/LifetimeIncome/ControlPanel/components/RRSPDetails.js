@@ -1,6 +1,6 @@
 import React from 'react'
-import {calculateRRIFPaymentTable} from "../../../services/financialFunctions"
-import RangeBar from "../../../UI/RangeBar/RangeBar"
+import {calculateRRIFPaymentTable} from "../../../../services/financialFunctions"
+import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import styled from "styled-components"
 
 export default function PensionIncomeStartAges( {setValue, setIncome, setFutureRRSPValue,

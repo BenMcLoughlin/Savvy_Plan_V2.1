@@ -6,7 +6,7 @@ import MiniRangeBarSlider from "./Components/MiniRangeBarSlider"
 
 
 /*Props Required to be passed:
-1. setRangeBarAndFinancialValue 
+1. setValueInReducer 
       a function that receives a name, rangebar value and the range bar props and
       uses those variables to pass into the action and set the reducer. 
 2. rangeBarProps
@@ -29,7 +29,7 @@ export default class MiniRangeBar extends Component {
                 />
                 <MiniRangeBarValue
                     rangeBarProps={this.props.rangeBarProps}
-                    setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
+                    setValueInReducer={this.props.setValueInReducer}
                 />
                
             </RangeBarWrapper>

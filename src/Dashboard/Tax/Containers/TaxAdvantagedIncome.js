@@ -13,7 +13,7 @@ export default class RegularTaxAdvantagedIncomeInput extends Component {
        return incomeTypeArray.map(incomeType => <RangeBar id={incomeType.name}
                                                                  key={incomeType.name}
                                                                  rangeBarProps={incomeType}
-                                                                 setRangeBarAndFinancialValue={this.props.setRangeBarAndFinancialValue}
+                                                                 setValueInReducer={this.props.setValueInReducer}
                                                                  handleChangeLabel = {this.props.handleChangeLabel}
                                                                  handleRemoveItem={this.props.handleRemoveItem}
                                                                  />

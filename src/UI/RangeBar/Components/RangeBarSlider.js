@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {logslider, roundNumber} from "../../services/logorithmicFunctions"
+import {logslider, roundNumber} from "../../../services/logorithmicFunctions"
 
 
 class RangeBarSlider extends Component {
@@ -16,7 +16,7 @@ class RangeBarSlider extends Component {
             logValue: roundNumber(logValue), 
             rangeBarValue: Number(e.target.value)
         })
-        this.props.setRangeBarAndFinancialValue(e.target.name, this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
+        this.props.setValueInReducer(e.target.name, this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
     }
 
     render() {

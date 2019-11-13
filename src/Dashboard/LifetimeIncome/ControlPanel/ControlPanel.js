@@ -3,8 +3,8 @@ import styled from "styled-components"
 import DualRangeBar from "../../../UI/DualRangeBar"
 import EarningYearsSelector from "./EarningYearsSelector"
 import InputIncomePanel from "./InputIncomePanel"
-import RRSPDetails from "./RRSPDetails"
-import PensionIncomeStartAges from "./PensionIncomeStartAges"
+import RRSPDetails from "./components/RRSPDetails"
+import PensionIncomeStartAges from "./components/PensionIncomeStartAges"
 
 export default class ControlPanel extends Component {
     render() {
@@ -15,7 +15,7 @@ export default class ControlPanel extends Component {
                         lower={this.props.lower}
                         higher={this.props.higher}
                         setParentDualRangeValues={this.props.setParentDualRangeValues}
-                        setRangeBarAndFinancialValue = {this.props.setRangeBarAndFinancialValue}
+                        setValueInReducer = {this.props.setValueInReducer}
                         handleChangeLabel = {this.props.handleChangeLabel}
                         incomeTypeArray={this.props.incomeTypeArray}
                         handleRemoveItem={this.props.handleRemoveItem}

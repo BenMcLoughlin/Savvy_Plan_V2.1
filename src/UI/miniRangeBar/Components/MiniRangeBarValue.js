@@ -11,7 +11,7 @@ import {inverseLogslider} from "../../../services/logorithmicFunctions"
         
         const inverseLogValue = inverseLogslider(e.target.value).toFixed()
 
-        this.props.setRangeBarAndFinancialValue(e.target.name, e.target.value, inverseLogValue, this.props.rangeBarProps)
+        this.props.setValueInReducer(e.target.name, e.target.value, inverseLogValue, this.props.rangeBarProps)
     }
     //state decides whether the label should be shown as an input or just a regular number. 
 

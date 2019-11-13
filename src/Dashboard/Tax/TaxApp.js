@@ -10,7 +10,7 @@ import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 class TaxApp extends Component {
 
-  setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {      
+  setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {      
   this.props.setIncomeForTaxCalculator(name, financialValue, rangeBarValue, rangeBarProps.section)
 }
   render() {
@@ -91,7 +91,7 @@ class TaxApp extends Component {
              regularIncomeRangeBarValues={regularIncomeRangeBarValues}
              taxAdvantagedIncomeRangeBarValues={taxAdvantagedIncomeRangeBarValues}
              creditsRangeBarValues={creditsRangeBarValues}
-             setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
+             setValueInReducer={this.setValueInReducer}
           />
        </UserInterfaceWrapper>
       )

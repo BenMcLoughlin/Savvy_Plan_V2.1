@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import Button from "../Buttons/Button"
-import RangeBarSlider from "../RangeBar/RangeBarSlider"
-import RangeBarValue from "../RangeBar/RangeBarValue"
+import RangeBarSlider from "../RangeBar/Components/RangeBarSlider"
+import RangeBarValue from "../RangeBar/Components/RangeBarValue"
 import _ from "lodash"
 import {CloseIcon} from "../../Styles/Icons"
 import Checkbox from "../Buttons/Checkbox"
@@ -18,7 +18,7 @@ class AddItemBox extends Component {
         isChecked: false,
     }
   
-    setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+    setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {
         this.setState({
             name: name, 
             rangeBarValue: rangeBarValue,
@@ -85,11 +85,11 @@ class AddItemBox extends Component {
 
                     <RangeBarSlider
                         rangeBarProps={this.state}
-                         setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
+                         setValueInReducer={this.setValueInReducer}
                     />
                     <RangeBarValue
                         rangeBarProps={this.state}
-                        setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
+                        setValueInReducer={this.setValueInReducer}
                         style={{marginTop: "2rem"}}
 
                     />

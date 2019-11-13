@@ -1,6 +1,6 @@
 import React from 'react'
-import {calculateRRIFPaymentTable} from "../../../services/financialFunctions"
-import MiniRangeBar from "../../../UI/MiniRangeBar/MiniRangeBar"
+import {calculateRRIFPaymentTable} from "../../../../services/financialFunctions"
+import MiniRangeBar from "../../../../UI/MiniRangeBar/MiniRangeBar"
 import styled from "styled-components"
 
 export default function PensionIncomeStartAges( {setIncome, setValue, 
@@ -14,7 +14,7 @@ export default function PensionIncomeStartAges( {setIncome, setValue,
         if  (name === "cppStartAge") {                                                                               //Checks name of value being changed and sets it into the lifetimeIncomeYearList 
         for (let age = rangeBarValue; age <=95; age ++) {                                                            //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
             calculateCPP(rangeBarValue, age)
-            }
+         }
         }
         else if  (name === "oasStartAge") {
         for (let age = rangeBarValue; age <=95; age ++) {                                                            //Same as above but for OAS
@@ -28,8 +28,7 @@ export default function PensionIncomeStartAges( {setIncome, setValue,
               
                 setIncome(i, "rrifIncome", RRIFPaymentTable[position].withdrawal, 0, false)
                 position++
-            }
-          
+        }
        }
 
        for (let age = 50; age < rangeBarValue; age++) {
@@ -37,23 +36,19 @@ export default function PensionIncomeStartAges( {setIncome, setValue,
         }
     }
 
-
     return (
         <Wrapper>                                                                                                   {/* This walks through the pensionStartAges provided from the reducer and rendersa MiniRangeBar for each */}
             {
                 pensionStartAges.map(d => <MiniRangeBar 
                                             id={d.name}
                                             key={d.name}
-                                            setValueInReduer={setValueInReduer}                                      //Function Defined Above
+                                            setValueInReduer={setValueInReduer}                                      //Function Defined Above, sets the age in the reducer
                                             rangeBarProps={d}                                                        //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
                     />)
             }
         </Wrapper>                            
     )
 }
-
-
-
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 

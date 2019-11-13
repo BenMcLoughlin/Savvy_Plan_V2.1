@@ -9,7 +9,7 @@ import { NavLink} from "react-router-dom"
      
     render() {
 
-        const data = Object.values(this.props.lifetimeIncomeYearListState).map(d => {
+        const data = Object.values(this.props.lifetimeIncomeYearList).map(d => {
             const incomeTypeArray = Object.keys(d.incomeType)
             const financialValueArray = Object.keys(d.incomeType).map(income => d.incomeType[income].financialValue)
             var result = {age: d.age};
@@ -17,18 +17,18 @@ import { NavLink} from "react-router-dom"
           return result
         })
      
-       const stackedKeys = Object.keys(this.props.lifetimeIncomeYearListState[18].incomeType)
+       const stackedKeys = Object.keys(this.props.lifetimeIncomeYearList[18].incomeType)
        
-       const cppIncome = this.props.lifetimeIncomeYearListState[75].incomeType.cppIncome.financialValue
-       const oasIncome = this.props.lifetimeIncomeYearListState[75].incomeType.oasIncome.financialValue
-       const rrifIncome = this.props.lifetimeIncomeYearListState[75].incomeType.rrifIncome.financialValue
+       const cppIncome = this.props.lifetimeIncomeYearList[75].incomeType.cppIncome.financialValue
+       const oasIncome = this.props.lifetimeIncomeYearList[75].incomeType.oasIncome.financialValue
+       const rrifIncome = this.props.lifetimeIncomeYearList[75].incomeType.rrifIncome.financialValue
        const totalPensionIncome = `${(cppIncome + oasIncome + rrifIncome)/1000}k`
        const totalRrifIncome = `${(rrifIncome)/1000}k`
-       const totalRetirementIncome = Object.values(this.props.lifetimeIncomeYearListState[75].incomeType).map(d => d.financialValue).reduce((acc, num) => acc + num)
+       const totalRetirementIncome = Object.values(this.props.lifetimeIncomeYearList[75].incomeType).map(d => d.financialValue).reduce((acc, num) => acc + num)
        const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ? calculateMarginalTaxRate(totalRetirementIncome) + 15 : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
        //Calculate AVERAGE Earnings
-       const pensionableEarningsArray = Object.values(this.props.lifetimeIncomeYearListState).map(d => d.adjustedPensionableEarningsMethod())
+       const pensionableEarningsArray = Object.values(this.props.lifetimeIncomeYearList).map(d => d.adjustedPensionableEarningsMethod())
        const totalAdustedPensionableEarnings = pensionableEarningsArray.reduce((acc, num) => acc + num)
        const averagePensionableEarnings = Number(totalAdustedPensionableEarnings / 47)
        const roundedAveragePensionableEarnings = Math.round(averagePensionableEarnings/1000)*1000
@@ -88,7 +88,7 @@ const mapStateToProps = (state) => {
 
     return {
         lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
-        lifetimeIncomeYearListState: state.lifetimeIncomeYearListState
+        lifetimeIncomeYearList: state.lifetimeIncomeYearList
     }
 }
 

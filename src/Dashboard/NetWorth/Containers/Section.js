@@ -22,7 +22,7 @@ class Control extends Component {
         })
     }
 
-    setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
+    setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {
           this.props.setItemValue(name, financialValue, rangeBarValue, rangeBarProps)
  
     }
@@ -51,7 +51,7 @@ class Control extends Component {
                 <RangeBar 
                     key={a.id}
                     rangeBarProps={a}
-                    setRangeBarAndFinancialValue={this.setRangeBarAndFinancialValue}
+                    setValueInReducer={this.setValueInReducer}
                     handleChangeLabel={this.handleChangeLabel}
                     handleRemoveItem={this.handleRemoveItem}
                 />

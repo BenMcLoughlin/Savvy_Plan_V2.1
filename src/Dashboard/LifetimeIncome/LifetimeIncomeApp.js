@@ -39,7 +39,7 @@ const LifetimeIncomeApp = (props) => {
       }
 
 //INCOME INPUT
-       const setRangeBarAndFinancialValue = (name, financialValue, rangeBarValue, rangeBarProps) => {      //used by rangebars to set values. Rangebars recieve function and pass back the above props. 
+       const setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {      //used by rangebars to set values. Rangebars recieve function and pass back the above props. 
           for (let age = fromAge; age < toAge; age++ ) {                                                   //it is here that the function decides what to do with them. In case it will set income. 
             props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)       //sets the income in the lifetimeIncomeYearList reducer
           }    
@@ -104,7 +104,7 @@ const LifetimeIncomeApp = (props) => {
 
  //DATA CONVERSTION FOR RRSP RANGEBARS
         const rrspDetailsRangeBarArray = Object.values(rrspDetails).slice(0,2)
-
+console.log(props.lifetimeIncomeVariables);
 
         return (
             <UserInterfaceWrapper>
@@ -121,7 +121,7 @@ const LifetimeIncomeApp = (props) => {
                     lower ={fromAge}
                     higher={toAge}
                     setParentDualRangeValues={setParentDualRangeValues } 
-                    setRangeBarAndFinancialValue = {setRangeBarAndFinancialValue}
+                    setValueInReducer = {setValueInReducer}
                     handleChangeLabel = {handleChangeLabel}
                     incomeTypeArray={incomeTypeArray}
                     handleRemoveItem={handleRemoveItem}
