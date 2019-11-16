@@ -49,6 +49,6 @@ const Wrapper= styled.div`
 
 this component renders two rangebars, one that inputs the users current RRSP value and the other is their annual contributions. 
 When the user inputs these values it calculates the future RRSP value then uses that to determine the required withdrawal per year.
-It runs a loop for all years after the RRIF has been converted to a RRIF and inserts the minimum income into the lifetimeIncomeYearList reducer. 
+It runs a loop for all years after the RRIF has been converted to a RRIF and inserts the minimum income into the incomePerYear reducer. 
 
 */

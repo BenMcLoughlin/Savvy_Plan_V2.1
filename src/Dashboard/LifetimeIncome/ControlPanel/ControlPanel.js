@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import DualRangeBar from "../../../UI/DualRangeBar"
-import EarningYearsSelector from "./EarningYearsSelector"
-import InputIncomePanel from "./InputIncomePanel"
-import RRSPDetails from "./components/RRSPDetails"
-import PensionIncomeStartAges from "./components/PensionIncomeStartAges"
+import IncomeInput from "./Components/IncomeInput"
+import RRSPDetails from "./Components/RRSPDetails"
+import PensionIncomeStartAges from "./Components/PensionIncomeStartAges"
 
 export default class ControlPanel extends Component {
     render() {
         return (
             <ControlPanelWrapper>
                 <Left>
-                    <InputIncomePanel
+                    <IncomeInput
                         lower={this.props.lower}
                         higher={this.props.higher}
                         setParentDualRangeValues={this.props.setParentDualRangeValues}
                         setValueInReducer = {this.props.setValueInReducer}
                         handleChangeLabel = {this.props.handleChangeLabel}
-                        incomeTypeArray={this.props.incomeTypeArray}
+                        incomePerYear={this.props.incomePerYear}
                         handleRemoveItem={this.props.handleRemoveItem}
                         addItemToList={this.props.addItemToList}
                     />

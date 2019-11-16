@@ -11,7 +11,7 @@ export default function PensionIncomeStartAges( {setIncome, setValue,
 
     const setValueInReduer = (name, financialValue, rangeBarValue, rangeBarProps)  => {   
         setValue(name, financialValue, rangeBarValue, rangeBarProps)                                                 //Takes value from rangeBar and sets it into the lifetimeIncomeVariables state
-        if  (name === "cppStartAge") {                                                                               //Checks name of value being changed and sets it into the lifetimeIncomeYearList 
+        if  (name === "cppStartAge") {                                                                               //Checks name of value being changed and sets it into the incomePerYear 
         for (let age = rangeBarValue; age <=95; age ++) {                                                            //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
             calculateCPP(rangeBarValue, age)
          }
