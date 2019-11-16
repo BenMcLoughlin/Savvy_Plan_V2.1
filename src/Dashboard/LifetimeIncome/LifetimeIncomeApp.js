@@ -61,6 +61,7 @@ const LifetimeIncomeApp = (props) => {
             renderCPPandOASIncome()
       }
   
+//ADD NEW ITEM
       const addItemToList = (newItem, listNewItemWillBeAddedToo) => {                                       //used to add new income type to list
                  
           for (let age = 18; age < 95; age++ ) {                                                            // first adds empty value with correct name and label to entire reducer 18 - 95
@@ -104,7 +105,7 @@ const LifetimeIncomeApp = (props) => {
 
  //DATA CONVERSTION FOR RRSP RANGEBARS
         const rrspDetailsRangeBarArray = Object.values(rrspDetails).slice(0,2)
-console.log(props.lifetimeIncomeVariables);
+console.log(data);
 
         return (
             <UserInterfaceWrapper>

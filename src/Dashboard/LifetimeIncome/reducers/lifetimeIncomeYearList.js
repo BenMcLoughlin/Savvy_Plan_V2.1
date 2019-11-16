@@ -81,6 +81,7 @@ const initialState = () => {
                         contributeToCPP: action.payload.contributeToCPP
                }
            }
+           
         }}
         case "ADD_INCOME_TYPE": return {...state, [action.payload.selectedAge]: {
            ...state[action.payload.selectedAge], incomeType: {

@@ -9,7 +9,7 @@ import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
 import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
 import LifetimeIncomeApp from "../Dashboard/LifetimeIncome/LifetimeIncomeApp"
 import SavingsPlanApp from "../Dashboard/SavingsPlan/SavingsPlanApp"
-import SpendingApp from "../Dashboard/Spending/SpendingApp"
+import LifetimeIncomeAppRefactor from "../Dashboard/Spending/LifetimeIncomeAppRefactor"
 import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
 import UserAccountApp from "../UserAccount/UserAccountApp"
@@ -50,7 +50,7 @@ export default class Layout extends Component {
                     <Route path="/LifeTimeIncome" component={LifetimeIncomeApp}/>  
                     <Route path="/SavingsPlan" component={SavingsPlanApp}/>              
                     <Route path="/CreditScore" component={CreditScoreApp}/>              
-                    <Route path="/Spending" component={SpendingApp}/>
+                    <Route path="/Spending" component={LifetimeIncomeAppRefactor}/>
                     <Route path="/Property" component={PropertyApp}/>
                     <Route path="/Debt" component={DebtApp}/>
                 <Footer/>
