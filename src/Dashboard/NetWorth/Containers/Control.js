@@ -22,7 +22,7 @@ class Section extends Component {
         })
     }
 
-    setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {
+    setIncome = (name, financialValue, rangeBarValue, rangeBarProps) => {
           this.props.setItemValue(name, financialValue, rangeBarValue, rangeBarProps)
  
     }
@@ -51,7 +51,7 @@ class Section extends Component {
                 <RangeBar 
                     key={a.id}
                     rangeBarProps={a}
-                    setValueInReducer={this.setValueInReducer}
+                    setIncome={this.setIncome}
                     handleChangeLabel={this.handleChangeLabel}
                     handleRemoveItem={this.handleRemoveItem}
                 />

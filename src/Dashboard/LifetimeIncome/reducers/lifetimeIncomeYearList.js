@@ -78,7 +78,7 @@ const initialState = () => {
                         name: action.payload.name,
                         financialValue: Number(action.payload.financialValue), 
                         rangeBarValue: Number(action.payload.rangeBarValue), 
-                        contributeToCPP: action.payload.contributeToCPP
+                        contributeToCpp: action.payload.contributeToCpp
                }
            }
            

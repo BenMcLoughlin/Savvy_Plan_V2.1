@@ -10,19 +10,18 @@ import Checkbox from "../Buttons/Checkbox"
 class AddItemBox extends Component {
 
     state = {
-        name: "name", 
-        label: "", 
-        rangeBarValue: 0,
-        financialValue: 0,
         addContainerOpen: false,
         isChecked: false,
+        name: "name", 
+        label: "", 
+        financialValue: 0,
+        rangeBarValue: 0,
     }
-  
-    setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {
+
+    setLocalValues = (financialValue, rangeBarValue) => {
         this.setState({
-            name: name, 
-            rangeBarValue: rangeBarValue,
-            financialValue: financialValue,
+            financialValue,
+            rangeBarValue,
         })
     }
 
@@ -51,7 +50,7 @@ class AddItemBox extends Component {
 
       handleClickToAddNewItem = () => {
         
-        this.props.addItemToList(this.state, this.props.listNewItemWillBeAddedToo)
+        this.props.addItemToList(this.state.financialValue, this.state.rangeBarValue, this.state) 
 
         this.setState({
             label: "",
@@ -85,11 +84,11 @@ class AddItemBox extends Component {
 
                     <RangeBarSlider
                         rangeBarProps={this.state}
-                         setValueInReducer={this.setValueInReducer}
+                         setValue={this.setLocalValues}
                     />
                     <RangeBarValue
                         rangeBarProps={this.state}
-                        setValueInReducer={this.setValueInReducer}
+                        setValue={this.setLocalValues}
                         style={{marginTop: "2rem"}}
 
                     />

@@ -9,7 +9,7 @@ export default function PensionIncomeStartAges( {setValue, setIncome, setFutureR
    
         rrspDetails = Object.values(rrspDetails)                                                                      //Converts the rrspDetails into an Array that can be mapped through to show a rangeBar for each 
 
-        const setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps)  => {                          //Function fired by changing the rangeBar
+        const setRRSPIncome = (name, financialValue, rangeBarValue, rangeBarProps)  => {                          //Function fired by changing the rangeBar
             setValue(name, financialValue, rangeBarValue, rangeBarProps)                                              //sets the values inputted by the rangeBar into the lifetimeIncomeVariable Reducer
             setFutureRRSPValue()
             const RRIFPaymentTable = calculateRRIFPaymentTable(startAge, futureRRSPValue, 0.03)                       //Calculates the required withdrawal per year from the future RRSP value
@@ -27,7 +27,7 @@ export default function PensionIncomeStartAges( {setValue, setIncome, setFutureR
                 rrspDetails.map(d => 
                                 <RangeBar   id={d.name}
                                             key={d.name}
-                                            setValueInReducer={setValueInReducer}                                    //Function defined above, sets the two values, current RRSP value and RRSP contributions
+                                            setIncome={setIncome}                                    //Function defined above, sets the two values, current RRSP value and RRSP contributions
                                             rangeBarProps={d}                                                        //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
                     />)
 

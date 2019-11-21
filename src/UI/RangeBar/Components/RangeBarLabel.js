@@ -7,7 +7,6 @@ import styled from "styled-components"
         return (
             <div>
              <LabelAsInput 
-                name={this.props.rangeBarProps.name}
                 autoComplete="off"
                 onChange={(e) => this.props.handleChangeLabel(e, this.props.rangeBarProps)}
                 value={this.props.rangeBarProps.label}

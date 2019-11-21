@@ -1,5 +1,5 @@
 
-export const setIncome = (selectedAge, name, financialValue, rangeBarValue,  contributeToCPP) => {
+export const setIncome = (selectedAge, name, financialValue, rangeBarValue,  contributeToCpp) => {
     return ({
         type: "SET_INCOME", 
         payload: {
@@ -7,7 +7,7 @@ export const setIncome = (selectedAge, name, financialValue, rangeBarValue,  con
             name: name,
             financialValue: Math.round(financialValue*100)/100, 
             rangeBarValue: rangeBarValue,
-            contributeToCPP: contributeToCPP
+            contributeToCpp: contributeToCpp
         }
     })
 }

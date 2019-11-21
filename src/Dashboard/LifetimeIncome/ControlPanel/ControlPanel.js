@@ -15,7 +15,7 @@ export default class ControlPanel extends Component {
                         lower={this.props.lower}
                         higher={this.props.higher}
                         setParentDualRangeValues={this.props.setParentDualRangeValues}
-                        setValueInReducer = {this.props.setValueInReducer}
+                        setIncome = {this.props.setIncome}
                         handleChangeLabel = {this.props.handleChangeLabel}
                         incomeTypeArray={this.props.incomeTypeArray}
                         handleRemoveItem={this.props.handleRemoveItem}

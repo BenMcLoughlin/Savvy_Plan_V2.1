@@ -75,7 +75,7 @@ export default class IncomeInput extends Component {
        return incomeTypeArray.map(incomeType => <RangeBar id={incomeType.name}
                                                                  key={incomeType.name}
                                                                  rangeBarProps={incomeType}
-                                                                 setValueInReducer={this.props.setValueInReducer}
+                                                                 setIncome={this.props.setIncome}
                                                                  handleChangeLabel = {this.props.handleChangeLabel}
                                                                  handleRemoveItem={this.props.handleRemoveItem}
                                                                  />

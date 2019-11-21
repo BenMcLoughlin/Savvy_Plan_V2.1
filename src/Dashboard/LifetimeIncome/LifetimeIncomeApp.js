@@ -39,9 +39,9 @@ const LifetimeIncomeApp = (props) => {
       }
 
 //INCOME INPUT
-       const setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {      //used by rangebars to set values. Rangebars recieve function and pass back the above props. 
+       const setIncome = (name, financialValue, rangeBarValue, rangeBarProps) => {      //used by rangebars to set values. Rangebars recieve function and pass back the above props. 
           for (let age = fromAge; age < toAge; age++ ) {                                                   //it is here that the function decides what to do with them. In case it will set income. 
-            props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCPP)       //sets the income in the lifetimeIncomeYearList reducer
+            props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCpp)       //sets the income in the lifetimeIncomeYearList reducer
           }    
           renderCPPandOASIncome()                                                                          //fires the cpp and oas calculation so it is always up to date.
       }
@@ -122,7 +122,7 @@ console.log(data);
                     lower ={fromAge}
                     higher={toAge}
                     setParentDualRangeValues={setParentDualRangeValues } 
-                    setValueInReducer = {setValueInReducer}
+                    setIncome = {setIncome}
                     handleChangeLabel = {handleChangeLabel}
                     incomeTypeArray={incomeTypeArray}
                     handleRemoveItem={handleRemoveItem}

@@ -1,18 +1,42 @@
-export const setPayload = (selectedAge, name, label, financialValue, rangeBarValue, contributeToCPP) => ({
-        type: "SET_INCOME_REFACTOR", 
+export const setIncome_action = (age, contributeToCpp, financialValue, label, name, rangeBarValue, ) => ({
+        type: "SET_INCOME_PER_YEAR", 
         payload: {
-            age: selectedAge, 
-            label: label,
-            financialValue: Math.round(financialValue*100)/100, 
-            rangeBarValue: rangeBarValue,
-            contributeToCPP: contributeToCPP
+            age, 
+            contributeToCpp, 
+            financialValue, 
+            label,
+            name,
+            rangeBarValue,
         }
 })
 
-export const removeItem = (selectedAge, name) => ({
-        type: "REMOVE_INCOME_TYPE", 
-        payload: {
-            selectedAge: selectedAge, 
-            name: name,
+export const removeItem_action = (age, name) => ({
+        type: "REMOVE_INCOME_TYPE_REFACTOR", 
+            age,
+            name
+})
 
-}})
+
+export const setKeyVariable_action = (name, value) => ({
+    type: "SET_KEY_VARIABLE", 
+            name, 
+            value
+
+})
+export const calculateCpp_action = (age, cppStartAge, cacheKey) => {
+    return {
+        type: "CALCULATE_CPP_REFACTOR", 
+            age,   
+            cacheKey,
+            cppStartAge, 
+    }
+}
+
+export const setPensionStartAge_action = (name, value) => {
+    return {
+        type: "SET_PENSION_START_AGE", 
+            name, 
+            value 
+    }
+}
+

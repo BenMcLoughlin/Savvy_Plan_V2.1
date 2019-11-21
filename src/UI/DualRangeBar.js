@@ -4,56 +4,59 @@ import {ChevronIcon} from "../Styles/Icons"
 
 /*Props Required to be passed:
 1. lowerValue and higherValue
-2. a function called setParentDualRangeValues which will receive the lower and upper values and then set them accordingly
+2. a function called setDualRangeValues which will receive the fromAge and upper values and then set them accordingly
 
 */
 
 class DualRangeRangeBar extends Component {
 
     state = {
-        lower: this.props.lower,
-        higher: this.props.higher, 
+        fromAge: this.props.fromAge,
+        toAge: this.props.toAge, 
+        skipForwardBy: 10, 
         lowerValueAsInput: false,
         higherValueAsInput: false,
     }
 
-
-    handleChangeLower = (e) => {
-
-       const value = e.target.value
-       
-          if  (this.state.lower >= this.state.higher) {
-              this.setState({
-                  higher: Number(value) + 5,
-                  lower: Number(this.state.higher) - 1,
-              })
-          }
-          else {
-              this.setState({
-                  lower: Number(value)  
-              })
-          }
-          this.props.setParentDualRangeValues(value, this.state.higher)
+    handleSliderChange = (e) => {
+    
+        const value = e.target.value
+        if  (this.state.fromAge >= this.state.toAge) {
+            this.setState({
+                toAge: +value + 5,
+                fromAge: +this.state.toAge - 1,
+            })
+        }
+        else {
+            this.setState({
+                [e.target.name]: +value
+            })
+        }
+        if (e.target.name === "fromAge") {
+            this.props.setKeyVariables("fromAge", +value)
+        }
+        else {
+            this.props.setKeyVariables("toAge", +value)
+        }
+  
     }
 
-    handleChangeHigher = (e) => {
-       const value = e.target.value
-
-              this.setState({
-                  higher: Number(value)
-              })
-        //   }
-          this.props.setParentDualRangeValues(this.state.lower, value)
+    handleInputChange(e) {
+            this.setState({
+                [e.target.name]: +e.target.value
+            })
+            this.props.setKeyVariables(e.target.name, this.state.fromAge)
     }
-
+    
     handleClickRight = () => {
-        const lower = this.state.higher < 95 ? this.state.higher : 85
-        const higher = this.state.higher + 10 < 95 ? this.state.higher + 10 : 95
+        const fromAge = this.state.toAge < 95 ? this.state.toAge : 85
+        const toAge = this.state.toAge + 10 < 95 ? this.state.toAge + this.state.skipForwardBy : 95
         this.setState({
-            lower: lower,
-            higher: higher
+            fromAge: fromAge,
+            toAge: toAge
         })
-        this.props.setParentDualRangeValues(this.state.higher, higher)
+        this.props.setKeyVariables("fromAge", this.state.fromAge)
+        this.props.setKeyVariables("toAge", this.state.toAge)
     }
 
     toggleState = ()=> {
@@ -93,12 +96,13 @@ class DualRangeRangeBar extends Component {
                 higherValueAsInput: false,
             })
         }
-      }
-
+      }     
+      
     render() {
-        const totalWidth = 30 // width the runner bar
-        const percentageMin = this.state.lower / 77 //percentage of the runnerbar that is shifting left as the thumb moves
-        const percentageMax = this.state.higher / 77 //total percentage of the higher value
+ 
+        const totalWidth = 300 // width the runner bar
+        const percentageMin = this.state.fromAge / 77 //percentage of the runnerbar that is shifting left as the thumb moves
+        const percentageMax = this.state.toAge / 77 //total percentage of the toAge value
 
         //to account for the fact that the minimum value is 18 we have to make the rage 77 (95 - 18)
 
@@ -112,23 +116,23 @@ class DualRangeRangeBar extends Component {
                 <InputWrapper 
                     totalWidth = {totalWidth}
                 >
-            {/* this controls the thumb of the lower value*/}
+            {/* this controls the thumb of the fromAge value*/}
                 <InputLeft
-                    name="lower"
+                    name="fromAge"
                     type="range"
-                    onChange={(e) => this.handleChangeLower(e)}
-                    value={this.state.lower}
+                    onChange={(e) => this.handleSliderChange(e)}
+                    value={this.state.fromAge}
                     min={18}
                     max={95}
                     step={1}
             />
-            {/* this controls the thumb of the higher value*/}
+            {/* this controls the thumb of the toAge value*/}
         
                 <InputRight
-                    name="higher"
+                    name="toAge"
                     type="range"
-                    onChange={(e) => this.handleChangeHigher(e)}
-                    value={this.state.higher}
+                    onChange={(e) => this.handleSliderChange(e)}
+                    value={this.state.toAge}
                     min={18}
                     max={95}
                     step={1}
@@ -146,32 +150,34 @@ class DualRangeRangeBar extends Component {
                 <ValueBoxWrapper>
                 {this.state.lowerValueAsInput ? 
                     <ValueAsInput 
-                       type="text"
+                       type="number"
+                       name="fromAge"
                        autoComplete="off"
-                       onChange={(e) => this.handleChangeLower(e)}
-                       value={this.state.lower}
+                       onChange={(e) => this.handleInputChange(e)}
+                       value={this.state.fromAge}
                        onKeyDown={(event) => this.handleKeyDown(event)}
                        onBlur={() => this.toggleLowerValueAsInputState()} 
                     />
                     
                     :
-                    <Value onClick={() => this.toggleLowerValueAsInputState()}>{(this.state.lower).toLocaleString()}</Value>
+                    <Value onClick={() => this.toggleLowerValueAsInputState()}>{(this.state.fromAge).toLocaleString()}</Value>
                    }
                     <Button onClick={() => this.handleClickRight()}>
                         <ChevronIcon style={{color: "white"}}/>
                     </Button>
                     {this.state.higherValueAsInput ? 
                         <ValueAsInput 
-                           type="text"
+                           type="number"
+                           name="toAge"
                            autoComplete="off"
-                           onChange={(e) => this.handleChangeHigher(e)}
-                           value={this.state.higher}
+                           onChange={(e) => this.handleInputChange(e)}
+                           value={this.state.toAge}
                            onKeyDown={(event) => this.handleKeyDown(event)}
                            onBlur={() => this.toggleHigherValueAsInputState()} 
                         />
                         
                         :
-                        <Value onClick={() => this.toggleHigherValueAsInputState()}>{this.state.higher}</Value>
+                        <Value onClick={() => this.toggleHigherValueAsInputState()}>{this.state.toAge}</Value>
                        }
                 </ValueBoxWrapper>
 
@@ -191,15 +197,15 @@ export default DualRangeRangeBar
 const InputWrapper = styled.div`
     position: relative;
     height: 3px;
-    width: ${props => props.totalWidth}rem;
+    width: ${props => props.totalWidth}px;
     margin: 11px;
     background-color: ${props => props.theme.color.dullSteelBlue};
     border-radius: 7px;
 `
 const Bar = styled.div`
     position: absolute;
-    width: ${props => props.fillBarWidth - 1.8}rem;
-    left: ${props => props.leftPosition - 6.5}rem;
+    width: ${props => props.fillBarWidth - 3}px;
+    left: ${props => props.leftPosition - 70}px;
     height: 3px;
     background: ${props => props.theme.color.sandy};
     /* z-index: 11; */
@@ -216,11 +222,10 @@ const InputLeft = styled.input`
     outline: none;
   }
   position: absolute;
-    height: 22px;
+
     left: 0px;
     top: -8.5px;
     margin: 0px;
-    
     border-style: none;
     
     z-index: 10;
@@ -228,7 +233,7 @@ const InputLeft = styled.input`
         -webkit-appearance: none;
     appearance: none;
     width: 12px;
-    margin-top: -4px;
+    margin-top: 3px;
     height: 12px;
     background: ${props => props.theme.color.dullSteelBlue};
     border-radius: 50%;
@@ -248,9 +253,9 @@ const InputLeft = styled.input`
   }
 `
 const InputRight = styled(InputLeft)`
-        top: 20px;
+        top: -20px;
         &::-webkit-slider-thumb {
-    transform: translateY(-28.5px);
+    transform: translateY(12.5px);
   }
 
 `
@@ -261,6 +266,7 @@ const ValueBoxWrapper = styled.div`
     z-index: 300;
     width: 100%;
     padding: 1rem;
+    z-index: 100;
     align-items: center;
     font-size: ${props =>props.theme.fontSize.smallMedium};
 `
@@ -293,7 +299,7 @@ const ValueAsInput = styled.input`
         ${sharedStyles}
         background: ${props => props.theme.color.dullSteelBlue};
         font-size: ${props =>props.theme.fontSize.small};
-        z-index: 23;
+        z-index: 33;
         outline: none;
         ::-webkit-inner-spin-button, 
         ::-webkit-outer-spin-button { 
@@ -330,7 +336,7 @@ export const Value = styled.div`
 //this component uses two sliders to create the illusion of one slider with two ranges. 
 // I borrowed some of the logic to build it from this codepen https://codepen.io/koklahoma/pen/LkgWkw but had to make
 //several adjustements to convert it to react. The main challenge is ensuring that if the selector thumbs touch the 
-//lower one can't be higher the the larger value. Most of the logic is ensure that if one selector thumb hits the other then it 
+//fromAge one can't be toAge the the larger value. Most of the logic is ensure that if one selector thumb hits the other then it 
 // can push it along. 
 // Also I needed to create an overlay div that presented the color area of the area that has been selected. This uses logic
 //to change the styles of the div from where it begins on the left to how long it is. 

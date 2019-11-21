@@ -13,7 +13,7 @@ export default class HeaderValues extends Component {
         // totalTaxLiability={TotalTaxLiability.toLocaleString()}
         // marginalRate={(TotalMarginalTaxBracket * 100).toFixed(2)}
         // averageRate={(AverageTaxRate * 100).toFixed(2)}
-        // contributeToCPP={this.contributeToCPPHandler}
+        // contributeToCpp={this.contributeToCPPHandler}
         // RRSPSavings = {Number(RRSPSavings).toLocaleString()}
 
         return (
