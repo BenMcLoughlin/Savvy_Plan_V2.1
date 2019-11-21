@@ -1,5 +1,4 @@
 import _ from "lodash"
-import historicYMPE from "../services/historicYMPEdata"
 import {calculateCpp} from  "../services/localFunctions"
 
 const initialState = () => {
@@ -51,7 +50,7 @@ const initialState = () => {
 return incomePerYear
 }
 
- const incomePerYear = (state = initialState(), action) => {
+ const incomePerYear_reducer = (state = initialState(), action) => {
     switch(action.type) {
         case "SET_INCOME_PER_YEAR": return {...state, [action.payload.age]: {
                                         ...state[action.payload.age], [action.payload.name]: action.payload
@@ -76,7 +75,7 @@ return incomePerYear
 
 
 
-export default incomePerYear
+export default incomePerYear_reducer
 
 
 

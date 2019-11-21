@@ -1,27 +1,22 @@
 import {combineReducers} from "redux"
-import {tilePaneReducer} from "./tilePaneReducers"
 //import authReducer from "./authReducer"
 import {netWorthState} from "../Dashboard/NetWorth/reducers/netWorthReducers"
-import lifetimeIncomeYearList from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeYearList"
-import incomePerYear from "../Dashboard/Spending/reducers/incomePerYear"
-import savings_reducer from "../Dashboard/Spending/reducers/savings_reducer"
-import keyVariables from "../Dashboard/Spending/reducers/keyVariables"
-import pensionStartAges from "../Dashboard/Spending/reducers/pensionStartAges"
+import incomePerYear_reducer from "../Dashboard/LifetimeIncome/reducers/incomePerYear_reducer"
+import savings_reducer from "../Dashboard/LifetimeIncome/reducers/savings_reducer"
+import keyVariables_reducer from "../Dashboard/LifetimeIncome/reducers/keyVariables_reducer"
+import pensionStartAges_reducer from "../Dashboard/LifetimeIncome/reducers/pensionStartAges_reducer"
 
-import lifetimeIncomeVariables from "../Dashboard/LifetimeIncome/reducers/lifetimeIncomeVariables"
+
 import taxVariables from "../Dashboard/Tax/reducers/taxVariables"
 
 export default combineReducers({
 
-    tilePaneData: tilePaneReducer,
  //   auth: authReducer,
     netWorthState,
-    lifetimeIncomeYearList,
-    lifetimeIncomeVariables,
     taxVariables,
-    incomePerYear,
-    keyVariables,
-    pensionStartAges,
+    incomePerYear_reducer,
+    keyVariables_reducer,
+    pensionStartAges_reducer,
     savings_reducer
 
    

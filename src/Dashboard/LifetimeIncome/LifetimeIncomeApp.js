@@ -1,161 +1,152 @@
 import React from "react"
-import ControlPanel from "./ControlPanel/ControlPanel"
-import HeaderValues from "./HeaderValues"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import StackedBarChartLifetimeIncome from "./Chart/StackedBarChart.js"
-import {setIncome, changeLabel, removeItem, 
-        addItem, setRRSPDetails, setAgeRange, 
-        setFutureRRSPValue,  
-        setAverageLifetimeEarnings, calculateCPP, 
-        calculateOAS, 
-        clearIncomeBeforeStartAge, setLifetimeIncomeVariable, setValue} from "./actions"
+import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp_action, setPensionStartAge_action} from "./actions"
+import HeaderValues from "./HeaderValues"
+import ControlPanel from "./ControlPanel/ControlPanel"
+import _ from "lodash"
+import StackedBarChartLifetimeIncome from "./Charts/StackedBarChart"
+import {adjustOas}from "./services/localFunctions"
 
+const LifetimeIncomeAppRefactor = ({setIncome_action, setKeyVariable_action, calculateCpp_action, setPensionStartAge_action,               // destructure out variables
+    incomePerYear_reducer, savings_reducer, removeItem_action, pensionStartAges_reducer, keyVariables_reducer,
+    keyVariables_reducer: {fromAge: fromAge},
+    keyVariables_reducer: {toAge: toAge},
+    pensionStartAges_reducer: {cppStartAge: {rangeBarValue: cppStartAge}},
+    pensionStartAges_reducer: {oasStartAge: {rangeBarValue: oasStartAge }}}) => {
 
-const LifetimeIncomeApp = (props) => {
-
-//DESTRUCTURE REDUCERS TO ASSIGN VARIABLES
-        const { fromAge, toAge, rrspDetails,                                                                 //Using nested Object destructing to grab and assign main variables. 
-            pensionStartAges : { cppStartAge : {rangeBarValue: cppStartAge }},            
-            pensionStartAges : { oasStartAge : {rangeBarValue: oasStartAge }},
-        } = props.lifetimeIncomeVariables
-     
-
-//DUAL RANGEBAR SETS AGE RANGE
-         const setParentDualRangeValues = (lower, higher) => {                                              //passed to dual range bar to set fromAge and toAge
-          if (lower >= 18) {                                                                                //minimum age is 18 so if it is less it throws an error
-           props.setAgeRange(lower, higher)                                                                 //fires action setting ages in the reducer, all income inputs are now between these ages
-          }
-       }
 
 //CALCULATE CPP AND OAS 
-       const renderCPPandOASIncome = () => {                                                                //takes the year the user selected to begin their pension as the start and fills in
-          for (let age = cppStartAge; age <= 95; age++) {                                                   //their pension income until age 95
-              props.calculateCPP(cppStartAge, age)                                                          //calculates CPP payment and inserts it into lifetimeIncomeYearList reducer
-          }
-          for (let age = oasStartAge; age <= 95; age++) {
-              props.calculateOAS(oasStartAge, age)
-          }
-      }
+const renderCPPandOASIncome = (cacheKey) => {                                                                                              //caclualtes the cpp and oas payments and places them into the incomePeryearReducer               
+      for (let age = cppStartAge; age <= 95; age++) {
+            calculateCpp_action(age, cppStartAge, cacheKey)                                                                                //to support memoization we are passing in the financial value as a caheKey which the funciton will use to know if it's ran before
+        }
+      for (let age = 59; age < cppStartAge; age++) {                                                                                       //resets cpp payments to 0 before the selectd start age
+            setIncome_action(age, false, 0, "CPP Income", "cppIncome")  
+        }
+      for (let age = oasStartAge; age <= 95; age++) {                                                                                      //sets OasIncome in the reducer 
+            setIncome_action(age, false, 7300, "OAS Income", "oasIncome", 0)  
+        }
+      for (let age = 59; age < oasStartAge; age++) {
+            setIncome_action(age, false,  0, "OAS Income", "oasIncome", 0)  
+        }
+    }
 
 //INCOME INPUT
-       const setIncome = (name, financialValue, rangeBarValue, rangeBarProps) => {      //used by rangebars to set values. Rangebars recieve function and pass back the above props. 
-          for (let age = fromAge; age < toAge; age++ ) {                                                   //it is here that the function decides what to do with them. In case it will set income. 
-            props.setIncome(age, name, financialValue, rangeBarValue, rangeBarProps.contributeToCpp)       //sets the income in the lifetimeIncomeYearList reducer
-          }    
-          renderCPPandOASIncome()                                                                          //fires the cpp and oas calculation so it is always up to date.
-      }
+    const setIncome = (financialValue, rangeBarValue, {contributeToCpp, label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
+    const cacheKey = financialValue + name +  (fromAge.toString()) + (toAge.toString())                                                   //creates a unique cacheKey which will be used to check if the function has been run before and return the last answer if it was - memoization
+        for (let age = fromAge; age < toAge; age++ ) {                                                           
+            setIncome_action(age, contributeToCpp, financialValue, label, name, rangeBarValue)                                            //sets the income for each of the years between the selected ranges
+        }    
+        {
+            contributeToCpp && renderCPPandOASIncome(cacheKey)                                                                            //only recalculates CPP if contributions to CPP are made on the income
+        }                                                           
+    }
+
+    const incomeTypeArray = Object.values(incomePerYear_reducer[keyVariables_reducer.fromAge])                                            //Converts the year list to an array so that it can be mapped through for rangebars  
+        .filter(d => d.name !== "oasIncome")                                                                                              //Range Bars only show for income the user is inputting, not retirementIncome, these are filtered out                       
+        .filter(d => d.name !== "cppIncome")
+        .filter(d => d.name !== "rrifIncome") 
+
+    const addItemToList = (financialValue, rangeBarValue, {isChecked, label, name}) => {
+        let contributeToCpp = isChecked
+        for(let age = 18; age < 95; age++) {
+        setIncome_action(age, isChecked, 0, label, name, 0)
+        }
+        setIncome (financialValue, rangeBarValue, {contributeToCpp, label, name})
+    }
 
 //CHANGE INCOME LABEL
-      const handleChangeLabel = (e, rangeBarProps) => {                                                     // eg. the user changes label from "Employment income" to "Wal mart Income"
-          for (let age = fromAge; age < toAge; age++ ) {
-              props.changeLabel(age, e.target.value, e.target.name)
-            }
-      }
+    const handleChangeLabel = (e,  {financialValue, rangeBarValue, contributeToCpp, label, name}) => {                                   // eg. the user changes label from "Employment income" to "Wal mart Income"
+    for (let age = fromAge; age < toAge; age++ ) {
+        setIncome_action(age, contributeToCpp, financialValue, e.target.value, name, rangeBarValue) 
+    }
+    }
 
+//PENSION INCOME CALCULATION
+    const setPensionIncome = (name, value)  => {   
+        setPensionStartAge_action(name, value)                                                                                           //Takes value from rangeBar and sets it into the pension start age reducer 
+        const cacheKey = value+name
+        if  (name === "cppStartAge") {                                                                                                   //Checks name of value being changed and sets it into the lifetimeIncomeYearList 
+            for (let age = value; age <=95; age ++) {                                                                                    //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
+                calculateCpp_action(age, value, cacheKey)
+            }
+            for (let age = 59; age < value; age++) {
+                setIncome_action(age, false, 0, "CPP Income", "cppIncome")  
+            }}
+        else if  (name === "oasStartAge") {
+            const oasPayment = adjustOas(7200, value)
+            for (let age = value; age <=95; age ++) {                                                                                     //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
+                setIncome_action(age, false, oasPayment, "OAS Income", "oasIncome") 
+            }
+            for (let age = 64; age < value; age++) {
+                setIncome_action(age, false, 0, "OAS Income", "oasIncome")  
+            }}
+        else {
+            setKeyVariable_action(name, value)
+        }
+       }
 //REMOVE INCOME TYPE
-      const handleRemoveItem = (rangeBarProps) => {                                                         //used to remove income types from reducer
-            for (let age = fromAge; age < toAge; age++ ) {
-              props.removeItem(age, rangeBarProps.name)
-            }
-            renderCPPandOASIncome()
-      }
-  
-//ADD NEW ITEM
-      const addItemToList = (newItem, listNewItemWillBeAddedToo) => {                                       //used to add new income type to list
-                 
-          for (let age = 18; age < 95; age++ ) {                                                            // first adds empty value with correct name and label to entire reducer 18 - 95
-          props.addItem(
-              age,
-              newItem.name,
-              newItem.label,
-              0,
-              0,
-              0)
-          }
-          for (let age = fromAge; age < toAge; age++ ) {                                                    //then adds the income for the desired years
-              props.addItem(
-              age,
-              newItem.name,
-              newItem.label,
-              newItem.financialValue,
-              newItem.rangeBarValue,
-              newItem.isChecked)
-          }
-          renderCPPandOASIncome()
-      }
+const handleRemoveItem = ({name}) => {                                                                                                      //used to remove income types from reducer
+  console.log(name);
+    for (let age = 18; age < 95; age++ ) {
+      removeItem_action(age, name)
+    }
+}
 
+//DATA CONVERSTION FOR STACKED BAR CHART
+const data = Object.values(incomePerYear_reducer).map(d => {                                                                               //the year list needs to be converted to an array so the chart can render the data
+    const incomeNamesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
+    const financialValueArray = Object.values(d).map(a => a.financialValue)                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
+    var result = {age: d.cppIncome.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
+    incomeNamesArray.forEach((key, i) => result[key] = financialValueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
+    return result
+})
 
-//DATA CONVERSTION FOR CHART
-        const data = Object.values(props.lifetimeIncomeYearList).map(d => {                           //the year list needs to be converted to an array so the chart can render the data
-            const incomeTypeArray = Object.keys(d.incomeType)
-            const financialValueArray = Object.keys(d.incomeType).map(income => d.incomeType[income].financialValue)
-            var result = {age: d.age};
-            incomeTypeArray.forEach((key, i) => result[key] = financialValueArray[i]);          
-          return result
-        })
-     
-       const stackedKeys = Object.keys(props.lifetimeIncomeYearList[18].incomeType)                    //this provides and array of the income types that is used in building the chart
-       
-//DATA CONVERSTION FOR INCOME RANGEBARS
-       const incomeTypeArray = Object.values(props.lifetimeIncomeYearList[fromAge]                     //the list of income types is mapped and a rangebar is rendered for each 
-        .incomeType).filter(d => d.name !== "oasIncome")                                                    //Only the income the user inputs needs a range bar so these are removed 
-                    .filter(d => d.name !== "cppIncome")
-                    .filter(d => d.name !== "rrifIncome") 
+const stackedKeys = Object.keys(incomePerYear_reducer[18])                                                                                   //creates a an array of each of the income type names, which is used in the stacked Income chart
 
- //DATA CONVERSTION FOR RRSP RANGEBARS
-        const rrspDetailsRangeBarArray = Object.values(rrspDetails).slice(0,2)
-console.log(data);
-
+             console.log(savings_reducer);
         return (
             <UserInterfaceWrapper>
-                <HeaderValues                                                                             
-                lifetimeIncomeYearList = {props.lifetimeIncomeYearList} 
-                />                                                                                          {/*Displays all the key values along the top of the page */}
+                <HeaderValues
+                     incomePerYear_reducer={incomePerYear_reducer}
+                />
                 <ChartPlaceHolder>
                 <StackedBarChartLifetimeIncome
                     data={data}
                     stackedKeys={stackedKeys}
                 />
-                </ChartPlaceHolder>                                                                        {/*Holds 3 sections, income input, rrsp input and retirement start age*/}
-                <ControlPanel     
-                    lower ={fromAge}
-                    higher={toAge}
-                    setParentDualRangeValues={setParentDualRangeValues } 
-                    setIncome = {setIncome}
+                </ChartPlaceHolder>    
+            <ControlPanel
                     handleChangeLabel = {handleChangeLabel}
-                    incomeTypeArray={incomeTypeArray}
                     handleRemoveItem={handleRemoveItem}
-                    addItemToList={addItemToList}
-                    lifetimeIncomeVariables={props.lifetimeIncomeVariables}
-                    rrspDetailsRangeBarArray ={rrspDetailsRangeBarArray}
-                    setIncome={props.setIncome}
-                    setFutureRRSPValue={props.setFutureRRSPValue}
-                    calculateCPP={props.calculateCPP}
-                    clearIncomeBeforeStartAge = {props.clearIncomeBeforeStartAge}
-                    calculateOAS={props.calculateOAS}
-                    lifetimeIncomeYearList={props.lifetimeIncomeYearList}
-                    setValue={props.setValue}
-                />
+                    keyVariables_reducer={keyVariables_reducer}
+                    setIncome={setIncome}
+                    calculateCpp_action={calculateCpp_action}
+                    incomePerYear_reducer={incomePerYear_reducer}
+                    pensionStartAges_reducer={pensionStartAges_reducer}
+                    setPensionStartAge_action={setPensionStartAge_action}
+                    setKeyVariable_action={setKeyVariable_action}
+                    setIncome_action={setIncome_action}
+                    incomeTypeArray={incomeTypeArray}
+                    addItemToList={addItemToList }
+                    setPensionIncome={setPensionIncome}
+            />
             </UserInterfaceWrapper>
         )
 }
 
 
 const mapStateToProps = (state) => {
-
     return {
-        lifetimeIncomeVariables: state.lifetimeIncomeVariables,
-        lifetimeIncomeYearList: state.lifetimeIncomeYearList
+        incomePerYear_reducer: state.incomePerYear_reducer,
+        keyVariables_reducer: state.keyVariables_reducer,
+        pensionStartAges_reducer: state.pensionStartAges_reducer,
+        savings_reducer: state.savings_reducer, 
     }
 }
 
-export default connect(mapStateToProps, {setIncome, changeLabel, removeItem, 
-                                        addItem, setRRSPDetails, setAgeRange,
-                                         setFutureRRSPValue, 
-                                          setAverageLifetimeEarnings, calculateCPP, 
-                                          clearIncomeBeforeStartAge, calculateOAS, 
-                                          clearIncomeBeforeStartAge, setLifetimeIncomeVariable, setValue})(LifetimeIncomeApp)
+export default connect(mapStateToProps, {setIncome_action,  setKeyVariable_action, calculateCpp_action, setPensionStartAge_action,  removeItem_action,})(LifetimeIncomeAppRefactor)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -180,5 +171,8 @@ const ChartPlaceHolder = styled.div`
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// Shows the user the control panel, the tile pane and the chart of the LifeTime Income Calculator. 
+/* Shows the user the control panel, the tile pane and the chart of the LifeTime Income Calculator. 
 
+The main functions for this app are written here in the app. 
+
+*/

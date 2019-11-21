@@ -43,7 +43,7 @@ const initialState = {
 }
 
 
-const pensionStartAges = (state = initialState, action) => {
+const pensionStartAges_reducer = (state = initialState, action) => {
     switch(action.type) {
         case "SET_PENSION_START_AGE": return {...state, [action.name]: {
                                                 ...state[action.name],  rangeBarValue: action.value,
@@ -54,5 +54,5 @@ const pensionStartAges = (state = initialState, action) => {
     }
 
 
-export default pensionStartAges
+export default pensionStartAges_reducer
 

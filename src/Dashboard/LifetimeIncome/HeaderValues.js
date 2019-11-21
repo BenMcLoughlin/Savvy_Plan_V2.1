@@ -6,133 +6,133 @@ export default class HeaderValues extends Component {
 
 //GRAB MOUSE COORDINATES FOR TOOLTIP
     state = { 
-              x: 0,                                                                                             //These coordinates are set onMouseMove placing the tootip beside the mouse
-              y: 0,                                                                                             //They are passed as props to the Tooltip componnent 
+              x: 0,                                                                                                              //These coordinates are set onMouseMove placing the tootip beside the mouse
+              y: 0,                                                                                                              //They are passed as props to the Tooltip componnent 
             }
    handleMouseMove(e) {
-                this.setState({ x: e.clientX -120, y: e.clientY -140 })                                         //Sets the state according to mouse position
-              }                                                                                                 //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
+                this.setState({ x: e.clientX -120, y: e.clientY -140 })                                                          //Sets the state according to mouse position
+              }                                                                                                                  //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
 
     render() {
 
 //DESTRUCTURE REDUCERS TO ASSIGN VARIABLES
-        const { incomeType,
-            incomeType : { cppIncome : {financialValue: cppIncome }},                                           //Grabs and assigns variable names from reducer
-            incomeType : { oasIncome : {financialValue: oasIncome }},
-            incomeType : { rrifIncome : {financialValue: rrifIncome }},
-        } = this.props.lifetimeIncomeYearList[75]
+        const {
+             cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer
+             oasIncome : {financialValue: oasIncome },
+             rrifIncome: {financialValue: rrifIncome }
+        } = this.props.incomePerYear_reducer[75]            
 
-//CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
-        const totalRetirementIncome = Object.values(incomeType)                                                 //Determines total income in retirement
+// //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
+        const totalRetirementIncome = Object.values(this.props.incomePerYear_reducer[75])                                        //Determines total income in retirement
                                                     .map(d => d.financialValue)
                                                     .reduce((acc, num) => acc + num)
 
-        const workingLifetimeEarnings = Object.values(this.props.lifetimeIncomeYearList)                   // turn object into array
-                                                .map(d => Object.values(d.incomeType)                           // create array of income types for each year
-                                                .map(d => d.financialValue)                                     // make sub arrays just show financial value
-                                                .reduce((acc, num) => acc + num))                               // sum the earned value for each year. 
-                                                .slice(0,47)                                                    // Grab Only working years 
-                                                .reduce((acc, num) => acc + num)                                // determine sum total of working years income
+        const workingLifetimeEarnings = Object.values(this.props.incomePerYear_reducer)                                          // turn object into array
+                                               .map(d => Object.values(d)
+                                                 .map(a => a.financialValue)                                                     // make sub arrays just show financial value
+                                                 .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
+                                                .slice(0,47)                                                                     // Grab Only working years 
+                                                .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
 
-       const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                        //calculate average working annual income, then round
+        const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
 
-       const shortFall =  totalRetirementIncome - averageWorkingEarnings                                        //determine retirement income shortfall to be displayed 
+        const shortFall =  totalRetirementIncome - averageWorkingEarnings                                                         //determine retirement income shortfall to be displayed 
 
-//RETIRMENT INCOME TAX RATE
-        const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ?             //calculate tax rate in retirement 
-                                                calculateMarginalTaxRate(totalRetirementIncome) + 15            //if income is above 72000, OAS is clawed backed by adding an additional 15% on the tax
-                                                : calculateMarginalTaxRate(totalRetirementIncome) || 0
-      return (
+// //RETIRMENT INCOME TAX RATE
+//         const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ?                            //calculate tax rate in retirement 
+//                                                 calculateMarginalTaxRate(totalRetirementIncome) + 15                           //if income is above 72000, OAS is clawed backed by adding an additional 15% on the tax
+//                                                 : calculateMarginalTaxRate(totalRetirementIncome) || 0
+
+return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
-
             <Left >
             
-                <LargeTotal >                                                                                  {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
-                    <Title>
-                    Average Income vs Pension Income
-                    </Title>
-                    <ShortFallValue value={shortFall}> 
-                    {`${shortFall/1000}k`}                                                                     {/*Values translated from 120,000 to 120 K */}
-                    </ShortFallValue>                                                                          {/*Tooltip imported from UI, passes location of users mouse and text content */}
-                        <Tooltip     
-                            x={this.state.x} 
-                            y={this.state.y} 
-                            text={ `Your average annual income is
-                                        ${averageWorkingEarnings/1000}k before retirement. Your esitmated
-                                        pension income is ${totalRetirementIncome/1000}k.  The difference is the
-                                        amount that you  need to fund yourself with investment savings.`
-                            }
-                            header= "bananas"
-                            className="shortfallTooltip"
-                        />
-                </LargeTotal>
-
-        </Left>
-        <Right>
+            <LargeTotal >                                                                                                        {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
+                <Title>
+                Average Income vs Pension Income
+                </Title>
+                <ShortFallValue value={shortFall}> 
+                {`${shortFall/1000}k`}                                                                                            {/*Values translated from 120,000 to 120 K */}
+                </ShortFallValue>                                                                                                 {/*Tooltip imported from UI, passes location of users mouse and text content */}
+                    <Tooltip     
+                        x={this.state.x} 
+                        y={this.state.y} 
+                        text={ `Your average annual income is
+                                    ${averageWorkingEarnings/1000}k before retirement. Your esitmated
+                                    pension income is ${totalRetirementIncome/1000}k.  The difference is the
+                                    amount that you  need to fund yourself with investment savings.`
+                        }
+                        header= "bananas"
+                        className="shortfallTooltip"
+                    />
+            </LargeTotal>
+            
+            </Left>
+            <Right>
             <Title>Estimated Pension Income</Title>
-                <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
-                        <CPPSummary>
-                        {`${(cppIncome)/1000}k`}  
-                            <span>CPP</span>
-                            <Tooltip 
-                                x={this.state.x} 
-                                y={this.state.y} 
-                                text="  A monthly, taxable benefit that replaces part of your income when you retire. 
-                                        If you qualify, you’ll receive the CPP retirement pension for the rest of your life. 
-                                        To qualify you must:
-                                        be at least 60 years old
-                                        have made at least one valid contribution to the CPP"
-                                header= "Canada Pension Plan"
-                                className="cppTooltip"
-                            />
-                        </CPPSummary>
-                        <OASSummary >
-                        {`${(oasIncome)/1000}k`}
-                            <span >OAS</span>
-                            <Tooltip 
+            <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
+                    <CPPSummary>
+                    {`${(cppIncome)/1000}k`}  
+                        <span>CPP</span>
+                        <Tooltip 
                             x={this.state.x} 
                             y={this.state.y} 
-                            text=   " The OAS pension is a monthly payment available to seniors aged 65 and older who 
-                                      meet the Canadian legal status and residence requirements. It is not based on 
-                                      contributions, every Canadian is elgible."
-                            header= "Old Age Security"
-                            className="oasTooltip"
-                             />
-                        </OASSummary>
-                        <RRIFSummary>
-                        {`${(rrifIncome)/1000}k`}
-                        <span >RRIF</span>
-                            <Tooltip 
-                            x={this.state.x} 
-                            y={this.state.y} 
-                            text=   "A Registered Retirement Income Fund (RRIF) is an account registered with the government that 
-                                     pays you income in retirement. Before, you were putting money into your RRSP to accumulate
-                                     savings for retirement. Now, you withdraw that money from your RRIF as retirement income."
-                            header= "Registered Retirement Income Fund"
-                            className="rrifTooltip"
+                            text="  A monthly, taxable benefit that replaces part of your income when you retire. 
+                                    If you qualify, you’ll receive the CPP retirement pension for the rest of your life. 
+                                    To qualify you must:
+                                    be at least 60 years old
+                                    have made at least one valid contribution to the CPP"
+                            header= "Canada Pension Plan"
+                            className="cppTooltip"
                         />
-                        </RRIFSummary>
-                        <Vr/>
-                        <TaxSummary>
-                        {`${retirementTaxRate}%`}
-                        <span>Tax Rate</span>
+                    </CPPSummary>
+                    <OASSummary >
+                    {`${(oasIncome)/1000}k`}
+                        <span >OAS</span>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
-                        text="      Marginal tax is the amount of tax paid on an additional dollar of income. As income rises, so does the tax rate. 
-                                    If retirement, if you earn over $78,000 you're Old Age Security will be clawed back
-                                    at a rate of 15% on every additional dollar earned. "
-                        header= "Canada Pension Plan"
-                        className="taxTooltip"
+                        text=   " The OAS pension is a monthly payment available to seniors aged 65 and older who 
+                                  meet the Canadian legal status and residence requirements. It is not based on 
+                                  contributions, every Canadian is elgible."
+                        header= "Old Age Security"
+                        className="oasTooltip"
+                         />
+                    </OASSummary>
+                    <RRIFSummary>
+                    {`${(rrifIncome)/1000}k`}
+                    <span >RRIF</span>
+                        <Tooltip 
+                        x={this.state.x} 
+                        y={this.state.y} 
+                        text=   "A Registered Retirement Income Fund (RRIF) is an account registered with the government that 
+                                 pays you income in retirement. Before, you were putting money into your RRSP to accumulate
+                                 savings for retirement. Now, you withdraw that money from your RRIF as retirement income."
+                        header= "Registered Retirement Income Fund"
+                        className="rrifTooltip"
                     />
-                        </TaxSummary>
-                </PensionIncomeWrapper>
-                <Summary>
-                 {`${(cppIncome + oasIncome + rrifIncome)/1000}k`}
-                <span>Total</span>
-              </Summary>
-        </Right>
-        
+                    </RRIFSummary>
+                    <Vr/>
+                    <TaxSummary>
+                    {`${22}%`}
+                    <span>Tax Rate</span>
+                    <Tooltip 
+                    x={this.state.x} 
+                    y={this.state.y} 
+                    text="      Marginal tax is the amount of tax paid on an additional dollar of income. As income rises, so does the tax rate. 
+                                If retirement, if you earn over $78,000 you're Old Age Security will be clawed back
+                                at a rate of 15% on every additional dollar earned. "
+                    header= "Canada Pension Plan"
+                    className="taxTooltip"
+                />
+                    </TaxSummary>
+            </PensionIncomeWrapper>
+            <Summary>
+             {`${(cppIncome + oasIncome + rrifIncome)/1000}k`}
+            <span>Total</span>
+            </Summary>
+            </Right>
+            
             </HeaderValuesWrapper>
         )
     }
@@ -253,4 +253,7 @@ const PensionIncomeWrapper = styled.div`
     width: 60%;
     border-bottom: ${props => props.theme.border.primary};
 `
+
+
+
 

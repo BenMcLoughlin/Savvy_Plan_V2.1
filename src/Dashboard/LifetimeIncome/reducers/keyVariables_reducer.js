@@ -6,7 +6,7 @@ const initialState = {
     futureRRSPValue: 0,
 }
 
-const keyVariables = (state = initialState, action) => {
+const keyVariables_reducer = (state = initialState, action) => {
     switch(action.type) {
         case "SET_KEY_VARIABLE": 
         return {...state, [action.name]: action.value}        
@@ -14,5 +14,5 @@ const keyVariables = (state = initialState, action) => {
     }
 }
 
-export default keyVariables
+export default keyVariables_reducer
 
