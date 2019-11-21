@@ -120,12 +120,7 @@ const stackedKeys = Object.keys(incomePerYear_reducer[18])                      
             <ControlPanel
                     handleChangeLabel = {handleChangeLabel}
                     handleRemoveItem={handleRemoveItem}
-
                     addItemToList={addItemToList}
-                    lifetimeIncomeVariables={props.lifetimeIncomeVariables}
-                    rrspDetailsRangeBarArray ={rrspDetailsRangeBarArray}
-                    setIncome={props.setIncome}
-                    setFutureRRSPValue={props.setFutureRRSPValue}
                     setKeyVariable_action={setKeyVariable_action}
                     setIncome_action={setIncome_action}
                     incomeTypeArray={incomeTypeArray}
@@ -137,7 +132,8 @@ const stackedKeys = Object.keys(incomePerYear_reducer[18])                      
         )
 }
 
-
+const mapStateToProps = (state) => {
+    return {
         incomePerYear_reducer: state.incomePerYear_reducer,
         keyVariables_reducer: state.keyVariables_reducer,
         pensionStartAges_reducer: state.pensionStartAges_reducer,
