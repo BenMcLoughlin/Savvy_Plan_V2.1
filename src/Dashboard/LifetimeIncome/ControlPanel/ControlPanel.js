@@ -5,9 +5,8 @@ import RRSPDetails from "./Components/RRSPDetails"
 import PensionIncomeStartAges from "./Components/PensionIncomeStartAges"
 
 
-
 export default function ControlPanel(props) {
-     console.log(props);
+
         return (
             <ControlPanelWrapper>
                 <Left>

@@ -27,18 +27,29 @@ export default class HeaderValues extends Component {
                                                     .map(d => d.financialValue)
                                                     .reduce((acc, num) => acc + num)
 
-        const workingLifetimeEarnings = Object.values(this.props.incomePerYear)                   // turn object into array
-                                                .map(d => Object.values(d.incomeType)                           // create array of income types for each year
-                                                .map(d => d.financialValue)                                     // make sub arrays just show financial value
-                                                .reduce((acc, num) => acc + num))                               // sum the earned value for each year. 
-                                                .slice(0,47)                                                    // Grab Only working years 
-                                                .reduce((acc, num) => acc + num)                                // determine sum total of working years income
+        const workingLifetimeEarnings = Object.values(this.props.incomePerYear_reducer)                                          // turn object into array
+                                               .map(d => Object.values(d)
+                                                 .map(a => a.financialValue)                                                     // make sub arrays just show financial value
+                                                 .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
+                                                .slice(0,47)                                                                     // Grab Only working years 
+                                                .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
+
+        const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
+
+        const shortFall =  totalRetirementIncome - averageWorkingEarnings                                                         //determine retirement income shortfall to be displayed 
+
+// //RETIRMENT INCOME TAX RATE
+//         const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ?                            //calculate tax rate in retirement 
+//                                                 calculateMarginalTaxRate(totalRetirementIncome) + 15                           //if income is above 72000, OAS is clawed backed by adding an additional 15% on the tax
+//                                                 : calculateMarginalTaxRate(totalRetirementIncome) || 0
+
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
             <Left >
             
             <LargeTotal >                                                                                                        {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
                 <Title>
+                Average Income vs Pension Income
                 </Title>
                 <ShortFallValue value={shortFall}> 
                 {`${shortFall/1000}k`}                                                                                            {/*Values translated from 120,000 to 120 K */}

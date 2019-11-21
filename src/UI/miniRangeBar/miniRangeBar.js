@@ -52,3 +52,4 @@ const RangeBarWrapper = styled.div`
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // This is the entire rangebar wrapper that contains the label, the range bar input and the value output. 
+
