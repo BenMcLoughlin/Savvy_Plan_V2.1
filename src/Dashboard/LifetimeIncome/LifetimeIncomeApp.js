@@ -125,6 +125,7 @@ const stackedKeys = Object.keys(incomePerYear_reducer[18])                      
                     setIncome_action={setIncome_action}
                     incomeTypeArray={incomeTypeArray}
                     addItemToList={addItemToList }
+                    setIncome={setIncome}
                     setPensionIncome={setPensionIncome}
                     keyVariables_reducer={keyVariables_reducer}
                     pensionStartAges_reducer={pensionStartAges_reducer}

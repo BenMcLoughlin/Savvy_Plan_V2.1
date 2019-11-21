@@ -1,68 +1,102 @@
+
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {CloseIcon} from "../../Styles/Icons"
-import RangeBarLabel from "./Components/RangeBarLabel"
-import RangeBarValue from "./Components/RangeBarValue"
-import RangeBarSlider from "./Components/RangeBarSlider"
+import {logslider, roundNumber} from "../../../services/logorithmicFunctions"
 
-/*Props Required to be passed:
-1. setIncome 
-      a function that receives a name, a logValue and a rangebar value and
-      uses those variables to pass into the action and set the reducer. 
-2. rangeBarProps
-     This is an object containing the item name, id, label, financial value and rangebar value. It 
-     can also contain variables useful to the parent state that will be passed back and used to guide
-     any changes to the correct position in the reducer via the action.  
-*/ 
 
-export default class RangeBar extends Component {
+class RangeBarSlider extends Component {
+
+    state = {
+        logValue: 0,
+        rangeBarValue: 0
+    }
+
+    setLocalRangeandLogValue = (e) => {
+        const logValue = logslider(e.target.value)
+        this.setState({
+            logValue: roundNumber(logValue), 
+            rangeBarValue: Number(e.target.value)
+        })
+     this.props.setValue(this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
+    }
+
 
     render() 
 
-    {  
+    {    
         return (
-            < RangeBarWrapper>
-                <RangeBarLabel
-                     rangeBarProps={this.props.rangeBarProps}
-                     handleChangeLabel={this.props.handleChangeLabel}
-                />
-                <RangeBarSlider
-                     rangeBarProps={this.props.rangeBarProps}
-                     setValue={this.props.setValue}
-                />
-                <RangeBarValue
-                    rangeBarProps={this.props.rangeBarProps}
-                    setValue={this.props.setValue}
-                />
-               
-                <Delete  onClick={() => this.props.handleRemoveItem(this.props.rangeBarProps)}/>
-            </RangeBarWrapper>
+            <Input
+                type="range"
+                name={this.props.rangeBarProps.name}
+                onChange={(e) => this.setLocalRangeandLogValue(e)}
+                value={this.props.rangeBarProps.rangeBarValue}
+                max={100}
+                step={0.1}
+                percentage={`${(this.props.rangeBarProps.rangeBarValue/100)*100}%`}
+            />
         )
     }
 }
+//renders the slide bar. Percentage is calcuated here and pass to styled components to have the slide bar be 
+//two different colors as it moves. 
 
-
+export default RangeBarSlider
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-const RangeBarWrapper = styled.div`
-    margin-top: 1rem;
-    position: relative;
-    padding-left: 2rem;
-    width: 23rem;
-`
-const Delete = styled(CloseIcon)`
-    position: absolute;
-    top: .9rem;
-    left: 135%;
-    cursor: pointer;
-    z-index: 300;
+
+
+
+const Input = styled.input`
+
+    width: 18rem;
+    height: 3px;
+    -webkit-appearance: none;
+    background: linear-gradient(90deg, 
+        ${props => props.theme.color.sandy} ${props => props.percentage}, 
+        ${props => props.theme.color.dullSteelBlue} ${props => props.percentage});
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    border-radius: 12px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    transition: all 1s ease;
+    &:after {
+        content: "";
+            top: 3.3rem;
+            left: 95%;
+            height:.3rem;
+            width: 8rem;
+            background: transparent;
+            position: absolute;
+            z-index: 3;
+    }
+    &:active   {
+        &:after{
+            background: ${props => props.theme.color.sandy};
+        }
+ 
+        }
+
+    
+
+&::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: ${props => props.theme.color.dullSteelBlue};
     border-radius: 50%;
-    height: 1.3rem;
-    width: 1.3rem;
-    overflow: hidden;
-    color: ${props => props.theme.color.dullSteelBlue};
+    cursor: pointer;
+}
+
+&:active::-webkit-slider-thumb
+{
+    background: ${props => props.theme.color.sandy};
+}
+
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// This is the entire rangebar wrapper that contains the label, the range bar input and the value output. 
+// The actual slider bar. 

@@ -1,20 +1,16 @@
 import React from 'react'
-import {calculateRRIFPaymentTable} from "../../../../services/financialFunctions"
-import MiniRangeBar from "../../../../UI/MiniRangeBar/MiniRangeBar"
 import styled from "styled-components"
-
+import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
 
 export default function PensionIncomeStartAges( {setPensionStartAge_action, 
     calculateCpp_action, setKeyVariable_action, setPensionIncome, pensionStartAges_reducer}) {                                            //Use Destructing to assign variables and functions
    
     pensionStartAges_reducer = Object.values(pensionStartAges_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
  
-
-
     return (
-        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa MiniRangeBar for each */}
+        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa SmallRangeBar for each */}
             {
-                pensionStartAges_reducer.map(d => <MiniRangeBar 
+                pensionStartAges_reducer.map(d => <SmallRangeBar 
                                             id={d.name}
                                             key={d.name}
                                             setValueInReducer={setPensionIncome}                                                        //Function Defined Above, sets the age in the reducer

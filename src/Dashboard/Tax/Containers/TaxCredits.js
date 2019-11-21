@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import styled, {keyframes, css} from "styled-components"
 import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../services/financialFunctions"
-import MiniRangeBar from "../../../UI/MiniRangeBar/MiniRangeBar"
-
+import SmallRangeBar from "../../../UI/SmallRangeBar/SmallRangeBar"
 
 export default class TaxCredits extends Component {
 
-
-
      miniRenderRangeBars = (miniRangeBarPropsArray) => {
-         return miniRangeBarPropsArray.map(propsObject => <MiniRangeBar id={propsObject.name}
+         return miniRangeBarPropsArray.map(propsObject => <SmallRangeBar id={propsObject.name}
                                                                    key={propsObject.name}
                                                                    setIncome={this.props.setIncome}
                                                                    rangeBarProps={propsObject}
