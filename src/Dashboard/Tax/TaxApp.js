@@ -10,7 +10,7 @@ import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 class TaxApp extends Component {
 
-  setValueInReducer = (name, financialValue, rangeBarValue, rangeBarProps) => {      
+  setIncome = (name, financialValue, rangeBarValue, rangeBarProps) => {      
   this.props.setIncomeForTaxCalculator(name, financialValue, rangeBarValue, rangeBarProps.section)
 }
   render() {
@@ -91,7 +91,7 @@ class TaxApp extends Component {
              regularIncomeRangeBarValues={regularIncomeRangeBarValues}
              taxAdvantagedIncomeRangeBarValues={taxAdvantagedIncomeRangeBarValues}
              creditsRangeBarValues={creditsRangeBarValues}
-             setValueInReducer={this.setValueInReducer}
+             setIncome={this.setIncome}
           />
        </UserInterfaceWrapper>
       )
@@ -138,3 +138,4 @@ const DonutChartPlaceHolder = styled.div`
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 //blank slate
+

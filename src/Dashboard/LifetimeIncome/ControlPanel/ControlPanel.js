@@ -1,52 +1,35 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import IncomeInput from "./Components/IncomeInput"
 import RRSPDetails from "./Components/RRSPDetails"
 import PensionIncomeStartAges from "./Components/PensionIncomeStartAges"
 
-export default class ControlPanel extends Component {
-    render() {
+
+
+export default function ControlPanel(props) {
+     console.log(props);
         return (
             <ControlPanelWrapper>
                 <Left>
                     <IncomeInput
-                        lower={this.props.lower}
-                        higher={this.props.higher}
-                        setParentDualRangeValues={this.props.setParentDualRangeValues}
-                        setValueInReducer = {this.props.setValueInReducer}
-                        handleChangeLabel = {this.props.handleChangeLabel}
-                        incomePerYear={this.props.incomePerYear}
-                        handleRemoveItem={this.props.handleRemoveItem}
-                        addItemToList={this.props.addItemToList}
+                       {...props}                                                                                          //  All props are passed through to the child component
                     />
                 </Left>
                 <Center>
                      <Title>Estimate Future RRSP Value</Title>
                      <RRSPDetails
-                        rrspDetailsRangeBarArray ={this.props.rrspDetailsRangeBarArray}
-                        lifetimeIncomeVariables={this.props.lifetimeIncomeVariables}
-                        setIncome={this.props.setIncome}
-                        setFutureRRSPValue={this.props.setFutureRRSPValue}
-                        toggleOpenAndClosed={this.toggleOpenAndClosed}
-                        clearIncomeBeforeStartAge = {this.props.clearIncomeBeforeStartAge}
-                        setValue={this.props.setValue}
+                     {...props}
                      />
                 </Center>
                 <Right>
                      <Title>Select Retirement Age</Title>
                      <PensionIncomeStartAges
-                        lifetimeIncomeVariables={this.props.lifetimeIncomeVariables}
-                        calculateCPP={this.props.calculateCPP}
-                        clearIncomeBeforeStartAge = {this.props.clearIncomeBeforeStartAge}
-                        calculateOAS={this.props.calculateOAS}
-                        setIncome={this.props.setIncome}
-                        setValue={this.props.setValue}
+                     {...props}
                      />
                 </Right>
             </ControlPanelWrapper>
         )
     }
-}
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

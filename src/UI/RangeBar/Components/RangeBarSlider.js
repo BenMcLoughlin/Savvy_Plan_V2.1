@@ -16,11 +16,13 @@ class RangeBarSlider extends Component {
             logValue: roundNumber(logValue), 
             rangeBarValue: Number(e.target.value)
         })
-        this.props.setValueInReducer(e.target.name, this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
+     this.props.setValue(this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
     }
 
-    render() {
 
+    render() 
+
+    {    
         return (
             <Input
                 type="range"
@@ -28,7 +30,7 @@ class RangeBarSlider extends Component {
                 onChange={(e) => this.setLocalRangeandLogValue(e)}
                 value={this.props.rangeBarProps.rangeBarValue}
                 max={100}
-                step={1}
+                step={0.1}
                 percentage={`${(this.props.rangeBarProps.rangeBarValue/100)*100}%`}
             />
         )

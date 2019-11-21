@@ -6,7 +6,7 @@ import RangeBarValue from "./Components/RangeBarValue"
 import RangeBarSlider from "./Components/RangeBarSlider"
 
 /*Props Required to be passed:
-1. setValueInReducer 
+1. setIncome 
       a function that receives a name, a logValue and a rangebar value and
       uses those variables to pass into the action and set the reducer. 
 2. rangeBarProps
@@ -17,7 +17,9 @@ import RangeBarSlider from "./Components/RangeBarSlider"
 
 export default class RangeBar extends Component {
 
-    render() {
+    render() 
+
+    {  
         return (
             < RangeBarWrapper>
                 <RangeBarLabel
@@ -26,11 +28,11 @@ export default class RangeBar extends Component {
                 />
                 <RangeBarSlider
                      rangeBarProps={this.props.rangeBarProps}
-                     setValueInReducer={this.props.setValueInReducer}
+                     setValue={this.props.setValue}
                 />
                 <RangeBarValue
                     rangeBarProps={this.props.rangeBarProps}
-                    setValueInReducer={this.props.setValueInReducer}
+                    setValue={this.props.setValue}
                 />
                
                 <Delete  onClick={() => this.props.handleRemoveItem(this.props.rangeBarProps)}/>

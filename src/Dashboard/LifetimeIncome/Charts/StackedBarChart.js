@@ -9,15 +9,13 @@ const drawChart = (props, width, height) => {
     const margin = {top: 20, right: 50, bottom: 30, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#7DA8B8',"#F7CDAB", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
+    const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
-    d3.select(".canvas > *").remove()
+    d3.select(".canvasStackedbarChart > *").remove()
     d3.select(".tooltip").remove()
 
-
     const data = props.data
-
-    const svg = d3.select('.canvas').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select('.canvasStackedbarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
 
@@ -35,11 +33,11 @@ const drawChart = (props, width, height) => {
 
     
        const stack = d3.stack()
-        .keys(props.stackedKeys)
-        .order(d3.stackOrderNone)
-        .offset(d3.stackOffsetNone);
+                        .keys(props.stackedKeys)
+                        .order(d3.stackOrderNone)
+                        .offset(d3.stackOffsetNone);
         
-        const tooltip = d3.select(".canvas").append("div")
+        const tooltip = d3.select(".canvasStackedbarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -71,9 +69,7 @@ const drawChart = (props, width, height) => {
                 .attr("x", d => xScale(d.data.age))
                 .attr("y", d => yScale(d[1]))
              .merge(rects)
-                .attr("height", d => yScale(d[0]) - yScale(d[1]))
-                .attr("width", xScale.bandwidth())
-                
+
     
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
@@ -82,11 +78,11 @@ const drawChart = (props, width, height) => {
             .selectAll("rect") 
             .data(d => d)
             .enter().append("rect")
-                .attr("x", d => xScale(d.data.age))
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
+                .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
-                            .on("mouseover", (d,i,n) => {
+                    .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = props.stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
@@ -198,7 +194,7 @@ componentWillUnmount() {
         window.addEventListener('resize', this.updateSize)
  
         return (
-            <Canvas className="canvas" ref={taxDonutCanvas => this.divRef = taxDonutCanvas}>
+            <Canvas className="canvasStackedbarChart" ref={canvasStackedBarChart => this.divRef = canvasStackedBarChart}>
                 
             </Canvas>
         )

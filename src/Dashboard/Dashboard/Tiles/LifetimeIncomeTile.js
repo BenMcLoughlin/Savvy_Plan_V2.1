@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import StackedBarChart from "../../LifetimeIncome/Chart/StackedBarChart"
+import StackedBarChart from "../../LifetimeIncome/Charts/StackedBarChart"
 import calculateMarginalTaxRate from "../../../services/taxCalculationServices/taxCalculator"
 import { NavLink} from "react-router-dom"
 
@@ -9,30 +9,42 @@ import { NavLink} from "react-router-dom"
      
     render() {
 
-        const data = Object.values(this.props.incomePerYear).map(d => {
-            const incomeTypeArray = Object.keys(d.incomeType)
-            const financialValueArray = Object.keys(d.incomeType).map(income => d.incomeType[income].financialValue)
-            var result = {age: d.age};
-            incomeTypeArray.forEach((key, i) => result[key] = financialValueArray[i]);          
-          return result
-        })
-     
-       const stackedKeys = Object.keys(this.props.incomePerYear[18].incomeType)
+//DATA CONVERSTION FOR STACKED BAR CHART
+const data = Object.values(this.props.incomePerYear_reducer).map(d => {                                                                     //the year list needs to be converted to an array so the chart can render the data
+    const incomeNamesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
+    const financialValueArray = Object.values(d).map(a => a.financialValue)                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
+    var result = {age: d.cppIncome.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
+    incomeNamesArray.forEach((key, i) => result[key] = financialValueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
+    return result
+})
+
        
-       const cppIncome = this.props.incomePerYear[75].incomeType.cppIncome.financialValue
-       const oasIncome = this.props.incomePerYear[75].incomeType.oasIncome.financialValue
-       const rrifIncome = this.props.incomePerYear[75].incomeType.rrifIncome.financialValue
+      const stackedKeys = Object.keys(this.props.incomePerYear_reducer[18])                                                                            //creates a an array of each of the income type names, which is used in the stacked Income chart
+
+       
+       const cppIncome = this.props.incomePerYear_reducer[75].cppIncome.financialValue
+       const oasIncome = this.props.incomePerYear_reducer[75].oasIncome.financialValue
+       const rrifIncome = this.props.incomePerYear_reducer[75].rrifIncome.financialValue
        const totalPensionIncome = `${(cppIncome + oasIncome + rrifIncome)/1000}k`
        const totalRrifIncome = `${(rrifIncome)/1000}k`
-       const totalRetirementIncome = Object.values(this.props.incomePerYear[75].incomeType).map(d => d.financialValue).reduce((acc, num) => acc + num)
+       const totalRetirementIncome = Object.values(this.props.incomePerYear_reducer[75])                                        //Determines total income in retirement
+                                        .map(d => d.financialValue)
+                                        .reduce((acc, num) => acc + num)
        const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ? calculateMarginalTaxRate(totalRetirementIncome) + 15 : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
        //Calculate AVERAGE Earnings
-       const pensionableEarningsArray = Object.values(this.props.incomePerYear).map(d => d.adjustedPensionableEarningsMethod())
-       const totalAdustedPensionableEarnings = pensionableEarningsArray.reduce((acc, num) => acc + num)
-       const averagePensionableEarnings = Number(totalAdustedPensionableEarnings / 47)
-       const roundedAveragePensionableEarnings = Math.round(averagePensionableEarnings/1000)*1000
-       const shortFall = `${(roundedAveragePensionableEarnings - totalRetirementIncome)/1000}k`
+
+
+        const workingLifetimeEarnings = Object.values(this.props.incomePerYear_reducer)                                          // turn object into array
+        .map(d => Object.values(d)
+            .map(a => a.financialValue)                                                     // make sub arrays just show financial value
+            .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
+        .slice(0,47)                                                                     // Grab Only working years 
+        .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
+
+        const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
+
+        const shortFall =  totalRetirementIncome - averageWorkingEarnings                                                         //determine retirement income shortfall to be displayed 
 
 
         return (
@@ -88,7 +100,7 @@ const mapStateToProps = (state) => {
 
     return {
         lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
-        incomePerYear: state.incomePerYear
+        incomePerYear_reducer: state.incomePerYear_reducer
     }
 }
 

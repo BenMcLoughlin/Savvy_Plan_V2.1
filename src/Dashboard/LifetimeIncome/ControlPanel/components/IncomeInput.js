@@ -4,15 +4,11 @@ import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
 
-export default function IncomeInput({setParentDualRangeValues,lower, higher, setValueInReducer , 
-    handleChangeLabel, handleRemoveItem,  addItemToList, incomePerYear} = this.props) {                             //Uses Destructing to assign variables and functions needed for this function                                                
+export default function IncomeInput({ setKeyVariable_action, keyVariables_reducer, setIncome , 
+    handleChangeLabel, incomeTypeArray, addItemToList, handleRemoveItem}) {                                                                      //Uses Destructing to assign variables and functions needed for this function                                                
 
-        const incomeTypeArray = Object.values(incomePerYear[18].incomeType)                                         //Converts the year list to an array so that it can be mapped through for rangebars  
-                        .filter(d => d.name !== "oasIncome")                                                        //Range Bars only show for income the user is inputting, not retirementIncome, these are filtered out                       
-                        .filter(d => d.name !== "cppIncome")
-                        .filter(d => d.name !== "rrifIncome") 
     return (
-        <Wrapper>                                                                                                   {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
+        <Wrapper>                                                                                                                                {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
             <EarningYearsSelectorWrapper> 
                 <Title>Input Income By Year</Title>
                 <SelectorTitleWrapper>
@@ -20,28 +16,27 @@ export default function IncomeInput({setParentDualRangeValues,lower, higher, set
                     <div>To Age</div>    
                 </SelectorTitleWrapper>
                 <DualRangeBar
-                    lower={lower}                                                                                    //lower sets the from Age, eg. age 18 in 18-45
-                    higher={higher}                                                                                  //higher sets the to Age, eg. age 45 in 18-45
-                    setParentDualRangeValues={setParentDualRangeValues}                                              //reaches into reducer to set the values
+                    fromAge={keyVariables_reducer.fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
+                    toAge={keyVariables_reducer.toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
+                    setKeyVariables={setKeyVariable_action}                                                                                      //reaches into reducer to set the values
                 />
             </EarningYearsSelectorWrapper>
             <Hr/>
             <RangeBarWrapper>
-                {incomeTypeArray.map(incomeType => <RangeBar                                                        //Mapping through the types of income to render a rangeBar for Each                                                 
+                {incomeTypeArray.map(incomeType => <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
                                                     key={incomeType.name}
                                                     rangeBarProps={incomeType}
-                                                    setValueInReducer={setValueInReducer}
+                                                    setValue={setIncome}
                                                     handleChangeLabel = {handleChangeLabel}
                                                     handleRemoveItem={handleRemoveItem}
-
                                                     />)
                 }
-                <AddItemBox                                                                                         //Box allowing the user to add new types of income     
+                <AddItemBox                                                                                                                       //Box allowing the user to add new types of income     
                         firstButtonText={"Add New Income"}
                         listNewItemWillBeAddedToo={incomeTypeArray}
-                        addItemToList={addItemToList}
                         checkboxLabel={"Contribute To Canada Pension Plan?"}
-
+                        addItemToList={addItemToList}
+    
                 />
             </RangeBarWrapper>
         </Wrapper>                            

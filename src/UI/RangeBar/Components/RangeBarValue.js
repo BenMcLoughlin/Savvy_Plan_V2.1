@@ -4,34 +4,29 @@ import {inverseLogslider} from "../../../services/logorithmicFunctions"
 
  class RangeBarValue extends Component {
     state = {
-        valueAsInput: false,
+        valueAsInput: false,                                                                                                        //state decides whether the label should be shown as an input or just a regular number. 
     }
 
     setLocalRangeAndLogValue = (e) => {
         
-        const inverseLogValue = inverseLogslider(e.target.value).toFixed()
-
-        this.props.setValueInReducer(e.target.name, e.target.value, inverseLogValue, this.props.rangeBarProps)
+        const inverseLogValue = inverseLogslider(+e.target.value).toFixed()                                                         //The user is inputting a financial value like 22000, which has to be converted to a rangebar value between 1 and 100
+        this.props.setValue(+e.target.value, inverseLogValue, this.props.rangeBarProps) 
     }
-    //state decides whether the label should be shown as an input or just a regular number. 
 
     toggleState = ()=> {
-        const show = this.state.valueAsInput
+        const show = this.state.valueAsInput                                                                                        //When clicked the value will toggle between being an input or not. 
         this.setState({
             valueAsInput: !show
         })
     }
-    //When clicked the value will toggle between being an input or not. 
     
-    handleKeyDown = (event) => {
+    handleKeyDown = (event) => {                                                                                
         if (event.key === 'Enter') {
             this.setState({
                 valueAsInput: false,
             })
         }
       }
-
-      //If the user presses enter the new value will be submitted and it will turn from input back to regular number. 
 
     render() {
         
