@@ -22,8 +22,10 @@ return incomePerYear
 
 const savings_reducer = (state = initialState(), action) => {
     switch(action.type) {
-        case "CONTRIBUTE_TO_SAVINGS": return {...state, [action.payload.selectedAge]: {
-           ...state[action.payload.selectedAge],contribution: action.payload.value
+        case "savings/SET_VALUE": return {...state, [action.age]: {
+                                           ...state[action.age], [action.account]: {
+                                              ...state[action.age][action.account], [action.name]: action.value
+           }
             }
         }
         case "CALCULATE_VALUE": 

@@ -102,7 +102,7 @@ const drawChart = (props, width, height) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = props.taxStackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                                const thisYearTotalIncome = props.taxStackedData[i].incomeAfterTax
+                           
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)

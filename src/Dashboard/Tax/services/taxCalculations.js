@@ -149,7 +149,7 @@ const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, age, child, pen
 
 
 export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI) => {
-    const actualIncome = EI + SEI + CG + EDI + NEDI
+    //const actualIncome = EI + SEI + CG + EDI + NEDI
     const taxableIncome =  EI + SEI + (CG/2) + (EDI * fTR.factors.eligibleDividendGrossUp) + (NEDI * fTR.factors.nonEligibleDividendGrossUp)
     const EIPercentage = EI/(EI + SEI) 
     const SEIPercentage = SEI / (EI + SEI) 
@@ -172,10 +172,10 @@ export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI) => {
         const provincialTaxCredits = totalProvincialTaxCredits >= totalProvincialTax ? totalProvincialTax : totalProvincialTaxCredits 
         const marginalProvincialTaxCredits = i > 1 ? provincialTaxCredits - data[i-2].provincialTaxCredits : provincialTaxCredits 
         const provincialTax = marginalProvincialTax - marginalProvincialTaxCredits
-        const marginalFederalTaxRate = federalTax / marginalIncome
-        const marginalProvincialTaxRate = provincialTax / marginalIncome
-        const cppAndEITaxRate = cppAndEI / marginalIncome
-        const totalMarginalRate = marginalFederalTaxRate + marginalProvincialTaxRate + cppAndEITaxRate
+        //const marginalFederalTaxRate = federalTax / marginalIncome
+        //const marginalProvincialTaxRate = provincialTax / marginalIncome
+        //const cppAndEITaxRate = cppAndEI / marginalIncome
+        //const totalMarginalRate = marginalFederalTaxRate + marginalProvincialTaxRate + cppAndEITaxRate
         const marginalAfterTaxAndCreditIncome = marginalIncome - marginalFederalTax - marginalProvincialTax - cppAndEI
 
 
@@ -192,7 +192,7 @@ export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI) => {
         federalTax,
         totalProvincialTax,
         marginalProvincialTax,
-        marginalFederalTaxCredits,
+        //marginalFederalTaxCredits,
         provincialTaxCredits, 
         marginalProvincialTaxCredits,
         provincialTax,

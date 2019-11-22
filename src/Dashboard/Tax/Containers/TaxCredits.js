@@ -1,28 +1,29 @@
 import React, { Component } from 'react'
-import styled, {keyframes, css} from "styled-components"
-import {calculateFutureValue, calculateRRIFPaymentTable} from "../../../services/financialFunctions"
-//import SmallRangeBar from "../../../UI/SmallRangeBar/SmallRangeBar"
+import styled from "styled-components"
+import SmallRangeBar from "../../../UI/SmallRangeBar/SmallRangeBar"
 
 export default class TaxCredits extends Component {
 
-    //  miniRenderRangeBars = (miniRangeBarPropsArray) => {
-    //      return miniRangeBarPropsArray.map(propsObject => <SmallRangeBar id={propsObject.name}
-    //                                                                key={propsObject.name}
-    //                                                                setIncome={this.props.setIncome}
-    //                                                                rangeBarProps={propsObject}
-    //                                                                />
+
+
+     miniRenderRangeBars = (miniRangeBarPropsArray) => {
+         return miniRangeBarPropsArray.map(propsObject => <SmallRangeBar id={propsObject.name}
+                                                                   key={propsObject.name}
+                                                                   setIncome={this.props.setIncome}
+                                                                   rangeBarProps={propsObject}
+                                                                   />
                                                                   
-    //       )
-    //   }
+          )
+      }
 
     render() {
-
+        console.log(this.props.creditsRangeBarValues);
 
         return (
-<div>hi</div>
-            // <MiniRangeBarWrapper>
-            // {this.miniRenderRangeBars(this.props.creditsRangeBarValues)}
-            // </MiniRangeBarWrapper>
+
+            <MiniRangeBarWrapper>
+            {this.miniRenderRangeBars(this.props.creditsRangeBarValues)}
+            </MiniRangeBarWrapper>
 
 
         )

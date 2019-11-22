@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Tile from "../../UI/Dashboard/Tile"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import CreditScoreTile from "./Tiles/CreditScoreTile"

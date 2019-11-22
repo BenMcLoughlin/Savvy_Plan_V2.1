@@ -162,7 +162,7 @@ export function abbreviateNum(number) {
              number = Math.round(number*decPlaces/size)/decPlaces;
 
              // Handle special case where we round up to the next abbreviation
-             if((number == 1000) && (i < abbrev.length - 1)) {
+             if((number === 1000) && (i < abbrev.length - 1)) {
                  number = 1;
                  i++;
              }

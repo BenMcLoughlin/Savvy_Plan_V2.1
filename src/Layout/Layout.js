@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Header from "./Header"
 import HeaderNew from "./HeaderNew"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"

@@ -9,7 +9,7 @@ import { NavLink} from "react-router-dom"
 
         return (
             <HomePurchaseTileWrapper to="/Property">
-            <img src={require("../../../assets/images/Home_Purchase_Plan.png")} style={{height: "200px", }}/>
+            <img alt ="#" src={require("../../../assets/images/Home_Purchase_Plan.png")} style={{height: "200px", }}/>
             </HomePurchaseTileWrapper>
         )
     }

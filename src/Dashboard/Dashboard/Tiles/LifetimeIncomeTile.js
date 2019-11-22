@@ -26,7 +26,7 @@ const data = Object.values(this.props.incomePerYear_reducer).map(d => {         
        const oasIncome = this.props.incomePerYear_reducer[75].oasIncome.financialValue
        const rrifIncome = this.props.incomePerYear_reducer[75].rrifIncome.financialValue
        const totalPensionIncome = `${(cppIncome + oasIncome + rrifIncome)/1000}k`
-       const totalRrifIncome = `${(rrifIncome)/1000}k`
+      // const totalRrifIncome = `${(rrifIncome)/1000}k`
        const totalRetirementIncome = Object.values(this.props.incomePerYear_reducer[75])                                        //Determines total income in retirement
                                         .map(d => d.financialValue)
                                         .reduce((acc, num) => acc + num)
@@ -190,6 +190,3 @@ const PensionIncomeWrapper = styled.div`
     border-bottom: ${props => props.theme.border.primary};
 `
 
-const TotalIncome = styled.div`
-
-`

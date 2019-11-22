@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-//import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
+import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
 
 export default function PensionIncomeStartAges( {setPensionStartAge_action, 
     calculateCpp_action, setKeyVariable_action, setPensionIncome, pensionStartAges_reducer}) {                                            //Use Destructing to assign variables and functions
@@ -8,9 +8,15 @@ export default function PensionIncomeStartAges( {setPensionStartAge_action,
     pensionStartAges_reducer = Object.values(pensionStartAges_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
  
     return (
-        <Wrapper>              
-        hi     
-
+        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa SmallRangeBar for each */}
+            {
+                pensionStartAges_reducer.map(d => <SmallRangeBar 
+                                            id={d.name}
+                                            key={d.name}
+                                            setValueInReducer={setPensionIncome}                                                        //Function Defined Above, sets the age in the reducer
+                                            rangeBarProps={d}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
+                    />)
+            }
         </Wrapper>                            
     )
 }

@@ -40,3 +40,11 @@ return {
 }
 }
 
+export const setSavingsValue_action = (name, value) => {
+return {
+    type: "savings/SET_VALUE", 
+        name, 
+        value 
+}
+}
+

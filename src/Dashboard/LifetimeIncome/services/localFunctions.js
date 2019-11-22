@@ -70,15 +70,14 @@ const adjustCpp = (income, age) => {
 export const adjustOas = (income, age) => {
     if (age === 65) {return income}
   
-    else if (age > 65 && age < 70) {
+    else if (age > 65 && age <= 70) {
         const years = age -65
         const percentage = years * .072
         const value = income * (1 + percentage)
-        console.log(Math.round(value/100)*100);
-        return Math.round(value/100)*100
+        return Math.round(value/1000)*1000
      }
   
-     if (age >= 70) {return income * 1.36}
+     if (age > 70) {return income * 1.36}
   }
   
 

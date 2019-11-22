@@ -34,10 +34,10 @@ export default class HeaderValues extends Component {
                                                 .slice(0,47)                                                                     // Grab Only working years 
                                                 .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
 
-        const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
+        const averageWorkingEarnings = workingLifetimeEarnings/47                                       //calculate average working annual income, then round
 
-        const shortFall =  totalRetirementIncome - averageWorkingEarnings                                                         //determine retirement income shortfall to be displayed 
-
+        const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed 
+console.log(shortFall);
 // //RETIRMENT INCOME TAX RATE
 //         const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ?                            //calculate tax rate in retirement 
 //                                                 calculateMarginalTaxRate(totalRetirementIncome) + 15                           //if income is above 72000, OAS is clawed backed by adding an additional 15% on the tax
