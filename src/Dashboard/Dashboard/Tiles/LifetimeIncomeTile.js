@@ -17,7 +17,6 @@ const data = Object.values(this.props.incomePerYear_reducer).map(d => {         
     incomeNamesArray.forEach((key, i) => result[key] = financialValueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
     return result
 })
-
        
       const stackedKeys = Object.keys(this.props.incomePerYear_reducer[18])                                                                            //creates a an array of each of the income type names, which is used in the stacked Income chart
 
@@ -165,6 +164,7 @@ const Title = styled.div `
 ` 
 const ChartWrapper = styled.div`
     margin-top: -8rem;
+    margin-left: 2rem;
     width: 100%;
     height: 100%;
 `

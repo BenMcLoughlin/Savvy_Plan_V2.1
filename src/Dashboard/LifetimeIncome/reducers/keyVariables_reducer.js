@@ -1,9 +1,6 @@
 
 const initialState = {
     birthYear: 1988,
-    fromAge: 18, 
-    toAge: 65, 
-    futureRRSPValue: 0,
 }
 
 const keyVariables_reducer = (state = initialState, action) => {

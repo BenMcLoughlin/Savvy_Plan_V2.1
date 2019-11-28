@@ -17,12 +17,15 @@ export const removeItem_action = (age, name) => ({
 })
 
 
-export const setKeyVariable_action = (name, value) => ({
-type: "SET_KEY_VARIABLE", 
-        name, 
-        value: value < 19 ? 18 : value
+export const setKeyVariable_action = (name, value) => {
+console.log(value);
+    return{
+    type: "SET_KEY_VARIABLE", 
+    name, 
+    value: value 
+}
 
-})
+}
 export const calculateCpp_action = (age, cppStartAge, cacheKey) => {
 return {
     type: "CALCULATE_CPP_REFACTOR", 
@@ -40,9 +43,11 @@ return {
 }
 }
 
-export const setSavingsValue_action = (name, value) => {
+export const setSavingsValue_action = (account, age, name, value) => {
 return {
     type: "savings/SET_VALUE", 
+        account,
+        age,
         name, 
         value 
 }

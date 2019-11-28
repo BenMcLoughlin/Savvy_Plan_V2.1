@@ -74,7 +74,7 @@ export const adjustOas = (income, age) => {
         const years = age -65
         const percentage = years * .072
         const value = income * (1 + percentage)
-        return Math.round(value/1000)*1000
+        return Math.round(value/100)*100
      }
   
      if (age > 70) {return income * 1.36}
@@ -85,10 +85,8 @@ function calculateCppMemoized() {
    let cache = {};
    return function(age,birthYear, cacheKey, cppStartAge, ympe, state) {
         if (cacheKey in cache) {
-            console.log('memoized');
             return cache[cacheKey]
         } else {
-            console.log('ran the function');
             const pensionableIncome  = Object.values(state).slice(0,53).map(d => {
 
                 const pensionableIncome = Object.values(d).filter(d => d.contributeToCpp)

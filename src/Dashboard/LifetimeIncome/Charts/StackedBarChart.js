@@ -9,7 +9,7 @@ const drawChart = (props, width, height) => {
     const margin = {top: 20, right: 50, bottom: 30, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
+    const color = ["#ef7959", "#4BB9D0",'#72929B',  "#7DA8B8", '#FEDE76', '#FEDE76','#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
     d3.select(".canvasStackedbarChart > *").remove()
     d3.select(".tooltip").remove()

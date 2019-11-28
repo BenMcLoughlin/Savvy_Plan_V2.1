@@ -10,8 +10,10 @@ import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 class TaxApp extends Component {
 
-  setIncome = (name, financialValue, rangeBarValue, rangeBarProps) => {      
-  this.props.setIncomeForTaxCalculator(name, financialValue, rangeBarValue, rangeBarProps.section)
+  setIncome = (financialValue, rangeBarValue, rangeBarProps) => {    
+    const {name, section} = rangeBarProps
+
+    this.props.setIncomeForTaxCalculator(name, financialValue, rangeBarValue, section)
 }
   render() {
   

@@ -1,40 +1,30 @@
-import React, { Component } from 'react'
+import React, { useState} from 'react'
 import styled from "styled-components"
 import {logslider, roundNumber} from "../../../services/logorithmicFunctions"
 
+const RangeBarSlider = ({setValue, rangeBarProps}) => {                                                                        //destructure essential props
 
-class RangeBarSlider extends Component {
+    const [logValue, setLogValue] = useState(0)                                                                                //log value is the larger value resulting from a logorithmic function, enabling the bar to range between 1 and 1 million
+    const [rangeBarValue, setRangeBarValue] = useState(0)                                                                      //rangeBar value is the actual value of the rangebar, from 1 - 100
 
-    state = {
-        logValue: 0,
-        rangeBarValue: 0
-    }
-
-    setLocalRangeandLogValue = (e) => {
-        const logValue = logslider(e.target.value)
-        this.setState({
-            logValue: roundNumber(logValue), 
-            rangeBarValue: Number(e.target.value)
-        })
-     this.props.setValue(this.state.logValue, this.state.rangeBarValue, this.props.rangeBarProps)
-    }
-
-
-    render() 
-
-    {    
+    const setLocalRangeandLogValue = (e) => {
+        const logValue = Math.round(logslider(e.target.value)/100)*100
+        setLogValue(logValue)
+        setRangeBarValue(e.target.value)
+        setValue(logValue, rangeBarValue, rangeBarProps)
+    }  
         return (
             <Input
                 type="range"
-                name={this.props.rangeBarProps.name}
-                onChange={(e) => this.setLocalRangeandLogValue(e)}
-                value={this.props.rangeBarProps.rangeBarValue}
+                name={rangeBarProps.name}
+                onChange={(e) => setLocalRangeandLogValue(e)}
+                value={rangeBarProps.rangeBarValue}
                 max={100}
                 step={0.1}
-                percentage={`${(this.props.rangeBarProps.rangeBarValue/100)*100}%`}
+                percentage={`${(rangeBarProps.rangeBarValue/100)*100}%`}
             />
         )
-    }
+    
 }
 //renders the slide bar. Percentage is calcuated here and pass to styled components to have the slide bar be 
 //two different colors as it moves. 

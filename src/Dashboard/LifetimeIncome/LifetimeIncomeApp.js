@@ -1,20 +1,20 @@
-import React from "react"
+import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp_action, setPensionStartAge_action, setSavingsValue_action} from "./actions"
-import HeaderValues from "./HeaderValues"
+import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
 import _ from "lodash"
 import StackedBarChartLifetimeIncome from "./Charts/StackedBarChart"
 import {adjustOas}from "./services/localFunctions"
 
-const LifetimeIncomeAppRefactor = ({setIncome_action, setKeyVariable_action, calculateCpp_action, setPensionStartAge_action,               // destructure out variables
-    incomePerYear_reducer, savings_reducer, removeItem_action, pensionStartAges_reducer, setSavingsValue_action, keyVariables_reducer,
-    keyVariables_reducer: {fromAge: fromAge},
-    keyVariables_reducer: {toAge: toAge},
+const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPensionStartAge_action,                                    // destructure out variables
+    incomePerYear_reducer, rrsp_reducer, removeItem_action, pensionStartAges_reducer, setSavingsValue_action, 
     pensionStartAges_reducer: {cppStartAge: {rangeBarValue: cppStartAge}},
     pensionStartAges_reducer: {oasStartAge: {rangeBarValue: oasStartAge }}}) => {
 
+        const [fromAge, setFromAge] = useState(18)
+        const [toAge, setToAge] = useState(65)    
 
 //CALCULATE CPP AND OAS 
 const renderCPPandOASIncome = (cacheKey) => {                                                                                              //caclualtes the cpp and oas payments and places them into the incomePeryearReducer               
@@ -43,7 +43,7 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
         }                                                           
     }
 
-    const incomeTypeArray = Object.values(incomePerYear_reducer[keyVariables_reducer.fromAge])                                            //Converts the year list to an array so that it can be mapped through for rangebars  
+    const incomeTypeArray = Object.values(incomePerYear_reducer[fromAge])                                            //Converts the year list to an array so that it can be mapped through for rangebars  
         .filter(d => d.name !== "oasIncome")                                                                                              //Range Bars only show for income the user is inputting, not retirementIncome, these are filtered out                       
         .filter(d => d.name !== "cppIncome")
         .filter(d => d.name !== "rrifIncome") 
@@ -110,10 +110,10 @@ return "hi"
 
 const stackedKeys = Object.keys(incomePerYear_reducer[18])                                                                                   //creates a an array of each of the income type names, which is used in the stacked Income chart
 
-             console.log(savings_reducer);
+             console.log(rrsp_reducer);
         return (
             <UserInterfaceWrapper>
-                <HeaderValues
+                <Header
                      incomePerYear_reducer={incomePerYear_reducer}
                 />
                 <ChartPlaceHolder>
@@ -126,15 +126,18 @@ const stackedKeys = Object.keys(incomePerYear_reducer[18])                      
                     handleChangeLabel = {handleChangeLabel}
                     handleRemoveItem={handleRemoveItem}
                     addItemToList={addItemToList}
-                    setKeyVariable_action={setKeyVariable_action}
+                    setFromAge={setFromAge}
+                    setToAge={setToAge}
+                    fromAge={fromAge}
+                    toAge={toAge}
                     setIncome_action={setIncome_action}
                     incomeTypeArray={incomeTypeArray}
                     addItemToList={addItemToList }
                     setIncome={setIncome}
                     setPensionIncome={setPensionIncome}
-                    keyVariables_reducer={keyVariables_reducer}
                     pensionStartAges_reducer={pensionStartAges_reducer}
-                    savings_reducer={savings_reducer}
+                    rrsp_reducer={rrsp_reducer}
+                    setSavingsValue_action={setSavingsValue_action}
             />
 
             </UserInterfaceWrapper>
@@ -146,7 +149,7 @@ const mapStateToProps = (state) => {
         incomePerYear_reducer: state.incomePerYear_reducer,
         keyVariables_reducer: state.keyVariables_reducer,
         pensionStartAges_reducer: state.pensionStartAges_reducer,
-        savings_reducer: state.savings_reducer,
+        rrsp_reducer: state.rrsp_reducer,
 
     }
 }

@@ -1,13 +1,33 @@
 import React from 'react'
 //import {calculateRRIFPaymentTable} from "../../../../services/financialFunctions"
-//import RangeBar from "../../../../UI/RangeBar/RangeBar"
+import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import styled from "styled-components"
 
-export default function PensionIncomeStartAges() {
+export default function PensionIncomeStartAges({rrsp_reducer, setSavingsValue_action}) {
+
+    const contributionRangeBarValues = {
+        financialValue: rrsp_reducer[18].contribution, 
+        rangeBarValue: 0,
+        account: "rrsp",
+        age: 32,
+        label: "RRSP Contributions",        
+        name: "RrspContributions",        
+    }
+    const presentValueRangeBarValues = {
+        financialValue: 0, 
+        rangeBarValue: 0,
+        account: "rrsp",
+        age: 32,
+        label: "Present RRSP Value",        
+        name: "presentValue",        
+    }
+    const setValue = (value, rangebarValue, {account, age, name}) => {
+        setSavingsValue_action(account, age, name, value )
+    }
 
     return (
         <Wrapper>         
-        rrsp details                                                                                          {/* This walks through the pensionStartAges provided from the reducer and rendersa MiniRangeBar for each */}
+                                                                                                                  
         </Wrapper>                            
     )
 }
@@ -15,7 +35,7 @@ export default function PensionIncomeStartAges() {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper= styled.div`
-
+    margin-top: 3.4rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

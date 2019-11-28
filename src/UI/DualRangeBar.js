@@ -45,7 +45,9 @@ class DualRangeRangeBar extends Component {
             this.setState({
                 [e.target.name]: +e.target.value
             })
-            this.props.setKeyVariables(e.target.name, this.state.fromAge)
+            
+        return e.target.value.length > 1 ?   this.props.setKeyVariables(e.target.name, +e.target.value) : null
+          
     }
     
     handleClickRight = () => {
@@ -101,9 +103,8 @@ class DualRangeRangeBar extends Component {
     render() {
  
         const totalWidth = 300 // width the runner bar
-        const percentageMin = this.state.fromAge / 77 //percentage of the runnerbar that is shifting left as the thumb moves
+        const percentageMin = this.state.fromAge.length > 1 || this.state.fromAge.length === undefined ? this.state.fromAge / 77 : null //percentage of the runnerbar that is shifting left as the thumb moves
         const percentageMax = this.state.toAge / 77 //total percentage of the toAge value
-
         //to account for the fact that the minimum value is 18 we have to make the rage 77 (95 - 18)
 
         //the div moves by its left position and the divs length is set accordingly

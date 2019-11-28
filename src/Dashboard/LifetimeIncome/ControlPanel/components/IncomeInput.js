@@ -4,23 +4,26 @@ import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
 
-export default function IncomeInput({ setKeyVariable_action, keyVariables_reducer, setIncome , 
+export default function IncomeInput({setFromAge, setToAge, setIncome, fromAge, toAge, 
     handleChangeLabel, incomeTypeArray, addItemToList, handleRemoveItem}) {                                                                      //Uses Destructing to assign variables and functions needed for this function                                                
 
+        const setKeyVariables = (name, value) => {
+            name === "fromAge" ? setFromAge(value) : setToAge(value)
+        }
     return (
         <Wrapper>                                                                                                                                {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
-            <EarningYearsSelectorWrapper> 
+            <YearsSelectorWrapper> 
                 <Title>Input Income By Year</Title>
                 <SelectorTitleWrapper>
                     <div>From Age</div>    
                     <div>To Age</div>    
                 </SelectorTitleWrapper>
                 <DualRangeBar
-                    fromAge={keyVariables_reducer.fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
-                    toAge={keyVariables_reducer.toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
-                    setKeyVariables={setKeyVariable_action}                                                                                      //reaches into reducer to set the values
+                    fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
+                    toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
+                    setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
                 />
-            </EarningYearsSelectorWrapper>
+            </YearsSelectorWrapper>
             <Hr/>
             <RangeBarWrapper>
                 {incomeTypeArray.map(incomeType => <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
@@ -49,7 +52,7 @@ const Wrapper= styled.div`
 
 `
 
-const EarningYearsSelectorWrapper = styled.div`
+const YearsSelectorWrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;

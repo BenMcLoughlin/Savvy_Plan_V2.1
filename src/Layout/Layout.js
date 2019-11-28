@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import HeaderNew from "./HeaderNew"
+import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "../Dashboard/Dashboard/Dashboard"
@@ -40,7 +40,7 @@ export default class Layout extends Component {
         return (
             <ThemeProvider theme={this.state.theme}>
             <>
-            <HeaderNew />
+            <Header/>
             <GridContainer>
                     <Route path="/Dashboard" component={Dashboard}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
@@ -52,8 +52,8 @@ export default class Layout extends Component {
                     <Route path="/Spending" component={SpendingApp}/>
                     <Route path="/Property" component={PropertyApp}/>
                     <Route path="/Debt" component={DebtApp}/>
-                <Footer/>
             </GridContainer>
+
             </>
             </ThemeProvider>
         )
@@ -73,7 +73,7 @@ export default class Layout extends Component {
     grid-template-columns: repeat(12, 1fr);
     grid-template-areas: 
     "m m m m m m m m m m m m m"
-    "f f f f f f f f f f f f f";
+
     /* The Grid container holds the grid item "m" for "main" and "f" for footer. When a sub-app is clicked
      on its grid location becomes m placing it in the "main position" */
 `

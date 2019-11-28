@@ -16,6 +16,8 @@ class AddItemBox extends Component {
         label: "", 
         financialValue: 0,
         rangeBarValue: 0,
+        section: "",
+        catagory: "",
     }
 
     setLocalValues = (financialValue, rangeBarValue) => {

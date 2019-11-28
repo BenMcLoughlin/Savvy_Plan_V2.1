@@ -20,7 +20,7 @@ return incomePerYear
 }
 
 
-const savings_reducer = (state = initialState(), action) => {
+const rrsp_reducer = (state = initialState(), action) => {
     switch(action.type) {
         case "savings/SET_VALUE": return {...state, [action.age]: {
                                            ...state[action.age], [action.account]: {
@@ -49,4 +49,4 @@ const savings_reducer = (state = initialState(), action) => {
 
 
 
-   export default savings_reducer 
+   export default rrsp_reducer 
