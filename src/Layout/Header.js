@@ -1,5 +1,5 @@
 import React from 'react'
-import FontAwesome from "react-fontawesome"
+import ButtonLight from "../UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import styled from "styled-components"
 import logoLight from "../assets/svgs/SavvyPlan_logo_final_justlogo.svg"
@@ -11,29 +11,37 @@ export default function Header(props) {
                 <Logo>
                     <img src={logoLight} height="100%" width="100%" fontSize="10rem" alt="logo"/>
                 </Logo>
-                <StyledNavLink to="/Home" activeClassName="active">
-                <PageSelect>
-                    <FontAwesome style={{fontSize:"1.3rem", marginRight: "0.5rem", textDecoration: 'none'}}name="fas fa-home"/>
-                    Home
+                <Header3>
+                    Savvy Plan
+                </Header3>
 
-                </PageSelect>
-            </StyledNavLink>
-            <StyledNavLink to="/Dashboard" activeClassName="active">
-            <PageSelect>
-              <FontAwesome style={{fontSize:"1.3rem", marginRight: "0.5rem"}}name="fas fa-chalkboard"/>
-              Dashboard
-   
-            </PageSelect>
-        </StyledNavLink>
-            <StyledNavLink to="/Learn" activeClassName="active">
-                <PageSelect>
-                    <FontAwesome style={{fontSize:"1.3rem", marginRight: "0.5rem", textDecoration: 'none'}}name="fas fa-chalkboard-teacher"/>
-                    Learn
-                </PageSelect>
-            </StyledNavLink>
-                
             </Left>
             <Right>
+            <StyledNavLink to="/Home" activeClassName="active">
+                <PageSelect>
+                    HOME
+                </PageSelect>
+            </StyledNavLink>
+            <Hr/>
+            <StyledNavLink to="/Dashboard" activeClassName="active">
+                <PageSelect>
+                        DASHBOARD
+                </PageSelect>
+            </StyledNavLink>
+            <Hr/>
+            <StyledNavLink to="/Learn" activeClassName="active">
+                    <PageSelect>
+                       ACCOUNT
+                    </PageSelect>
+            </StyledNavLink>
+            <Hr/>
+            <StyledNavLink to="/Learn" activeClassName="active">
+                    <PageSelect>
+                       ASSUMPTIONS
+                    </PageSelect>
+            </StyledNavLink>     
+            <ButtonLight text={"Login"}/>    
+            <ButtonLight text={"Sign Up"}/>    
             </Right>
                 
         </HeaderContainer>
@@ -49,9 +57,10 @@ export const HeaderContainer = styled.div`
     width: 100%;
     text-align: center;
     display: flex;
-    height: 8rem;
+    height: 6rem;
     background: ${props => props.theme.color.background3};
     font-weight: 200;
+    margin-bottom: 3rem;
     
 `
 const Logo = styled.div`
@@ -60,13 +69,29 @@ const Logo = styled.div`
 
 
 `
+
 const Left = styled.div`
         flex: 1;
         display: flex;
+        width: 10%;
+        align-content: center;
+        flex-direction: row;
+        align-items: center
+        justify-content: left;
+`
 
+const Header3 = styled.div`
+        font-size: ${props => props.theme.fontSize.medium};
+        color: ${props => props.theme.color.text1};
+        font-weight: 300;
+     
 `
 const Right = styled.div`
-     flex: 1;
+     display: flex;
+     jusitfy-content: space-between;
+     width: 50%;
+     align-items: center;
+     font-weight: 300;
 
 `
 export const PagePointer = styled.div`
@@ -79,15 +104,25 @@ export const PagePointer = styled.div`
         z-index: 3;
 `
 export const PageSelect = styled.div`
-       width: 10rem;
-       padding: 0rem 1rem 0rem 1rem;
+       padding: 1rem;
+       margin: 1rem;
        font-size: ${props => props.theme.fontSize.small};
        ${props => props.theme.flexContent.center};
-       font-weight: 700;
        height: 100%;
        cursor: pointer;
        position: relative
+       border-radius: 1px;
+       transition: all .1s ease-in;
+       &:hover {
+           background: ${props => props.theme.color.text1};
+           color:  ${props => props.theme.color.background3};
+       }
 `
+const Hr = styled.hr`
+    width: 1rem;
+    color: white;
+`
+
 
 export const StyledNavLink = styled(NavLink)`
        text-decoration: none;

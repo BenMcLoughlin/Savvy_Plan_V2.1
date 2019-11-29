@@ -14,7 +14,7 @@ import SmallRangeBarSlider from "./Components/SmallRangeBarSlider"
      as well as a number types which will determine if it will display a percentage or a normal number. 
 */ 
 
-export default class MiniRangeBar extends Component {
+export default class SmallRangeBar extends Component {
 
     render() {
         return (
@@ -25,11 +25,11 @@ export default class MiniRangeBar extends Component {
                 />
                 <SmallRangeBarSlider
                      rangeBarProps={this.props.rangeBarProps}
-                     setValueInReducer={this.props.setValueInReducer}
+                     setValue={this.props.setValue}
                 />
                 <SmallRangeBarValue
                     rangeBarProps={this.props.rangeBarProps}
-                    setValueInReducer={this.props.setValueInReducer}
+                    setValue={this.props.setValue}
                 />
                
             </RangeBarWrapper>

@@ -64,7 +64,7 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
     }
 
 //PENSION INCOME CALCULATION
-    const setPensionIncome = (name, value)  => {   
+    const setPensionIncome = (x, value, {name})  => {   
         setPensionStartAge_action(name, value)                                                                                           //Takes value from rangeBar and sets it into the pension start age reducer 
         const cacheKey = value+name
         if  (name === "cppStartAge") {                                                                                                   //Checks name of value being changed and sets it into the lifetimeIncomeYearList 

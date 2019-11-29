@@ -13,7 +13,7 @@ export default function PensionIncomeStartAges( {setPensionStartAge_action,
                 pensionStartAges_reducer.map(d => <SmallRangeBar 
                                             id={d.name}
                                             key={d.name}
-                                            setValueInReducer={setPensionIncome}                                                        //Function Defined Above, sets the age in the reducer
+                                            setValue={setPensionIncome}                                                        //Function Defined Above, sets the age in the reducer
                                             rangeBarProps={d}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
                     />)
             }

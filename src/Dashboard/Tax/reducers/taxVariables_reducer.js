@@ -1,51 +1,48 @@
 
 const initialState = { 
 
-    regularIncome: {
+    income: {
         employmentIncome: {
             name: "employmentIncome",
             label: "Employment Income",
             financialValue: 100, 
             rangeBarValue: 0,
-            section: "regularIncome" 
-            
+            section: "income" 
         },
         selfEmploymentIncome: {
             name: "selfEmploymentIncome",
             label: "Self Employment Income",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "regularIncome" 
+            section: "income" 
         },
         interestIncome: {
             name: "interestIncome",
             label: "Business / Rental Income",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "regularIncome" 
+            section: "income" 
         },
-    },
-    taxAdvantagedIncome: {
         capitalGains: {
             name: "capitalGains",
             label: "Capital Gains",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "taxAdvantagedIncome",
+            section: "income",
         },
         eligibleDividends: {
             name: "eligibleDividends",
             label: "Eligible Dividends",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "taxAdvantagedIncome" 
+            section: "income" 
         },
         nonEligibleDividends: {
             name: "nonEligibleDividends",
             label: "Non-Eligible Dividends",
             financialValue: 0, 
             rangeBarValue: 0,
-            section: "taxAdvantagedIncome" 
+            section: "income" 
         },
     },
     deductions: {
@@ -115,17 +112,17 @@ const initialState = {
 }
 
 
- const taxVariables = (state = initialState, action) => {
+ const taxVariables_reducer= (state = initialState, action) => {
     switch(action.type) {
-        case "SET_INCOME_FOR_TAX_CALCULATOR": return {...state, [action.payload.section]: {
-                                                            ...state[action.payload.section], [action.payload.name]: {
-                                                                    ...state[action.payload.section][action.payload.name], 
-                                                                    financialValue: action.payload.financialValue, 
-                                                                    rangeBarValue: action.payload.rangeBarValue, 
+        case "SET_INCOME_FOR_TAX_CALCULATOR": return {...state, [action.section]: {
+                                                            ...state[action.section], [action.name]: {
+                                                                    ...state[action.section][action.name], 
+                                                                    financialValue: action.financialValue, 
+                                                                    rangeBarValue: action.rangeBarValue, 
                                                             }
         }}
         default: return state
     }
 }
 
-export default taxVariables
+export default taxVariables_reducer

@@ -9,7 +9,7 @@ export default class TaxCredits extends Component {
      miniRenderRangeBars = (miniRangeBarPropsArray) => {
          return miniRangeBarPropsArray.map(propsObject => <SmallRangeBar id={propsObject.name}
                                                                    key={propsObject.name}
-                                                                   setIncome={this.props.setIncome}
+                                                                   setValue={this.props.setIncome}
                                                                    rangeBarProps={propsObject}
                                                                    />
                                                                   
