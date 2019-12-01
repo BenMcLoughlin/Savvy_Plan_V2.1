@@ -1,6 +1,6 @@
 import React, { useState} from 'react'
 import styled from "styled-components"
-import {logslider, roundNumber} from "../../../services/logorithmicFunctions"
+import {logslider} from "../../../services/logorithmicFunctions"
 
 const RangeBarSlider = ({setValue, rangeBarProps}) => {                                                                        //destructure essential props
 
@@ -43,7 +43,7 @@ const Input = styled.input`
     -webkit-appearance: none;
     background: linear-gradient(90deg, 
         ${props => props.theme.color.sandy} ${props => props.percentage}, 
-        ${props => props.theme.color.dullSteelBlue} ${props => props.percentage});
+        ${props => props.theme.color.slate} ${props => props.percentage});
     outline: none;
     opacity: 0.7;
     -webkit-transition: 0.2s;
@@ -75,7 +75,7 @@ const Input = styled.input`
     appearance: none;
     width: 12px;
     height: 12px;
-    background: ${props => props.theme.color.dullSteelBlue};
+    background: ${props => props.theme.color.slate};
     border-radius: 50%;
     cursor: pointer;
 }

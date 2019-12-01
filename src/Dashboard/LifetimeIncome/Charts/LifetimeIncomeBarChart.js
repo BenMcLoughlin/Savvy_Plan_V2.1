@@ -22,7 +22,7 @@ const drawChart = (props, width, height) => {
     const graph = svg.append("g").attr("height", graphHeight)
                                  .attr("width", graphWidth)
                                  .attr("transform", `translate(${margin.left}, ${margin.top})`)
-                                 
+                               
 
     const xAxisGroup = graph.append("g")
                             .attr("transform", `translate(0, ${graphHeight})`)

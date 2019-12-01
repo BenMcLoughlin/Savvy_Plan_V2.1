@@ -127,19 +127,20 @@ export const calculateCPPandEI = (EI, SEI) => {
     return taxes > 0 ? taxes : 0
     }
 
+ 
 
-
-const calculateFederalCredits = (income, CppAndEI, EDI, NEDI, age, child, pension, disability, dependant, tuition, ) => {
-  const totalValue = fTR.factors.basicPersonal + fTR.factors.employmentAmount + CppAndEI + age + child + pension + disability + dependant + tuition
-  const nonRefundableCredits = income < 5000 ? 0 : totalValue * fTR[1].rate
+const calculateFederalCredits = (income, CppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest ) => {
+  const totalValue = fTR.factors.basicPersonal + fTR.factors.employmentAmount + CppAndEI + tuition + medical + homeBuyer + firefighter + interest
+  const nonRefundableBasicCredits = income < 5000 ? 0 : totalValue * fTR[1].rate
+  const donationCredit =  donation <= 200 ? donation * .15 : ((donation - 200) * .29) + 30
   const eligibleDividendCredit = (EDI * fTR.factors.eligibleDividendGrossUp) * fTR.factors.eligibleDividendTaxCredit
   const nonEligibleDividendCredit = (NEDI * fTR.factors.eligibleDividendGrossUp) * fTR.factors.nonEligibleDividendTaxCredit
 
-  return nonRefundableCredits + eligibleDividendCredit + nonEligibleDividendCredit
+  return nonRefundableBasicCredits + eligibleDividendCredit + nonEligibleDividendCredit + donationCredit 
  
 }
-const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, age, child, pension, disability, dependant, tuition, ) => {
-  const totalValue = pTR.factors.basicPersonal + CppAndEI + age + child + pension + disability + dependant + tuition
+const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest ) => {
+  const totalValue = pTR.factors.basicPersonal + CppAndEI + donation + tuition + medical + homeBuyer + firefighter + interest
   const nonRefundableCredits = income < 5000 ? 0 : totalValue * pTR[1].rate
   const eligibleDividendCredit = (EDI * pTR.factors.eligibleDividendGrossUp) * pTR.factors.eligibleDividendTaxCredit
   const nonEligibleDividendCredit = (NEDI * pTR.factors.eligibleDividendGrossUp) * pTR.factors.nonEligibleDividendTaxCredit
@@ -148,8 +149,12 @@ const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, age, child, pen
 }
 
 
-export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI) => {
-    //const actualIncome = EI + SEI + CG + EDI + NEDI
+export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI, credits) => {
+
+    const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
+
+//     const [donation, tuition, medical, homeBuyer, firefighter, interest] = [0,0,0,0,0,0]
+// console.log(credits);
     const taxableIncome =  EI + SEI + (CG/2) + (EDI * fTR.factors.eligibleDividendGrossUp) + (NEDI * fTR.factors.nonEligibleDividendGrossUp)
     const EIPercentage = EI/(EI + SEI) 
     const SEIPercentage = SEI / (EI + SEI) 
@@ -162,13 +167,13 @@ export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI) => {
         const cppAndEI = i > 1 ? totalCppAndEI - data[i-2].totalCppAndEI : totalCppAndEI
         const totalFederalTax = calculateFederalTaxes(income)
         const marginalFederalTax =  i > 1 ? totalFederalTax - data[i-2].totalFederalTax : totalFederalTax    
-        const totalFederalTaxCredits = calculateFederalCredits(taxableIncome, totalCppAndEI, EDI, NEDI, 0,0,0,0,0,0 )
+        const totalFederalTaxCredits = calculateFederalCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest)
         const federalTaxCredits = totalFederalTaxCredits >= totalFederalTax ? totalFederalTax : totalFederalTaxCredits 
         const marginalFederalTaxCredits = i > 1 ? federalTaxCredits - data[i-2].federalTaxCredits : federalTaxCredits 
         const federalTax = marginalFederalTax - marginalFederalTaxCredits
         const totalProvincialTax = calculateProvincialTaxes(income)
         const marginalProvincialTax = i > 1 ? totalProvincialTax - data[i-2].totalProvincialTax : totalProvincialTax
-        const totalProvincialTaxCredits = calculateProvincialCredits(taxableIncome, totalCppAndEI, EDI, NEDI, 0,0,0,0,0,0  )
+        const totalProvincialTaxCredits = calculateProvincialCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest )
         const provincialTaxCredits = totalProvincialTaxCredits >= totalProvincialTax ? totalProvincialTax : totalProvincialTaxCredits 
         const marginalProvincialTaxCredits = i > 1 ? provincialTaxCredits - data[i-2].provincialTaxCredits : provincialTaxCredits 
         const provincialTax = marginalProvincialTax - marginalProvincialTaxCredits

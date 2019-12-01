@@ -61,7 +61,7 @@ const Delete = styled(CloseIcon)`
     height: 1.3rem;
     width: 1.3rem;
     overflow: hidden;
-    color: ${props => props.theme.color.dullSteelBlue};
+    color: ${props => props.theme.color.slate};
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

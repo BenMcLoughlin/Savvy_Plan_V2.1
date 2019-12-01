@@ -1,12 +1,10 @@
 
 import styled from "styled-components"
 import React, { useState } from 'react'
-
 import {connect} from "react-redux"
 import {setSavingsValue_action, calculateSavings_action} from "./actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
-import _ from "lodash"
 import SavingsStackedChart from "./Charts/SavingsStackedChart"
 
 
@@ -14,8 +12,8 @@ const SavingsPlanApp = ({savingsPerYear_reducer, setSavingsValue_action, calcula
 
     const [fromAge, setFromAge] = useState(18)
     const [toAge, setToAge] = useState(65)    
-    const [growthRate, setGrowthRate] = useState(0.05)    
-    const [conservativeRate, setConservativeRate] = useState(0.03)    
+    // const [growthRate, setGrowthRate] = useState(0.05)    
+    // const [conservativeRate, setConservativeRate] = useState(0.03)    
   
     const setContribution = (financialValue, rangeBarValue, {label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
             for (let age = fromAge; age < toAge; age++ ) {                                                           
@@ -79,7 +77,7 @@ export default connect(mapStateToProps, {setSavingsValue_action, calculateSaving
 
 const UserInterfaceWrapper = styled.div`
     grid-area: m;
-    background: ${props => props.theme.color.background2};
+    background: ${props => props.theme.color.ice};
     display: grid;
     height: 100%;
     grid-template-rows: minmax(10rem, 14rem) minmax(22rem, 24rem);

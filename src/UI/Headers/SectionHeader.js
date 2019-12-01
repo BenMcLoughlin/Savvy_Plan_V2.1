@@ -32,11 +32,11 @@ const Header = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: ${props => props.theme.color.contrastBackground3};
+    background-color: ${props => props.theme.color.drab};
     border-bottom: 1px solid white;
     padding: .6rem;
     font-size: ${props => props.theme.fontSize.medium};
-    color: ${props => props.theme.color.text1};
+    color: ${props => props.theme.color.ice};
     cursor: pointer;
     &:hover {
         opacity: 0.96;

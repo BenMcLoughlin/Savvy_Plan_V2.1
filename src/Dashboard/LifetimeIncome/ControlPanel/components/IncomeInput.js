@@ -75,7 +75,7 @@ const SelectorTitleWrapper = styled.div`
     width: 100%;
     padding: .5rem;
     font-size: ${props =>props.theme.fontSize.small};
-    color: ${props => props.theme.color.contrastText1};
+    color: ${props => props.theme.color.slate};
 `
 
 const RangeBarWrapper = styled.div`

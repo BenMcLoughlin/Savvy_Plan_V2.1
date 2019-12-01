@@ -6,9 +6,9 @@ import _ from "lodash"
 
 const drawTaxDonutChart = (props, width, height) => {
 
-    d3.select(".canvasTaxDonutChart > *").remove()
-    d3.select(".tooltipDonutChart").remove()
-    d3.select(".centerValue").remove()
+    d3.select(".canvasTaxDonutChart_tile > *").remove()
+    d3.select(".tooltipDonutChart_tile").remove()
+    d3.select(".centerValue_tile").remove()
         
 
     const data = props.taxDonutChartData
@@ -18,12 +18,10 @@ const drawTaxDonutChart = (props, width, height) => {
                                     .map(d => d.value).reduce((acc, num) => acc + num)
 
 
-    const radius = width / 4.6
-    const center = {x: (width / 3), y: (height / 2)} // chart dimension
-    const legendRectSize = 10; 
-    const legendSpacing = 6; 
+    const radius = width / 3.4
+    const center = {x: (width / 2), y: (height / 2)} // chart dimension
 
-    const svg = d3.select(".canvasTaxDonutChart")
+    const svg = d3.select(".canvasTaxDonutChart_tile")
                     .append("svg")
                     .attr('width', width + 100)
                     .attr('height', height + 100)
@@ -32,25 +30,25 @@ const drawTaxDonutChart = (props, width, height) => {
                     .attr("transform", `translate(${center.x}, ${center.y})`) //placing the chart in the center of the div
 
 
-    const centerValue = d3.select('.canvasTaxDonutChart') 
+    const centerValue = d3.select('.canvasTaxDonutChart_tile') 
                         .append('div')                          
-                        .attr('class', 'centerValue')
+                        .attr('class', 'centerValue_tile')
                         .style("opacity", 1)
                         .style('position', 'absolute')
                         .style('top', `${center.y - 50}px`)
-                        .style("left", `${center.x - 70}px`)
+                        .style("left", `${center.x - 78}px`)
                         .style("width", '30px')
                         .html(`
-                        <div class="summary">
+                        <div class="summary_tile">
                         ${  Math.round(totalTaxLiability/beforeTaxIncome * 100) }%
                             <span class="subHeader">Average Tax Rate</span>
                         </div>
                          `)
 
                              
-    const tooltip = d3.select('.canvasTaxDonutChart') 
+    const tooltip = d3.select('.canvasTaxDonutChart_tile') 
                         .append('div')                          
-                        .attr('class', 'tooltipDonutChart')
+                        .attr('class', 'tooltipDonutChart_tile')
                         .style("opacity", 0)
                         .style('position', 'absolute')
                         .style("top", 0)
@@ -64,42 +62,15 @@ const drawTaxDonutChart = (props, width, height) => {
 
     const arcPath = d3.arc()
                     .outerRadius(radius)
-                    .innerRadius(radius / 1.3)
+                    .innerRadius(radius / 1.2)
 
-    const color = ['#88adbf',"#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
+    const color = ['#4BB9D0',"#55869d", "#FFD152", "#F29278", "#ee6c4a"]
 
     const titleList = ["After Tax Income", "Tax Credit Income", "Federal Taxes", "Provincial Taxes", "CPP & EI"]
 
     const colorScale = d3.scaleOrdinal().domain(titleList).range(color)
 
-    const legendGroup = graph.append('g')
-             .attr("transform", `translate(${center.x}, ${center.y - 50})`)
 
-    const legend = legendGroup.selectAll('.legend')
-        .data(colorScale.domain())
-        .enter() 
-        .append('g')
-        .attr('class', 'legend') 
-        .attr('transform', function(d, i) {                   
-            const height = legendRectSize + legendSpacing + 10;   
-            const offset =  height * colorScale.domain().length / 1.2;  
-            const horz = 5 * legendRectSize; 
-            const vert = i * height - offset; 
-            return 'translate(' + horz + ',' + vert + ')';   
-        });
-
-        legend.append('circle') // append rectangle squares to legend                                   
-            .attr('r', legendRectSize) // width of rect size is defined above                        
-            .attr('height', legendRectSize) // height of rect size is defined above                                     
-            .style('fill', colorScale) // each fill is passed a color
-            .style('stroke', color) // each stroke is passed a color
-        
-        legend.append('text')                                    
-        .attr('x', legendRectSize + legendSpacing)
-        .attr('y', legendRectSize - legendSpacing)
-        .text(function(d) { return d }); // return name
-
-        //Join new pie data to path elements 
 
     const update = (data) => {
         const paths = graph.selectAll("path") 
@@ -115,7 +86,7 @@ const drawTaxDonutChart = (props, width, height) => {
 
         graph.selectAll("path")
               .on("mouseover",  (d,i,n) => {
-                console.log('hi');
+                  console.log('hi');
                 d3.select(n[i])
                 .transition().duration(100)
                 .attr("opacity", 0.9)
@@ -171,6 +142,7 @@ const drawTaxDonutChart = (props, width, height) => {
 
 export default class TaxDonutChart extends Component {
 
+
     state = {
         elementWidth: 0,
         elementHeight: 0
@@ -187,8 +159,8 @@ export default class TaxDonutChart extends Component {
 
     componentDidMount () {
         this.setState({ 
-            elementWidth: this.divRef.clientWidth || 400, 
-            elementHeight: this.divRef.clientHeight || 400 
+            elementWidth: this.divRef.clientWidth, 
+            elementHeight: this.divRef.clientHeight
         });
         drawTaxDonutChart(this.props, this.state.elementWidth, this.state.elementHeight)
     }
@@ -198,10 +170,11 @@ export default class TaxDonutChart extends Component {
     
 
     render() {
+        //if (window) {window.addEventListener('resize', this.updateSize)}
         if (window) {setTimeout(function(){ window.addEventListener('resize', this.updateSize)}, 3000);}
 
         return (
-            <Canvas className="canvasTaxDonutChart" ref={taxDonutCanvas => this.divRef = taxDonutCanvas}>
+            <Canvas className="canvasTaxDonutChart_tile" ref={taxDonutCanvas => this.divRef = taxDonutCanvas}>
 
             </Canvas>
 

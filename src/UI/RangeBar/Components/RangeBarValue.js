@@ -75,7 +75,7 @@ const sharedStyles = `
 
 const ValueAsInput = styled.input`
         ${sharedStyles}
-        background: ${props => props.theme.color.dullSteelBlue};
+        background: ${props => props.theme.color.slate};
         font-size: ${props =>props.theme.fontSize.small};
         z-index: 23;
         outline: none;
@@ -88,7 +88,7 @@ const ValueAsInput = styled.input`
 `
 export const Value = styled.div`
          ${sharedStyles}
-        background: ${props => props.theme.color.background3};
+        background: ${props => props.theme.color.slate};
         font-size: ${props =>props.theme.fontSize.small};
         cursor: pointer;
     
@@ -97,7 +97,7 @@ export const Value = styled.div`
             content: "";
             height: 1rem;
             width: 1rem;
-            background: ${props => props.theme.color.background3};
+            background: ${props => props.theme.color.slate};
             position: absolute;
             transform: rotate(45deg);
             left: -.5rem;

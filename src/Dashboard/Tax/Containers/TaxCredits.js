@@ -4,28 +4,21 @@ import SmallRangeBar from "../../../UI/SmallRangeBar/SmallRangeBar"
 
 export default class TaxCredits extends Component {
 
-
-
      miniRenderRangeBars = (miniRangeBarPropsArray) => {
          return miniRangeBarPropsArray.map(propsObject => <SmallRangeBar id={propsObject.name}
                                                                    key={propsObject.name}
                                                                    setValue={this.props.setIncome}
                                                                    rangeBarProps={propsObject}
                                                                    />
-                                                                  
           )
       }
 
     render() {
-        console.log(this.props.creditsRangeBarValues);
-
         return (
 
             <MiniRangeBarWrapper>
             {this.miniRenderRangeBars(this.props.creditsRangeBarValues)}
             </MiniRangeBarWrapper>
-
-
         )
     }
 }

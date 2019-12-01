@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import StackedBarChart from "../../LifetimeIncome/Charts/StackedBarChart"
-import calculateMarginalTaxRate from "../../../services/taxCalculationServices/taxCalculator"
+import LifetimeIncomeBarChart_Tile from "./Charts/LifetimeIncomeBarChart_Tile"
+import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
 import { NavLink} from "react-router-dom"
 
  class LifetimeIncomeTile extends Component {
-     
+
     render() {
 
 //DATA CONVERSTION FOR STACKED BAR CHART
@@ -43,7 +43,7 @@ const data = Object.values(this.props.incomePerYear_reducer).map(d => {         
 
         const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
 
-        const shortFall =  totalRetirementIncome - averageWorkingEarnings                                                         //determine retirement income shortfall to be displayed 
+        const shortFall =  (totalRetirementIncome - averageWorkingEarnings)/1000                                                         //determine retirement income shortfall to be displayed 
 
 
         return (
@@ -52,7 +52,7 @@ const data = Object.values(this.props.incomePerYear_reducer).map(d => {         
                     <Left>
                     <LargeTotal>
                     <Title>Retirement Income Shortfall</Title>
-                    {shortFall}
+                    {`${shortFall}K`}
                     <ToolTip>This is the tool Til</ToolTip> 
                     </LargeTotal>
                 </Left>
@@ -85,10 +85,10 @@ const data = Object.values(this.props.incomePerYear_reducer).map(d => {         
             </Top>
 
             <ChartWrapper>
-                    <StackedBarChart 
+                    <LifetimeIncomeBarChart_Tile
                         data={data}
                         stackedKeys={stackedKeys}
-            />
+                        />
             </ChartWrapper>
             </LifetimeIncomeTileWrapper>
         )
@@ -110,12 +110,18 @@ export default connect(mapStateToProps)(LifetimeIncomeTile)
 const LifetimeIncomeTileWrapper = styled(NavLink)`
   text-decoration: none;
   grid-area: e;
-  color: ${props => props.theme.color.contrastText1};
-  border-left: ${props => props.theme.border.primary};
-  border-bottom: ${props => props.theme.border.primary};
+  color: ${props => props.theme.color.slate};
+  border-radius: 5px;
+  border: ${props => props.theme.border.primary};
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  transition: all .2s ease-in-out;
+  background: ${props => props.theme.color.ice};
+  &:hover {
+    transform: scale(1.001);
+    box-shadow: 0px 3px 3px 2px rgba(219,206,219,0.33);
+  }
 `
 
 const Top = styled.div`
@@ -158,15 +164,16 @@ const ToolTip = styled.div`
 const Title = styled.div `
     font-size: ${props => props.theme.fontSize.smallMedium};
     text-align: center;
-    color: ${props => props.theme.color.contrastText1};
+    color: ${props => props.theme.color.slate};
     font-weight: 300;
    
 ` 
 const ChartWrapper = styled.div`
-    margin-top: -8rem;
+    margin-top: -10rem;
     margin-left: 2rem;
-    width: 100%;
-    height: 100%;
+    margin-bottom: 2rem;
+    width: 95%;
+    height: 60%;
 `
 
 const Summary = styled.div`

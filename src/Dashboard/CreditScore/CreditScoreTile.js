@@ -33,21 +33,24 @@ export default connect(mapStateToProps)(CreditScore)
 
 const CreditScoreWrapper = styled( NavLink)`
   text-decoration: none;
-  grid-area: c;
+  grid-area: d;
   display: flex;
   justify-content: center;
-  color: ${props => props.theme.color.contrastText1};
+  background:${props => props.theme.color.drab};
   cursor: pointer;
+  border-radius: 5px;
+  border: ${props => props.theme.border.primary};
 
 `
 
 const LargeTotal = styled.div`
-    font-size: 11rem;
+    font-size: 6rem;
     font-weight: 250;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: white;
     margin-top: -1rem;
     & span {
         font-size: ${props => props.theme.fontSize.smallMedium};

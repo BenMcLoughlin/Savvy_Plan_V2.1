@@ -143,7 +143,7 @@ export default AddItemBox
 
 const TextInput = styled.input`
         font-size: ${props =>props.theme.fontSize.small};
-        color: ${props => props.theme.color.background3};
+        color: ${props => props.theme.color.slate};
         position: absolute;
         width: 85%;
         top: -1.5rem;
@@ -152,12 +152,12 @@ const TextInput = styled.input`
         padding: 0.3rem;
         text-transform: capitalize;
         background: white;
-        border: 1px solid ${props => props.theme.color.contrastBackground1};
+        border: 1px solid ${props => props.theme.color.drab};
         cursor: pointer;
         &:focus,
         &:active {
             outline: 0  !important;
-            border: 1px solid ${props => props.theme.color.contrastBackground1};
+            border: 1px solid ${props => props.theme.color.drab};
         }
 `
 
@@ -166,11 +166,11 @@ const Container = styled.div`
     width: 95%;
     height: 17rem;
     position: relative;
-    border: 1px solid ${props => props.theme.color.contrastBackground1};
+    border: 1px solid ${props => props.theme.color.drab};
     border-radius: 3px;
     margin: 1rem;
     padding-top: 1rem;
-    background-color: ${props => props.theme.color.background2}
+    background-color: ${props => props.theme.color.ice}
 `
 const RangeBarWrapper = styled.div`
     margin-top: 2rem;

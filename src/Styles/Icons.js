@@ -12,13 +12,13 @@ const sharedIconAttributes = `
 
 export const CloseIcon = styled(CloseO)`
     ${sharedIconAttributes}
-    color: ${props => props.theme.color.dullSteelBlue}
+    color: ${props => props.theme.color.slate}
 `
 export const PlusIcon = styled(PlusCircle)`
     ${sharedIconAttributes}
-    color: ${props => props.theme.color.brightPopBlue}
+    color: ${props => props.theme.color.turquoise}
 `
 export const ChevronIcon = styled(ChevronsRight)`
     ${sharedIconAttributes}
-    color: ${props => props.theme.color.brightPopBlue}
+    color: ${props => props.theme.color.turquoise}
 `

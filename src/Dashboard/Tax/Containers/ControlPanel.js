@@ -42,7 +42,7 @@ const ControlPanelWrapper = styled.div`
     margin-top: 4rem;
     grid-area: d;
     display: flex;
-    color: ${props => props.theme.color.contrastText1};
+    color: ${props => props.theme.color.slate};
     border-top: ${props => props.theme.border.primary};
     padding-top: 2rem;
 `

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
+//import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
 import Tooltip from "../../UI/Tooltip/Tooltip"
 export default class HeaderValues extends Component {
 
@@ -147,7 +147,7 @@ const HeaderValuesWrapper = styled.div`
     display: flex;
     margin-top: 4rem;
     position: relative;
-    color: ${props => props.theme.color.contrastText1};
+    color: ${props => props.theme.color.slate};
 `
 
 const Left = styled.div`
@@ -203,16 +203,7 @@ const ShortFallValue = styled.div`
 display: inline-block;
 cursor: pointer;
 transition: all .3s ease-in;
-color: ${props => props.value < 0 ? props.theme.color.salmon : props.theme.color.contrastText1}};
-`
-
-
-const LeftBottom = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    color: ${props => props.theme.color.salmon};
-    margin-top: -1.5rem;
+color: ${props => props.value < 0 ? props.theme.color.salmon : props.theme.color.slate}};
 `
 const Vr = styled.div`
     height: 60%;

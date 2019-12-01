@@ -58,10 +58,8 @@ export const HeaderContainer = styled.div`
     text-align: center;
     display: flex;
     height: 6rem;
-    background: ${props => props.theme.color.background3};
-    font-weight: 200;
-    margin-bottom: 3rem;
-    
+    background: ${props => props.theme.color.slate};
+    font-weight: 200;    
 `
 const Logo = styled.div`
         width: 10rem;
@@ -82,7 +80,7 @@ const Left = styled.div`
 
 const Header3 = styled.div`
         font-size: ${props => props.theme.fontSize.medium};
-        color: ${props => props.theme.color.text1};
+        color: ${props => props.theme.color.ice};
         font-weight: 300;
      
 `
@@ -114,8 +112,8 @@ export const PageSelect = styled.div`
        border-radius: 1px;
        transition: all .1s ease-in;
        &:hover {
-           background: ${props => props.theme.color.text1};
-           color:  ${props => props.theme.color.background3};
+           background: ${props => props.theme.color.ice};
+           color:  ${props => props.theme.color.slate};
        }
 `
 const Hr = styled.hr`
@@ -128,7 +126,7 @@ export const StyledNavLink = styled(NavLink)`
        text-decoration: none;
        color: white;
     &.active ${PagePointer} {
-        background-color: ${props => props.theme.color.dullSteelblue};
+        background-color: ${props => props.theme.color.slate};
     } 
   } 
   `

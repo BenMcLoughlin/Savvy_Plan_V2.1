@@ -200,7 +200,7 @@ const InputWrapper = styled.div`
     height: 3px;
     width: ${props => props.totalWidth}px;
     margin: 11px;
-    background-color: ${props => props.theme.color.dullSteelBlue};
+    background-color: ${props => props.theme.color.slate};
     border-radius: 7px;
 `
 const Bar = styled.div`
@@ -236,7 +236,7 @@ const InputLeft = styled.input`
     width: 12px;
     margin-top: 3px;
     height: 12px;
-    background: ${props => props.theme.color.dullSteelBlue};
+    background: ${props => props.theme.color.slate};
     border-radius: 50%;
     cursor: pointer;
     
@@ -278,7 +278,7 @@ const Button = styled.button`
         font-size: 1.4rem;
         width: 3.5rem;
         text-align: center;
-        background: ${props => props.theme.color.dullSteelBlue};
+        background: ${props => props.theme.color.slate};
         color: white;
         cursor: pointer;
         outline: none;
@@ -293,12 +293,12 @@ const sharedStyles = `
         text-align: center;
         color: white;
         border: none;
-        background: ${props => props.theme.color.background3};
+        background: ${props => props.theme.color.slate};
 `
 
 const ValueAsInput = styled.input`
         ${sharedStyles}
-        background: ${props => props.theme.color.dullSteelBlue};
+        background: ${props => props.theme.color.slate};
         font-size: ${props =>props.theme.fontSize.small};
         z-index: 33;
         outline: none;
@@ -311,7 +311,7 @@ const ValueAsInput = styled.input`
 `
 export const Value = styled.div`
          ${sharedStyles}
-        background: ${props => props.theme.color.background3};
+        background: ${props => props.theme.color.slate};
         font-size: ${props =>props.theme.fontSize.small};
         cursor: pointer;
     
@@ -320,7 +320,7 @@ export const Value = styled.div`
             content: "";
             height: 1rem;
             width: 1rem;
-            background: ${props => props.theme.color.background3};
+            background: ${props => props.theme.color.slate};
             position: absolute;
             transform: rotate(45deg);
             left: -.5rem;

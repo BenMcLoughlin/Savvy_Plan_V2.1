@@ -54,23 +54,23 @@ const initialState = {
         }
     },
     credits: {
-        educationTuition: {
-            name: "educationTuition",
-            label: "Education",
+        charitableDonations: {
+            name: "charitableDonations",
+            label: "Charitable Donations",
             financialValue: 0, 
             rangeBarValue: 0,
             section: "credits",
             min: 0, 
             max: 20000, 
         },
-        charitableGiving: {
-            name: "charitableGiving",
-            label: "Charitable Giving",
+        tuition: {
+            name: "tuition",
+            label: "Tuition, Education and Textbook",
             financialValue: 0, 
             rangeBarValue: 0,
             section: "credits",
             min: 0,
-            max: 40000,
+            max: 20000,
         },
         medicalExpense: {
             name: "medicalExpense",
@@ -90,23 +90,23 @@ const initialState = {
             min: 0, 
             max: 5000, 
         },
-        charitableGiving1: {
-            name: "charitableGiving1",
-            label: "Charitable Giving1",
+        volunteerFirefighter: {
+            name: "volunteerFirefighter",
+            label: "Volunteer Firefighter",
             financialValue: 0, 
             rangeBarValue: 0,
             section: "credits",
             min: 0,
-            max: 40000,
+            max: 5000,
         },
-        medicalExpense1: {
-            name: "medicalExpense1",
-            label: "Medical Expense1",
+        interestOnStudentLoans: {
+            name: "interestOnStudentLoans",
+            label: "Interest on Student Loans",
             financialValue: 0, 
             rangeBarValue: 0,
             section: "credits", 
             min: 0,
-            max: 40000,
+            max: 5000,
         },
     },
 }

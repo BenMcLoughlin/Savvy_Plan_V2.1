@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 
 export const calculateStartValue = (age, name, state) => {
     return state[age-1][name].endValue

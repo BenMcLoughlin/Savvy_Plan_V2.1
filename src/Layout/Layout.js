@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
-import Dashboard from "../Dashboard/Dashboard/Dashboard"
+import Dashboard from "../Dashboard/Dashboard"
 import TaxApp from "../Dashboard/Tax/TaxApp"
 import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
 import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
@@ -13,34 +13,24 @@ import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
 import UserAccountApp from "../UserAccount/UserAccountApp"
 import {ThemeProvider} from "styled-components"
-import {darkTheme, lightTheme} from "../Styles/Themes"
+import { lightTheme} from "../Styles/Themes"
 import styled from "styled-components"
+import LeftNavBar from "./Navigation/LeftNavBar"
+import RightVideoSelector from "./Navigation/RightVideoSelector"
 
 export default class Layout extends Component {
 
    state = {
        theme: lightTheme,
    }
-   //this is the state that holds the theme for the app. 
 
-   setDarkTheme = () => {
-       this.setState({
-           theme: darkTheme
-       })
-   }
-   setLightTheme = () => {
-       this.setState({
-           theme: lightTheme
-       })
-   }
-    //these are the functions that change the theme state. These functions are passed to the button called "light Theme" or "dark them"
-    //in the header as props through Header.
-    
+ 
     render() {
         return (
             <ThemeProvider theme={this.state.theme}>
             <>
             <Header/>
+            <LeftNavBar/>
             <GridContainer>
                     <Route path="/Dashboard" component={Dashboard}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
@@ -53,7 +43,8 @@ export default class Layout extends Component {
                     <Route path="/Property" component={PropertyApp}/>
                     <Route path="/Debt" component={DebtApp}/>
             </GridContainer>
-
+            <RightVideoSelector/>
+            <Footer/>
             </>
             </ThemeProvider>
         )
@@ -64,18 +55,24 @@ export default class Layout extends Component {
 //
 //------------------STYLES---------------------------------------------------------------
  const GridContainer = styled.div`
-
-    height: 100vh;
-    margin: 0 auto;
-    width: 80vw;
+    height: 90vh;
+    margin: 2px auto;
+    width: 85vw;
     display: grid;
-    grid-template-rows: 1fr 5rem;
     grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1;
     grid-template-areas: 
-    "m m m m m m m m m m m m m"
+
+    " m m m m m m m m m m m m m"
 
     /* The Grid container holds the grid item "m" for "main" and "f" for footer. When a sub-app is clicked
      on its grid location becomes m placing it in the "main position" */
+`
+
+const Right = styled.div`
+    position: absolute;
+    top: 10rem;
+    right: 2rem;
 `
 
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

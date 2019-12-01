@@ -9,7 +9,7 @@ import { NavLink} from "react-router-dom"
 
         return (
             <SavingsPlanTileWrapper to="/SavingsPlan">
-            <img alt ="#"  src={require("../../../assets/images/Savings_plan.png")} style={{height: "220px", marginLeft: "10rem"}}/>
+            <img alt ="#"  src={require("../../assets/images/savings_plan.png")} style={{height: "18rem",}}/>
             </SavingsPlanTileWrapper>
         )
     }
@@ -29,6 +29,12 @@ export default connect(mapStateToProps)(SavingsPlanTile)
 const SavingsPlanTileWrapper = styled(NavLink)`
   text-decoration: none;
   grid-area: g;
-  background: orange;
-  border-left: ${props => props.theme.border.primary};
+  border-radius: 5px;
+  border: ${props => props.theme.border.primary};
+  transition: all .2s ease-in-out;
+  background: ${props => props.theme.color.ice};
+  &:hover {
+    transform: scale(1.001);
+    box-shadow: 0px 3px 3px 2px rgba(219,206,219,0.33);
+  }
 `

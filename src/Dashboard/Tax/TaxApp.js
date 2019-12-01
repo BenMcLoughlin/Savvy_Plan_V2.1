@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import HeaderValues from "./Containers/HeaderValues"
@@ -10,39 +10,33 @@ import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 const TaxApp = ({setTaxIncome_action, taxVariables_reducer}) => {
 
-  const setIncome = (financialValue, rangeBarValue, {name, section}) => {    
-      if (section === "credits") {rangeBarValue = (Math.round(rangeBarValue/100)*100)}
-      setTaxIncome_action(name, financialValue, rangeBarValue, section)
-console.log(section);
-  }
+  const setIncome = (financialValue, rangeBarValue, {name, section}) => {                                                      //primary setting function, also used by tax credits to set the value in the reducer
+        if (section === "credits") {rangeBarValue = (Math.round(rangeBarValue/100)*100)}                                       //rounds the tax credits which are a smaller number than income so require a different rounding technique
+        setTaxIncome_action(name, financialValue, rangeBarValue, section)                                                      //fires the action setting the values in the reducer
+    }
 
-  const incomeArray = Object.values(taxVariables_reducer.income).map(d => d.financialValue)                                 //Convert the regularIncome values into an array
-  const [EI,  SEI,  II , EDI,  NEDI , CG ] =  incomeArray                                                                          //naming all income types, EI = employmentIncome, SEI = selfEmploymentIncome, II = interestIncome,
-                                                                                                                                          //EDI = eligibleDividedIncome, NEDI = nonEligibleDividendIncome, CG = CapitalGains
-
+  const incomeArray = Object.values(taxVariables_reducer.income).map(d => d.financialValue)                                    //Convert the regularIncome values into an array
+  const [EI,  SEI,  II , EDI,  NEDI , CG ] =  incomeArray                                                                      //naming all income types, EI = employmentIncome, SEI = selfEmploymentIncome, II = interestIncome,
+                                                  
   const regularIncomeRangeBarValues = Object.values(taxVariables_reducer.income).slice(0,3)
   const taxAdvantagedIncomeRangeBarValues = Object.values(taxVariables_reducer.income).slice(3,6)
   const creditsRangeBarValues = Object.values( taxVariables_reducer.credits)
 
-
-  const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG 
-
-  const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI)
-  const federalTaxPayable = taxStackedData[4].totalFederalTax - taxStackedData[4].federalTaxCredits
-  const provincialTaxPayable = taxStackedData[4].totalProvincialTax
-  const CPPandEI = taxStackedData[4].cppAndEI
-  const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + CPPandEI 
-  const averageRate = totalTaxLiability/beforeTaxIncome 
-
 console.log(taxVariables_reducer);
+  const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
+
+  const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 
+  const taxData = taxStackedData[4]                                                                                           //The top bracket contains the sum of all the brackets below enabling us to access the essential data from it
+  const federalTaxPayable = taxData.totalFederalTax - taxData.federalTaxCredits             
+  const provincialTaxPayable = taxData.totalProvincialTax - taxData.provincialTaxCredits
+  const totalCppAndEI = taxData.totalCppAndEI
+  const totalCredits = taxData.provincialTaxCredits + taxData.federalTaxCredits
+  const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + totalCppAndEI 
+  const averageRate = totalTaxLiability/beforeTaxIncome 
+  const afterTaxIncome = beforeTaxIncome - totalTaxLiability - totalCredits
+
   const taxStackedKeys = ["incomeAfterTax", "taxCredits","federalTax", "provincialTax", "cppAndEI",]
   
-  const taxesByBracket = taxStackedData
-  const totalFederalTax = Object.values(taxesByBracket.map(d => d.federalTax)).reduce((acc,num) => acc + num)
-  const totalProvincialTax = Object.values(taxesByBracket.map(d => d.provincialTax)).reduce((acc,num) => acc + num)
-  const totalCppAndEI = Object.values(taxesByBracket.map(d => d.cppAndEI)).reduce((acc,num) => acc + num)
-  const totalCredits = Object.values(taxesByBracket.map(d => d.taxCredits)).reduce((acc,num) => acc + num)
-  const afterTaxIncome = Object.values(taxesByBracket.map(d => d.incomeAfterTax)).reduce((acc,num) => acc + num)
 
   const taxDonutChartData = [
     {name: "afterTaxIncome", 
@@ -52,17 +46,17 @@ console.log(taxVariables_reducer);
     value: totalCredits
     },
     {name: "federalTaxPayable", 
-    value: totalFederalTax
+    value: federalTaxPayable
     },
     {name: "provincialTaxPayable", 
-    value: totalProvincialTax
+    value: provincialTaxPayable
     },
     {name: "CPPandEI", 
     value: totalCppAndEI
     }
   ]
 
-  console.log(taxVariables_reducer);
+
    return (
      <UserInterfaceWrapper>
         <HeaderValues
@@ -70,7 +64,7 @@ console.log(taxVariables_reducer);
             federalTaxPayable={federalTaxPayable}
             afterTaxIncome={afterTaxIncome}
             provincialTaxPayable={provincialTaxPayable}
-            CPPandEI={CPPandEI}
+            totalCppAndEI={totalCppAndEI}
             totalTaxLiability={totalTaxLiability }
             marginalRate={44}
             averageRate={(averageRate * 100).toFixed(2)}
@@ -110,7 +104,7 @@ export default connect(mapStateToProps, {setTaxIncome_action})(TaxApp)
 
 const UserInterfaceWrapper = styled.div`
     grid-area: m;
-    background: ${props => props.theme.color.background2};
+    background: ${props => props.theme.color.ice};
     display: grid;
     height: 100%;
     grid-template-rows: minmax(8rem, 10rem) minmax(24rem, 26rem);

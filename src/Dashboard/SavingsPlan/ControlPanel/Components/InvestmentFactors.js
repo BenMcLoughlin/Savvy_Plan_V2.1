@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
+//import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
 
 export default function PensionIncomeStartAges( ) {                                            //Use Destructing to assign variables and functions
    

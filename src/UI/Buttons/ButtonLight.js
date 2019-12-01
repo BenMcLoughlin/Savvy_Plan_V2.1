@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from "styled-components"
-import {PlusIcon} from "../../Styles/Icons"
 
 const Button = (props) => {
     return (
@@ -24,19 +23,13 @@ const ButtonComponent = styled.button`
     width: 10rem;
     height: 4rem;
     margin: 1rem;
-    background: ${props => props.theme.color.background2};
-    color: ${props => props.theme.color.dullSteelBlueDark};
+    background: ${props => props.theme.color.ice};
+    color: ${props => props.theme.color.slate};
     cursor: pointer;
     outline: none;
     border-radius: 5rem;
     text-transform: uppercase;
     position: relative
-`
-
-const PlusIconButton = styled(PlusIcon)`
-    position: absolute;
-    left: .8rem;
-    bottom: .8rem;
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

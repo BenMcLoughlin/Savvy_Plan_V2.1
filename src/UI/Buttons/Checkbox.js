@@ -31,7 +31,7 @@ const Label = styled.label`
     & span {
         margin-left: 1rem;
         font-size: ${props =>props.theme.fontSize.small};
-        color: ${props => props.theme.color.background3};
+        color: ${props => props.theme.color.slate};
     }
 `
 
@@ -64,7 +64,7 @@ const StyledCheckbox = styled.div`
   display: inline-block;
   width: 1.6rem;
   height: 1.6rem;
-  background: ${props => props.theme.color.brightPopBlue};
+  background: ${props => props.theme.color.turquoise};
   border-radius: 50%;
   transition: all 50ms;
   cursor: pointer;

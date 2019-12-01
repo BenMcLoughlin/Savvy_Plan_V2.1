@@ -6,20 +6,16 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 100, right: 50, bottom: 40, left: 80}
+    const margin = {top: 20, right: 50, bottom: 30, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#88adbf',"#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
+    const color = ["#ef7959", "#4BB9D0",'#72929B',  "#7DA8B8", '#FEDE76', '#FEDE76','#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
-    d3.select(".canvasTaxStacked > *").remove()
-    d3.select(".tooltipStackedChart").remove()
+    d3.select(".canvasStackedbarChart > *").remove()
+    d3.select(".tooltip").remove()
 
-
-
-    const data = props.taxStackedData
-   
-
-    const svg = d3.select('.canvasTaxStacked').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const data = props.data
+    const svg = d3.select('.canvasStackedbarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
 
@@ -29,7 +25,7 @@ const drawChart = (props, width, height) => {
                                  
 
     const xAxisGroup = graph.append("g")
-                            .attr("transform", `translate(0, ${graphHeight + 10})`)
+                            .attr("transform", `translate(0, ${graphHeight})`)
                             .attr("class", "axis")
                             
     const yAxisGroup = graph.append("g")
@@ -37,31 +33,29 @@ const drawChart = (props, width, height) => {
 
     
        const stack = d3.stack()
-                        .keys(props.taxStackedKeys)
+                        .keys(props.stackedKeys)
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetNone);
         
-        const tooltip = d3.select(".canvasTaxStacked").append("div")
-                        .attr("class", "tooltipStackedChart")
+        const tooltip = d3.select(".canvasStackedbarChart").append("div")
+                        .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
-
    
-
+    
     const update = data => {
     
-        const d3Max = d3.max(data, d =>  d.incomeAfterTax ) < 90000 ? 90000 : 
-                        d3.max(data, d => d.incomeAfterTax ) + 10000
+        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 90000 ? 90000 : 
+                        d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 10000
 
         const series = stack(data);
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
-        .domain(data.map(item => item.bracket))
+        .domain(data.map(item => item.age))
 
 
- 
 
     const rects = graph.append("g")
         .selectAll("g")
@@ -72,20 +66,11 @@ const drawChart = (props, width, height) => {
         rects.selectAll("rect")
             .data(d => d)
             .enter().append("rect")
-                .attr("x", d => xScale(d.data.bracket))
+                .attr("x", d => xScale(d.data.age))
                 .attr("y", d => yScale(d[1]))
              .merge(rects)
-                .attr("height", d => yScale(d[0]) - yScale(d[1]))
-                .attr("width", xScale.bandwidth())
-            
-                rects.append("text")
-                .attr("text-anchor", "middle")
-                .attr("x", xScale.bandwidth()/2)
-                .attr("y", function(d) { return yScale("bboobies"); }) // d.total!
-                .style("fill", "black")
-                .text(function(d) { return "bboobies" });
 
-//    
+    
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
             .attr("backgroundColor", (d,i) => color[i])
@@ -93,43 +78,44 @@ const drawChart = (props, width, height) => {
             .selectAll("rect") 
             .data(d => d)
             .enter().append("rect")
-                .attr("x", d => xScale(d.data.bracket))
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
+                .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
-      
-                            .on("mouseover", (d,i,n) => {
+                    .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
-                                const nameIndex = props.taxStackedKeys.findIndex(type => type === name)
+                                const nameIndex = props.stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                           
+                                const thisYearTotalIncome = Object.values(props.data[i]).slice(1).reduce((acc, num) => acc + num)
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)
-                                        .attr("opacity", 0.9)
+                                        .attr("opacity", 0.7)
                                         .attr("cursor", "pointer")
                             
                                         tooltip.transition()
                                         .duration(200)
                                         .style("opacity", 1)
                                         .style("pointer-events", "none")
+
                                         tooltip.html(
                                             `
                                             <div class="topHeader">
-                                          hi
+                                                <p> ${(d.data.age)} Yrs Old</p>
+                                                <p>  Year ${(d.data.age + 1988)} </p>
                                             </div>
                                             <div class="financialOutput">
                                                 <div class="total" style="color: ${thisColor}; ">
                                                     <h3 class="title">  ${_.startCase(name)} </h3>
                                                     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                    ${Math.round((d[1] - d[0]).toFixed()/1000)*1000/1000} 
+                                                        ${(d[1] - d[0])/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
                                                 <div class="total">
-                                                    <h3 class="title"> Total Income In Bracket </h3>
+                                                    <h3 class="title">  Total Income </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                
+                                                        ${thisYearTotalIncome/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -151,10 +137,9 @@ const drawChart = (props, width, height) => {
                                             tooltip.style('top', (d3.event.layerY - 20) + 'px') // always 10px below the cursor
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
-
-            var ticks = [1,2,3,4,5,6];
-            var tickLabels = [' 0- 47K','47-96K','96-147K','147-210K','210K + ']
-                
+                        
+            var ticks = [20,40, 60, 80, 95];
+            var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
@@ -173,7 +158,7 @@ const drawChart = (props, width, height) => {
     
 }
 
-export default class StackedBarChart extends Component {
+export default class LifetimeIncomeBarChart_tile extends Component {
 
     state = {
         elementWidth: 0,
@@ -183,7 +168,7 @@ export default class StackedBarChart extends Component {
     updateSize = () => {
         this.setState({ 
             elementWidth: this.divRef.clientWidth, 
-            elementHeight: this.divRef.clientHeight
+            elementHeight: this.divRef.clientHeight, 
         });
         drawChart(this.props, this.state.elementWidth, this.state.elementHeight )
       }
@@ -199,17 +184,17 @@ componentDidMount() {
 componentDidUpdate() {
     drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
 }
-componentUnMount() {
 
-}
-
-
+componentWillUnmount() {
+    window.removeEventListener('resize', this.updateSize);
+   }
+   
     render() {
 
-        if (window) {setTimeout(function(){ window.addEventListener('resize', this.updateSize)}, 3000);}
-
+        window.addEventListener('resize', this.updateSize)
+ 
         return (
-            <Canvas className="canvasTaxStacked" ref={taxStackedCanvas => this.divRef = taxStackedCanvas}>
+            <Canvas className="canvasStackedbarChart" ref={canvasStackedBarChart => this.divRef = canvasStackedBarChart}>
                 
             </Canvas>
         )
@@ -225,25 +210,3 @@ const Canvas = styled.div`
         position: relative;
 
 `
-
-
-// <div class="topHeader">
-// <p> Marginal Rate: ${((+d.data.federalTax + +d.data.provincialTax + +d.data.CppAndEI )/thisYearTotalIncome *100).toFixed()}%</p>
-// </div>
-// <div class="financialOutput">
-// <div class="total" style="color: ${thisColor}; ">
-//     <h3 class="title">  ${_.startCase(name)} </h3>
-//     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-//         ${Math.round((d[1] - d[0]).toFixed()/1000)*1000/1000} 
-//         <span> K</span>
-//     </p>
-// </div>
-// <div class="total">
-//     <h3 class="title"> Total Income In Bracket </h3>
-//     <p class="value" style="border-left: .3px solid #72929B;">  
-//         ${Math.round(thisYearTotalIncome/1000)*1000/1000} 
-//         <span> K</span>
-//     </p>
-// </div>
-// </div>
-// `

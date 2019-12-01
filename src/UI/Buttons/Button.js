@@ -25,7 +25,7 @@ const ButtonComponent = styled.button`
     width: 100%;
     height: 4rem;
     margin: 1rem;
-    background: ${props => props.theme.color.dullSteelBlue};
+    background: ${props => props.theme.color.slate};
     color: white;
     cursor: pointer;
     outline: none;

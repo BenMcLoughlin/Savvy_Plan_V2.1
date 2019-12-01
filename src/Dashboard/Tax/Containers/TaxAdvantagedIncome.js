@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import RangeBar from "../../../UI/RangeBar/RangeBar"
-import AddItemBox from "../../../UI/AddItemBox/AddItemBox"
-
-
 
 
 export default class RegularTaxAdvantagedIncomeInput extends Component {

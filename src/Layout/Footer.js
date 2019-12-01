@@ -35,10 +35,11 @@ export default function Header() {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 export const FooterContainer = styled.div`
+    margin-top: 20rem;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 20rem;
+    height: 10rem;
     background: #536D7A;
     align-items: center;
 
@@ -89,7 +90,7 @@ export const StyledNavLink = styled(NavLink)`
        text-decoration: none;
        color: white;
     &.active ${PagePointer} {
-        background-color: ${props => props.theme.color.dullSteelblue};
+        background-color: ${props => props.theme.color.slate};
     } 
   } 
   `

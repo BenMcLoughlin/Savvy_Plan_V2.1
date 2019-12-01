@@ -4,8 +4,7 @@ import {connect} from "react-redux"
 import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp_action, setPensionStartAge_action, setSavingsValue_action} from "./actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
-import _ from "lodash"
-import StackedBarChartLifetimeIncome from "./Charts/StackedBarChart"
+import LifetimeIncomeBarChart from "./Charts/LifetimeIncomeBarChart"
 import {adjustOas}from "./services/localFunctions"
 
 const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPensionStartAge_action,                                    // destructure out variables
@@ -38,9 +37,7 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
         for (let age = fromAge; age < toAge; age++ ) {                                                           
             setIncome_action(age, contributeToCpp, financialValue, label, name, rangeBarValue)                                            //sets the income for each of the years between the selected ranges
         }    
-        {
-            contributeToCpp && renderCPPandOASIncome(cacheKey)                                                                            //only recalculates CPP if contributions to CPP are made on the income
-        }                                                           
+            contributeToCpp && renderCPPandOASIncome(cacheKey)                                                                            //only recalculates CPP if contributions to CPP are made on the income                                                        
     }
 
     const incomeTypeArray = Object.values(incomePerYear_reducer[fromAge])                                            //Converts the year list to an array so that it can be mapped through for rangebars  
@@ -104,9 +101,9 @@ const data = Object.values(incomePerYear_reducer).map(d => {                    
 })
 
 //SET RRSP VALUES
-const setRrspPresentValue = (financialValue, rangeBarValue, {contributeToCpp, label, name}) => {
-return "hi"
-}
+// const setRrspPresentValue = (financialValue, rangeBarValue, {contributeToCpp, label, name}) => {
+// return "hi"
+// }
 
 const stackedKeys = Object.keys(incomePerYear_reducer[18])                                                                                   //creates a an array of each of the income type names, which is used in the stacked Income chart
 
@@ -117,7 +114,7 @@ const stackedKeys = Object.keys(incomePerYear_reducer[18])                      
                      incomePerYear_reducer={incomePerYear_reducer}
                 />
                 <ChartPlaceHolder>
-                <StackedBarChartLifetimeIncome
+                <LifetimeIncomeBarChart
                     data={data}
                     stackedKeys={stackedKeys}
                 />
@@ -132,7 +129,6 @@ const stackedKeys = Object.keys(incomePerYear_reducer[18])                      
                     toAge={toAge}
                     setIncome_action={setIncome_action}
                     incomeTypeArray={incomeTypeArray}
-                    addItemToList={addItemToList }
                     setIncome={setIncome}
                     setPensionIncome={setPensionIncome}
                     pensionStartAges_reducer={pensionStartAges_reducer}
@@ -161,9 +157,10 @@ export default connect(mapStateToProps, {setIncome_action,  setKeyVariable_actio
 
 const UserInterfaceWrapper = styled.div`
     grid-area: m;
-    background: ${props => props.theme.color.background2};
+    background: ${props => props.theme.color.ice};
     display: grid;
     height: 100%;
+    width: 90%;
     grid-template-rows: minmax(10rem, 14rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'
