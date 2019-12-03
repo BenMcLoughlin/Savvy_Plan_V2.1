@@ -1,6 +1,7 @@
 
 const initialState = {
     birthYear: 1988,
+    rrifWithdrawalAge: 65,
 }
 
 const keyVariables_reducer = (state = initialState, action) => {

@@ -14,12 +14,14 @@ return {
        } 
 }
 }
-export const calculateSavings_action = (age, name) =>  {
-    return {
+export const calculateSavings_action = (age, name) =>  ({
     type: "savingsPerYear/CALCULATE_SAVINGS",
         age, 
         name
-}} 
+}) 
 
-
+export const calculateRrifWithdrawal_action = (age) => ({
+    type: "savingsPerYear/CALCULATE_RRIF_WITHDRAWAL",
+    age
+})
 

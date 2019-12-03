@@ -9,7 +9,7 @@ const RightVideoSelector = () => {
     return (
         <RightVideoSelectorWrapper>
             {
-                visible ? "hi" : <Hamburger/>
+                visible ? "hi" : <Arrow/>
             }
 
         </RightVideoSelectorWrapper>
@@ -26,7 +26,7 @@ const RightVideoSelectorWrapper = styled.div`
     cursor: pointer;
 `
 
-const Hamburger = styled.div`
+const Arrow = styled.div`
 
     width: 2.4rem;
     height: .2rem;
@@ -43,8 +43,8 @@ const Hamburger = styled.div`
         height: .2rem;
         background: ${props => props.theme.color.slate};
         position: absolute;
-        top: -13px;
-        left: -13px;
+        top: -10px;
+        left: -12px;
         transform: rotate(-90deg);
     }
 

@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 100, right: 50, bottom: 60, left: 40}
+    const margin = {top: 10, right: 50, bottom: 100, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
@@ -35,7 +35,7 @@ const drawChart = (props, width, height) => {
        const stack = d3.stack()
                         .keys(props.stackedKeys)
                         .order(d3.stackOrderNone)
-                        .offset(d3.stackOffsetNone);
+                        .offset(d3.stackOffsetDiverging);
         
         const tooltip = d3.select(".canvasSavingsStackedBarChart").append("div")
                         .attr("class", "tooltip")
@@ -47,8 +47,9 @@ const drawChart = (props, width, height) => {
     
     const update = data => {
     
-        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
+        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 5000 ? 5000 : 
                         d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+    
 
         const series = stack(data);
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
@@ -146,7 +147,7 @@ const drawChart = (props, width, height) => {
                             .tickFormat(function(d,i){ return tickLabels[i] })
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('3')
+            const yAxis = d3.axisLeft(yScale).ticks('1')
                             .tickFormat(d => `${d/1000}k`)
 
 

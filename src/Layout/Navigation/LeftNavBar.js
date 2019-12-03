@@ -38,7 +38,7 @@ const Hamburger = styled.div`
         content: "";
         width: 2.4rem;
         border-radius: 3px;
-        height: .2rem;
+        height: .3rem;
         background: ${props => props.theme.color.slate};
         position: absolute;
         top: -.6rem;
@@ -46,7 +46,7 @@ const Hamburger = styled.div`
     &::after {
         content: "";
         width: 2.4rem;
-        height: .2rem;
+        height: .3rem;
         position: absolute;
         border-radius: 3px;
         background: ${props => props.theme.color.slate};

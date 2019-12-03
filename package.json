@@ -2,6 +2,7 @@
   "name": "cryptodash-practice",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://benmcloughlin.github.io/Savvy_Plan_V2.1/",
   "dependencies": {
     "cryptocompare": "^1.0.0",
     "d3": "^5.14.1",
@@ -9,6 +10,7 @@
     "d3-svg-legend": "^2.25.6",
     "font-awesome": "^4.7.0",
     "fontawesome": "^5.6.3",
+    "gh-pages": "^2.1.1",
     "immutability-helper": "^3.0.1",
     "lodash": "^4.17.15",
     "npm": "^6.13.0",
@@ -27,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^2.1.1",
     "redux-devtools-extension": "^2.13.8"
   }
 }
