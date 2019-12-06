@@ -1,4 +1,4 @@
-export const setIncome_action = (age, contributeToCpp, financialValue, label, name, rangeBarValue, ) => ({
+export const setIncome_action = (age, contributeToCpp, financialValue, label, name, rangeBarValue) => ({
     type: "SET_INCOME_PER_YEAR", 
     payload: {
         age, 
@@ -43,13 +43,12 @@ return {
 }
 }
 
-export const setSavingsValue_action = (account, age, name, value) => {
+
+export const setRetirementIncome_action = (financialValue, rangeBarValue) => {
 return {
-    type: "savings/SET_VALUE", 
-        account,
-        age,
-        name, 
-        value 
+    type: "keyVariables_reducer/SET_RETIREMENT_INCOME", 
+        financialValue, 
+        rangeBarValue
 }
 }
 

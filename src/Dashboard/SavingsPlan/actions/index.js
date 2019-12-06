@@ -24,4 +24,10 @@ export const calculateRrifWithdrawal_action = (age) => ({
     type: "savingsPerYear/CALCULATE_RRIF_WITHDRAWAL",
     age
 })
+export const setMaxContribution_action = (age, name, value) => ({
+    type: "savingsPerYear/SET_MAX_CONTRIBUTION",
+        age,
+        name,
+        value
+})
 

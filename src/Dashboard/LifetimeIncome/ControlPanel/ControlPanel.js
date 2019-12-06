@@ -1,33 +1,36 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from "styled-components"
 import IncomeInput from "./Components/IncomeInput"
-import RRSPDetails from "./Components/RRSPDetails"
 import PensionIncomeStartAges from "./Components/PensionIncomeStartAges"
+import DesiredRetirementIncome from "./Components/DesiredRetirementIncome"
 
 
 export default function ControlPanel(props) {
-
         return (
-            <ControlPanelWrapper>
-                <Left>
+
+                    <ControlPanelWrapper>
+                    <Section>
+                    <h2>Estimate Lifetime Earnings</h2>
                     <IncomeInput
-                       {...props}                                                                                          //  All props are passed through to the child component
-                    />
-                </Left>
-                <Center>
-                     <Title>Estimate Future RRSP Value</Title>
-                     <RRSPDetails
-                     {...props}
-                     />
-                </Center>
-                <Right>
-                     <Title>Select Retirement Age</Title>
-                     <PensionIncomeStartAges
-                     {...props}
-                     />
-                </Right>
-            </ControlPanelWrapper>
+                           {...props}                                                                                          //  All props are passed through to the child component
+                        />
+                    </Section>
+                    <Section>
+
+                     <h2>Desired Retirement Income</h2>
+                        <DesiredRetirementIncome
+                         {...props}
+                        />
+                    </Section>
+                    <Section>
+                    <h2>Select Retirement Age</h2>
+                         <PensionIncomeStartAges
+                         {...props}
+                         />
+                    </Section>
+                    </ControlPanelWrapper>
         )
+          
     }
 
 
@@ -39,20 +42,9 @@ const ControlPanelWrapper = styled.div`
     color: ${props => props.theme.color.slate};
     border-top: ${props => props.theme.border.primary};
     padding-top: 2rem;
+    position: relative;
 `
 
-const Left = styled.div`
+const Section = styled.div`
     flex: 1;
 `
-const Center = styled.div`
-    flex: 1;
-`
-const Right = styled.div`
-    flex: 1;
-`
-const Title = styled.div `
-    font-size: ${props => props.theme.fontSize.medium};
-    text-align: center;
-    font-weight: 300;
-   
-` 

@@ -19,20 +19,20 @@ const initialState = {
             step: 1,
             numberType: "age",
             valueThisRangeBarChanges: "oasIncome"
-            
-        },
-        rrspReturn: {
-            name: "rrspReturn",
-            label: "Estimated RRSP Return",
-            rangeBarValue: 0.055, 
-            min: 0,
-            max: .1,
-            step: .005,
-            numberType: "percentage",
         },
         rrifStartAge: {
             name: "rrifStartAge",
             label: "Convert RRSP to RRIF",
+            rangeBarValue: 65, 
+            min: 50,
+            max: 72,
+            step: 1,
+            numberType: "age",
+            valueThisRangeBarChanges: "rrifIncome"
+        },
+        tfsaStartAge: {
+            name: "tfsaStartAge",
+            label: "Start TFSA Withdrawals",
             rangeBarValue: 65, 
             min: 50,
             max: 72,

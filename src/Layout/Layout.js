@@ -32,7 +32,7 @@ export default class Layout extends Component {
             <Header/>
             <LeftNavBar/>
             <GridContainer>
-                    <Route path="/Dashboard" component={Dashboard}/>
+                    <Route exact path="/" component={Dashboard}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
                     <Route path="/NetWorth" component={NetWorthApp}/>
                     <Route path="/Tax" component={TaxApp}/>

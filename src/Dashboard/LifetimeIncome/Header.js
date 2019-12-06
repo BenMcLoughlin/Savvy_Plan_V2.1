@@ -45,34 +45,17 @@ export default class HeaderValues extends Component {
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
             <Left >
-            
-            <LargeTotal >                                                                                                        {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
-                <Title>
-                Average Income vs Pension Income
-                </Title>
-                <ShortFallValue value={shortFall}> 
-                {`${shortFall/1000}k`}                                                                                            {/*Values translated from 120,000 to 120 K */}
-                </ShortFallValue>                                                                                                 {/*Tooltip imported from UI, passes location of users mouse and text content */}
-                    <Tooltip     
-                        x={this.state.x} 
-                        y={this.state.y} 
-                        text={ `Your average annual income is
-                                    ${averageWorkingEarnings/1000}k before retirement. Your esitmated
-                                    pension income is ${totalRetirementIncome/1000}k.  The difference is the
-                                    amount that you  need to fund yourself with investment savings.`
-                        }
-                        header= "bananas"
-                        className="shortfallTooltip"
-                    />
-            </LargeTotal>
-            
+                                                                                                                 {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
+                <h1>
+                    Lifetime Income Chart
+                </h1>
             </Left>
             <Right>
-            <Title>Estimated Pension Income</Title>
+            <h2>Estimated Pension Income</h2>
             <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
                     <CPPSummary>
                     {`${(cppIncome)/1000}k`}  
-                        <span>CPP</span>
+                        <h4>CPP</h4>
                         <Tooltip 
                             x={this.state.x} 
                             y={this.state.y} 
@@ -87,7 +70,7 @@ return (
                     </CPPSummary>
                     <OASSummary >
                     {`${(oasIncome)/1000}k`}
-                        <span >OAS</span>
+                        <h4 >OAS</h4>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
@@ -100,7 +83,7 @@ return (
                     </OASSummary>
                     <RRIFSummary>
                     {`${(rrifIncome)/1000}k`}
-                    <span >RRIF</span>
+                    <h4 >RRIF</h4>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
@@ -114,7 +97,7 @@ return (
                     <Vr/>
                     <TaxSummary>
                     {`${22}%`}
-                    <span>Tax Rate</span>
+                    <h4>Tax Rate</h4>
                     <Tooltip 
                     x={this.state.x} 
                     y={this.state.y} 
@@ -128,7 +111,7 @@ return (
             </PensionIncomeWrapper>
             <Summary>
              {`${(cppIncome + oasIncome + rrifIncome)/1000}k`}
-            <span>Total</span>
+            <h4>Total</h4>
             </Summary>
             </Right>
             
@@ -167,10 +150,6 @@ const Summary = styled.div`
     margin-top: 1rem;
     cursor: pointer;
     font-size: ${props => props.theme.fontSize.medium};
-    span {
-        font-size: ${props => props.theme.fontSize.small};
-        font-style: italic;
-    }
 
   
 `
@@ -199,12 +178,6 @@ const TaxSummary = styled(Summary)`
     }
 `
 
-const ShortFallValue = styled.div`
-display: inline-block;
-cursor: pointer;
-transition: all .3s ease-in;
-color: ${props => props.value < 0 ? props.theme.color.salmon : props.theme.color.slate}};
-`
 const Vr = styled.div`
     height: 60%;
     width: 1%;
@@ -222,21 +195,6 @@ const Right = styled.div`
     align-items: center;
 `
 
-const LargeTotal = styled.div`
-    font-size: ${props => props.theme.fontSize.large2};
-    font-weight: 300;
-    text-align: center;
-    &:hover .shortfallTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
-const Title = styled.div `
-    font-size: ${props => props.theme.fontSize.medium};
-    text-align: center;
-    font-weight: 300;
-   
-` 
 
 const PensionIncomeWrapper = styled.div`
     display: flex;

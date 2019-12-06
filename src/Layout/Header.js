@@ -17,13 +17,8 @@ export default function Header(props) {
 
             </Left>
             <Right>
-            <StyledNavLink to="/Home" activeClassName="active">
-                <PageSelect>
-                    HOME
-                </PageSelect>
-            </StyledNavLink>
             <Hr/>
-            <StyledNavLink to="/Dashboard" activeClassName="active">
+            <StyledNavLink to="/" activeClassName="active">
                 <PageSelect>
                         DASHBOARD
                 </PageSelect>

@@ -4,6 +4,7 @@ import {CloseIcon} from "../../Styles/Icons"
 import RangeBarLabel from "./Components/RangeBarLabel"
 import RangeBarValue from "./Components/RangeBarValue"
 import RangeBarSlider from "./Components/RangeBarSlider"
+import Close from "../Buttons/Close"
 
 /*Props Required to be passed:
 1. setIncome 
@@ -15,33 +16,34 @@ import RangeBarSlider from "./Components/RangeBarSlider"
      any changes to the correct position in the reducer via the action.  
 */ 
 
-export default class RangeBar extends Component {
+ const RangeBar = ({...props}) => {
 
-    render() 
-
-    {  
         return (
             < RangeBarWrapper>
                 <RangeBarLabel
-                     rangeBarProps={this.props.rangeBarProps}
-                     handleChangeLabel={this.props.handleChangeLabel}
+                    {...props}
                 />
                 <RangeBarSlider
-                     rangeBarProps={this.props.rangeBarProps}
-                     setValue={this.props.setValue}
+                     {...props}
                 />
                 <RangeBarValue
-                    rangeBarProps={this.props.rangeBarProps}
-                    setValue={this.props.setValue}
+                     {...props}
                 />
                
-                <Delete  onClick={() => this.props.handleRemoveItem(this.props.rangeBarProps)}/>
+               {
+                   props.close ? 
+                   <CloseWrapper>
+                         <Close  onClick={() => props.handleRemoveItem(props.rangeBarProps)}/>
+                   </CloseWrapper>
+                   :
+                   null
+               }
+                
             </RangeBarWrapper>
         )
-    }
 }
 
-
+export default RangeBar
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
@@ -50,16 +52,15 @@ const RangeBarWrapper = styled.div`
     position: relative;
     padding-left: 2rem;
     width: 23rem;
+
 `
-const Delete = styled(CloseIcon)`
+const  CloseWrapper = styled.div`
     position: absolute;
     top: .9rem;
     left: 135%;
     cursor: pointer;
     z-index: 300;
     border-radius: 50%;
-    height: 1.3rem;
-    width: 1.3rem;
     overflow: hidden;
     color: ${props => props.theme.color.slate};
 `

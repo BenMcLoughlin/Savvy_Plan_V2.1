@@ -4,11 +4,11 @@ export const calculateFutureValue = (rate, n, pmt, pv) => {
   return FutureValue
 }
 
-// export const financeFV = (rate, cf0, numOfPeriod) => {
-//   var rate = rate/100, fv;
-//   fv = cf0 * Math.pow((1 + rate), numOfPeriod);
-//   return Math.round(fv * 100) / 100;
-// };
+export const financeFV = (rate, cf0, numOfPeriod) => {
+  var rate = rate/100, fv;
+  fv = cf0 * Math.pow((1 + rate), numOfPeriod);
+  return Math.round(fv * 100) / 100;
+};
 
 
 
@@ -177,3 +177,33 @@ export function abbreviateNum(number) {
 
     return number;
 }
+
+
+const pv = function (rate, periods, payment, future, type) {
+
+    var type = (typeof type === 'undefined') ? 0 : type;
+    rate = eval(rate);
+    periods = eval(periods);
+  
+    if (rate === 0) {
+      return - payment * periods - future;
+    } else {
+      return (((1 - Math.pow(1 + rate, periods)) / rate) * payment * (1 +rate * type) - future) / Math.pow(1 + rate, periods);
+    }
+  }
+  
+  const pmt  = function(rate, nperiod, pv, fv, type) {
+      if (!fv) fv = 0;
+      if (!type) type = 0;
+  
+      if (rate == 0) return -(pv + fv)/nperiod;
+  
+      var pvif = Math.pow(1 + rate, nperiod);
+      var pmt = rate / (pvif - 1) * -(pv * pvif + fv);
+  
+      if (type == 1) {
+          pmt /= (1 + rate);
+      };
+  
+      return Math.round(pmt)
+  }

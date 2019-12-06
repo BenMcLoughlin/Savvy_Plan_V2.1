@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import LifetimeIncomeBarChart_Tile from "./Charts/LifetimeIncomeBarChart_Tile"
+import LifetimeIncomeBarChart from "./Charts/LifetimeIncomeBarChart"
 import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
 import { NavLink} from "react-router-dom"
 
@@ -85,9 +85,10 @@ const data = Object.values(this.props.incomePerYear_reducer).map(d => {         
             </Top>
 
             <ChartWrapper>
-                    <LifetimeIncomeBarChart_Tile
+                    <LifetimeIncomeBarChart
                         data={data}
                         stackedKeys={stackedKeys}
+                        retirementIncome={20000}
                         />
             </ChartWrapper>
             </LifetimeIncomeTileWrapper>

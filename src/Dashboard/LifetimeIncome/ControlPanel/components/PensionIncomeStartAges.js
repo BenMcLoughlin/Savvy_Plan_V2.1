@@ -2,8 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
 
-export default function PensionIncomeStartAges( {setPensionStartAge_action, 
-    calculateCpp_action, setKeyVariable_action, setPensionIncome, pensionStartAges_reducer}) {                                            //Use Destructing to assign variables and functions
+export default function PensionIncomeStartAges( {setPensionIncome, pensionStartAges_reducer}) {                                            //Use Destructing to assign variables and functions
    
     pensionStartAges_reducer = Object.values(pensionStartAges_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
  
@@ -24,10 +23,10 @@ export default function PensionIncomeStartAges( {setPensionStartAge_action,
 
 
 const Wrapper= styled.div`
-
-  display: flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-top: 2rem;
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import Button from "../Buttons/Button"
+import Add from "../Buttons/Add"
 import RangeBarSlider from "../RangeBar/Components/RangeBarSlider"
 import RangeBarValue from "../RangeBar/Components/RangeBarValue"
 import _ from "lodash"
@@ -99,7 +99,7 @@ class AddItemBox extends Component {
 
 
                     <ButtonWrapper style={{marginTop: "2rem"}}>
-                        <Button
+                        <Add
                         text={"Add"}
                         handleClick={this.handleClickToAddNewItem}
                     />
@@ -120,10 +120,8 @@ class AddItemBox extends Component {
                 </Container>
                 :
                 <ButtonWrapper>
-                    <Button
-                    text={this.props.firstButtonText}
+                    <Add
                     handleClick={this.toggleAddContainerOpen}
-                    color="blue"
                 />
                 </ButtonWrapper>
             }

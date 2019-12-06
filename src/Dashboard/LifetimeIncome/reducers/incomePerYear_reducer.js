@@ -24,7 +24,7 @@ const initialState = () => {
                 },
                 oasIncome: {
                     age: i, 
-                    contributeToCpp: true,
+                    contributeToCpp: false,
                     financialValue: 0, 
                     label: "OAS Income",
                     name: "oasIncome",
@@ -32,19 +32,47 @@ const initialState = () => {
                 },
                 rrifIncome: {
                     age: i, 
-                    contributeToCpp: true,
+                    contributeToCpp: false,
                     financialValue: 0, 
                     label: "RRIF Income",
                     name: "rrifIncome",
                     rangeBarValue: 0, 
                 },
-                selfEmploymentIncome: {
+                businessIncome: {
                     age: i, 
-                    contributeToCpp: true,
+                    contributeToCpp: false,
                     financialValue: 0, 
-                    label: "Self Employment Income",
-                    name: "selfEmploymentIncome",
+                    label: "Business Income",
+                    name: "businessIncome",
                     rangeBarValue: 0, 
+
+                },
+                rrifIncome: {
+                    age: i, 
+                    contributeToCpp: false,
+                    financialValue: 0, 
+                    label: "RRIF Income",
+                    name: "rrifIncome",
+                    rangeBarValue: 0, 
+
+                },
+                tfsaIncome: {
+                    age: i, 
+                    contributeToCpp: false,
+                    financialValue: 0, 
+                    label: "TFSA Income",
+                    name: "tfsaIncome",
+                    rangeBarValue: 0, 
+
+                },
+                nonRegisteredIncome: {
+                    age: i, 
+                    contributeToCpp: false,
+                    financialValue: 0, 
+                    label: "Non-Registered Income",
+                    name: "nonRegisteredIncome",
+                    rangeBarValue: 0, 
+
                 },
         }}
 return incomePerYear
@@ -52,7 +80,8 @@ return incomePerYear
 
  const incomePerYear_reducer = (state = initialState(), action) => {
     switch(action.type) {
-        case "SET_INCOME_PER_YEAR": return {...state, [action.payload.age]: {
+        case "SET_INCOME_PER_YEAR": 
+        return {...state, [action.payload.age]: {
                                         ...state[action.payload.age], [action.payload.name]: action.payload
                                         }}
         case "REMOVE_INCOME_TYPE_REFACTOR": return {...state, [action.age]:  _.omit(state[action.age], action.name)

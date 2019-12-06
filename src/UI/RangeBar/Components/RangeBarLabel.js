@@ -1,19 +1,16 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 
- class RangeBarLabel extends Component {
-
-    render() {
+const RangeBarLabel = ({handleChangeLabel, rangeBarProps}) => {
         return (
             <div>
              <LabelAsInput 
                 autoComplete="off"
-                onChange={(e) => this.props.handleChangeLabel(e, this.props.rangeBarProps)}
-                value={this.props.rangeBarProps.label}
+                onChange={(e) => handleChangeLabel(e, rangeBarProps)}
+                value={rangeBarProps.label}
                 />         
             </div>
         )
-    }
 }
 
 export default RangeBarLabel

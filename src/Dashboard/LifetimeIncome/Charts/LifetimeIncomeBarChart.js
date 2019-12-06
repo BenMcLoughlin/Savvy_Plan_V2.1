@@ -56,7 +56,7 @@ const drawChart = (props, width, height) => {
         .domain(data.map(item => item.age))
 
 
-
+            
     const rects = graph.append("g")
         .selectAll("g")
         .data(series)
@@ -73,6 +73,7 @@ const drawChart = (props, width, height) => {
     
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
+            .attr("opacity", (d,i) => d.key === "rrifIncome" || d.key === "tfsaIncome" || d.key === "nonRegisteredIncome" ? 0.4 : 1)
             .attr("backgroundColor", (d,i) => color[i])
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 

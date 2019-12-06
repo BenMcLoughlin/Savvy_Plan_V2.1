@@ -2,7 +2,6 @@ import {combineReducers} from "redux"
 //import authReducer from "./authReducer"
 import {netWorthState} from "../Dashboard/NetWorth/reducers/netWorthReducers"
 import incomePerYear_reducer from "../Dashboard/LifetimeIncome/reducers/incomePerYear_reducer"
-import rrsp_reducer from "../Dashboard/LifetimeIncome/reducers/rrsp_reducer"
 import keyVariables_reducer from "../Dashboard/LifetimeIncome/reducers/keyVariables_reducer"
 import pensionStartAges_reducer from "../Dashboard/LifetimeIncome/reducers/pensionStartAges_reducer"
 import savingsPerYear_reducer from "../Dashboard/SavingsPlan/reducers/savingsPerYear_reducer"
@@ -16,7 +15,6 @@ export default combineReducers({
     incomePerYear_reducer,
     keyVariables_reducer,
     pensionStartAges_reducer,
-    rrsp_reducer,
     savingsPerYear_reducer
    
 })

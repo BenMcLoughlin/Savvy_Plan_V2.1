@@ -128,3 +128,58 @@ export const calculateEndValue = (startValue, age, account,state) => {
     return  startValue * (1 + percentageReturn) + contribution - withdrawal
 
 }
+
+export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, maxRrspPayment, maxTfsaPayment, highestIncomes) => {
+
+    console.log(`
+    desiredRetirementIncome: ${retirementIncome} ||
+    pensionIncome: ${pensionIncome} ||
+    maxRrrspIncome: ${maxRrspPayment} ||
+    maxTfsaIncome: ${maxTfsaPayment} ||
+    averageHighest10Years: ${highestIncomes} ||
+    `);
+
+        if (highestIncomes < 47000) {
+            const incomeLessPension = retirementIncome - pensionIncome > 0 ? retirementIncome - pensionIncome : 0                                                              //this is the difference between the income they would like and what they are recieving from pensions
+            const tfsaIncome = incomeLessPension > maxTfsaPayment ? maxTfsaPayment : incomeLessPension * .7                              //Their first goal should be to draw income from TFSA because of their lower tax bracket
+            const taxAdvantagedDifferentialLessTfsa = incomeLessPension - tfsaIncome
+            const rrspIncome = taxAdvantagedDifferentialLessTfsa > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferentialLessTfsa 
+    
+            const nonRegisteredIncome = taxAdvantagedDifferentialLessTfsa - rrspIncome
+    
+            return  {
+                rrspIncome: rrspIncome > 0 ? rrspIncome : 0,
+                tfsaIncome: tfsaIncome > 0 ? tfsaIncome : 0, 
+                nonRegisteredIncome,
+            }
+        }
+        else if (highestIncomes > 47000 && highestIncomes < 96000) {
+            const taxAdvantagedDifferential = 40000 - pensionIncome
+            const incomeLessPension = retirementIncome - pensionIncome > 0 ? retirementIncome - pensionIncome : 0 
+            const rrspIncomeBelowTaxTop = taxAdvantagedDifferential > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferential
+            const rrspIncome = incomeLessPension > rrspIncomeBelowTaxTop ? rrspIncomeBelowTaxTop : incomeLessPension 
+            const taxAdvantagedDifferentialLessRrsp = retirementIncome - rrspIncome - pensionIncome
+            const tfsaIncome = taxAdvantagedDifferentialLessRrsp > maxTfsaPayment ? maxTfsaPayment : taxAdvantagedDifferentialLessRrsp
+            const nonRegisteredIncome = taxAdvantagedDifferentialLessRrsp - tfsaIncome 
+       
+            return  {
+                rrspIncome: rrspIncome > 0 ? rrspIncome : 0,
+                tfsaIncome: tfsaIncome > 0 ? tfsaIncome : 0, 
+                nonRegisteredIncome,
+            }
+        }
+        else {
+            const taxAdvantagedDifferential = 77000 - pensionIncome
+            const rrspIncome = taxAdvantagedDifferential > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferential
+            const taxAdvantagedDifferentialLessRrsp = retirementIncome - rrspIncome - pensionIncome
+            const tfsaIncome = taxAdvantagedDifferentialLessRrsp > maxTfsaPayment ? maxTfsaPayment : taxAdvantagedDifferentialLessRrsp
+            const nonRegisteredIncome = taxAdvantagedDifferentialLessRrsp - tfsaIncome 
+       
+            return  {
+                rrspIncome: rrspIncome > 0 ? rrspIncome : 0,
+                tfsaIncome: tfsaIncome > 0 ? tfsaIncome : 0, 
+                nonRegisteredIncome,
+            }
+        }
+    
+    }

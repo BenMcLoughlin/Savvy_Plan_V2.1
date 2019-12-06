@@ -77,6 +77,7 @@ const initialState = () => {
                     name: "rrsp",
                     startValue: 0,
                     rangeBarValue: 0, 
+                    maxContribution: 0
                 },
               tfsa: {
                     age: i, 
@@ -86,6 +87,7 @@ const initialState = () => {
                     name: "tfsa",
                     startValue: 0,
                     rangeBarValue: 0, 
+                    maxContribution: 0
 
                 },
                 nonRegistered: {
@@ -96,6 +98,7 @@ const initialState = () => {
                     name: "nonRegistered",
                     startValue: 0,
                     rangeBarValue: 0, 
+                    maxContribution: 0
                 }
         }}
 return incomePerYear
@@ -105,6 +108,11 @@ return incomePerYear
     switch(action.type) {
         case "savingsPerYear/SET_VALUE": return {...state, [action.payload.age]: {
                                         ...state[action.payload.age], [action.payload.name]: action.payload
+                                        }}
+        case "savingsPerYear/SET_MAX_CONTRIBUTION": return {...state, [action.age]: {
+                                        ...state[action.age], [action.name]: {
+                                            ...state[action.age][action.name], maxContribution: action.value
+                                } 
                                         }}
         case "savingsPerYear/CALCULATE_SAVINGS": 
         const startValue = calculateStartValue(action.age, action.name, state)
