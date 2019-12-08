@@ -3,7 +3,8 @@ import styled from "styled-components"
 import IncomeInput from "./Components/IncomeInput"
 import PensionIncomeStartAges from "./Components/PensionIncomeStartAges"
 import DesiredRetirementIncome from "./Components/DesiredRetirementIncome"
-
+import ButtonDark from "../../../UI/Buttons/ButtonDark"
+import { NavLink} from "react-router-dom"
 
 export default function ControlPanel(props) {
         return (
@@ -28,7 +29,11 @@ export default function ControlPanel(props) {
                          {...props}
                          />
                     </Section>
-                    </ControlPanelWrapper>
+                    <ButtonWrapper to="/SavingsPlan">
+                        <ButtonDark text={'Next'}/>
+                    </ButtonWrapper>
+                
+                </ControlPanelWrapper>
         )
           
     }
@@ -47,4 +52,10 @@ const ControlPanelWrapper = styled.div`
 
 const Section = styled.div`
     flex: 1;
+`
+
+const ButtonWrapper = styled(NavLink)`
+    position: absolute;
+    bottom: 5rem;
+    right: 5rem;
 `

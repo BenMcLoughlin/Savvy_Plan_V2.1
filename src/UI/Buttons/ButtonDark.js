@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 
-const Button = ({handleClick, text}) => {
+const ButtonDark = ({handleClick, text}) => {
     return (
         <ButtonComponent
             onClick={handleClick}
@@ -13,7 +13,7 @@ const Button = ({handleClick, text}) => {
 
 
 
-export default Button
+export default ButtonDark
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 

@@ -1,27 +1,37 @@
 
 import styled from "styled-components"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {connect} from "react-redux"
-import {setSavingsValue_action, calculateSavings_action, calculateRrifWithdrawal_action} from "./actions"
+import {setSavingsValue_action, calculateSavings_action, calculateRrifWithdrawal_action, setReccomendedSavingsValue_action, calculateReccomendedSavings_action, setInvestmentFactor_action, setWithdrawalValue_action} from "./actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
 import SavingsStackedChart from "./Charts/SavingsStackedChart"
+import ReccomendedSavingsStackedChart from "./Charts/ReccomendedSavingsStackedChart"
 import SavingsAreaChart from "./Charts/SavingsAreaChart"
+import ReccomendedSavingsAreaChart from "./Charts/ReccomendedSavingsAreaChart"
+import {presentValue, payment} from "../../services/financialFunctions"
+import * as d3 from "d3"
+import {setReccomendedSavingaPlan, convertReducerToArrayData, calculateYScaleMax} from "./services/localFunctions"
 
-
-const SavingsPlanApp = ({savingsPerYear_reducer, setSavingsValue_action, calculateSavings_action, calculateRrifWithdrawal_action}) => {
+const SavingsPlanApp = ({withdrawals_reducer, savingsPerYear_reducer, investmentReturns_reducer, setWithdrawalValue_action, incomePerYear_reducer, calculateReccomendedSavings_action, setSavingsValue_action, calculateSavings_action, setReccomendedSavingsValue_action, calculateRrifWithdrawal_action, setInvestmentFactor_action}) => {
 
     const [fromAge, setFromAge] = useState(18)
     const [toAge, setToAge] = useState(65)    
-    // const [growthRate, setGrowthRate] = useState(0.05)    
-    // const [conservativeRate, setConservativeRate] = useState(0.03)    
+
   
+    useEffect(() => {
+      ["rrsp", "tfsa", "nonRegistered"].map(account => setReccomendedSavingaPlan(calculateReccomendedSavings_action, incomePerYear_reducer, account, setReccomendedSavingsValue_action))
+      }, []);
+
+      const rrifPayment = incomePerYear_reducer[72].rrsp.financialValue
+
+
     const setContribution = (financialValue, rangeBarValue, {label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
             for (let age = fromAge; age < toAge; age++ ) {                                                           
                 setSavingsValue_action(age, financialValue, label, name, rangeBarValue)                                          //sets the income for each of the years between the selected ranges
               } 
               calculateSavings(name)    
-              calculateRrifWithdrawal(65)                                                     
+              calculateRrifWithdrawal(65, rrifPayment)                                                     
         }
 
     const calculateSavings = (name) => {
@@ -30,39 +40,34 @@ const SavingsPlanApp = ({savingsPerYear_reducer, setSavingsValue_action, calcula
           }          
     }    
 
-    const calculateRrifWithdrawal = (rrifStartAge) => {
-        for (let age = rrifStartAge; age < 95; age++ ) {                                                           
-            calculateRrifWithdrawal_action(age)                                                                              //sets the income for each of the years between the selected ranges
+    const calculateRrifWithdrawal = (rrifStartAge, rrifPayment) => {
+        for (let age = rrifStartAge; age <= 95; age++ ) {                                                           
+            calculateRrifWithdrawal_action(age, rrifPayment)                                                                              //sets the income for each of the years between the selected ranges
           }  
       
     }
 
     //DATA CONVERSTION FOR STACKED BAR CHART
-const stackedBarData = Object.values(savingsPerYear_reducer).map(d => {                                                                               //the year list needs to be converted to an array so the chart can render the data
-    const savingAccountNamesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
-    const financialValueArray = Object.values(d).map(a => a.financialValue)                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
-    var result = {age: d.rrsp.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
-    savingAccountNamesArray.forEach((key, i) => result[key] = financialValueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
-    return result
-})
-    //DATA CONVERSTION FOR STACKED AREA CHART
-const stackedAreaData = Object.values(savingsPerYear_reducer).map(d => {                                                                               //the year list needs to be converted to an array so the chart can render the data
-    const savingAccountNamesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
-    const financialValueArray = Object.values(d).map(a => a.endValue)                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
-    var result = {age: d.rrsp.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
-    savingAccountNamesArray.forEach((key, i) => result[key] = financialValueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
-    return result
-})
+const stackedBarData = convertReducerToArrayData(savingsPerYear_reducer, "financialValue")
+const reccomendedStackedBarData = convertReducerToArrayData(savingsPerYear_reducer, "reccomendedFinancialValue")
+const stackedAreaData = convertReducerToArrayData(savingsPerYear_reducer, "endValue")
+const reccomendedStackedAreaData = convertReducerToArrayData(savingsPerYear_reducer, "reccomendedEndValue")
+
+
 
 const stackedKeys = Object.keys(savingsPerYear_reducer[18])       
 
+const stackedAreaDataMax = calculateYScaleMax(stackedAreaData, 200000, "max")
+const reccomendedAreaDataMax  = calculateYScaleMax(reccomendedStackedAreaData , 200000, "max")
+const stackedBarDataMax = calculateYScaleMax(stackedBarData , 5000, "max")
+const reccomendedBarDataMax = calculateYScaleMax(reccomendedStackedBarData , 5000, "max")
+const stackedBarDataMin = calculateYScaleMax(stackedBarData , -5000, "min")
+const reccomendedBarDataMin = calculateYScaleMax(reccomendedStackedBarData , -5000, "min")
 
-const areaChartData = Object.values(savingsPerYear_reducer).map(d => ({
-        age: d.rrsp.age, 
-        value: d.rrsp.endValue,
-    })
-    )
-console.log(areaChartData);
+const d3Max = Math.max(...[stackedAreaDataMax, reccomendedAreaDataMax])
+const d3BarMax = Math.max(...[stackedBarDataMax, reccomendedBarDataMax ])
+const d3BarMin = Math.min(...[stackedBarDataMin, reccomendedBarDataMin ])
+console.log(savingsPerYear_reducer);
         return (
             <UserInterfaceWrapper>
                 <Header/>
@@ -70,15 +75,32 @@ console.log(areaChartData);
                 <SavingsAreaChart
                   data={stackedAreaData}
                   stackedKeys={stackedKeys}
+                  style={{position: "absolute", top: "3px", left: "3px"}}
+                  max={d3Max}
                 />
+                <ReccomendedSavingsAreaChart
+                  data={reccomendedStackedAreaData}
+                  max={d3Max}
+                  stackedKeys={stackedKeys}
+                  style={{position: "absolute", top: "3px", left: "3px"}}
+                />
+
                 </AreaChartPlaceHolder>  
                 <BarChartPlaceHolder>   
+
                 <SavingsStackedChart
                     data={stackedBarData}
                     stackedKeys={stackedKeys}
+                    max={d3BarMax}
+                    min={d3BarMin}
+                />
+                <ReccomendedSavingsStackedChart
+                    data={reccomendedStackedBarData}
+                    stackedKeys={stackedKeys}
+                    max={d3BarMax}
+                    min={d3BarMin}
                 />
                 </BarChartPlaceHolder>   
- 
             <ControlPanel
                 fromAge={fromAge}
                 toAge={toAge}
@@ -86,6 +108,12 @@ console.log(areaChartData);
                 setToAge={setToAge}
                 rangeBarArray={Object.values(savingsPerYear_reducer[fromAge])}
                 setContribution={setContribution}
+                investmentReturns_reducer={investmentReturns_reducer}
+                setInvestmentFactor_action={setInvestmentFactor_action}
+                setSavingsValue_action={setSavingsValue_action}
+                withdrawals_reducer={withdrawals_reducer}
+                setWithdrawalValue_action={setWithdrawalValue_action}
+                calculateSavings={calculateSavings}
             />
         </UserInterfaceWrapper>
         )
@@ -96,10 +124,13 @@ console.log(areaChartData);
 const mapStateToProps = (state) => {
     return {
         savingsPerYear_reducer: state.savingsPerYear_reducer,
+        incomePerYear_reducer: state.incomePerYear_reducer,
+        investmentReturns_reducer: state.investmentReturns_reducer,
+        withdrawals_reducer: state.withdrawals_reducer
     }
 }
 
-export default connect(mapStateToProps, {setSavingsValue_action, calculateSavings_action, calculateRrifWithdrawal_action})(SavingsPlanApp)
+export default connect(mapStateToProps, {setSavingsValue_action, calculateSavings_action, calculateRrifWithdrawal_action, setReccomendedSavingsValue_action, setWithdrawalValue_action, calculateReccomendedSavings_action, setInvestmentFactor_action})(SavingsPlanApp)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -120,6 +151,7 @@ const AreaChartPlaceHolder = styled.div`
     grid-area: b;
     width: 100%;
     height: 100%;
+    position: relative;
 
 
 `
@@ -127,6 +159,7 @@ const BarChartPlaceHolder = styled.div`
     grid-area: c;
     width: 100%;
     height: 100%;
+    position: relative;
 
 `
 

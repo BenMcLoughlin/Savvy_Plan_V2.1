@@ -30,12 +30,12 @@ const initialState = () => {
                     name: "oasIncome",
                     rangeBarValue: 0, 
                 },
-                rrifIncome: {
+                rrsp: {
                     age: i, 
                     contributeToCpp: false,
                     financialValue: 0, 
-                    label: "RRIF Income",
-                    name: "rrifIncome",
+                    label: "RRSP Income",
+                    name: "rrsp",
                     rangeBarValue: 0, 
                 },
                 businessIncome: {
@@ -47,30 +47,21 @@ const initialState = () => {
                     rangeBarValue: 0, 
 
                 },
-                rrifIncome: {
-                    age: i, 
-                    contributeToCpp: false,
-                    financialValue: 0, 
-                    label: "RRIF Income",
-                    name: "rrifIncome",
-                    rangeBarValue: 0, 
-
-                },
-                tfsaIncome: {
+                tfsa: {
                     age: i, 
                     contributeToCpp: false,
                     financialValue: 0, 
                     label: "TFSA Income",
-                    name: "tfsaIncome",
+                    name: "tfsa",
                     rangeBarValue: 0, 
 
                 },
-                nonRegisteredIncome: {
+                nonRegistered: {
                     age: i, 
                     contributeToCpp: false,
                     financialValue: 0, 
                     label: "Non-Registered Income",
-                    name: "nonRegisteredIncome",
+                    name: "nonRegistered",
                     rangeBarValue: 0, 
 
                 },

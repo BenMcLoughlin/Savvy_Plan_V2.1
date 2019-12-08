@@ -6,6 +6,8 @@ import keyVariables_reducer from "../Dashboard/LifetimeIncome/reducers/keyVariab
 import pensionStartAges_reducer from "../Dashboard/LifetimeIncome/reducers/pensionStartAges_reducer"
 import savingsPerYear_reducer from "../Dashboard/SavingsPlan/reducers/savingsPerYear_reducer"
 import taxVariables_reducer from "../Dashboard/Tax/reducers/taxVariables_reducer"
+import investmentReturns_reducer from "../Dashboard/SavingsPlan/reducers/investmentReturns_reducer"
+import withdrawals_reducer from "../Dashboard/SavingsPlan/reducers/withdrawals_reducer"
 
 export default combineReducers({
 
@@ -15,7 +17,9 @@ export default combineReducers({
     incomePerYear_reducer,
     keyVariables_reducer,
     pensionStartAges_reducer,
-    savingsPerYear_reducer
+    savingsPerYear_reducer,
+    investmentReturns_reducer,
+    withdrawals_reducer
    
 })
 

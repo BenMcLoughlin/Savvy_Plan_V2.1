@@ -7,23 +7,8 @@ import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
 import LifetimeIncomeBarChart from "./Charts/LifetimeIncomeBarChart"
 import {adjustOas}from "./services/localFunctions"
+import {payment}from "../..//services/financialFunctions"
 import {calculateOptimumIncomeStreams} from "./services/localFunctions" 
-
-const pmt  = function(rate, nperiod, pv, fv, type) {
-    if (!fv) fv = 0;
-    if (!type) type = 0;
-
-    if (rate == 0) return -(pv + fv)/nperiod;
-
-    var pvif = Math.pow(1 + rate, nperiod);
-    var pmt = rate / (pvif - 1) * -(pv * pvif + fv);
-
-    if (type == 1) {
-        pmt /= (1 + rate);
-    };
-
-    return Math.round(pmt)
-}
 
 const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPensionStartAge_action,                                    // destructure out variables
     incomePerYear_reducer, removeItem_action, pensionStartAges_reducer, setRetirementIncome_action, 
@@ -67,9 +52,9 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
     const incomeTypeArray = Object.values(incomePerYear_reducer[fromAge])                                            //Converts the year list to an array so that it can be mapped through for rangebars  
         .filter(d => d.name !== "oasIncome")                                                                                              //Range Bars only show for income the user is inputting, not retirementIncome, these are filtered out                       
         .filter(d => d.name !== "cppIncome")
-        .filter(d => d.name !== "rrifIncome") 
-        .filter(d => d.name !== "tfsaIncome") 
-        .filter(d => d.name !== "nonRegisteredIncome") 
+        .filter(d => d.name !== "rrsp") 
+        .filter(d => d.name !== "tfsa") 
+        .filter(d => d.name !== "nonRegistered") 
 
     const addItemToList = (financialValue, rangeBarValue, {isChecked, label, name}) => {
         let contributeToCpp = isChecked
@@ -114,7 +99,6 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
 
 //REMOVE INCOME TYPE
 const handleRemoveItem = ({name}) => {                                                                                                      //used to remove income types from reducer
-  console.log(name);
     for (let age = 18; age < 95; age++ ) {
       removeItem_action(age, name)
     }
@@ -131,9 +115,9 @@ const data = Object.values(incomePerYear_reducer).map(d => {                    
 
 const {birthYear} = keyVariables_reducer
 
-const retirementPensionIncome = Object.values(incomePerYear_reducer[72]).filter(d => d.name !== "rrifIncome")
-                                        .filter(d => d.name !== "tfsaIncome")
-                                        .filter(d => d.name !== "nonRegisteredIncome")
+const retirementPensionIncome = Object.values(incomePerYear_reducer[72]).filter(d => d.name !== "rrsp")
+                                        .filter(d => d.name !== "tfsa")
+                                        .filter(d => d.name !== "nonRegistered")
                                         .map(d => d.financialValue)
                                         .reduce((acc,num) => acc + num)
 
@@ -158,16 +142,17 @@ for (let age = 18; age < rrifStartAge; age ++) {
 const determineMaxRegisteredPayments = (savingsPerYear_reducer) => {
 const rrspContributionArray = Object.values(savingsPerYear_reducer).slice(0,47).map(d => d.rrsp.maxContribution)
 const maxRrspValue = rrspContributionArray.reduce((acc, num) => (acc * 1.03) + num)
-const maxRrspPayment = pmt(0.03, 30, maxRrspValue, 0)
+const maxRrspPayment = payment(0.03, 30, maxRrspValue, 0)
 
 const tfsaContributionArray = Object.values(savingsPerYear_reducer).slice(0-47).map(d => d.tfsa.maxContribution)
 const maxTfsaValue = tfsaContributionArray.reduce((acc, num) => (acc * 1.04) + num)
-const maxTfsaPayment = pmt(0.03, 30, maxTfsaValue, 0)
+const maxTfsaPayment = payment(0.03, 30, maxTfsaValue, 0)
 
 
 const incomeArray = Object.values(incomePerYear_reducer).map(d => Object.values(d).map(a => a.financialValue).reduce((acc, num) => acc + num)).slice(0,47)
-console.log(savingsPerYear_reducer);
+
 const highestIncomes = incomeArray.sort((a, b)=> b-a).slice(0,10).reduce((acc, num) => acc + num) /10
+console.log(maxRrspPayment);
 return {
     maxTfsaPayment: -maxTfsaPayment,
     maxRrspPayment: -maxRrspPayment,
@@ -182,30 +167,34 @@ const incomeStreams = calculateOptimumIncomeStreams(keyVariables_reducer.retirem
 
 const addRetirementIncome = () => {
 for (let age = 50; age < rrifStartAge; age++ ) {
-    setIncome_action(age, false, 0, "RRSP Income", "rrifIncome", 0) 
+    setIncome_action(age, false, 0, "RRSP Income", "rrsp", 0) 
 
 }
 for (let age = rrifStartAge; age <= 95; age++ ) {
-    setIncome_action(age, false, incomeStreams.rrspIncome, "RRSP Income", "rrifIncome", 0) 
+    setIncome_action(age, false, incomeStreams.rrsp, "RRSP Income", "rrsp", 0) 
+    console.log(incomeStreams.rrsp);
 
 }
 for (let age = 50 ; age < tfsaStartAge; age++ ) {
-    setIncome_action(age, false, 0, "TFSA Income", "tfsaIncome", 0) 
-    setIncome_action(age, false, 0, "Non reg Income", "nonRegisteredIncome", 0) 
+    setIncome_action(age, false, 0, "TFSA Income", "tfsa", 0) 
+    setIncome_action(age, false, 0, "Non reg Income", "nonRegistered", 0) 
 }
 for (let age = tfsaStartAge; age <= 95; age++ ) {
-    setIncome_action(age, false, incomeStreams.tfsaIncome, "TFSA Income", "tfsaIncome", 0) 
-    setIncome_action(age, false, incomeStreams.nonRegisteredIncome, "Non reg Income", "nonRegisteredIncome", 0) 
+    setIncome_action(age, false, incomeStreams.tfsa, "TFSA Income", "tfsa", 0) 
+    setIncome_action(age, false, incomeStreams.nonRegistered, "Non reg Income", "nonRegistered", 0) 
 }
 }
 
 
 
 const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
+
     setRetirementIncome_action(financialValue, rangeBarValue)
     setMaxContributions(incomePerYear_reducer, rrifStartAge)
     addRetirementIncome()
-}
+} 
+
+
 const stackedKeys = Object.keys(incomePerYear_reducer[18])                                                                                   //creates a an array of each of the income type names, which is used in the stacked Income chart
         return (
             <UserInterfaceWrapper>

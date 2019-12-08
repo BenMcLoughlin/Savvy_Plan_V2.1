@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 
-export default function Contributions({fromAge, toAge,setFromAge, setToAge, setValue, rangeBarArray, setContribution}) {
+export default function Withdrawals({setSavingsValue_action, withdrawals_reducer,calculateSavings, setWithdrawalValue_action}) {
+
+    const [fromAge, setFromAge] = useState(65)
+    const [toAge, setToAge] = useState(95)    
 
     const setKeyVariables = (name, value) => {
         name === "fromAge" ? setFromAge(value) : setToAge(value)
     }
+
+    const setWithdrawal = (financialValue, rangeBarValue, {label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
+       console.log(name);
+        setWithdrawalValue_action(financialValue, label, name, rangeBarValue)
+        for (let age = fromAge; age < toAge; age++ ) {                                                           
+            setSavingsValue_action(age, -financialValue, label, name, rangeBarValue)                                          //sets the income for each of the years between the selected ranges
+          } 
+          calculateSavings(name)
+                                             
+    }
+
+   const withdrawalRangeBarArray = Object.values(withdrawals_reducer)
 
     return (
         <Wrapper>         
@@ -22,10 +37,10 @@ export default function Contributions({fromAge, toAge,setFromAge, setToAge, setV
                 setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
             />
             {
-                rangeBarArray.map(d => <RangeBar
+                withdrawalRangeBarArray.map(d => <RangeBar
                                         key={d.name}
                                         rangeBarProps={d}
-                                        setValue={setContribution}
+                                        setValue={setWithdrawal}
                                          />
                 )
             }

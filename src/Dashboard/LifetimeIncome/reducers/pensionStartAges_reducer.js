@@ -22,13 +22,13 @@ const initialState = {
         },
         rrifStartAge: {
             name: "rrifStartAge",
-            label: "Convert RRSP to RRIF",
+            label: "Convert RRSP to rrsp",
             rangeBarValue: 65, 
             min: 50,
             max: 72,
             step: 1,
             numberType: "age",
-            valueThisRangeBarChanges: "rrifIncome"
+            valueThisRangeBarChanges: "rrsp"
         },
         tfsaStartAge: {
             name: "tfsaStartAge",
@@ -38,7 +38,7 @@ const initialState = {
             max: 72,
             step: 1,
             numberType: "age",
-            valueThisRangeBarChanges: "rrifIncome"
+            valueThisRangeBarChanges: "tfsa"
         }
 }
 

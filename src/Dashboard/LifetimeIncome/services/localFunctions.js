@@ -145,12 +145,17 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
             const taxAdvantagedDifferentialLessTfsa = incomeLessPension - tfsaIncome
             const rrspIncome = taxAdvantagedDifferentialLessTfsa > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferentialLessTfsa 
     
-            const nonRegisteredIncome = taxAdvantagedDifferentialLessTfsa - rrspIncome
+            const nonRegistered = taxAdvantagedDifferentialLessTfsa - rrspIncome
     
+            console.log(`
+            rrspIncome: ${rrspIncome} ||
+            tfsaIncome: ${tfsaIncome } ||
+            `);
+
             return  {
-                rrspIncome: rrspIncome > 0 ? rrspIncome : 0,
-                tfsaIncome: tfsaIncome > 0 ? tfsaIncome : 0, 
-                nonRegisteredIncome,
+                rrsp: rrspIncome > 0 ? rrspIncome : 0,
+                tfsa: tfsaIncome > 0 ? tfsaIncome : 0, 
+                nonRegistered,
             }
         }
         else if (highestIncomes > 47000 && highestIncomes < 96000) {
@@ -160,12 +165,12 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
             const rrspIncome = incomeLessPension > rrspIncomeBelowTaxTop ? rrspIncomeBelowTaxTop : incomeLessPension 
             const taxAdvantagedDifferentialLessRrsp = retirementIncome - rrspIncome - pensionIncome
             const tfsaIncome = taxAdvantagedDifferentialLessRrsp > maxTfsaPayment ? maxTfsaPayment : taxAdvantagedDifferentialLessRrsp
-            const nonRegisteredIncome = taxAdvantagedDifferentialLessRrsp - tfsaIncome 
+            const nonRegistered = taxAdvantagedDifferentialLessRrsp - tfsaIncome 
        
             return  {
-                rrspIncome: rrspIncome > 0 ? rrspIncome : 0,
-                tfsaIncome: tfsaIncome > 0 ? tfsaIncome : 0, 
-                nonRegisteredIncome,
+                rrsp: rrspIncome > 0 ? rrspIncome : 0,
+                tfsa: tfsaIncome > 0 ? tfsaIncome : 0, 
+                nonRegistered,
             }
         }
         else {
@@ -173,12 +178,12 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
             const rrspIncome = taxAdvantagedDifferential > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferential
             const taxAdvantagedDifferentialLessRrsp = retirementIncome - rrspIncome - pensionIncome
             const tfsaIncome = taxAdvantagedDifferentialLessRrsp > maxTfsaPayment ? maxTfsaPayment : taxAdvantagedDifferentialLessRrsp
-            const nonRegisteredIncome = taxAdvantagedDifferentialLessRrsp - tfsaIncome 
+            const nonRegistered = taxAdvantagedDifferentialLessRrsp - tfsaIncome 
        
             return  {
-                rrspIncome: rrspIncome > 0 ? rrspIncome : 0,
-                tfsaIncome: tfsaIncome > 0 ? tfsaIncome : 0, 
-                nonRegisteredIncome,
+                rrsp: rrspIncome > 0 ? rrspIncome : 0,
+                tfsa: tfsaIncome > 0 ? tfsaIncome : 0, 
+                nonRegistered,
             }
         }
     

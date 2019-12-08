@@ -19,7 +19,7 @@ export default class HeaderValues extends Component {
         const {
              cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer
              oasIncome : {financialValue: oasIncome },
-             rrifIncome: {financialValue: rrifIncome }
+             rrsp: {financialValue: rrsp }
         } = this.props.incomePerYear_reducer[75]            
 
 // //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
@@ -36,11 +36,7 @@ export default class HeaderValues extends Component {
 
         const averageWorkingEarnings = workingLifetimeEarnings/47                                       //calculate average working annual income, then round
 
-        const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed 
-// //RETIRMENT INCOME TAX RATE
-//         const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ?                            //calculate tax rate in retirement 
-//                                                 calculateMarginalTaxRate(totalRetirementIncome) + 15                           //if income is above 72000, OAS is clawed backed by adding an additional 15% on the tax
-//                                                 : calculateMarginalTaxRate(totalRetirementIncome) || 0
+        const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed                                               : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
@@ -82,14 +78,14 @@ return (
                          />
                     </OASSummary>
                     <RRIFSummary>
-                    {`${(rrifIncome)/1000}k`}
-                    <h4 >RRIF</h4>
+                    {`${(rrsp)/1000}k`}
+                    <h4 >rrsp</h4>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
-                        text=   "A Registered Retirement Income Fund (RRIF) is an account registered with the government that 
+                        text=   "A Registered Retirement Income Fund (rrsp) is an account registered with the government that 
                                  pays you income in retirement. Before, you were putting money into your RRSP to accumulate
-                                 savings for retirement. Now, you withdraw that money from your RRIF as retirement income."
+                                 savings for retirement. Now, you withdraw that money from your rrsp as retirement income."
                         header= "Registered Retirement Income Fund"
                         className="rrifTooltip"
                     />
@@ -110,7 +106,7 @@ return (
                     </TaxSummary>
             </PensionIncomeWrapper>
             <Summary>
-             {`${(cppIncome + oasIncome + rrifIncome)/1000}k`}
+             {`${(cppIncome + oasIncome + rrsp)/1000}k`}
             <h4>Total</h4>
             </Summary>
             </Right>

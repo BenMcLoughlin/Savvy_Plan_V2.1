@@ -11,13 +11,13 @@ const drawChart = (props, width, height) => {
     const graphWidth = width - margin.left - margin.right
     const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
-    d3.select(".canvasSavingsStackedAreaChart > *").remove()
+    d3.select(".canvasReccomendedSavingsStackedAreaChart > *").remove()
     d3.select(".tooltip").remove()
 
     const data = props.data
     const max = props.max
 
-    const svg = d3.select('.canvasSavingsStackedAreaChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select('.canvasReccomendedSavingsStackedAreaChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
 
@@ -40,7 +40,7 @@ const drawChart = (props, width, height) => {
                         .offset(d3.stackOffsetDiverging);
         
 
-    const tooltip = d3.select(".canvasSavingsStackedAreaChart").append("div")
+    const tooltip = d3.select(".canvasReccomendedSavingsStackedAreaChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -50,7 +50,7 @@ const drawChart = (props, width, height) => {
     
     const update = data => {
     
-        const d3Min = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 200000 ? 200000 : 
+        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 70000 ? 70000 : 
                         d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
     
 
@@ -74,6 +74,7 @@ const drawChart = (props, width, height) => {
             layer.append("path")
             .attr("class", "area")
             .style("fill", (d,i) => color[i])
+            .style("opacity", 0.3)
             .attr("d", area);
 
     // const chart = graph.append("path")
@@ -158,10 +159,11 @@ const drawChart = (props, width, height) => {
     //                                             .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
     //                                         });
                         
+    
 
             const xAxis = d3.axisBottom(xScale)
-                           .tickValues([])
-                           
+                             .tickValues([])
+
                                     
             const yAxis = d3.axisLeft(yScale).ticks('3')
                             .tickFormat(d => `${d/1000}k`)
@@ -211,7 +213,7 @@ componentWillUnmount() {
         window.addEventListener('resize', this.updateSize)
  
         return (
-            <Canvas className="canvasSavingsStackedAreaChart" ref={canvasSavingsStackedAreaChart => this.divRef = canvasSavingsStackedAreaChart}>
+            <Canvas className="canvasReccomendedSavingsStackedAreaChart" ref={canvasReccomendedSavingsStackedAreaChart => this.divRef = canvasReccomendedSavingsStackedAreaChart}>
                 
             </Canvas>
         )
@@ -228,5 +230,4 @@ const Canvas = styled.div`
         position: absolute;
         top: 0rem;
         left: 0rem;
-        z-index: 2;
 `

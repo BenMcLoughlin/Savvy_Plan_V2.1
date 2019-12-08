@@ -55,7 +55,7 @@ export default class Layout extends Component {
 //
 //------------------STYLES---------------------------------------------------------------
  const GridContainer = styled.div`
-    height: 90vh;
+    height: 100vh;
     margin: 2px auto;
     width: 85vw;
     display: grid;

@@ -51,19 +51,3 @@ const Hr = styled.hr`
 
 */ 
 
-
-// useEffect(() => {
-//     const workingLifetimeEarnings = Object.values(incomePerYear_reducer)                                          // turn object into array
-//     .map(d => Object.values(d)
-//       .map(a => a.financialValue)                                                     // make sub arrays just show financial value
-//       .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
-//      .slice(0,47)                                                                     // Grab Only working years 
-//      .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
-    
-//      let averageWorkingEarnings =  Math.round((workingLifetimeEarnings/47)/100)*100  //calculate average working annual income, then round
-//      averageWorkingEarnings = 0 ? 20000 : averageWorkingEarnings
-//      const rangeBarValue = inverseLogslider(averageWorkingEarnings)
-//      setRetirementIncome_action(averageWorkingEarnings, rangeBarValue)
-
-//   }, []);
-

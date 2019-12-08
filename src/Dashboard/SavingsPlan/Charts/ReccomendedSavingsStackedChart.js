@@ -6,26 +6,25 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 50, right: 200, bottom: 30, left: 40}
+    const margin = {top: 10, right: 70, bottom: 20, left: 60}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ["#ef7959", "#4BB9D0",'#72929B',  "#7DA8B8", '#FEDE76', '#81CCAF',  '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    //const color = ["#ef7959", "black",'grey',  "blue", 'lightGrey', '#red','green', 'yellow', '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    const legendRectSize = 10; 
-    const legendSpacing = 6; 
+    const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
 
-    d3.select(".canvasStackedbarChart > *").remove()
+    d3.select(".canvasReccomendedSavingsStackedBarChart > *").remove()
     d3.select(".tooltip").remove()
 
     const data = props.data
-    const svg = d3.select('.canvasStackedbarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const max = props.max
+    const min = props.min
+    const svg = d3.select('.canvasReccomendedSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
 
     const graph = svg.append("g").attr("height", graphHeight)
                                  .attr("width", graphWidth)
                                  .attr("transform", `translate(${margin.left}, ${margin.top})`)
-                               
+                                 
 
     const xAxisGroup = graph.append("g")
                             .attr("transform", `translate(0, ${graphHeight})`)
@@ -38,9 +37,9 @@ const drawChart = (props, width, height) => {
        const stack = d3.stack()
                         .keys(props.stackedKeys)
                         .order(d3.stackOrderNone)
-                        .offset(d3.stackOffsetNone);
+                        .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".canvasStackedbarChart").append("div")
+        const tooltip = d3.select(".canvasReccomendedSavingsStackedBarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -50,16 +49,17 @@ const drawChart = (props, width, height) => {
     
     const update = data => {
     
-        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 90000 ? 90000 : 
-                        d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 10000
+        const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 5000 ? 5000 : 
+                        d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+    
 
         const series = stack(data);
-        const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
+        const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
 
 
-            
+
     const rects = graph.append("g")
         .selectAll("g")
         .data(series)
@@ -76,7 +76,6 @@ const drawChart = (props, width, height) => {
     
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
-            .attr("opacity", (d,i) => d.key === "rrsp" || d.key === "tfsa" || d.key === "nonRegistered" ? 0.4 : 1)
             .attr("backgroundColor", (d,i) => color[i])
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
@@ -142,54 +141,25 @@ const drawChart = (props, width, height) => {
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
-            var ticks = [20,40, 60, 80, 95];
-            var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
 
             const xAxis = d3.axisBottom(xScale)
-                            .tickValues(ticks)
-                            .tickFormat(function(d,i){ return tickLabels[i] })
+                            .tickValues([])
+
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('3')
+            const yAxis = d3.axisLeft(yScale).ticks('1')
                             .tickFormat(d => `${d/1000}k`)
 
-            const colorScale = d3.scaleOrdinal().domain(["CPP Income", "Employment Income",  "OAS Income"]).range(color)
 
         xAxisGroup.call(xAxis)
         yAxisGroup.call(yAxis)
-        const legendGroup = graph.append('g')
-        .attr("transform", `translate(${graphWidth}, ${160})`)
-
-const legend = legendGroup.selectAll('.legend')
-   .data(colorScale.domain())
-   .enter() 
-   .append('g')
-   .attr('class', 'legend') 
-   .attr('transform', function(d, i) {                   
-       const height = legendRectSize + legendSpacing + 10;   
-       const offset =  height * colorScale.domain().length / 1.2;  
-       const horz = 5 * legendRectSize; 
-       const vert = i * height - offset; 
-       return 'translate(' + horz + ',' + vert + ')';   
-   });
-
-   legend.append('circle') // append rectangle squares to legend                                   
-       .attr('r', legendRectSize) // width of rect size is defined above                        
-       .attr('height', legendRectSize) // height of rect size is defined above                                     
-       .style('fill', colorScale) // each fill is passed a color
-       .style('stroke', color) // each stroke is passed a color
-   
-   legend.append('text')                                    
-   .attr('x', legendRectSize + legendSpacing)
-   .attr('y', legendRectSize - legendSpacing)
-   .text(function(d) { return d }); // return name
     }
 
     update(data)
     
 }
 
-export default class StackedBarChartLifetimeIncome extends Component {
+export default class ReccomendedSavingsBarChart extends Component {
 
     state = {
         elementWidth: 0,
@@ -225,7 +195,7 @@ componentWillUnmount() {
         window.addEventListener('resize', this.updateSize)
  
         return (
-            <Canvas className="canvasStackedbarChart" ref={canvasStackedBarChart => this.divRef = canvasStackedBarChart}>
+            <Canvas className="canvasReccomendedSavingsStackedBarChart" ref={canvasReccomendedSavingsStackedBarChart => this.divRef = canvasReccomendedSavingsStackedBarChart} style={{opacity: "50%"}}>
                 
             </Canvas>
         )
@@ -238,6 +208,8 @@ componentWillUnmount() {
 const Canvas = styled.div`
         width: 100%;
         height: 100%;
-        position: relative;
-
+        position: absolute;
+        top: 0rem;
+        left: 0rem;
+        z-index: 1;
 `

@@ -32,7 +32,7 @@ const Wrapper= styled.div`
 /*
 
 This component renders the MiniRangeBars on the bottom right of the Control panel. These range bars change the pension start ages such as
-CPP, OAS, and RRIF ages at which the user would begin collecting pension. There is also one rangebar that changes the interest rate return of the
+CPP, OAS, and rrsp ages at which the user would begin collecting pension. There is also one rangebar that changes the interest rate return of the
 RRSP savings.
 
 */

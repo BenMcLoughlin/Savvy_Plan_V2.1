@@ -179,7 +179,7 @@ export function abbreviateNum(number) {
 }
 
 
-const pv = function (rate, periods, payment, future, type) {
+export const presentValue = function (rate, periods, payment, future, type) {
 
     var type = (typeof type === 'undefined') ? 0 : type;
     rate = eval(rate);
@@ -192,7 +192,7 @@ const pv = function (rate, periods, payment, future, type) {
     }
   }
   
-  const pmt  = function(rate, nperiod, pv, fv, type) {
+ export const payment  = function(rate, nperiod, pv, fv, type) {
       if (!fv) fv = 0;
       if (!type) type = 0;
   

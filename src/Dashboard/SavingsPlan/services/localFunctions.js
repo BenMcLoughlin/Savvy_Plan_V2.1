@@ -1,4 +1,7 @@
 
+import {presentValue, payment} from "../../../services/financialFunctions"
+import * as d3 from "d3"
+
 const withdrawalTable = {
     50:	0.025,
     51:	0.026,
@@ -60,3 +63,41 @@ const calculateRRIFPaymentTable = (age, balance, returnOnInvestment) => {
 
 
 console.log(calculateRRIFPaymentTable(65,100000, .03));
+
+
+export const setReccomendedSavingaPlan = (calculateReccomendedSavings_action, incomePerYear_reducer, paymentType, setReccomendedSavingsValue_action) => {
+    const withdrawal = incomePerYear_reducer[72][paymentType].financialValue
+    const valueAtRetirement = presentValue(.03, 30, withdrawal, 0)
+    const reccomendedSavings = payment(.04, 45, 0, valueAtRetirement)
+
+    for (let age = 20; age < 65; age ++) {
+        setReccomendedSavingsValue_action(age, reccomendedSavings, paymentType )  
+        calculateReccomendedSavings_action(age, paymentType )                                                     
+    }
+    for (let age = 65; age <= 95; age++ ) {
+        setReccomendedSavingsValue_action(age, -withdrawal, paymentType)   
+        calculateReccomendedSavings_action(age, paymentType )                                                     
+    }
+}
+
+
+    //DATA CONVERSTION FOR STACKED BAR CHART
+    export const convertReducerToArrayData = (reducer, chartDisplayValue) => {
+    const data = Object.values(reducer).map(d => {  
+        const namesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
+        const valueArray = Object.values(d).map(a => a[chartDisplayValue])                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
+        var result = {age: d.rrsp.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
+        namesArray.forEach((key, i) => result[key] = valueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
+        return result
+    })
+    return data 
+}
+
+
+ //DETERMINE MAX OR MIN VALUE FOR D3 Y-SCALE
+
+export const calculateYScaleMax = (data, baseValue, maxOrMin) => {
+   const value =  d3[maxOrMin](data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < baseValue ? baseValue : 
+    d3[maxOrMin](data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+    return value
+ }

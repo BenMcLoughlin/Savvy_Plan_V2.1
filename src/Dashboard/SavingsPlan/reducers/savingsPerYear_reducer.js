@@ -49,10 +49,11 @@ const withdrawalTable = {
 }
 
 
-const calculateRrifWithdrawal = (age, state) => {
+const calculateRrifWithdrawal = (age, rrifPayment, state) => {
     const rate = withdrawalTable[age]
-    const withdrawal = rate * state[age].rrsp.startValue
-    return withdrawal
+    const withdrawal = rrifPayment //rate * state[age].rrsp.startValue
+    return withdrawal 
+  
 }
 
 export const calculateStartValue = (age, name, state) => {
@@ -61,7 +62,16 @@ export const calculateStartValue = (age, name, state) => {
 }
 export const calculateEndValue = (startValue, age, name,state) => {
     const {financialValue} = state[age][name]
-    return  startValue * (1 + 0.01) + financialValue
+    return  startValue * (1 + 0.04) + financialValue
+
+}
+export const calculateReccomendedStartValue = (age, name, state) => {
+    return state[age-1][name].reccomendedEndValue
+
+}
+export const calculateReccomendedEndValue = (startValue, age, name,state) => {
+    const {reccomendedFinancialValue} = state[age][name]
+    return  startValue * (1 + 0.04) + reccomendedFinancialValue
 
 }
 
@@ -75,9 +85,13 @@ const initialState = () => {
                     financialValue: 0, 
                     label: "RRSP",
                     name: "rrsp",
+                    reccomendedEndValue: 0,
+                    reccomendedStartValue: 0,
+                    reccomendedFinancialValue: 0,
                     startValue: 0,
                     rangeBarValue: 0, 
-                    maxContribution: 0
+                    maxContribution: 0,
+                  
                 },
               tfsa: {
                     age: i, 
@@ -85,6 +99,9 @@ const initialState = () => {
                     financialValue: 0,  
                     label: "Tax Free Savings Account",
                     name: "tfsa",
+                    reccomendedEndValue: 0,
+                    reccomendedStartValue: 0,
+                    reccomendedFinancialValue: 0,
                     startValue: 0,
                     rangeBarValue: 0, 
                     maxContribution: 0
@@ -96,6 +113,9 @@ const initialState = () => {
                     financialValue: 0, 
                     label: "Non Registered",
                     name: "nonRegistered",
+                    reccomendedEndValue: 0,
+                    reccomendedStartValue: 0,
+                    reccomendedFinancialValue: 0,
                     startValue: 0,
                     rangeBarValue: 0, 
                     maxContribution: 0
@@ -106,8 +126,18 @@ return incomePerYear
 
  const savingsPerYear_reducer = (state = initialState(), action) => {
     switch(action.type) {
-        case "savingsPerYear/SET_VALUE": return {...state, [action.payload.age]: {
-                                        ...state[action.payload.age], [action.payload.name]: action.payload
+        case "savingsPerYear/SET_VALUE": return {...state, [action.age]: {
+                                        ...state[action.age], [action.name]: {
+                                            ...state[action.age][action.name], 
+                                            financialValue: action.financialValue,
+                                            rangeBarValue: action.rangeBarValue
+                                        }
+                                        }}
+        case "savingsPerYear/SET_RECCOMENDED_VALUE": return {...state, [action.age]: {
+                                        ...state[action.age], [action.name]: {
+                                            ...state[action.age][action.name], 
+                                            reccomendedFinancialValue: action.reccomendedFinancialValue,
+                                        }
                                         }}
         case "savingsPerYear/SET_MAX_CONTRIBUTION": return {...state, [action.age]: {
                                         ...state[action.age], [action.name]: {
@@ -125,8 +155,19 @@ return incomePerYear
                                 } 
             }
         }
+        case "savingsPerYear/CALCULATE_RECCOMENDED_SAVINGS": 
+        const reccomendedStartValue = calculateReccomendedStartValue(action.age, action.name, state)
+        const reccomendedEndValue = calculateReccomendedEndValue(reccomendedStartValue, action.age, action.name, state)
+                                        return {...state, [action.age]: {
+                                        ...state[action.age], [action.name]: {
+                                            ...state[action.age][action.name], 
+                                                                                     reccomendedStartValue, 
+                                                                                     reccomendedEndValue
+                                } 
+            }
+        }
         case "savingsPerYear/CALCULATE_RRIF_WITHDRAWAL":
-            const withdrawal = calculateRrifWithdrawal(action.age, state)
+            const withdrawal = calculateRrifWithdrawal(action.age, action.rrifPayment, state)
                                     return {...state, [action.age]: {
                                         ...state[action.age], rrsp: {
                                             ...state[action.age].rrsp, financialValue: -withdrawal
