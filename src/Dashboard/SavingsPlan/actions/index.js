@@ -19,15 +19,21 @@ return {
 }
 
 
-export const calculateSavings_action = (age, name) =>  ({
+export const calculateSavings_action = (age, name, rate1, rate2) =>  ({
     type: "savingsPerYear/CALCULATE_SAVINGS",
         age, 
-        name
+        name,
+        rate1, 
+        rate2
 }) 
-export const calculateReccomendedSavings_action = (age, name) =>  ({
+
+
+export const calculateReccomendedSavings_action = (age, name, rate1, rate2) =>  ({
     type: "savingsPerYear/CALCULATE_RECCOMENDED_SAVINGS",
         age, 
-        name
+        name,
+        rate1, 
+        rate2
 }) 
 
 export const calculateRrifWithdrawal_action = (age, rrifPayment) => ({

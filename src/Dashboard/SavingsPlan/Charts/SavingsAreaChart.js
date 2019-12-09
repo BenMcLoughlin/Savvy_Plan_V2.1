@@ -46,8 +46,8 @@ const drawChart = (props, width, height) => {
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
-   
-    
+
+
     const update = data => {
     
         const d3Min = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 200000 ? 200000 : 

@@ -31,6 +31,7 @@ export default function IncomeInput({setIncome, handleChangeLabel, incomeTypeArr
                                                     handleChangeLabel = {handleChangeLabel}
                                                     handleRemoveItem={handleRemoveItem}
                                                     close={true}
+                                                  
                                                     />)
                 }
                 <AddItemBox                                                                                                                       //Box allowing the user to add new types of income     

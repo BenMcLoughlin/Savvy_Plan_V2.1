@@ -65,18 +65,23 @@ const calculateRRIFPaymentTable = (age, balance, returnOnInvestment) => {
 console.log(calculateRRIFPaymentTable(65,100000, .03));
 
 
-export const setReccomendedSavingaPlan = (calculateReccomendedSavings_action, incomePerYear_reducer, paymentType, setReccomendedSavingsValue_action) => {
-    const withdrawal = incomePerYear_reducer[72][paymentType].financialValue
-    const valueAtRetirement = presentValue(.03, 30, withdrawal, 0)
-    const reccomendedSavings = payment(.04, 45, 0, valueAtRetirement)
+export const setReccomendedSavingaPlan = (account, calculateReccomendedSavings_action, incomePerYear_reducer, investmentReturns_reducer, setReccomendedSavingsValue_action) => {
+    
+                                          
+    const rate1 = investmentReturns_reducer.rate1()
+    const rate2= investmentReturns_reducer.rate2()
+
+    const withdrawal = incomePerYear_reducer[72][account].financialValue
+    const valueAtRetirement = presentValue(rate2, 30, withdrawal, 0)
+    const reccomendedSavings = payment(rate1 , 45, 0, valueAtRetirement)
 
     for (let age = 20; age < 65; age ++) {
-        setReccomendedSavingsValue_action(age, reccomendedSavings, paymentType )  
-        calculateReccomendedSavings_action(age, paymentType )                                                     
+        setReccomendedSavingsValue_action(age, reccomendedSavings, account )  
+        calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
     }
     for (let age = 65; age <= 95; age++ ) {
-        setReccomendedSavingsValue_action(age, -withdrawal, paymentType)   
-        calculateReccomendedSavings_action(age, paymentType )                                                     
+        setReccomendedSavingsValue_action(age, -withdrawal, account)   
+        calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
     }
 }
 
@@ -96,8 +101,14 @@ export const setReccomendedSavingaPlan = (calculateReccomendedSavings_action, in
 
  //DETERMINE MAX OR MIN VALUE FOR D3 Y-SCALE
 
-export const calculateYScaleMax = (data, baseValue, maxOrMin) => {
-   const value =  d3[maxOrMin](data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < baseValue ? baseValue : 
-    d3[maxOrMin](data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+export const calculateYScaleMax = (data, baseValue) => {
+   const value =  d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < baseValue ? baseValue : 
+    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+    return value
+ }
+ 
+export const calculateYScaleMin = (data, baseValue) => {
+   const value =  d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) > baseValue ? baseValue : 
+    d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 4000
     return value
  }

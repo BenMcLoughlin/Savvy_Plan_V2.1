@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 10, right: 70, bottom: 20, left: 60}
+    const margin = {top: 15, right: 70, bottom: 30, left: 60}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
@@ -47,7 +47,13 @@ const drawChart = (props, width, height) => {
                         .style("top", 0)
                         .style("left", 0)
    
-    
+       
+ graph.append("text")
+                        .attr("y", -4)
+                        .attr("x", 10)
+                        .attr("class", "title")
+                        .text("Contributions & Withdrawals")
+
     const update = data => {
     
 

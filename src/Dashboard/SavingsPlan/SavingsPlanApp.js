@@ -11,7 +11,7 @@ import SavingsAreaChart from "./Charts/SavingsAreaChart"
 import ReccomendedSavingsAreaChart from "./Charts/ReccomendedSavingsAreaChart"
 import {presentValue, payment} from "../../services/financialFunctions"
 import * as d3 from "d3"
-import {setReccomendedSavingaPlan, convertReducerToArrayData, calculateYScaleMax} from "./services/localFunctions"
+import {setReccomendedSavingaPlan, convertReducerToArrayData, calculateYScaleMax, calculateYScaleMin} from "./services/localFunctions"
 
 const SavingsPlanApp = ({withdrawals_reducer, savingsPerYear_reducer, investmentReturns_reducer, setWithdrawalValue_action, incomePerYear_reducer, calculateReccomendedSavings_action, setSavingsValue_action, calculateSavings_action, setReccomendedSavingsValue_action, calculateRrifWithdrawal_action, setInvestmentFactor_action}) => {
 
@@ -19,9 +19,15 @@ const SavingsPlanApp = ({withdrawals_reducer, savingsPerYear_reducer, investment
     const [toAge, setToAge] = useState(65)    
 
   
-    useEffect(() => {
-      ["rrsp", "tfsa", "nonRegistered"].map(account => setReccomendedSavingaPlan(calculateReccomendedSavings_action, incomePerYear_reducer, account, setReccomendedSavingsValue_action))
-      }, []);
+
+        
+ const fireSavingsPlan = () => {
+    ["rrsp", "tfsa", "nonRegistered"].map(account => setReccomendedSavingaPlan(account, calculateReccomendedSavings_action, incomePerYear_reducer, investmentReturns_reducer, setReccomendedSavingsValue_action))
+ }
+
+ useEffect(() => {
+    fireSavingsPlan()
+  }, []);
 
       const rrifPayment = incomePerYear_reducer[72].rrsp.financialValue
 
@@ -35,9 +41,13 @@ const SavingsPlanApp = ({withdrawals_reducer, savingsPerYear_reducer, investment
         }
 
     const calculateSavings = (name) => {
-        for (let age = 19; age < 95; age++ ) {                                                           
-            calculateSavings_action(age, name)                                                                                 //sets the income for each of the years between the selected ranges
-          }          
+        for (let age = 20; age < 95; age++ ) { 
+            const rate1 = investmentReturns_reducer.rate1()                                       
+            const rate2 = investmentReturns_reducer.rate2()                                       
+            console.log(age);
+            calculateSavings_action(age, name, rate1, rate2)                                                                                 //sets the income for each of the years between the selected ranges
+      
+        }          
     }    
 
     const calculateRrifWithdrawal = (rrifStartAge, rrifPayment) => {
@@ -57,20 +67,22 @@ const reccomendedStackedAreaData = convertReducerToArrayData(savingsPerYear_redu
 
 const stackedKeys = Object.keys(savingsPerYear_reducer[18])       
 
-const stackedAreaDataMax = calculateYScaleMax(stackedAreaData, 200000, "max")
-const reccomendedAreaDataMax  = calculateYScaleMax(reccomendedStackedAreaData , 200000, "max")
-const stackedBarDataMax = calculateYScaleMax(stackedBarData , 5000, "max")
-const reccomendedBarDataMax = calculateYScaleMax(reccomendedStackedBarData , 5000, "max")
-const stackedBarDataMin = calculateYScaleMax(stackedBarData , -5000, "min")
-const reccomendedBarDataMin = calculateYScaleMax(reccomendedStackedBarData , -5000, "min")
+const stackedAreaDataMax = calculateYScaleMax(stackedAreaData, 200000,)
+const reccomendedAreaDataMax  = calculateYScaleMax(reccomendedStackedAreaData , 200000,)
+const stackedBarDataMax = calculateYScaleMax(stackedBarData , 5000,)
+const reccomendedBarDataMax = calculateYScaleMax(reccomendedStackedBarData , 5000,)
+const stackedBarDataMin = calculateYScaleMin(stackedBarData , -5000,)
+const reccomendedBarDataMin = calculateYScaleMin(reccomendedStackedBarData , -5000,)
 
 const d3Max = Math.max(...[stackedAreaDataMax, reccomendedAreaDataMax])
 const d3BarMax = Math.max(...[stackedBarDataMax, reccomendedBarDataMax ])
 const d3BarMin = Math.min(...[stackedBarDataMin, reccomendedBarDataMin ])
-console.log(savingsPerYear_reducer);
+
         return (
             <UserInterfaceWrapper>
-                <Header/>
+                <Header
+                 incomePerYear_reducer={incomePerYear_reducer}
+                />
                 <AreaChartPlaceHolder>   
                 <SavingsAreaChart
                   data={stackedAreaData}
@@ -114,6 +126,7 @@ console.log(savingsPerYear_reducer);
                 withdrawals_reducer={withdrawals_reducer}
                 setWithdrawalValue_action={setWithdrawalValue_action}
                 calculateSavings={calculateSavings}
+                fireSavingsPlan={fireSavingsPlan}
             />
         </UserInterfaceWrapper>
         )
@@ -140,7 +153,7 @@ const UserInterfaceWrapper = styled.div`
     background: ${props => props.theme.color.ice};
     display: grid;
     height: 100%;
-    grid-template-rows: minmax(2rem, 4rem) minmax(22rem, 26rem) minmax(12rem, 14rem) minmax(22rem, 24rem);
+    grid-template-rows: minmax(8rem, 14rem) minmax(14rem, 16rem) minmax(6rem, 8rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'
     'b b b b b b b b b b b b'

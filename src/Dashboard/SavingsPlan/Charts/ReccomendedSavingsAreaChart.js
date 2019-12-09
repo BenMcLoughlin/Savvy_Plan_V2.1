@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as d3 from "d3"
-import "./ChartStyles.css"
+import styles from "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
 
@@ -47,7 +47,12 @@ const drawChart = (props, width, height) => {
                         .style("top", 0)
                         .style("left", 0)
    
-    
+    graph.append("text")
+                        .attr("y", -10)
+                        .attr("x", 10)
+                        .attr("class", "title")
+                        .text("Savings")
+
     const update = data => {
     
         const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 70000 ? 70000 : 

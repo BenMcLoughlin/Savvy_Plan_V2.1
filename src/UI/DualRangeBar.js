@@ -53,12 +53,13 @@ class DualRangeRangeBar extends Component {
     handleClickRight = () => {
         const fromAge = this.state.toAge < 95 ? this.state.toAge : 85
         const toAge = this.state.toAge + 10 < 95 ? this.state.toAge + this.state.skipForwardBy : 95
+        console.log(fromAge);
         this.setState({
             fromAge: fromAge,
             toAge: toAge
         })
-        this.props.setKeyVariables("fromAge", this.state.fromAge)
-        this.props.setKeyVariables("toAge", this.state.toAge)
+        this.props.setKeyVariables("fromAge", fromAge)
+        this.props.setKeyVariables("toAge", toAge)
     }
 
     toggleState = ()=> {
@@ -215,6 +216,7 @@ const InputLeft = styled.input`
     -webkit-appearance: none;
         width: 100%;
         background: transparent;
+        position: relative;
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -314,6 +316,7 @@ export const Value = styled.div`
         background: ${props => props.theme.color.slate};
         font-size: ${props =>props.theme.fontSize.small};
         cursor: pointer;
+        position: relative;
     
 }
         &:before {
@@ -323,8 +326,8 @@ export const Value = styled.div`
             background: ${props => props.theme.color.slate};
             position: absolute;
             transform: rotate(45deg);
-            left: -.5rem;
-            top: .8rem;
+            left: 1.2rem;
+            top: -.5rem;
         };
         &:focus {
            border-bottom: 3px solid ${props => props.theme.color.sandy};

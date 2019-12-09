@@ -47,6 +47,8 @@ const ControlPanelWrapper = styled.div`
     color: ${props => props.theme.color.slate};
     border-top: ${props => props.theme.border.primary};
     padding-top: 2rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
     position: relative;
 `
 
@@ -56,6 +58,6 @@ const Section = styled.div`
 
 const ButtonWrapper = styled(NavLink)`
     position: absolute;
-    bottom: 5rem;
-    right: 5rem;
+    bottom: -10rem;
+    right: 2rem;
 `

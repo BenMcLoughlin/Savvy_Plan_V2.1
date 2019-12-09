@@ -57,22 +57,25 @@ const calculateRrifWithdrawal = (age, rrifPayment, state) => {
 }
 
 export const calculateStartValue = (age, name, state) => {
+
     return state[age-1][name].endValue
 
 }
-export const calculateEndValue = (startValue, age, name,state) => {
+export const calculateEndValue = (startValue, age, name, rate1, rate2, state) => {
+    const rate = age < 65 ? rate1 : rate2
+    console.log(rate);
     const {financialValue} = state[age][name]
-    return  startValue * (1 + 0.04) + financialValue
+    return  startValue * (1 + rate) + financialValue
 
 }
 export const calculateReccomendedStartValue = (age, name, state) => {
     return state[age-1][name].reccomendedEndValue
 
 }
-export const calculateReccomendedEndValue = (startValue, age, name,state) => {
-    const {reccomendedFinancialValue} = state[age][name]
-    return  startValue * (1 + 0.04) + reccomendedFinancialValue
-
+export const calculateReccomendedEndValue = (startValue, age, name, rate1, rate2, state)  => {
+    const rate = age < 65 ? rate1 : rate2
+    const {financialValue} = state[age][name]
+    return  startValue * (1 + rate) + financialValue
 }
 
 const initialState = () => {
@@ -146,7 +149,7 @@ return incomePerYear
                                         }}
         case "savingsPerYear/CALCULATE_SAVINGS": 
         const startValue = calculateStartValue(action.age, action.name, state)
-        const endValue = calculateEndValue(startValue, action.age, action.name, state)
+        const endValue = calculateEndValue(startValue, action.age, action.name, action.rate1, action.rate2,  state)
                                         return {...state, [action.age]: {
                                         ...state[action.age], [action.name]: {
                                             ...state[action.age][action.name], 
@@ -157,7 +160,7 @@ return incomePerYear
         }
         case "savingsPerYear/CALCULATE_RECCOMENDED_SAVINGS": 
         const reccomendedStartValue = calculateReccomendedStartValue(action.age, action.name, state)
-        const reccomendedEndValue = calculateReccomendedEndValue(reccomendedStartValue, action.age, action.name, state)
+        const reccomendedEndValue = calculateReccomendedEndValue(reccomendedStartValue, action.age, action.name, action.rate1, action.rate2,  state)
                                         return {...state, [action.age]: {
                                         ...state[action.age], [action.name]: {
                                             ...state[action.age][action.name], 

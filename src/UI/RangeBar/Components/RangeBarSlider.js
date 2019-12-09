@@ -2,7 +2,7 @@ import React, { useState} from 'react'
 import styled from "styled-components"
 import {logslider} from "../../../services/logorithmicFunctions"
 
-const RangeBarSlider = ({setValue, rangeBarProps}) => {                                                                        //destructure essential props
+const RangeBarSlider = ({setValue, rangeBarProps, color}) => {                                                                        //destructure essential props
 
     const [logValue, setLogValue] = useState(0)                                                                                //log value is the larger value resulting from a logorithmic function, enabling the bar to range between 1 and 1 million
     const [rangeBarValue, setRangeBarValue] = useState(0)                                                                      //rangeBar value is the actual value of the rangebar, from 1 - 100
@@ -22,6 +22,7 @@ const RangeBarSlider = ({setValue, rangeBarProps}) => {                         
                 max={100}
                 step={0.1}
                 percentage={`${(rangeBarProps.rangeBarValue/100)*100}%`}
+                color={color}
             />
         )
     
@@ -42,7 +43,7 @@ const Input = styled.input`
     height: 3px;
     -webkit-appearance: none;
     background: linear-gradient(90deg, 
-        ${props => props.theme.color.sandy} ${props => props.percentage}, 
+        ${props => props.color ? props.color : props.theme.color.sandy} ${props => props.percentage}, 
         ${props => props.theme.color.slate} ${props => props.percentage});
     outline: none;
     opacity: 0.7;
@@ -75,14 +76,14 @@ const Input = styled.input`
     appearance: none;
     width: 12px;
     height: 12px;
-    background: ${props => props.theme.color.slate};
+    background: ${props => props.color ? props.color : props.theme.color.slate};
     border-radius: 50%;
     cursor: pointer;
 }
 
 &:active::-webkit-slider-thumb
 {
-    background: ${props => props.theme.color.sandy};
+    background: ${props => props.color ? props.color : props.theme.color.sandy};
 }
 
 `

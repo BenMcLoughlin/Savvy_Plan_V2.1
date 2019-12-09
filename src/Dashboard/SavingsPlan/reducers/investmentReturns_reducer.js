@@ -12,7 +12,7 @@ const initialState = {
         afterRetirementReturn: {
             name: "afterRetirementReturn",
             label: "After Retirement Return ",
-            rangeBarValue: .045, 
+            rangeBarValue: .05, 
             min: 0,
             max: .1,
             step: .0025,
@@ -36,6 +36,14 @@ const initialState = {
             step: .0025,
             numberType: "percentage",
         },
+        rate1() {
+            const rate = this.beforeRetirementReturn.rangeBarValue - this.managementFee.rangeBarValue - this.inflationRate.rangeBarValue 
+            return rate > 0 ? rate : 0
+        },
+        rate2() {
+            const rate = this.afterRetirementReturn.rangeBarValue - this.managementFee.rangeBarValue - this.inflationRate.rangeBarValue 
+            return rate > 0 ? rate : 0
+        }
 }
 
 

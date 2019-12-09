@@ -6,13 +6,13 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 50, right: 200, bottom: 30, left: 40}
+    const margin = {top: 50, right: 200, bottom: 40, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ["#ef7959", "#4BB9D0",'#72929B',  "#7DA8B8", '#FEDE76', '#81CCAF',  '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
     //const color = ["#ef7959", "black",'grey',  "blue", 'lightGrey', '#red','green', 'yellow', '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    const legendRectSize = 10; 
-    const legendSpacing = 6; 
+    const legendRectSize = 5; 
+    const legendSpacing = 8; 
 
     d3.select(".canvasStackedbarChart > *").remove()
     d3.select(".tooltip").remove()

@@ -35,11 +35,11 @@ export default function Header() {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 export const FooterContainer = styled.div`
-    margin-top: 20rem;
+    grid-area: f;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 10rem;
+    height: 100%;
     background: #536D7A;
     align-items: center;
 

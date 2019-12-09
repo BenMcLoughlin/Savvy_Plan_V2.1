@@ -18,7 +18,8 @@ export default function Withdrawals({setSavingsValue_action, withdrawals_reducer
         for (let age = fromAge; age < toAge; age++ ) {                                                           
             setSavingsValue_action(age, -financialValue, label, name, rangeBarValue)                                          //sets the income for each of the years between the selected ranges
           } 
-          calculateSavings(name)
+          console.log(name);
+         calculateSavings(name)
                                              
     }
 

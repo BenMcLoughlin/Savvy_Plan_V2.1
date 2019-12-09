@@ -4,7 +4,8 @@ import Withdrawals from "./Components/Withdrawals"
 import Contributions from"./Components/Contributions"
 import InvestmentFactors from "./Components/InvestmentFactors"
 import SelectorButton from "../../../UI/Buttons/SelectorButton"
-
+import ButtonDark from "../../../UI/Buttons/ButtonDark"
+import { NavLink} from "react-router-dom"
 
 const ControlPanel =(props) => {
 
@@ -29,6 +30,9 @@ const ControlPanel =(props) => {
                                {...props}
                      />
                 </Right>
+                <ButtonWrapper to="/SavingsPlan">
+                        <ButtonDark text={'Next'}/>
+                </ButtonWrapper>
             </ControlPanelWrapper>
         )
 
@@ -61,3 +65,8 @@ const Title = styled.div `
    
 ` 
 
+const ButtonWrapper = styled(NavLink)`
+    position: absolute;
+    bottom: -10rem;
+    right: 2rem;
+`

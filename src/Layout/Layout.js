@@ -55,15 +55,14 @@ export default class Layout extends Component {
 //
 //------------------STYLES---------------------------------------------------------------
  const GridContainer = styled.div`
-    height: 100vh;
+    height: 100%;
     margin: 2px auto;
-    width: 85vw;
+    width: 92vw;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 1;
+    grid-template-rows: 96vh;
     grid-template-areas: 
 
-    " m m m m m m m m m m m m m"
+    "m"
 
     /* The Grid container holds the grid item "m" for "main" and "f" for footer. When a sub-app is clicked
      on its grid location becomes m placing it in the "main position" */

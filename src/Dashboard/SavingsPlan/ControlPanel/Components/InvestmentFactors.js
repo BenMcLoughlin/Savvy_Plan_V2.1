@@ -2,17 +2,22 @@ import React from 'react'
 import styled from "styled-components"
 import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
 
-export default function InvestmentFactors( {setInvestmentFactor_action, investmentReturns_reducer}) {                                            //Use Destructing to assign variables and functions
+export default function InvestmentFactors( {setInvestmentFactor_action, investmentReturns_reducer, fireSavingsPlan, calculateSavings}) {                                            //Use Destructing to assign variables and functions
    
     investmentReturns_reducer = Object.values(investmentReturns_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
  
     const setInvestmentFactor = (value, nothing, {name}) => {
         setInvestmentFactor_action(name, value) 
+        fireSavingsPlan()
+        console.log(name);
+        calculateSavings("tfsa")
+        calculateSavings("nonRegistered")
+        calculateSavings("rrsp")
     }
     return (
         <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa SmallRangeBar for each */}
             {
-                investmentReturns_reducer.map(d => <SmallRangeBar 
+                investmentReturns_reducer.slice(0,4).map(d => <SmallRangeBar 
                                             id={d.name}
                                             key={d.name}
                                             setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer

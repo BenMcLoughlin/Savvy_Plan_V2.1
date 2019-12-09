@@ -15,6 +15,7 @@ const {retirementIncome} = keyVariables_reducer
                  <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
                                                     rangeBarProps={retirementIncome}
                                                     setValue={setReccomendedRetirementIncome}
+                                                    color={'#4BB9D0'}
                                                     />
             </RangeBarWrapper>
         </Wrapper>                            
