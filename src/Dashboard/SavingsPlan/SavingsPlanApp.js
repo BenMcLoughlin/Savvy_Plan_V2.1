@@ -18,9 +18,7 @@ const SavingsPlanApp = ({withdrawals_reducer, savingsPerYear_reducer, investment
     const [fromAge, setFromAge] = useState(18)
     const [toAge, setToAge] = useState(65)    
 
-  
 
-        
  const fireSavingsPlan = () => {
     ["rrsp", "tfsa", "nonRegistered"].map(account => setReccomendedSavingaPlan(account, calculateReccomendedSavings_action, incomePerYear_reducer, investmentReturns_reducer, setReccomendedSavingsValue_action))
  }

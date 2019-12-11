@@ -42,6 +42,8 @@ export const FooterContainer = styled.div`
     height: 100%;
     background: #536D7A;
     align-items: center;
+    position: absolute;
+    top: 80rem;
 
 `
 const Hr = styled.hr`

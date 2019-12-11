@@ -7,7 +7,7 @@ import TaxApp from "../Dashboard/Tax/TaxApp"
 import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
 import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
 import LifetimeIncomeApp from "../Dashboard/LifetimeIncome/LifetimeIncomeApp"
-import SavingsPlanApp from "../Dashboard/SavingsPlan/SavingsPlanApp"
+import SavingsPlanApp from "../Dashboard/SavingsPlan2/SavingsPlanApp"
 import SpendingApp from "../Dashboard/Spending/SpendingApp"
 import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
@@ -24,7 +24,6 @@ export default class Layout extends Component {
        theme: lightTheme,
    }
 
- 
     render() {
         return (
             <ThemeProvider theme={this.state.theme}>

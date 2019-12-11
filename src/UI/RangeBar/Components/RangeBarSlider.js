@@ -43,7 +43,7 @@ const Input = styled.input`
     height: 3px;
     -webkit-appearance: none;
     background: linear-gradient(90deg, 
-        ${props => props.color ? props.color : props.theme.color.sandy} ${props => props.percentage}, 
+        ${props => props.theme.color.sandy} ${props => props.percentage}, 
         ${props => props.theme.color.slate} ${props => props.percentage});
     outline: none;
     opacity: 0.7;
@@ -76,14 +76,14 @@ const Input = styled.input`
     appearance: none;
     width: 12px;
     height: 12px;
-    background: ${props => props.color ? props.color : props.theme.color.slate};
+    background: ${props => props.theme.color.slate};
     border-radius: 50%;
     cursor: pointer;
 }
 
 &:active::-webkit-slider-thumb
 {
-    background: ${props => props.color ? props.color : props.theme.color.sandy};
+    background: ${props => props.theme.color.sandy};
 }
 
 `
