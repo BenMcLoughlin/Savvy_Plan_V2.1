@@ -36,17 +36,15 @@ const SavingsPlanApp = ({savingsPerYear_reducer2, transaction_action, incomePerY
         nonRegisteredInterest: d.nonRegistered.totalInterest,
     }))
     
+    
     const stackedBarData = convertReducerToArrayData(savingsPerYear_reducer2)
 
     const stackedKeys = ["age", "rrspContributions", "tfsaContributions", "nonRegisteredContributions", "rrspInterest", "tfsaInterest",  "nonRegisteredInterest"]
     const stackedKeysBarChart = Object.keys(savingsPerYear_reducer2[18])  
     
-    console.log(savingsPerYear_reducer2);
         return (
             <UserInterfaceWrapper>
-                <Header
-                savingsPerYear_reducer2={savingsPerYear_reducer2}
-                />
+                <Header/>
                 <AreaChartPlaceHolder>   
                     <SavingsAreaChart 
                             data={stackedAreaData}

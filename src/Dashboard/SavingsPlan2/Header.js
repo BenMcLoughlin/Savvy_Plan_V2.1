@@ -2,8 +2,13 @@ import React, { Component } from 'react'
 import styled from "styled-components"
 //import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
 import Tooltip from "../../UI/Tooltip/Tooltip"
-export default class HeaderValues extends Component {
+import {connect} from "react-redux"
+import {createStructuredSelector} from "reselect"
+import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "./reducers/savingsPlan_selectors"
 
+class Header extends Component {
+
+    
 //GRAB MOUSE COORDINATES FOR TOOLTIP
     state = { 
               x: 0,                                                                                                              //These coordinates are set onMouseMove placing the tootip beside the mouse
@@ -14,35 +19,15 @@ export default class HeaderValues extends Component {
               }                                                                                                                  //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
 
     render() {
-
-        const {
-                 rrsp : {totalValue: rrspValue },                                                                          //Grabs and assigns variable names from reducer
-                 tfsa : {totalValue: tfsaValue },
-                 nonRegistered: {totalValue: nonRegisteredValue  }
-            } =  this.props.savingsPerYear_reducer2[65]  
+const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} = this.props
 
 
-        const rrspDisplayValue = rrspValue > 1000000 ?  `${Math.round(rrspValue/1000000)*1000000/1000000} M` : `${Math.round(rrspValue/1000)*1000/1000} k` 
-        const tfsaDisplayValue = tfsaValue > 1000000 ?  `${Math.round(tfsaValue/1000000)*1000000/1000000} M` : `${Math.round(tfsaValue/1000)*1000/1000} k` 
-        const nonRegisteredDisplayValue = nonRegisteredValue > 1000000 ?  `${Math.round(nonRegisteredValue/1000000)*1000000/1000000} M` : `${Math.round(nonRegisteredValue/1000)*1000/1000} k` 
-        const total = rrspValue + tfsaValue + nonRegisteredValue
-        const totalDisplayValue = total > 1000000 ?  `${Math.round(total/1000000)*1000000/1000000} M` : `${Math.round(total/1000)*1000/1000} k` 
-        const shortFall = 500
-// //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
-        // const totalRetirementIncome = Object.values(this.props.incomePerYear_reducer[75])                                        //Determines total income in retirement
-        //                                             .map(d => d.financialValue)
-        //                                             .reduce((acc, num) => acc + num)
+        // //const rrspDisplayValue = rrspValue > 1000000 ?  `${Math.round(rrspValue/1000000)*1000000/1000000} M` : `${Math.round(rrspValue/1000)*1000/1000} k` 
+        // const tfsaDisplayValue = tfsaValue > 1000000 ?  `${Math.round(tfsaValue/1000000)*1000000/1000000} M` : `${Math.round(tfsaValue/1000)*1000/1000} k` 
+        // const nonRegisteredDisplayValue = nonRegisteredValue > 1000000 ?  `${Math.round(nonRegisteredValue/1000000)*1000000/1000000} M` : `${Math.round(nonRegisteredValue/1000)*1000/1000} k` 
+        // const total = tfsaValue + nonRegisteredValue
+        const totalDisplayValue = totalNestEgg
 
-        // const workingLifetimeEarnings = Object.values(this.props.incomePerYear_reducer)                                          // turn object into array
-        //                                        .map(d => Object.values(d)
-        //                                          .map(a => a.financialValue)                                                     // make sub arrays just show financial value
-        //                                          .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
-        //                                         .slice(0,47)                                                                     // Grab Only working years 
-        //                                         .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
-
-        // const averageWorkingEarnings = workingLifetimeEarnings/47                                       //calculate average working annual income, then round
-
-        // const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed                                               : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
@@ -121,6 +106,15 @@ return (
         )
     }
 }
+
+const mapStateToProps = createStructuredSelector({
+    rrspDisplayValue,
+    tfsaDisplayValue,
+    nonRegisteredDisplayValue,
+    totalNestEgg
+})
+
+export default connect(mapStateToProps)(Header)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
