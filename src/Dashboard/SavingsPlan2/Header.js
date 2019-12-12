@@ -4,10 +4,119 @@ import styled from "styled-components"
 import Tooltip from "../../UI/Tooltip/Tooltip"
 export default class HeaderValues extends Component {
 
-render () {
+//GRAB MOUSE COORDINATES FOR TOOLTIP
+    state = { 
+              x: 0,                                                                                                              //These coordinates are set onMouseMove placing the tootip beside the mouse
+              y: 0,                                                                                                              //They are passed as props to the Tooltip componnent 
+            }
+   handleMouseMove(e) {
+                this.setState({ x: e.clientX -120, y: e.clientY -140 })                                                          //Sets the state according to mouse position
+              }                                                                                                                  //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
+
+    render() {
+
+        const {
+                 rrsp : {totalValue: rrspValue },                                                                          //Grabs and assigns variable names from reducer
+                 tfsa : {totalValue: tfsaValue },
+                 nonRegistered: {totalValue: nonRegisteredValue  }
+            } =  this.props.savingsPerYear_reducer2[65]  
+
+
+        const rrspDisplayValue = rrspValue > 1000000 ?  `${Math.round(rrspValue/1000000)*1000000/1000000} M` : `${Math.round(rrspValue/1000)*1000/1000} k` 
+        const tfsaDisplayValue = tfsaValue > 1000000 ?  `${Math.round(tfsaValue/1000000)*1000000/1000000} M` : `${Math.round(tfsaValue/1000)*1000/1000} k` 
+        const nonRegisteredDisplayValue = nonRegisteredValue > 1000000 ?  `${Math.round(nonRegisteredValue/1000000)*1000000/1000000} M` : `${Math.round(nonRegisteredValue/1000)*1000/1000} k` 
+        const total = rrspValue + tfsaValue + nonRegisteredValue
+        const totalDisplayValue = total > 1000000 ?  `${Math.round(total/1000000)*1000000/1000000} M` : `${Math.round(total/1000)*1000/1000} k` 
+        const shortFall = 500
+// //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
+        // const totalRetirementIncome = Object.values(this.props.incomePerYear_reducer[75])                                        //Determines total income in retirement
+        //                                             .map(d => d.financialValue)
+        //                                             .reduce((acc, num) => acc + num)
+
+        // const workingLifetimeEarnings = Object.values(this.props.incomePerYear_reducer)                                          // turn object into array
+        //                                        .map(d => Object.values(d)
+        //                                          .map(a => a.financialValue)                                                     // make sub arrays just show financial value
+        //                                          .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
+        //                                         .slice(0,47)                                                                     // Grab Only working years 
+        //                                         .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
+
+        // const averageWorkingEarnings = workingLifetimeEarnings/47                                       //calculate average working annual income, then round
+
+        // const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed                                               : calculateMarginalTaxRate(totalRetirementIncome) || 0
+
 return (
-            <HeaderValuesWrapper>
-                            Header
+            <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
+            <Left >
+                                                                                                                 {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
+                <h1>
+                   Savings and Withdrawal Plan
+                </h1>
+            </Left>
+            <Right>
+            <h2>Account Values at Retirement</h2>
+            <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
+                    <CPPSummary>
+                    {rrspDisplayValue}  
+                        <h4>RRSP</h4>
+                        <Tooltip 
+                            x={this.state.x} 
+                            y={this.state.y} 
+                            text="  A monthly, taxable benefit that replaces part of your income when you retire. 
+                                    If you qualify, you’ll receive the CPP retirement pension for the rest of your life. 
+                                    To qualify you must:
+                                    be at least 60 years old
+                                    have made at least one valid contribution to the CPP"
+                            header= "Canada Pension Plan"
+                            className="cppTooltip"
+                        />
+                    </CPPSummary>
+                    <OASSummary >
+                    {tfsaDisplayValue}
+                        <h4 >TFSA</h4>
+                        <Tooltip 
+                        x={this.state.x} 
+                        y={this.state.y} 
+                        text=   " The OAS pension is a monthly payment available to seniors aged 65 and older who 
+                                  meet the Canadian legal status and residence requirements. It is not based on 
+                                  contributions, every Canadian is elgible."
+                        header= "Old Age Security"
+                        className="oasTooltip"
+                         />
+                    </OASSummary>
+                    <RRIFSummary>
+                    {nonRegisteredDisplayValue}
+                    <h4 >N-Reg</h4>
+                        <Tooltip 
+                        x={this.state.x} 
+                        y={this.state.y} 
+                        text=   "A Registered Retirement Income Fund (nonRegisteredValue) is an account registered with the government that 
+                                 pays you income in retirement. Before, you were putting money into your RRSP to accumulate
+                                 savings for retirement. Now, you withdraw that money from your nonRegisteredValue as retirement income."
+                        header= "Registered Retirement Income Fund"
+                        className="rrifTooltip"
+                    />
+                    </RRIFSummary>
+                    <Vr/>
+                    <TaxSummary>
+                    {`${22}%`}
+                    <h4>Tax Rate</h4>
+                    <Tooltip 
+                    x={this.state.x} 
+                    y={this.state.y} 
+                    text="      Marginal tax is the amount of tax paid on an additional dollar of income. As income rises, so does the tax rate. 
+                                If retirement, if you earn over $78,000 you're Old Age Security will be clawed back
+                                at a rate of 15% on every additional dollar earned. "
+                    header= "Canada Pension Plan"
+                    className="taxTooltip"
+                />
+                    </TaxSummary>
+            </PensionIncomeWrapper>
+            <Summary>
+             {totalDisplayValue}
+            <h4>Total</h4>
+            </Summary>
+            </Right>
+            
             </HeaderValuesWrapper>
         )
     }

@@ -43,7 +43,7 @@ export const FooterContainer = styled.div`
     background: #536D7A;
     align-items: center;
     position: absolute;
-    top: 80rem;
+    top: 90rem;
 
 `
 const Hr = styled.hr`

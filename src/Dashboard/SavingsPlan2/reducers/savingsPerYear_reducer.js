@@ -27,6 +27,8 @@ const initialState = () => {
                     financialValue: 0,
                     label: "RRSP",
                     maxContribution: 0,
+                    optimizedContribution: 0, 
+                    optimizedWithdrawal: 0, 
                     name: "rrsp",
                     rangeBarValue: 0, 
                     totalContributions: 0, 
@@ -41,6 +43,8 @@ const initialState = () => {
                     label: "Tax Free Savings Account",
                     name: "tfsa",
                     maxContribution: 0,
+                    optimizedContribution: 0, 
+                    optimizedWithdrawal: 0, 
                     rangeBarValue: 0, 
                     totalContributions: 0, 
                     totalInterest: 0, 
@@ -54,6 +58,8 @@ const initialState = () => {
                     label: "Non Registered",
                     maxContribution: 0,
                     name: "nonRegistered",
+                    optimizedContribution: 0, 
+                    optimizedWithdrawal: 0, 
                     rangeBarValue: 0, 
                     totalContributions: 0, 
                     totalInterest: 0, 
@@ -72,13 +78,21 @@ return incomePerYear
         const totalValue = totalContributions + totalInterest
         return {...state, [action.age]: {
                                     ...state[action.age], [action.name]: {
-                                        ...state[action.age][action.name], [action.transaction]: action.value,
+                                        ...state[action.age][action.name], [action.transaction]: totalValue <= 0 ? 0 : action.value,
                                                                             financialValue: action.value,
                                                                             rangeBarValue: action.rangeBarValue,
                                                                             totalContributions,
                                                                             totalInterest,
                                                                             totalValue 
         }}}
+        case "investmentReturns/SET_OPTIMIZED_VALUE": return {...state, [action.age]: {
+                                                                     ...state[action.age], [action.name]: {
+                                                                        ...state[action.age][action.name],
+                                                                                [action.transaction]: action.value
+                                                                     }
+        }
+
+        }
         default: return state
     }
 }

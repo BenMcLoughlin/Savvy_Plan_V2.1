@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
-import {inverseLogslider} from "../../../../services/logorithmicFunctions"
-export default function InvestmentFactors( {setInvestmentFactor_action, investmentReturns_reducer, savingsPerYear_reducer2, transaction_action}) {                                            //Use Destructing to assign variables and functions
+export default function InvestmentFactors( {setInvestmentFactor_action, investmentReturns_reducer,  optimizedContribution, optimizedWithdrawals, savingsPerYear_reducer2, renderSavings, transaction_action, setOpitmizedValues_action}) {                                            //Use Destructing to assign variables and functions
    
    const investmentReturns = Object.values(investmentReturns_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
  
@@ -14,20 +13,9 @@ export default function InvestmentFactors( {setInvestmentFactor_action, investme
 
         const array = ["rrsp", "tfsa", "nonRegistered"]
         array.map(account => {
-        for (let age = 18; age <= 95; age ++) {
-                const contributionValue = savingsPerYear_reducer2[age][account].contribute
-                const rangeBarValueC = savingsPerYear_reducer2[age][account].rangeBarValue
-        console.log(account);
-                transaction_action(age, account, "contribute", rangeBarValueC, contributionValue, rate1, rate2)
-        }
-        for (let age = 55; age <= 95; age ++) {
-            const withdrawalValue = savingsPerYear_reducer2[age][account].withdraw
-            const rangeBarValueW = savingsPerYear_reducer2[age][account].rangeBarValue
-
-            transaction_action(age, account, "withdraw", rangeBarValueW , withdrawalValue, rate1, rate2)
-
-        }
-        
+                renderSavings(65, 65, account, 0, 0, "withdraw", savingsPerYear_reducer2, transaction_action, rate1, rate2 )
+                optimizedWithdrawals("rrsp", savingsPerYear_reducer2, setOpitmizedValues_action, rate2)
+                optimizedContribution("rrsp", savingsPerYear_reducer2, setOpitmizedValues_action, rate1)
     })
 
     }

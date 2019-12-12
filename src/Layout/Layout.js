@@ -58,7 +58,7 @@ export default class Layout extends Component {
     margin: 2px auto;
     width: 92vw;
     display: grid;
-    grid-template-rows: 96vh;
+    grid-template-rows: 98vh;
     grid-template-areas: 
 
     "m"

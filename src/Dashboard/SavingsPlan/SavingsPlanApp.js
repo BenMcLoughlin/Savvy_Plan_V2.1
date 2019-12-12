@@ -137,7 +137,8 @@ const mapStateToProps = (state) => {
         savingsPerYear_reducer: state.savingsPerYear_reducer,
         incomePerYear_reducer: state.incomePerYear_reducer,
         investmentReturns_reducer: state.investmentReturns_reducer,
-        withdrawals_reducer: state.withdrawals_reducer
+        withdrawals_reducer: state.withdrawals_reducer,
+        pensionStartAges_reducer: state.pensionStartAges_reducer,
     }
 }
 

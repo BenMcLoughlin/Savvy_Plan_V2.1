@@ -4,7 +4,7 @@ import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 import {inverseLogslider} from "../../../../services/logorithmicFunctions"
 
-export default function Contributions({savingsPerYear_reducer2, transaction_action, investmentReturns_reducer}) {
+export default function Contributions({savingsPerYear_reducer2, renderSavings, transaction_action, investmentReturns_reducer, optimizedContribution, setOpitmizedValues_action}) {
 
     const [fromAge, setFromAge] = useState(65)
     const [toAge, setToAge] = useState(95)    
@@ -16,21 +16,11 @@ export default function Contributions({savingsPerYear_reducer2, transaction_acti
     const rate1 = investmentReturns_reducer.rate1()
     const rate2 = investmentReturns_reducer.rate2()
 
-     const setWithdrawals = (value, rangeBarValue, {name})  => {
-        for (let age = 18; age < fromAge; age++) {
-            const contributionValue = savingsPerYear_reducer2[age][name].contribute
-            const rangeBarValue = inverseLogslider(contributionValue )
-            transaction_action(age, name, "contribute", rangeBarValue, contributionValue, rate1, rate2)
-        } 
-        for (let age = fromAge; age <= toAge; age++) {
-            transaction_action(age, name, "withdraw", rangeBarValue, value, rate1, rate2)
-        } 
-        for (let age = toAge; age <= 95; age++) {
-            const withdrawalValue = savingsPerYear_reducer2[age][name].withdraw
-            const rangeBarValue = inverseLogslider(withdrawalValue )
-            transaction_action(age, name, "withdraw", rangeBarValue,withdrawalValue, rate1, rate2)
-        } 
+    const setWithdrawals = (value, rangeBarValue, {name})  => {
+        renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer2, transaction_action, rate1, rate2 )
+        optimizedContribution(name, savingsPerYear_reducer2, setOpitmizedValues_action, rate1)
     }
+
 
     const rangeBarArray = Object.values(savingsPerYear_reducer2[fromAge])
 
@@ -46,15 +36,25 @@ export default function Contributions({savingsPerYear_reducer2, transaction_acti
                 toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
                 setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
             />
-            {
-                rangeBarArray.map(d => <RangeBar
-                                        key={d.name}
-                                        financialValue= {d.financialValue}
-                                        rangeBarProps={d}
-                                        setValue={setWithdrawals}
-                                         />
-                )
-            }
+          <RangeBarWrapper>
+                {
+                    rangeBarArray.map(d => 
+                   
+                            <Display>
+                            <RangeBar
+                                            key={d.name}
+                                            financialValue= {d.financialValue}
+                                            rangeBarProps={d}
+                                            setValue={setWithdrawals}
+                                            />
+                                            <Value>{(Math.round(d.optimizedWithdrawal/1000)*1000)/1000}k</Value>
+                            </Display>
+
+
+                    )
+                }
+                </RangeBarWrapper>
+
     </YearsSelectorWrapper>                                                                                    
         </Wrapper>                            
     )
@@ -74,11 +74,27 @@ const YearsSelectorWrapper = styled.div`
     margin-bottom: 1rem;
 `
 
-const Title = styled.div `
-    font-size: ${props => props.theme.fontSize.medium};
-    text-align: center;
-    font-weight: 300;
-    padding-bottom: 1rem;
+const Value = styled.div `
+        position: absolute;
+        left: 77%;
+        top: .8rem;
+        border-radius: 3px;
+        padding: .4rem;
+        height: 2.6rem;
+        width: 4rem;
+        align-content: center;
+        text-align: center;
+        color: white;
+        border: none;
+        background: ${props => props.theme.color.slate};
+        font-size: ${props =>props.theme.fontSize.small};
+   
+` 
+const Display = styled.div `
+   position:relative;
+  
+
+
    
 ` 
 
@@ -96,6 +112,7 @@ const RangeBarWrapper = styled.div`
   position: relative;
   text-align: center;
   margin-top: 1rem;
+  width: 88%;
 
 `
 const Hr = styled.hr`

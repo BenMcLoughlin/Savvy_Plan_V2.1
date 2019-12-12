@@ -158,7 +158,7 @@ const drawChart = (props, width, height) => {
         xAxisGroup.call(xAxis)
         yAxisGroup.call(yAxis)
         const legendGroup = graph.append('g')
-        .attr("transform", `translate(${graphWidth}, ${160})`)
+        .attr("transform", `translate(${graphWidth}, ${70})`)
 
 const legend = legendGroup.selectAll('.legend')
    .data(colorScale.domain())

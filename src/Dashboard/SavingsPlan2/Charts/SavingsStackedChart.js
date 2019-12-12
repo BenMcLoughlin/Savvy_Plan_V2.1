@@ -6,17 +6,15 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
-    const margin = {top: 15, right: 70, bottom: 30, left: 60}
+    const margin = {top: 20, right: 200, bottom: 30, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ["#ef7959","#7DA8B8", "#F29278", "#828F98", "#4BB9D0", '#FEDE76', "#7DA8B8", '#81CCAF', '#D8BABB', '#B0CFE3','#D4D4D4','#72929B', "#F29278", "#4BB9D0", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
+    const color = ['#3B7B8E', "#3B7B8E", '#3B7B8E'];
 
     d3.select(".canvasSavingsStackedBarChart > *").remove()
     d3.select(".tooltip").remove()
 
     const data = props.data
-    const max = props.max
-    const min = props.min > -20000 ? -20000 : props.min - 2000
     const svg = d3.select('.canvasSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     
@@ -57,7 +55,11 @@ const drawChart = (props, width, height) => {
     const update = data => {
     
 
-        const d3Min = d3.min(Object.values(data).map(d => Object.values(d).reduce((acc, num) => acc + num)))
+        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) > -30000 ? -30000 : 
+                         d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 2000   
+
+       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
+                   d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
@@ -147,6 +149,8 @@ const drawChart = (props, width, height) => {
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
+                           
+                                        
            var ticks = [20,40, 60, 80, 95];
            var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
 

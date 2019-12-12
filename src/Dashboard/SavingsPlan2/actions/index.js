@@ -18,3 +18,12 @@ export const setInvestmentFactor_action = (name, value) => {
             value 
     }
     }
+export const setOpitmizedValues_action = (age, name, transaction, value) => {
+    return {
+        type: "investmentReturns/SET_OPTIMIZED_VALUE", 
+            age,
+            name, 
+            transaction,
+            value,
+    }
+    }
