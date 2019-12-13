@@ -1,28 +1,26 @@
 import React from 'react'
 import styled from "styled-components"
 import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
-export default function InvestmentFactors( {setInvestmentFactor_action, investmentReturns_reducer,  optimizedContribution, optimizedWithdrawals, savingsPerYear_reducer2, renderSavings, transaction_action, setOpitmizedValues_action}) {                                            //Use Destructing to assign variables and functions
-   
-   const investmentReturns = Object.values(investmentReturns_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
- 
+import {connect} from "react-redux"
+import {rate1, rate2, investmentReturnsArray} from "../../reducers/savingsPlan_selectors"
+import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "../../actions"
+import {renderSavings, optimizedWithdrawals, optimizedContribution} from "../../services/localFunctions"
+
+const  InvestmentFactors = ( {setInvestmentFactor_action, investmentReturnsArray, savingsPerYear_reducer2, transaction_action, setOpitmizedValues_action, rate1, rate2}) => {                                            //Use Destructing to assign variables and functions
+                                                           
     const setInvestmentFactor = (value, nothing, {name}) => {
         setInvestmentFactor_action(name, value) 
-
-        const rate1 = investmentReturns_reducer.rate1()
-        const rate2 = investmentReturns_reducer.rate2()
-
         const array = ["rrsp", "tfsa", "nonRegistered"]
         array.map(account => {
                 renderSavings(65, 65, account, 0, 0, "withdraw", savingsPerYear_reducer2, transaction_action, rate1, rate2 )
                 optimizedWithdrawals("rrsp", savingsPerYear_reducer2, setOpitmizedValues_action, rate2)
                 optimizedContribution("rrsp", savingsPerYear_reducer2, setOpitmizedValues_action, rate1)
     })
-
     }
     return (
         <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa SmallRangeBar for each */}
             {
-                investmentReturns.slice(0,4).map(d => <SmallRangeBar 
+                investmentReturnsArray.slice(0,4).map(d => <SmallRangeBar 
                                             id={d.name}
                                             key={d.name}
                                             setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
@@ -32,6 +30,18 @@ export default function InvestmentFactors( {setInvestmentFactor_action, investme
         </Wrapper>                            
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        rate1: rate1(state),
+        rate2: rate2(state),
+        investmentReturnsArray: investmentReturnsArray(state),
+        savingsPerYear_reducer2: state.savingsPerYear_reducer2,
+
+    }
+}
+
+export default connect(mapStateToProps, {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action})(InvestmentFactors)
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 

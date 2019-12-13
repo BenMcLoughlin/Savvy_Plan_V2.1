@@ -2,9 +2,12 @@ import React, {useState} from 'react'
 import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
-import {inverseLogslider} from "../../../../services/logorithmicFunctions"
+import {connect} from "react-redux"
+import {rate1, rate2} from "../../reducers/savingsPlan_selectors"
+import {transaction_action, setOpitmizedValues_action} from "../../actions"
+import {renderSavings, optimizedContribution} from "../../services/localFunctions"
 
-export default function Contributions({savingsPerYear_reducer2, renderSavings, transaction_action, investmentReturns_reducer, optimizedContribution, setOpitmizedValues_action}) {
+const Withdrawals = ({savingsPerYear_reducer2,transaction_action, setOpitmizedValues_action, rate1, rate2}) => {
 
     const [fromAge, setFromAge] = useState(65)
     const [toAge, setToAge] = useState(95)    
@@ -12,9 +15,6 @@ export default function Contributions({savingsPerYear_reducer2, renderSavings, t
     const setKeyVariables = (name, value) => {
         name === "fromAge" ? setFromAge(value) : setToAge(value)
     }
-
-    const rate1 = investmentReturns_reducer.rate1()
-    const rate2 = investmentReturns_reducer.rate2()
 
     const setWithdrawals = (value, rangeBarValue, {name})  => {
         renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer2, transaction_action, rate1, rate2 )
@@ -59,6 +59,17 @@ export default function Contributions({savingsPerYear_reducer2, renderSavings, t
         </Wrapper>                            
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        rate1: rate1(state),
+        rate2: rate2(state),
+        savingsPerYear_reducer2: state.savingsPerYear_reducer2,
+
+    }
+}
+
+export default connect(mapStateToProps, {transaction_action, setOpitmizedValues_action})(Withdrawals)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 const Wrapper= styled.div`

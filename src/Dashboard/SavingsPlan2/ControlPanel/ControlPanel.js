@@ -1,34 +1,26 @@
-import React, {Component} from 'react'
+import React from 'react'
 import styled from "styled-components"
 import Withdrawals from "./Components/Withdrawals"
 import Contributions from"./Components/Contributions"
 import InvestmentFactors from "./Components/InvestmentFactors"
-import SelectorButton from "../../../UI/Buttons/SelectorButton"
 import ButtonDark from "../../../UI/Buttons/ButtonDark"
 import { NavLink} from "react-router-dom"
 
-const ControlPanel =(props) => {
+const ControlPanel = () => {
 
         return (
             <ControlPanelWrapper>
                 <Left>
                 <h2>Savings Contributions </h2>
-                     <Contributions
-                               {...props}
-                     />
-
+                     <Contributions />
                 </Left>
                 <Center>
                 <h2>Future Withdrawals </h2>
-                     <Withdrawals
-                               {...props}
-                     />
+                     <Withdrawals />
                 </Center>
                 <Right>
                      <Title>Investment Returns</Title>
-                     <InvestmentFactors
-                               {...props}
-                     />
+                     <InvestmentFactors/>
                 </Right>
                 <ButtonWrapper to="/SavingsPlan">
                         <ButtonDark text={'Next'}/>

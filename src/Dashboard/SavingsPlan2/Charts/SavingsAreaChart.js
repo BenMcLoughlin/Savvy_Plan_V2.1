@@ -3,6 +3,9 @@ import * as d3 from "d3"
 import "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
+import {stackedAreaData} from "../reducers/savingsPlan_selectors"
+import {connect} from "react-redux"
+import {createStructuredSelector} from "reselect"
 
 const drawChart = (props, width, height) => {
 
@@ -23,7 +26,8 @@ const drawChart = (props, width, height) => {
     const legendRectSize = 5; 
     const legendSpacing = 8; 
 
-    const data = props.data
+    const stackedKeys = ["age", "rrspContributions", "tfsaContributions", "nonRegisteredContributions", "rrspInterest", "tfsaInterest",  "nonRegisteredInterest"]
+    const data = props.stackedAreaData
 
     const svg = d3.select('.canvasSavingsStackedAreaChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
@@ -43,7 +47,7 @@ const drawChart = (props, width, height) => {
 
     
     const stack = d3.stack()
-                        .keys(props.stackedKeys)
+                        .keys(stackedKeys)
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
@@ -146,7 +150,7 @@ const drawChart = (props, width, height) => {
     
 }
 
-export default class StackedBarChartLifetimeIncome extends Component {
+class StackedAreaChartSavings extends Component {
 
     state = {
         elementWidth: 0,
@@ -189,6 +193,12 @@ componentWillUnmount() {
     }
 }
 
+
+const mapStateToProps = createStructuredSelector({
+    stackedAreaData
+})
+
+export default connect(mapStateToProps)(StackedAreaChartSavings )
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 

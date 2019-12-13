@@ -3,22 +3,25 @@ import * as d3 from "d3"
 import "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
+import {stackedKeysBarChart, stackedBarData, stackedBarData2} from "../reducers/savingsPlan_selectors"
+import {connect} from "react-redux"
+import {createStructuredSelector} from "reselect"
 
 const drawChart = (props, width, height) => {
 
     const margin = {top: 20, right: 200, bottom: 30, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#3B7B8E', "#3B7B8E", '#3B7B8E'];
+    const color =  ["age", '#3B7B8E', "#3B7B8E", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
 
     d3.select(".canvasSavingsStackedBarChart > *").remove()
     d3.select(".tooltip").remove()
 
-    const data = props.data
+    const data = props.stackedBarData2
     const svg = d3.select('.canvasSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     
-
+    const stackedKeys = ["age", "rrspContributions", "tfsaContributions", "nonRegisteredContributions", "rrspInterest", "tfsaInterest",  "nonRegisteredInterest"]
 
     const graph = svg.append("g").attr("height", graphHeight)
                                  .attr("width", graphWidth)
@@ -34,7 +37,7 @@ const drawChart = (props, width, height) => {
 
     
        const stack = d3.stack()
-                        .keys(props.stackedKeys)
+                        .keys(stackedKeys)
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
@@ -95,7 +98,7 @@ const drawChart = (props, width, height) => {
                 .attr("width", xScale.bandwidth())
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
-                                const nameIndex = props.stackedKeys.findIndex(type => type === name)
+                                const nameIndex = stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
                                 const thisYearTotalIncome = Object.values(props.data[i]).slice(1).reduce((acc, num) => acc + num)
                                 d3.select(n[i])
@@ -171,7 +174,7 @@ const drawChart = (props, width, height) => {
     
 }
 
-export default class StackedBarChartLifetimeIncome extends Component {
+class StackedBarChartSavings extends Component {
 
     state = {
         elementWidth: 0,
@@ -203,7 +206,7 @@ componentWillUnmount() {
    }
    
     render() {
-
+        console.log( this.props.stackedBarData2);
         window.addEventListener('resize', this.updateSize)
  
         return (
@@ -214,6 +217,14 @@ componentWillUnmount() {
     }
 }
 
+
+const mapStateToProps = createStructuredSelector({
+    stackedKeysBarChart,
+    stackedBarData2,
+    stackedBarData,
+})
+
+export default connect(mapStateToProps)(StackedBarChartSavings )
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
