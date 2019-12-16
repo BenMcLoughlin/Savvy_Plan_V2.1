@@ -6,47 +6,43 @@ import styled from "styled-components"
 
 const drawChart = (props, width, height) => {
 
+    //KEY VALUES
     const margin = {top: 50, right: 200, bottom: 40, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ["#ef7959", "#4BB9D0",'#72929B',  "#7DA8B8", '#FEDE76', '#81CCAF',  '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    //const color = ["#ef7959", "black",'grey',  "blue", 'lightGrey', '#red','green', 'yellow', '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    const legendRectSize = 5; 
-    const legendSpacing = 8; 
+    const data = props.data
+
+   //VALUE ACCESSORS
+   const xValue = d => d.age
+   const yValue = d => d.country
+
 
     d3.select(".canvasStackedbarChart > *").remove()
     d3.select(".tooltip").remove()
 
-    const data = props.data
-    const svg = d3.select('.canvasStackedbarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
+    const svg = d3.select('.canvasStackedbarChart')
+                                .append("svg")
+                                .attr("viewBox", `0 0 ${width} ${height}`)
 
 
     const graph = svg.append("g").attr("height", graphHeight)
                                  .attr("width", graphWidth)
                                  .attr("transform", `translate(${margin.left}, ${margin.top})`)
                                
-
-    const xAxisGroup = graph.append("g")
-                            .attr("transform", `translate(0, ${graphHeight})`)
-                            .attr("class", "axis")
-                            
-    const yAxisGroup = graph.append("g")
-                        .attr("class", "axis")
-
-    
-       const stack = d3.stack()
-                        .keys(props.stackedKeys)
-                        .order(d3.stackOrderNone)
-                        .offset(d3.stackOffsetNone);
+    const stack = d3.stack()
+                                .keys(props.stackedKeys)
+                                .order(d3.stackOrderNone)
+                                .offset(d3.stackOffsetNone);
         
-        const tooltip = d3.select(".canvasStackedbarChart").append("div")
-                        .attr("class", "tooltip")
-                        .style("opacity", 0)
-                        .style("position", "absolute")
-                        .style("top", 0)
-                        .style("left", 0)
-   
+    const tooltip = d3.select(".canvasStackedbarChart").append("div")
+                                .attr("class", "tooltip")
+                                .style("opacity", 0)
+                                .style("position", "absolute")
+                                .style("top", 0)
+                                .style("left", 0)
+        
     
     const update = data => {
     
@@ -57,36 +53,20 @@ const drawChart = (props, width, height) => {
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
+     
 
+////-------------------------PROTECT--------------------------------        
 
-            
-    const rects = graph.append("g")
-        .selectAll("g")
-        .data(series)
-    
-        rects.exit().remove()
-    
-        rects.selectAll("rect")
-            .data(d => d)
-            .enter().append("rect")
-                .attr("x", d => xScale(d.data.age))
-                .attr("y", d => yScale(d[1]))
-             .merge(rects)
+    const layers = graph.append("g").selectAll("g")
+                                            .data(series).enter().append("g").attr("fill", (d,i) => color[i])
 
-    
-        rects.enter().append("g")
-            .attr("fill", (d,i) => color[i])
-            .attr("opacity", (d,i) => d.key === "rrsp" || d.key === "tfsa" || d.key === "nonRegistered" ? 0.4 : 1)
-            .attr("backgroundColor", (d,i) => color[i])
-            .attr("class", (d,i) => d.key)
-            .selectAll("rect") 
-            .data(d => d)
-            .enter().append("rect")
-                .attr("y", d => yScale(d[1]))
-                .attr("height", d => yScale(d[0]) - yScale(d[1]))
-                .attr("x", d => xScale(d.data.age))
-                .attr("width", xScale.bandwidth())
-                    .on("mouseover", (d,i,n) => {
+    const rects = layers.selectAll("rect").data(d => d).enter().append("rect")
+                                            .attr("x", (d,i) => xScale(d.data.age))
+                                            .attr("y", d => yScale(d[1]))
+                                            .attr("height", d => yScale(d[0]) - yScale(d[1]))
+                                            .attr("width", xScale.bandwidth())
+ 
+      rects.on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = props.stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
@@ -145,6 +125,14 @@ const drawChart = (props, width, height) => {
             var ticks = [20,40, 60, 80, 95];
             var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
 
+//AXIS 
+const xAxisGroup = graph.append("g")
+.attr("transform", `translate(0, ${graphHeight})`)
+.attr("class", "axis")
+
+const yAxisGroup = graph.append("g")
+.attr("class", "axis")
+
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
                             .tickFormat(function(d,i){ return tickLabels[i] })
@@ -159,6 +147,10 @@ const drawChart = (props, width, height) => {
         yAxisGroup.call(yAxis)
         const legendGroup = graph.append('g')
         .attr("transform", `translate(${graphWidth}, ${70})`)
+
+//LEGEND 
+const legendRectSize = 5; 
+const legendSpacing = 8; 
 
 const legend = legendGroup.selectAll('.legend')
    .data(colorScale.domain())
