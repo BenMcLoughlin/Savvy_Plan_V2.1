@@ -5,7 +5,7 @@ const initialState = {
     retirementPensionIncome: 0,
     retirementIncome: {
         financialValue: 0, 
-        label: "Retirement Income",
+        label: "Desired Retirement Income",
         name: "retirementIncome",
         rangeBarValue: 0, 
     }

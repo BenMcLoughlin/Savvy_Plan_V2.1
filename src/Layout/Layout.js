@@ -55,10 +55,11 @@ export default class Layout extends Component {
 //------------------STYLES---------------------------------------------------------------
  const GridContainer = styled.div`
     height: 100%;
-    margin: 2px auto;
+    margin: 4px auto;
     width: 92vw;
     display: grid;
     grid-template-rows: 98vh;
+    overflow: scroll;
     grid-template-areas: 
 
     "m"

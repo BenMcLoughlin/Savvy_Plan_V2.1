@@ -35,15 +35,13 @@ export default function Header() {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 export const FooterContainer = styled.div`
-    grid-area: f;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 20rem;
     background: #536D7A;
     align-items: center;
     position: absolute;
-    top: 90rem;
 
 `
 const Hr = styled.hr`

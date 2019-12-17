@@ -1,13 +1,36 @@
 import React from 'react'
 import styled from "styled-components"
 
-const Button = (props) => {
+const Button = ({text, backward, forward, onClick}) => {
     return (
+
+        text ?
         <ButtonComponent
-            onClick={props.handleClick}
+             onClick={onClick}
         >
-            {props.text}
+          {text}
+
         </ButtonComponent>
+        :
+        backward ?
+        <ButtonComponent
+        onClick={onClick}
+         >
+            &#10094;
+            &#10094;
+        </ButtonComponent>
+        :
+        forward ?
+        <ButtonComponent
+        onClick={onClick}
+            >
+            &#10095;
+            &#10095;
+        </ButtonComponent>
+        :
+        null
+
+
     )
 }
 

@@ -4,44 +4,52 @@ import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
 
-export default function IncomeInput({setIncome, handleChangeLabel, incomeTypeArray, addItemToList, handleRemoveItem, setFromAge, setToAge, fromAge, toAge}) {                           //Uses Destructing to assign variables and functions needed for this function                                                
+export default function IncomeInput({setIncome, handleChangeLabel, incomeTypeArray, addItemToList, handleRemoveItem, setFromAge, setToAge, fromAge, toAge, count}) {                           //Uses Destructing to assign variables and functions needed for this function                                                
 
     const setKeyVariables = (name, value) => {
         name === "fromAge" ? setFromAge(value) : setToAge(value)
     }
     return (
         <Wrapper> 
-            <YearsSelectorWrapper> 
-                <SelectorTitleWrapper>
-                    <div>From Age</div>    
-                    <div>To Age</div>    
-                </SelectorTitleWrapper>
-                <DualRangeBar
-                    fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
-                    toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
-                    setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
-                />
-            </YearsSelectorWrapper>                                                                                                                               {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
-           <Hr/>
-            <RangeBarWrapper>
-                {incomeTypeArray.map(incomeType => <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
-                                                    key={incomeType.name}
-                                                    rangeBarProps={incomeType}
-                                                    setValue={setIncome}
-                                                    handleChangeLabel = {handleChangeLabel}
-                                                    handleRemoveItem={handleRemoveItem}
-                                                    close={true}
-                                                  
-                                                    />)
-                }
-                <AddItemBox                                                                                                                       //Box allowing the user to add new types of income     
-                        firstButtonText={"Add New Income"}
-                        listNewItemWillBeAddedToo={incomeTypeArray}
-                        checkboxLabel={"Contribute To Canada Pension Plan?"}
-                        addItemToList={addItemToList}
-    
-                />
-            </RangeBarWrapper>
+            {
+                count > 0 ? 
+                <YearsSelectorWrapper> 
+                    <SelectorTitleWrapper>
+                        <div>From Age</div>    
+                        <div>To Age</div>    
+                    </SelectorTitleWrapper>
+                    <DualRangeBar
+                        fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
+                        toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
+                        setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
+                    />
+            </YearsSelectorWrapper>  
+            : null
+            }
+                {
+                    count > 1 ? 
+                    <RangeBarWrapper>
+                        {incomeTypeArray.map(incomeType => <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
+                                                            key={incomeType.name}
+                                                            rangeBarProps={incomeType}
+                                                            setValue={setIncome}
+                                                            handleChangeLabel = {handleChangeLabel}
+                                                            handleRemoveItem={handleRemoveItem}
+                                                            close={true}
+                                                          
+                                                            />)
+                        }
+                        <AddItemBox                                                                                                                       //Box allowing the user to add new types of income     
+                                firstButtonText={"Add New Income"}
+                                listNewItemWillBeAddedToo={incomeTypeArray}
+                                checkboxLabel={"Contribute To Canada Pension Plan?"}
+                                addItemToList={addItemToList}
+            
+                        />
+                    </RangeBarWrapper>
+                    : null
+                }                                                                                                             {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
+
         </Wrapper>                            
     )
 }

@@ -18,6 +18,7 @@ import Close from "../Buttons/Close"
 
  const RangeBar = ({...props}) => {
 
+
         return (
             < RangeBarWrapper>
                 <RangeBarLabel
@@ -33,7 +34,7 @@ import Close from "../Buttons/Close"
                {
                    props.close ? 
                    <CloseWrapper>
-                         <Close  onClick={() => props.handleRemoveItem(props.rangeBarProps)}/>
+                         <Close    rangeBarProps={props.rangeBarProps} handleRemoveItem={props.handleRemoveItem}/>
                    </CloseWrapper>
                    :
                    null

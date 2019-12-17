@@ -75,7 +75,9 @@ return incomePerYear
         return {...state, [action.payload.age]: {
                                         ...state[action.payload.age], [action.payload.name]: action.payload
                                         }}
-        case "REMOVE_INCOME_TYPE_REFACTOR": return {...state, [action.age]:  _.omit(state[action.age], action.name)
+        case "REMOVE_INCOME_TYPE": 
+        console.log(action.name);
+        return {...state, [action.age]:  _.omit(state[action.age], action.name)
             }
         case "CALCULATE_CPP_REFACTOR":  
                 const cppPayment = calculateCpp(action.age, 1988, action.cacheKey, action.cppStartAge, 55420, state)

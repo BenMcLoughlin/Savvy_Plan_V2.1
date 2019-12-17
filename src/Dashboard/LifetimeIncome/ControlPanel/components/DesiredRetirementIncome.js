@@ -5,19 +5,21 @@ import styled from "styled-components"
 
 
 
-const DesiredRetirementIncome = ({ setReccomendedRetirementIncome, keyVariables_reducer }) => {                           //Uses Destructing to assign variables and functions needed for this function                                                
+const DesiredRetirementIncome = ({ setReccomendedRetirementIncome, keyVariables_reducer, count }) => {                           //Uses Destructing to assign variables and functions needed for this function                                                
 
 const {retirementIncome} = keyVariables_reducer
 
     return (
-        <Wrapper>                                                                                                                                {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
+        <Wrapper>            
+                       {
+                    count > 4 ?                                                   
             <RangeBarWrapper>
                  <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
                                                     rangeBarProps={retirementIncome}
                                                     setValue={setReccomendedRetirementIncome}
-                                                    color={'#4BB9D0'}
                                                     />
-            </RangeBarWrapper>
+             </RangeBarWrapper>
+                : null }
         </Wrapper>                            
     )
 

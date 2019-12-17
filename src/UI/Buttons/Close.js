@@ -2,10 +2,11 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const CloseButton = ({visible, text}) => {
+const CloseButton = ({rangeBarProps, handleRemoveItem}) => {
+
     return (
 
-            <Cross/>
+            <Cross onClick={() => handleRemoveItem(rangeBarProps)}/>
     )
 
 }

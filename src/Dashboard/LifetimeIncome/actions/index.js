@@ -11,7 +11,7 @@ export const setIncome_action = (age, contributeToCpp, financialValue, label, na
 })
 
 export const removeItem_action = (age, name) => ({
-    type: "REMOVE_INCOME_TYPE_REFACTOR", 
+    type: "REMOVE_INCOME_TYPE", 
         age,
         name
 })

@@ -19,7 +19,9 @@ export default class HeaderValues extends Component {
         const {
              cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer
              oasIncome : {financialValue: oasIncome },
-             rrsp: {financialValue: rrsp }
+             rrsp: {financialValue: rrsp },
+             tfsa: {financialValue: tfsa },
+             nonRegistered: {financialValue: nonRegistered },
         } = this.props.incomePerYear_reducer[75]            
 
 // //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
@@ -47,7 +49,7 @@ return (
                 </h1>
             </Left>
             <Right>
-            <h2>Estimated Pension Income</h2>
+            <h2>Optimized Retirement Income Plan</h2>
             <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
                     <CPPSummary>
                     {`${(cppIncome)/1000}k`}  
@@ -77,9 +79,10 @@ return (
                         className="oasTooltip"
                          />
                     </OASSummary>
+                    <Vr/>
                     <RRIFSummary>
                     {`${(rrsp)/1000}k`}
-                    <h4 >rrsp</h4>
+                    <h4 >RRSP</h4>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
@@ -90,10 +93,9 @@ return (
                         className="rrifTooltip"
                     />
                     </RRIFSummary>
-                    <Vr/>
                     <TaxSummary>
-                    {`${22}%`}
-                    <h4>Tax Rate</h4>
+                    {`${tfsa/1000}k`}
+                    <h4>TFSA</h4>
                     <Tooltip 
                     x={this.state.x} 
                     y={this.state.y} 
@@ -104,9 +106,27 @@ return (
                     className="taxTooltip"
                 />
                     </TaxSummary>
+                    {
+                        nonRegistered > 1000 ? 
+                        <TaxSummary>
+                        {`${nonRegistered/1000}k`}
+                        <h4>N-Reg</h4>
+                        <Tooltip 
+                        x={this.state.x} 
+                        y={this.state.y} 
+                        text="      Marginal tax is the amount of tax paid on an additional dollar of income. As income rises, so does the tax rate. 
+                                    If retirement, if you earn over $78,000 you're Old Age Security will be clawed back
+                                    at a rate of 15% on every additional dollar earned. "
+                        header= "Canada Pension Plan"
+                        className="taxTooltip"
+                    />
+                      </TaxSummary>
+                    : null
+                    }
+
             </PensionIncomeWrapper>
             <Summary>
-             {`${(cppIncome + oasIncome + rrsp)/1000}k`}
+             {`${(cppIncome + oasIncome + rrsp + tfsa + nonRegistered)/1000}k`}
             <h4>Total</h4>
             </Summary>
             </Right>
