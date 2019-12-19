@@ -21,6 +21,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1",
     "redux": "^4.0.4",
+    "redux-persist": "^6.0.0",
     "reselect": "^4.0.0",
     "styled-components": "^4.4.1",
     "styled-icons": "^8.6.0"

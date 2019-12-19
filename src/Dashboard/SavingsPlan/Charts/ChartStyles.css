@@ -52,8 +52,6 @@
     text-align: left;
     padding: 1rem;
     font-size: 1.5rem;
-    color: red;
-
 }
 .financialOutput {
     padding: 1rem;
@@ -88,4 +86,7 @@ span {
     font-size: 1.5rem;
     font-family: 'Lato', sans-serif;
 
+}
+.legend {
+    font-size: 1.4rem;
 }

@@ -28,6 +28,9 @@
 
 }
 
+.legend {
+    font-size: 6px;
+}
 .topHeader{
     width: 100%;
     height: 18%;

@@ -1,127 +1,70 @@
 
-const withdrawalTable = {
-    50:	0.025,
-    51:	0.026,
-    52:	0.026,
-    53:	0.027,
-    54:	0.028,
-    55:	0.029,
-    56:	0.029,
-    57:	0.030,
-    58:	0.031,
-    59:	0.032,
-    60:	0.033,
-    61:	0.034,
-    62:	0.036,
-    63:	0.037,
-    64:	0.038,
-    65:	0.04,
-    66:	0.0417,
-    67:	0.0435,
-    68:	0.0455,
-    69:	0.0476,
-    70:	0.0500,
-    71:	0.0528,
-    72:	0.0540,
-    73:	0.0553,
-    74:	0.0567,
-    75:	0.0582,
-    76:	0.0598,
-    77:	0.0617,
-    78:	0.0636,
-    79:	0.0658,
-    80:	0.0682,
-    81:	0.0708,
-    82:	0.0738,
-    83:	0.0771,
-    84:	0.0808,
-    85:	0.0851,
-    86:	0.0899,
-    87:	0.0955,
-    88:	0.1021,
-    89:	0.1099,
-    90:	0.1192,
-    91:	0.1306,
-    92:	0.1449,
-    93:	0.1634,
-    94:	0.1879,
-    95: 0.2,
-}
-
-
-const calculateRrifWithdrawal = (age, rrifPayment, state) => {
-    const rate = withdrawalTable[age]
-    const withdrawal = rrifPayment //rate * state[age].rrsp.startValue
-    return withdrawal 
-  
-}
-
-export const calculateStartValue = (age, name, state) => {
-
-    return state[age-1][name].endValue
+const determineTotalContributions = (age, name, state, transaction, value, rate1, rate2) => {
+ const lastValue = state[age - 1][name]
+ const principlePercentage = state[age - 1][name].totalContributions / state[age - 1][name].totalValue
+const contribute = transaction === "contribute" ? value : (-value * principlePercentage)
+const totalContribution = lastValue.totalContributions + contribute 
+return totalContribution > 0 ? totalContribution : 0
 
 }
-export const calculateEndValue = (startValue, age, name, rate1, rate2, state) => {
-    const rate = age < 65 ? rate1 : rate2
-    console.log(rate);
-    const {financialValue} = state[age][name]
-    return  startValue * (1 + rate) + financialValue
+const determineTotalInterest = (age, name, state, transaction, value, rate1, rate2) => {
+    const rate = age > 65 ? rate2 : rate1
+    const interestPercentage = state[age - 1][name].totalInterest / state[age - 1][name].totalValue
+    const withdraw = transaction === "withdraw" ? (-value * interestPercentage ) : 0
+    const lastValue = state[age - 1][name]
+    const totalInterest = ((lastValue.totalContributions + lastValue.totalInterest) * rate) + lastValue.totalInterest + withdraw
+    return totalInterest > 0 ? totalInterest : 0
+}
 
-}
-export const calculateReccomendedStartValue = (age, name, state) => {
-    return state[age-1][name].reccomendedEndValue
-
-}
-export const calculateReccomendedEndValue = (startValue, age, name, rate1, rate2, state)  => {
-    const rate = age < 65 ? rate1 : rate2
-    const {financialValue} = state[age][name]
-    return  startValue * (1 + rate) + financialValue
-}
 
 const initialState = () => {
     const incomePerYear = {}
-    for (let i = 18; i <= 95; i++) {
-        incomePerYear[Number(i)] = {
+    for (let age = 17; age <= 95; age++) {
+        incomePerYear[Number(age)] = {
                 rrsp: {
-                    age: i, 
-                    endValue: 0,
-                    financialValue: 0, 
+                    age: age, 
+                    contribute: 0,
+                    financialValue: 0,
                     label: "RRSP",
-                    name: "rrsp",
-                    reccomendedEndValue: 0,
-                    reccomendedStartValue: 0,
-                    reccomendedFinancialValue: 0,
-                    startValue: 0,
-                    rangeBarValue: 0, 
                     maxContribution: 0,
-                  
+                    optimizedContribution: 0, 
+                    optimizedWithdrawal: 0, 
+                    name: "rrsp",
+                    rangeBarValue: 0, 
+                    totalContributions: 0, 
+                    totalInterest: 0, 
+                    totalValue: 0, 
+                    withdraw: 0,
                 },
               tfsa: {
-                    age: i, 
-                    endValue: 0,
-                    financialValue: 0,  
+                    age: age, 
+                    contribute: 0, 
+                    financialValue: 0,
                     label: "Tax Free Savings Account",
                     name: "tfsa",
-                    reccomendedEndValue: 0,
-                    reccomendedStartValue: 0,
-                    reccomendedFinancialValue: 0,
-                    startValue: 0,
+                    maxContribution: 0,
+                    optimizedContribution: 0, 
+                    optimizedWithdrawal: 0, 
                     rangeBarValue: 0, 
-                    maxContribution: 0
-
+                    totalContributions: 0, 
+                    totalInterest: 0, 
+                    totalValue: 0, 
+                    withdraw: 0,
                 },
                 nonRegistered: {
-                    age: i, 
-                    endValue: 0,
-                    financialValue: 0, 
+                    age: age, 
+                    contribute: 0,
+                    financialValue: 0,
                     label: "Non Registered",
+                    maxContribution: 0,
                     name: "nonRegistered",
-                    reccomendedEndValue: 0,
-                    reccomendedStartValue: 0,
-                    reccomendedFinancialValue: 0,
-                    startValue: 0,
+                    optimizedContribution: 0, 
+                    optimizedWithdrawal: 0, 
                     rangeBarValue: 0, 
-                    maxContribution: 0
+                    totalContributions: 0, 
+                    totalInterest: 0, 
+                    totalValue: 0, 
+                    withdraw: 0,
                 }
         }}
 return incomePerYear
@@ -129,54 +72,36 @@ return incomePerYear
 
  const savingsPerYear_reducer = (state = initialState(), action) => {
     switch(action.type) {
-        case "savingsPerYear/SET_VALUE": return {...state, [action.age]: {
-                                        ...state[action.age], [action.name]: {
-                                            ...state[action.age][action.name], 
-                                            financialValue: action.financialValue,
-                                            rangeBarValue: action.rangeBarValue
-                                        }
-                                        }}
-        case "savingsPerYear/SET_RECCOMENDED_VALUE": return {...state, [action.age]: {
-                                        ...state[action.age], [action.name]: {
-                                            ...state[action.age][action.name], 
-                                            reccomendedFinancialValue: action.reccomendedFinancialValue,
-                                        }
-                                        }}
+        case "savingsPerYear_reducer/TRANSACTION": 
+        const totalContributions = determineTotalContributions(action.age, action.name, state, action.transaction, action.value)
+        const totalInterest = determineTotalInterest(action.age, action.name, state, action.transaction, action.value, action.rate1, action.rate2)
+        const totalValue = totalContributions + totalInterest
+        return {...state, [action.age]: {
+                                    ...state[action.age], [action.name]: {
+                                        ...state[action.age][action.name], [action.transaction]: totalValue <= 0 ? 0 : action.value,
+                                                                            financialValue: action.value,
+                                                                            rangeBarValue: action.rangeBarValue,
+                                                                            totalContributions,
+                                                                            totalInterest,
+                                                                            totalValue 
+        }}}
+        case "investmentReturns/SET_OPTIMIZED_VALUE": return {...state, [action.age]: {
+                                                                     ...state[action.age], [action.name]: {
+                                                                        ...state[action.age][action.name],
+                                                                                [action.transaction]: action.value
+                                                                     }
+        }
+
+        }
         case "savingsPerYear/SET_MAX_CONTRIBUTION": return {...state, [action.age]: {
-                                        ...state[action.age], [action.name]: {
-                                            ...state[action.age][action.name], maxContribution: action.value
-                                } 
-                                        }}
-        case "savingsPerYear/CALCULATE_SAVINGS": 
-        const startValue = calculateStartValue(action.age, action.name, state)
-        const endValue = calculateEndValue(startValue, action.age, action.name, action.rate1, action.rate2,  state)
-                                        return {...state, [action.age]: {
-                                        ...state[action.age], [action.name]: {
-                                            ...state[action.age][action.name], 
-                                                                                    startValue, 
-                                                                                    endValue
-                                } 
-            }
+                                                                     ...state[action.age], [action.name]: {
+                                                                        ...state[action.age][action.name],
+                                                                             maxContribution: action.value
+                                                                     }
         }
-        case "savingsPerYear/CALCULATE_RECCOMENDED_SAVINGS": 
-        const reccomendedStartValue = calculateReccomendedStartValue(action.age, action.name, state)
-        const reccomendedEndValue = calculateReccomendedEndValue(reccomendedStartValue, action.age, action.name, action.rate1, action.rate2,  state)
-                                        return {...state, [action.age]: {
-                                        ...state[action.age], [action.name]: {
-                                            ...state[action.age][action.name], 
-                                                                                     reccomendedStartValue, 
-                                                                                     reccomendedEndValue
-                                } 
-            }
+
         }
-        case "savingsPerYear/CALCULATE_RRIF_WITHDRAWAL":
-            const withdrawal = calculateRrifWithdrawal(action.age, action.rrifPayment, state)
-                                    return {...state, [action.age]: {
-                                        ...state[action.age], rrsp: {
-                                            ...state[action.age].rrsp, financialValue: -withdrawal
-                                        }
-                                    }}
-      
+        
         default: return state
     }
 }

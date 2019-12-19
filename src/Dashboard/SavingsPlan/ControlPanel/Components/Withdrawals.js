@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
+import {connect} from "react-redux"
+import {rate1, rate2} from "../../reducers/savingsPlan_selectors"
+import {transaction_action, setOpitmizedValues_action} from "../../actions"
+import {renderSavings, optimizedContribution} from "../../services/localFunctions"
 
-export default function Withdrawals({setSavingsValue_action, withdrawals_reducer,calculateSavings, setWithdrawalValue_action}) {
+const Withdrawals = ({savingsPerYear_reducer,transaction_action, setOpitmizedValues_action, rate1, rate2, count}) => {
 
     const [fromAge, setFromAge] = useState(65)
     const [toAge, setToAge] = useState(95)    
@@ -12,43 +16,64 @@ export default function Withdrawals({setSavingsValue_action, withdrawals_reducer
         name === "fromAge" ? setFromAge(value) : setToAge(value)
     }
 
-    const setWithdrawal = (financialValue, rangeBarValue, {label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
-       console.log(name);
-        setWithdrawalValue_action(financialValue, label, name, rangeBarValue)
-        for (let age = fromAge; age < toAge; age++ ) {                                                           
-            setSavingsValue_action(age, -financialValue, label, name, rangeBarValue)                                          //sets the income for each of the years between the selected ranges
-          } 
-          console.log(name);
-         calculateSavings(name)
-                                             
+    const setWithdrawals = (value, rangeBarValue, {name})  => {
+        renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer, transaction_action, rate1, rate2 )
+        optimizedContribution(name, savingsPerYear_reducer, setOpitmizedValues_action, rate1)
     }
 
-   const withdrawalRangeBarArray = Object.values(withdrawals_reducer)
+
+    const rangeBarArray = Object.values(savingsPerYear_reducer[fromAge])
 
     return (
-        <Wrapper>         
-        <YearsSelectorWrapper> 
-            <SelectorTitleWrapper>
-                <div>From Age</div>    
-                <div>To Age</div>    
-            </SelectorTitleWrapper>
-            <DualRangeBar
-                fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
-                toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
-                setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
-            />
-            {
-                withdrawalRangeBarArray.map(d => <RangeBar
-                                        key={d.name}
-                                        rangeBarProps={d}
-                                        setValue={setWithdrawal}
-                                         />
-                )
-            }
-    </YearsSelectorWrapper>                                                                                    
-        </Wrapper>                            
+        <Wrapper>        
+             {
+                 count > 6 ? 
+                 <YearsSelectorWrapper> 
+                 <SelectorTitleWrapper>
+                     <div>From Age</div>    
+                     <div>To Age</div>    
+                 </SelectorTitleWrapper>
+                 <DualRangeBar
+                     fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
+                     toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
+                     setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
+                 />
+               <RangeBarWrapper>
+                     {
+                         rangeBarArray.map(d => 
+                        
+                                 <Display>
+                                 <RangeBar
+                                                 key={d.name}
+                                                 financialValue= {d.financialValue}
+                                                 rangeBarProps={d}
+                                                 setValue={setWithdrawals}
+                                                 />
+                                                 <Value>{(Math.round(d.optimizedWithdrawal/1000)*1000)/1000}k</Value>
+                                 </Display>
+     
+     
+                         )
+                     }
+                     </RangeBarWrapper>
+     
+         </YearsSelectorWrapper>                                                                                    
+           : null
+             }
+    </Wrapper>      
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        rate1: rate1(state),
+        rate2: rate2(state),
+        savingsPerYear_reducer: state.savingsPerYear_reducer,
+
+    }
+}
+
+export default connect(mapStateToProps, {transaction_action, setOpitmizedValues_action})(Withdrawals)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 const Wrapper= styled.div`
@@ -64,11 +89,27 @@ const YearsSelectorWrapper = styled.div`
     margin-bottom: 1rem;
 `
 
-const Title = styled.div `
-    font-size: ${props => props.theme.fontSize.medium};
-    text-align: center;
-    font-weight: 300;
-    padding-bottom: 1rem;
+const Value = styled.div `
+        position: absolute;
+        left: 77%;
+        top: .8rem;
+        border-radius: 3px;
+        padding: .4rem;
+        height: 2.6rem;
+        width: 4rem;
+        align-content: center;
+        text-align: center;
+        color: white;
+        border: none;
+        background: ${props => props.theme.color.slate};
+        font-size: ${props =>props.theme.fontSize.small};
+   
+` 
+const Display = styled.div `
+   position:relative;
+  
+
+
    
 ` 
 
@@ -86,14 +127,10 @@ const RangeBarWrapper = styled.div`
   position: relative;
   text-align: center;
   margin-top: 1rem;
+  width: 88%;
 
 `
-const Hr = styled.hr`
-    border-top: ${props => props.theme.border.primary};
-    width: 80%;
-    margin: 0 auto;
-    fill: red;
-`
+
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*
 

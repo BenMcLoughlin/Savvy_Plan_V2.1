@@ -1,53 +1,15 @@
 
 
-export const setSavingsValue_action = (age, financialValue, label, name, rangeBarValue) => {
-return {
-    type: "savingsPerYear/SET_VALUE", 
+export const transaction_action = (age, name, transaction, rangeBarValue, value, rate1, rate2) => ({
+    type: "savingsPerYear_reducer/TRANSACTION", 
             age,
-            name,
-            financialValue,
-            rangeBarValue
-}
-}
-export const setReccomendedSavingsValue_action = (age, reccomendedFinancialValue, name) => {
-return {
-    type: "savingsPerYear/SET_RECCOMENDED_VALUE", 
-            age,
-            name,
-            reccomendedFinancialValue,
-}
-}
-
-
-export const calculateSavings_action = (age, name, rate1, rate2) =>  ({
-    type: "savingsPerYear/CALCULATE_SAVINGS",
-        age, 
-        name,
-        rate1, 
-        rate2
-}) 
-
-
-export const calculateReccomendedSavings_action = (age, name, rate1, rate2) =>  ({
-    type: "savingsPerYear/CALCULATE_RECCOMENDED_SAVINGS",
-        age, 
-        name,
-        rate1, 
-        rate2
-}) 
-
-export const calculateRrifWithdrawal_action = (age, rrifPayment) => ({
-    type: "savingsPerYear/CALCULATE_RRIF_WITHDRAWAL",
-    age, 
-    rrifPayment
+            name, 
+            rangeBarValue, 
+            rate1,
+            rate2,
+            value,
+            transaction
 })
-export const setMaxContribution_action = (age, name, value) => ({
-    type: "savingsPerYear/SET_MAX_CONTRIBUTION",
-        age,
-        name,
-        value
-})
-
 
 export const setInvestmentFactor_action = (name, value) => {
     return {
@@ -56,15 +18,20 @@ export const setInvestmentFactor_action = (name, value) => {
             value 
     }
     }
+export const setOpitmizedValues_action = (age, name, transaction, value) => {
+    return {
+        type: "investmentReturns/SET_OPTIMIZED_VALUE", 
+            age,
+            name, 
+            transaction,
+            value,
+    }
+    }
 
-    export const setWithdrawalValue_action = (financialValue, label, name, rangeBarValue) => {
-        return {
-            type: "withdrawals/SET_VALUE", 
-            payload: {
-                name,
-                label,
-                financialValue,
-                rangeBarValue
-            }    
-        }
-        }
+export const setMaxContribution_action = (age, name, value) => ({
+        type: "savingsPerYear/SET_MAX_CONTRIBUTION",
+            age,
+            name,
+            value
+    })
+    

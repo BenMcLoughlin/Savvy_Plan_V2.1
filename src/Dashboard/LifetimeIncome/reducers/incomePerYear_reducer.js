@@ -1,5 +1,5 @@
 import _ from "lodash"
-import {calculateCpp} from  "../services/localFunctions"
+import {calculateCpp} from  "../services/CPPfunctions"
 
 const initialState = () => {
     const incomePerYear = {}
@@ -76,7 +76,7 @@ return incomePerYear
                                         ...state[action.payload.age], [action.payload.name]: action.payload
                                         }}
         case "REMOVE_INCOME_TYPE": 
-        console.log(action.name);
+
         return {...state, [action.age]:  _.omit(state[action.age], action.name)
             }
         case "CALCULATE_CPP_REFACTOR":  
@@ -89,6 +89,7 @@ return incomePerYear
                                                         name: "cppIncome"
                                                     }
                                                     }}
+
 
         default: return state
     }

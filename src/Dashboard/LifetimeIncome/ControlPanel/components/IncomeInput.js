@@ -4,11 +4,21 @@ import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
 
-export default function IncomeInput({setIncome, handleChangeLabel, incomeTypeArray, addItemToList, handleRemoveItem, setFromAge, setToAge, fromAge, toAge, count}) {                           //Uses Destructing to assign variables and functions needed for this function                                                
+export default function IncomeInput({setIncome, handleChangeLabel, incomePerYear_reducer, addItemToList, handleRemoveItem, setFromAge, setToAge, fromAge, toAge, count}) {                           //Uses Destructing to assign variables and functions needed for this function                                                
 
     const setKeyVariables = (name, value) => {
         name === "fromAge" ? setFromAge(value) : setToAge(value)
     }
+
+    const incomeTypeArray = Object.values(incomePerYear_reducer[fromAge])                                                                //Converts the year list to an array so that it can be mapped through for rangebars  
+                        .filter(d => d.name !== "oasIncome")                                                                             //Range Bars only show for income the user is inputting, not retirementIncome, these are filtered out                       
+                        .filter(d => d.name !== "cppIncome")
+                        .filter(d => d.name !== "rrsp") 
+                        .filter(d => d.name !== "tfsa") 
+                        .filter(d => d.name !== "nonRegistered") 
+
+    const rangeBars = count > 2 ? incomeTypeArray : incomeTypeArray.slice(0,1)
+
     return (
         <Wrapper> 
             {
@@ -24,12 +34,13 @@ export default function IncomeInput({setIncome, handleChangeLabel, incomeTypeArr
                         setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
                     />
             </YearsSelectorWrapper>  
-            : null
+            : 
+            null
             }
                 {
                     count > 1 ? 
                     <RangeBarWrapper>
-                        {incomeTypeArray.map(incomeType => <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
+                        {rangeBars.map(incomeType => <RangeBar                                                                                    //Mapping through the types of income to render a rangeBar for Each                                                 
                                                             key={incomeType.name}
                                                             rangeBarProps={incomeType}
                                                             setValue={setIncome}

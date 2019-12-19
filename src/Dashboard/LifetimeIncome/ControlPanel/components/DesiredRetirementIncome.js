@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import styled from "styled-components"
 
@@ -19,7 +19,10 @@ const {retirementIncome} = keyVariables_reducer
                                                     setValue={setReccomendedRetirementIncome}
                                                     />
              </RangeBarWrapper>
-                : null }
+                : 
+                null 
+                
+                }
         </Wrapper>                            
     )
 
@@ -37,12 +40,6 @@ const RangeBarWrapper = styled.div`
   overflow: hidden;
   position: relative;
   text-align: center;
-`
-const Hr = styled.hr`
-    border-top: ${props => props.theme.border.primary};
-    width: 80%;
-    margin: 0 auto;
-    fill: red;
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

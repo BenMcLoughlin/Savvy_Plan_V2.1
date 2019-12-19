@@ -2,7 +2,7 @@ import {createSelector} from "reselect"
 
 
 
-const savingsPerYear = state => state.savingsPerYear_reducer2
+const savingsPerYear = state => state.savingsPerYear_reducer
 const pensionStartAges = state => state.pensionStartAges_reducer
 const investmentReturns = state => state.investmentReturns_reducer
 
@@ -21,14 +21,15 @@ export const investmentReturnsArray = createSelector(
     (investmentReturns) => Object.values(investmentReturns)
 )
 
-export const returns = state => state.investmentReturns_reducer2
+export const returns = state => state.investmentReturns_reducer
+
 export const rate1 = createSelector(
     [returns],
-    (returns) => returns.rate1()
+    (returns) =>  0.065 - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue
 )
 export const rate2 = createSelector(
     [returns],
-    (returns) => returns.rate2()
+    (returns) => returns.afterRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue
 )
 
 //CHART SELECTORS - change data format to be used in the charts

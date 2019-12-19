@@ -1,122 +1,40 @@
-const historicYmpe = {
-    1971: 5400,
-    1972: 5500,
-    1973: 5600,
-    1974: 6600,
-    1975: 7400,
-    1976: 8300,
-    1977: 9300,
-    1978: 10400,
-    1979: 11700,
-    1980: 13100,
-    1981: 14700,
-    1982: 16500,
-    1983: 18500,
-    1984: 20800,
-    1985: 23400,
-    1986: 25800,
-    1987: 25900,
-    1988: 16500,
-    1989: 27700,
-    1990: 28900,
-    1991: 30500,
-    1992: 32200,
-    1993: 33400,
-    1994: 34400,
-    1995: 34900,
-    1996: 35400,
-    1997: 35800,
-    1998: 36900,
-    1999: 37400,
-    2000: 37600,
-    2001: 38300,
-    2002: 39100,
-    2003: 39900,
-    2004: 40500,
-    2005: 41100,
-    2006: 42100,
-    2007: 43700,
-    2008: 44900,
-    2009: 46300,
-    2010: 47200,
-    2011: 48300,
-    2012: 50100,
-    2013: 51100,
-    2014: 52500,
-    2015: 53600,
-    2016: 54900,
-    2017: 55300,
-    2018: 55900,
-    2019: 57400,
+import {payment}from "../../../services/financialFunctions"
+
+const historicRRSP = {
+    1990: 63889,
+    1991: 69444,
+    1992: 69444,
+    1993: 75000,
+    1994: 80556,
+    1995: 86111,
+    1996: 75000,
+    1997: 75000,
+    1998: 75000,
+    1999: 75000,
+    2000: 75000,
+    2001: 75000,
+    2002: 75000,
+    2003: 86111,
+    2004: 91667,
+    2005: 100000,
+    2006: 105556,
+    2007: 111111,
+    2008: 116667,
+    2009: 122222,
+    2010: 124722,
+    2011: 127611,
+    2012: 132333,
+    2013: 134833,
+    2014: 138500,
+    2015: 140944,
+    2016: 144500,
+    2017: 145722,
+    2018: 147222,
+    2019: 151278,
+    2020: 154611,
 };
 
 
-const adjustCpp = (income, age) => {
-    if (age < 65) {
-       const years = 65 - age 
-       const percentage = years * .072
-       const value = income * (1-percentage)
-       return value
-    }
-    else if (age === 65) {return income}
-  
-    else if (age > 65) {
-        const years = age -65
-        const percentage = years * .072
-        const value = income * (1 + percentage)
-        return value
-     }
-  }
-export const adjustOas = (income, age) => {
-    if (age === 65) {return income}
-  
-    else if (age > 65 && age <= 70) {
-        const years = age -65
-        const percentage = years * .072
-        const value = income * (1 + percentage)
-        return Math.round(value/100)*100
-     }
-  
-     if (age > 70) {return income * 1.36}
-  }
-  
-
-function calculateCppMemoized() {
-   let cache = {};
-   return function(age,birthYear, cacheKey, cppStartAge, ympe, state) {
-        if (cacheKey in cache) {
-            return cache[cacheKey]
-        } else {
-            const pensionableIncome  = Object.values(state).slice(0,53).map(d => {
-
-                const pensionableIncome = Object.values(d).filter(d => d.contributeToCpp)
-                                                        .map(d => d.financialValue)
-                                                        .reduce((acc, num) => acc + num)
-                 
-                    const currentAge = Object.values(d)[0].age
-                    const currentYear = currentAge + birthYear
-                    const percentage = currentYear < 2019 && currentAge <= 70 ? 
-                                                pensionableIncome / historicYmpe[birthYear + currentAge] < 1 ? 
-                                                 pensionableIncome / historicYmpe[birthYear + currentAge] : 1 :
-                                                pensionableIncome / ympe < 1 ? pensionableIncome / ympe : 1
-    
-                    return { adjustedPensionableIncome: percentage * ympe,}})
-                                
-                const  totalAdustedPensionableEarnings =  Object.values(pensionableIncome)
-                                                                .map(d => d.adjustedPensionableIncome)
-                                                                .sort().slice(8,47)
-                                                                .reduce((acc, num) => acc + num)
-            
-                const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
-                const annualCppPayment = averagePensionableEarnings * .25
-                const adjustedCppPayment = Math.round(adjustCpp(annualCppPayment, cppStartAge)/100)*100
-                cache[cacheKey] = adjustedCppPayment
-                return cache[cacheKey]
-        }
-   }
-}
-
-export const calculateCpp = calculateCppMemoized()
 
 
 export const calculateStartValue = (age, account, state) => {
@@ -131,14 +49,6 @@ export const calculateEndValue = (startValue, age, account,state) => {
 
 export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, maxRrspPayment, maxTfsaPayment, highestIncomes) => {
 
-    console.log(`
-    desiredRetirementIncome: ${retirementIncome} ||
-    pensionIncome: ${pensionIncome} ||
-    maxRrrspIncome: ${maxRrspPayment} ||
-    maxTfsaIncome: ${maxTfsaPayment} ||
-    averageHighest10Years: ${highestIncomes} ||
-    `);
-
         if (highestIncomes < 47000) {
             const incomeLessPension = retirementIncome - pensionIncome > 0 ? retirementIncome - pensionIncome : 0                                                              //this is the difference between the income they would like and what they are recieving from pensions
             const tfsaIncome = incomeLessPension > maxTfsaPayment ? maxTfsaPayment : incomeLessPension * .7                              //Their first goal should be to draw income from TFSA because of their lower tax bracket
@@ -146,12 +56,6 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
             const rrspIncome = taxAdvantagedDifferentialLessTfsa > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferentialLessTfsa 
     
             const nonRegistered = taxAdvantagedDifferentialLessTfsa - rrspIncome
-    
-            console.log(`
-            rrspIncome: ${rrspIncome} ||
-            tfsaIncome: ${tfsaIncome } ||
-            `);
-
             return  {
                 rrsp: rrspIncome > 0 ? rrspIncome : 0,
                 tfsa: tfsaIncome > 0 ? tfsaIncome : 0, 
@@ -188,3 +92,70 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
         }
     
     }
+
+//SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
+
+
+    export const setMaxContributions = ( birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, tfsaStartAge) => {
+
+       for (let age = 18; age < rrifStartAge; age ++) {
+            const year = age + birthYear                                                                                                                                                      //year is used to determine the contribution room avaibale from the government
+            const contributionLimit = historicRRSP[year] ? historicRRSP[year]  : 154611
+            const totalRrspContEligibleIncome = Object.values(incomePerYear_reducer[age])                                                                                              //We're looking up their income for that year so we can sum it all
+                                                                    .filter(d => d.contributeToCpp)                                                                                    //We only want to sum income on which RRSP is eligible so we remove income on which CPP contributions aren't made
+                                                                    .map(d => d.financialValue).reduce((acc, num) => acc + num)                                                        //Sum the value of all income streams
+
+            const rrspMaxContribution = totalRrspContEligibleIncome > contributionLimit ? (contributionLimit * .18) : (totalRrspContEligibleIncome * .18)
+            console.log(`
+            totalRrspContEligibleIncome: ${totalRrspContEligibleIncome}
+            contributionLimit: ${contributionLimit}
+            rrspMaxContribution: ${rrspMaxContribution}
+            `
+                )
+                ;
+           setMaxContribution_action(age, "rrsp", rrspMaxContribution)
+         }
+        
+        for (let age = 18; age < tfsaStartAge; age ++) {
+
+           if (birthYear + age < 2009 && birthYear + age < 2013) {                                                                                                      //The government increased TFSA contributions each year, this is checking the years and inputting the correct contribution max
+            setMaxContribution_action(age, "tfsa", 5000)
+           }
+           if (birthYear + age > 2012 && birthYear + age < 2015) {
+            setMaxContribution_action(age, "tfsa", 5500)
+           }
+           if (birthYear + age === 2015) {
+            setMaxContribution_action(age, "tfsa", 10000)
+           }
+           if (birthYear + age > 2015 && birthYear + age < 2019) {
+            setMaxContribution_action(age, "tfsa", 5500)
+           }
+           if (birthYear + age > 2018) {
+            setMaxContribution_action(age, "tfsa", 6000)
+           }
+        }
+        
+        }
+
+
+//SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
+ export const determineMaxRegisteredPayments = (incomePerYear_reducer, rrifStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) => {
+
+            const rrspContributionArray = Object.values(savingsPerYear_reducer).slice(0,(rrifStartAge - 18)).map(d => d.rrsp.maxContribution)
+            const maxRrspValue = rrspContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
+            const maxRrspPayment = payment(rate2, (95-rrifStartAge), maxRrspValue, 0)
+            
+            const tfsaContributionArray = Object.values(savingsPerYear_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
+            const maxTfsaValue = tfsaContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
+            const maxTfsaPayment = payment(rate2, (95-tfsaStartAge), maxTfsaValue, 0)
+            
+            
+            const incomeArray = Object.values(incomePerYear_reducer).map(d => Object.values(d).map(a => a.financialValue).reduce((acc, num) => acc + num)).slice(0,47)
+            
+            const highestIncomes = incomeArray.sort((a, b)=> b-a).slice(0,10).reduce((acc, num) => acc + num) /10
+            return {
+                maxTfsaPayment: -maxTfsaPayment,
+                maxRrspPayment: -maxRrspPayment,
+                highestIncomes
+            }
+        }

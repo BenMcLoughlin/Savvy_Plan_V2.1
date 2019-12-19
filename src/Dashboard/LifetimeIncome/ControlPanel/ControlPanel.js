@@ -10,16 +10,15 @@ import { NavLink} from "react-router-dom"
 export default function ControlPanel(props) {
 
     const {
-        cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer
-        oasIncome : {financialValue: oasIncome },
         rrsp: {financialValue: rrsp },
         tfsa: {financialValue: tfsa },
+        oasIncome: {financialValue: oasIncome },
         nonRegistered: {financialValue: nonRegistered },
    } = props.incomePerYear_reducer[75]            
 
-    const [count, setCount] = useState(8);
-    
-        const {incomePerYear_reducer} = props
+   
+    const [count, setCount] = useState(oasIncome > 0 ? 8 : 0);
+
         return (
                     <ControlPanelWrapper>
                         <Dialogue>
@@ -117,7 +116,7 @@ export default function ControlPanel(props) {
                             <TutorialButtonWrapper>
                                 < ButtonLight text = {"Tutorial"} onClick={() => setCount(0)}/>
                                 <ButtonWrapper to="/SavingsPlan">
-                                                            <ButtonDark text={'Next Section'} onClick={() => setCount(0)}/>
+                                                            <ButtonDark text={'Next'} onClick={() => setCount(0)}/>
                                                         </ButtonWrapper>
                             </TutorialButtonWrapper>
                          

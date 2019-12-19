@@ -7,7 +7,7 @@ import TaxApp from "../Dashboard/Tax/TaxApp"
 import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
 import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
 import LifetimeIncomeApp from "../Dashboard/LifetimeIncome/LifetimeIncomeApp"
-import SavingsPlanApp from "../Dashboard/SavingsPlan2/SavingsPlanApp"
+import SavingsPlanApp from "../Dashboard/SavingsPlan/SavingsPlanApp"
 import SpendingApp from "../Dashboard/Spending/SpendingApp"
 import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
@@ -56,7 +56,7 @@ export default class Layout extends Component {
  const GridContainer = styled.div`
     height: 100%;
     margin: 4px auto;
-    width: 92vw;
+    width: 80vw;
     display: grid;
     grid-template-rows: 98vh;
     overflow: scroll;

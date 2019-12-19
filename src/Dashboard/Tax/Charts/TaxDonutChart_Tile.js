@@ -68,7 +68,7 @@ const drawTaxDonutChart = (props, width, height) => {
 
     const titleList = ["After Tax Income", "Tax Credit Income", "Federal Taxes", "Provincial Taxes", "CPP & EI"]
 
-    const colorScale = d3.scaleOrdinal().domain(titleList).range(color)
+    //const colorScale = d3.scaleOrdinal().domain(titleList).range(color)
 
 
 

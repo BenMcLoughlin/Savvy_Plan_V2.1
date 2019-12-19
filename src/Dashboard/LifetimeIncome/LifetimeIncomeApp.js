@@ -6,15 +6,16 @@ import {setMaxContribution_action} from "../SavingsPlan/actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
 import LifetimeIncomeBarChart from "./Charts/LifetimeIncomeBarChart"
-import {adjustOas}from "./services/localFunctions"
 import {payment}from "../..//services/financialFunctions"
-import {calculateOptimumIncomeStreams} from "./services/localFunctions" 
-import {stackedChartData} from "./reducers/lifetimIncome_selectors"
-import {rate1 , rate2} from "../SavingsPlan2/reducers/savingsPlan_selectors"
+import { setMaxContributions, determineMaxRegisteredPayments} from "./services/localFunctions" 
+import {stackedChartData,  retirementPensionIncome} from "./reducers/lifetimIncome_selectors"
+import {rate1 , rate2} from "../SavingsPlan/reducers/savingsPlan_selectors"
+import {renderCPPandOASIncome, adjustOas} from  "./services/CPPfunctions"
+import {calculateOptimumIncomeStreams, addRetirementIncome} from  "./services/RRSPandTFSAfunctions"
 
 const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPensionStartAge_action,                                    // destructure out variables
     incomePerYear_reducer, removeItem_action, pensionStartAges_reducer, setRetirementIncome_action,  stackedChartData,
-    setMaxContribution_action, keyVariables_reducer, savingsPerYear_reducer, rate1, rate2,
+    setMaxContribution_action, keyVariables_reducer, savingsPerYear_reducer, rate1, rate2, retirementPensionIncome,
     pensionStartAges_reducer: {cppStartAge: {rangeBarValue: cppStartAge}},
     pensionStartAges_reducer: {oasStartAge: {rangeBarValue: oasStartAge }}}) => {
 
@@ -23,23 +24,13 @@ const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPe
 
         const {pensionStartAges_reducer: {rrifStartAge: {rangeBarValue: rrifStartAge}}} = {pensionStartAges_reducer}
         const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
+        const {retirementIncome: {financialValue: retirementIncome}} = keyVariables_reducer
    
-   
-//CALCULATE CPP AND OAS 
-const renderCPPandOASIncome = (cacheKey) => {                                                                                              //caclualtes the cpp and oas payments and places them into the incomePeryearReducer               
-      for (let age = cppStartAge; age <= 95; age++) {
-            calculateCpp_action(age, cppStartAge, cacheKey)                                                                                //to support memoization we are passing in the financial value as a caheKey which the funciton will use to know if it's ran before
-        }
-      for (let age = 59; age < cppStartAge; age++) {                                                                                       //resets cpp payments to 0 before the selectd start age
-            setIncome_action(age, false, 0, "CPP Income", "cppIncome")  
-        }
-      for (let age = oasStartAge; age <= 95; age++) {                                                                                      //sets OasIncome in the reducer 
-            setIncome_action(age, false, 7300, "OAS Income", "oasIncome", 0)  
-        }
-      for (let age = 59; age < oasStartAge; age++) {
-            setIncome_action(age, false,  0, "OAS Income", "oasIncome", 0)  
-        }
-    }
+        const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(incomePerYear_reducer, rrifStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) 
+
+        const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, retirementIncome)
+
+
 
 //INCOME INPUT
     const setIncome = (financialValue, rangeBarValue, {contributeToCpp, label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
@@ -47,16 +38,10 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
         for (let age = fromAge; age < toAge; age++ ) {                                                           
             setIncome_action(age, contributeToCpp, financialValue, label, name, rangeBarValue)                                            //sets the income for each of the years between the selected ranges
         }    
-            contributeToCpp && renderCPPandOASIncome(cacheKey)    
-                                                                                                                                          //only recalculates CPP if contributions to CPP are made on the income                                                        
+            contributeToCpp && renderCPPandOASIncome(cacheKey, calculateCpp_action, cppStartAge, oasStartAge, setIncome_action)    
+                                                                                                                            //only recalculates CPP if contributions to CPP are made on the income                                                        
     }
 
-    const incomeTypeArray = Object.values(incomePerYear_reducer[fromAge])                                                                //Converts the year list to an array so that it can be mapped through for rangebars  
-        .filter(d => d.name !== "oasIncome")                                                                                              //Range Bars only show for income the user is inputting, not retirementIncome, these are filtered out                       
-        .filter(d => d.name !== "cppIncome")
-        .filter(d => d.name !== "rrsp") 
-        .filter(d => d.name !== "tfsa") 
-        .filter(d => d.name !== "nonRegistered") 
 
     const addItemToList = (financialValue, rangeBarValue, {isChecked, label, name}) => {
         let contributeToCpp = isChecked
@@ -85,18 +70,24 @@ const renderCPPandOASIncome = (cacheKey) => {                                   
                 setIncome_action(age, false, 0, "CPP Income", "cppIncome")  
             }}
         else if  (name === "oasStartAge") {
-            const oasPayment = adjustOas(7200, value)
+            const oasPayment = adjustOas(value, value, 7300)
             for (let age = value; age <=95; age ++) {                                                                                     //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
                 setIncome_action(age, false, oasPayment, "OAS Income", "oasIncome") 
             }
             for (let age = 64; age < value; age++) {
                 setIncome_action(age, false, 0, "OAS Income", "oasIncome")  
             }}
-        else {
+        else if (name === "tfsaStartAge") {
             setKeyVariable_action(name, value)
+            setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, value) 
+            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, rrifStartAge, value, setIncome_action)
         }
-        setMaxContributions(incomePerYear_reducer, rrifStartAge)
-        addRetirementIncome()
+        else if (name === "rrifStartAge") {
+            setKeyVariable_action(name, value)
+            setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, value) 
+            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, value, tfsaStartAge, setIncome_action)
+        }
+
        }
 
 //REMOVE INCOME TYPE
@@ -109,83 +100,17 @@ const handleRemoveItem = ({name}) => {
 
 const {birthYear} = keyVariables_reducer
 
-const retirementPensionIncome = Object.values(incomePerYear_reducer[72]).filter(d => d.name !== "rrsp")
-                                        .filter(d => d.name !== "tfsa")
-                                        .filter(d => d.name !== "nonRegistered")
-                                        .map(d => d.financialValue)
-                                        .reduce((acc,num) => acc + num)
 
-                                     
-
-const setMaxContributions = (incomePerYear_reducer, rrifStartAge) => {
-
-for (let age = 18; age < rrifStartAge; age ++) {
-   const totalRrspContEligibleIncome = Object.values(incomePerYear_reducer[age]).map(d => d.financialValue).reduce((acc, num) => acc + num)
-   const rrspMaxContribution = totalRrspContEligibleIncome * .18 < 26500 ? totalRrspContEligibleIncome * .18 : 26500
-   setMaxContribution_action(age, "rrsp", rrspMaxContribution)
-   if (birthYear + age > 2009) {
-    setMaxContribution_action(age, "tfsa", 5500)
-   }
-}
-
-}
 
 //SET TOTAL RETIREMENT PENSION INCOME IN KEY VARIABLES REDUCER
-
-
-const determineMaxRegisteredPayments = (savingsPerYear_reducer) => {
-const rrspContributionArray = Object.values(savingsPerYear_reducer).slice(0,(rrifStartAge - 18)).map(d => d.rrsp.maxContribution)
-const maxRrspValue = rrspContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
-const maxRrspPayment = payment(rate2, (95-rrifStartAge), maxRrspValue, 0)
-
-const tfsaContributionArray = Object.values(savingsPerYear_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
-const maxTfsaValue = tfsaContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
-const maxTfsaPayment = payment(rate2, (95-tfsaStartAge), maxTfsaValue, 0)
-
-
-const incomeArray = Object.values(incomePerYear_reducer).map(d => Object.values(d).map(a => a.financialValue).reduce((acc, num) => acc + num)).slice(0,47)
-
-const highestIncomes = incomeArray.sort((a, b)=> b-a).slice(0,10).reduce((acc, num) => acc + num) /10
-console.log(maxRrspPayment);
-return {
-    maxTfsaPayment: -maxTfsaPayment,
-    maxRrspPayment: -maxRrspPayment,
-    highestIncomes
-}
-
-}
-
-const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(savingsPerYear_reducer)
-
-const incomeStreams = calculateOptimumIncomeStreams(keyVariables_reducer.retirementIncome.financialValue, retirementPensionIncome, maxRrspPayment, maxTfsaPayment, highestIncomes)
-
-const addRetirementIncome = () => {
-for (let age = 50; age < rrifStartAge; age++ ) {
-    setIncome_action(age, false, 0, "RRSP Income", "rrsp", 0) 
-
-}
-for (let age = rrifStartAge; age <= 95; age++ ) {
-    setIncome_action(age, false, Math.round(incomeStreams.rrsp/1000)*1000, "RRSP Income", "rrsp", 0) 
-    console.log(incomeStreams.rrsp);
-
-}
-for (let age = 50 ; age < tfsaStartAge; age++ ) {
-    setIncome_action(age, false, 0, "TFSA Income", "tfsa", 0) 
-    setIncome_action(age, false, 0, "Non reg Income", "nonRegistered", 0) 
-}
-for (let age = tfsaStartAge; age <= 95; age++ ) {
-    setIncome_action(age, false, Math.round(incomeStreams.tfsa/1000)*1000, "TFSA Income", "tfsa", 0) 
-    setIncome_action(age, false, Math.round(incomeStreams.nonRegistered/1000)*1000, "Non reg Income", "nonRegistered", 0) 
-}
-}
 
 
 
 const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
 
     setRetirementIncome_action(financialValue, rangeBarValue)
-    setMaxContributions(incomePerYear_reducer, rrifStartAge)
-    addRetirementIncome()
+    setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, tfsaStartAge) 
+    addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString()), incomeStreams, rrifStartAge, tfsaStartAge, setIncome_action)
 } 
         return (
             <UserInterfaceWrapper>
@@ -205,7 +130,6 @@ const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
                     toAge={toAge}
                     savingsPerYear_reducer={savingsPerYear_reducer}
                     setIncome_action={setIncome_action}
-                    incomeTypeArray={incomeTypeArray}
                     setIncome={setIncome}
                     setPensionIncome={setPensionIncome}
                     pensionStartAges_reducer={pensionStartAges_reducer}
@@ -231,6 +155,7 @@ const mapStateToProps = (state) => {
         stackedChartData: stackedChartData(state),
         rate1: rate1(state),
         rate2: rate2(state),
+        retirementPensionIncome: retirementPensionIncome(state),
     }
 }
 
@@ -244,7 +169,7 @@ const UserInterfaceWrapper = styled.div`
     background: ${props => props.theme.color.ice};
     display: grid;
     height: 100%;
-    width: 90%;
+    width: 100%;
     grid-template-rows: minmax(8rem, 14rem) minmax(18rem, 22rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'
@@ -253,8 +178,8 @@ const UserInterfaceWrapper = styled.div`
 `
 const ChartPlaceHolder = styled.div`
     grid-area: c;
-    width: 85%;
-    margin-left: 7.5%;
+    width: 90%;
+    margin-left: 5%;
     height: 100%;
 
 `

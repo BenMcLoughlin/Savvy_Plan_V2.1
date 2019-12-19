@@ -27,5 +27,18 @@ export const legenChartKeys = createSelector(
 )
 
 
+export const retirementPensionIncome = createSelector(                                                                                           //Sums all sources of retirement income that does not include RRSP, TFSA or NON registered
+    [incomePerYear_reducer],
+    (incomePerYear_reducer) => Object.values(incomePerYear_reducer[72]).filter(d => d.name !== "rrsp")
+                                                .filter(d => d.name !== "tfsa")
+                                                .filter(d => d.name !== "nonRegistered")
+                                                .map(d => d.financialValue)
+                                                .reduce((acc,num) => acc + num)                                                                       
+)
+
+
+
+
+
 
 //HEADER SELECTORS

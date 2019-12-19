@@ -5,12 +5,20 @@ import {Provider} from "react-redux"
 import {createStore} from "redux"
 import reducers from "./reducers"
 import { devToolsEnhancer } from 'redux-devtools-extension';
+import {persistStore} from "redux-persist"
+import {PersistGate} from "redux-persist/integration/react"
+
+const store = createStore(reducers,devToolsEnhancer())
 
 
+    
+const persistor = persistStore(store)
 
 ReactDOM.render(
-    <Provider store={createStore(reducers,devToolsEnhancer())}>
-            <App/>
+    <Provider store={store}>
+        <PersistGate persistor={persistor}>
+             <App/>
+        </PersistGate>
     </Provider>
     , document.getElementById('root'));
 

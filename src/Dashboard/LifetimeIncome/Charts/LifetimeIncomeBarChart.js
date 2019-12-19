@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as d3 from "d3"
-import "./ChartStyles.css"
+import styles from "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
 import {stackedChartData, stackedChartKeys} from "../reducers/lifetimIncome_selectors"
@@ -12,12 +12,12 @@ const drawChart = (props, width, height) => {
     const margin = {top: 20, right: 100, bottom: 50, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ["#ef7959", "#4BB9D0",'#72929B',  "#7DA8B8", '#FEDE76', '#81CCAF',  '#B0CFE3','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
+    const color = ["#ef7959", "#4BB9D0",'#72929B',  "#B0CFE3", '#FEDE76', '#81CCAF',  '#B9B0A2','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#7DA8B8", "#81CCAF", '#F7CDAB', '#D8BABB'];
     const data = props.stackedChartData
 
    //VALUE ACCESSORS
-   const xValue = d => d.age
-   const yValue = d => d.country
+//    const xValue = d => d.age
+//    const yValue = d => d.country
 
 
     d3.select(".canvasStackedbarChart > *").remove()
@@ -57,8 +57,6 @@ const drawChart = (props, width, height) => {
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
      
-
-        console.log(data);
 ////-------------------------PROTECT--------------------------------        
 
     const layers = graph.append("g").selectAll("g")
@@ -85,7 +83,6 @@ const drawChart = (props, width, height) => {
                                     
 
       rects.on("mouseover", (d,i,n) => {
-          console.log(n[0].parentNode.className)
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = props.stackedChartKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
@@ -160,40 +157,56 @@ const yAxisGroup = graph.append("g")
             const yAxis = d3.axisLeft(yScale).ticks('3')
                             .tickFormat(d => `${d/1000}k`)
 
-            const colorScale = d3.scaleOrdinal().domain(props.stackedChartKeys).range(color)
+           // const colorScale = d3.scaleOrdinal().domain(props.stackedChartKeys).range(color)
 
         xAxisGroup.call(xAxis)
         yAxisGroup.call(yAxis)
         const legendGroup = graph.append('g')
-        .attr("transform", `translate(${graphWidth}, ${70})`)
+        .attr("transform", `translate(${graphWidth + 20}, ${140})`)
 
-// //LEGEND 
-// const legendRectSize = 5; 
-// const legendSpacing = 8; 
+        // //LEGEND 
+        // const legendRectSize = 5; 
+        // const legendSpacing = 8; 
 
-// const legend = legendGroup.selectAll('.legend')
-//    .data(colorScale.domain())
-//    .enter() 
-//    .append('g')
-//    .attr('class', 'legend') 
-//    .attr('transform', function(d, i) {                   
-//        const height = legendRectSize + legendSpacing + 10;   
-//        const offset =  height * colorScale.domain().length / 1.2;  
-//        const horz = 5 * legendRectSize; 
-//        const vert = i * height - offset; 
-//        return 'translate(' + horz + ',' + vert + ')';   
-//    });
+        // const legend = legendGroup.selectAll('.legend')
+        // .data(colorScale.domain())
+        // .enter() 
+        // .append('g')
+        // .attr('class', 'legend') 
+        // .attr('transform', function(d, i) {                   
+        //     const height = legendRectSize + legendSpacing + 7;   
+        //     const offset =  height * colorScale.domain().length / 1.3;  
+        //     const horz = 5 * legendRectSize; 
+        //     const vert = i * height - offset; 
+        //     return 'translate(' + horz + ',' + vert + ')';   
+        // });
 
-//    legend.append('circle') // append rectangle squares to legend                                   
-//        .attr('r', legendRectSize) // width of rect size is defined above                        
-//        .attr('height', legendRectSize) // height of rect size is defined above                                     
-//        .style('fill', colorScale) // each fill is passed a color
-//        .style('stroke', color) // each stroke is passed a color
-   
-//    legend.append('text')                                    
-//    .attr('x', legendRectSize + legendSpacing)
-//    .attr('y', legendRectSize - legendSpacing)
-//    .text(function(d) { return d }); // return name
+        // legend.append('circle') // append rectangle squares to legend                                   
+        //     .attr('r', legendRectSize) // width of rect size is defined above                        
+        //     .attr('height', legendRectSize) // height of rect size is defined above                                     
+        //     .style('fill', colorScale) // each fill is passed a color
+        //     .style('stroke', color) // each stroke is passed a color
+        
+        // legend.append('text')                                    
+        //         .attr('x', legendRectSize + legendSpacing)
+        //         .attr('y', legendRectSize + 3 - legendSpacing)
+        //         .style("font-size", 10)
+        //         .text(d => (
+        //             d === "cppIncome" ? "CPP Income" 
+        //             :
+        //             d === "oasIncome" ? "OAS Income" 
+        //             :
+        //             d === "tfsa" ? "Reccomended TFSA Income" 
+        //             :
+        //             d === "rrsp" ? "Reccomended RRSP Income" 
+        //             : 
+        //             d === "nonRegistered" ? "Reccomended Non-Registered Income" 
+        //             : 
+        //             d === "employmentIncome" ? "Employment Income" 
+        //             : 
+        //             d === "businessIncome" ? "Business Income" 
+        //             : 
+        //             d)); // return name
     }
 
     update(data)

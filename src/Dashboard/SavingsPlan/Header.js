@@ -2,8 +2,13 @@ import React, { Component } from 'react'
 import styled from "styled-components"
 //import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
 import Tooltip from "../../UI/Tooltip/Tooltip"
-export default class HeaderValues extends Component {
+import {connect} from "react-redux"
+import {createStructuredSelector} from "reselect"
+import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "./reducers/savingsPlan_selectors"
 
+class Header extends Component {
+
+    
 //GRAB MOUSE COORDINATES FOR TOOLTIP
     state = { 
               x: 0,                                                                                                              //These coordinates are set onMouseMove placing the tootip beside the mouse
@@ -14,43 +19,29 @@ export default class HeaderValues extends Component {
               }                                                                                                                  //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
 
     render() {
+const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} = this.props
 
-//DESTRUCTURE REDUCERS TO ASSIGN VARIABLES
-        const {
-             cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer
-             oasIncome : {financialValue: oasIncome },
-             rrsp: {financialValue: rrsp }
-        } = this.props.incomePerYear_reducer[75]            
 
-// //CALCULATE RETIREMENT INCOME SHORTFALL - AVERAGE INCOME - RETIREMENT INCOME
-        const totalRetirementIncome = Object.values(this.props.incomePerYear_reducer[75])                                        //Determines total income in retirement
-                                                    .map(d => d.financialValue)
-                                                    .reduce((acc, num) => acc + num)
+        // //const rrspDisplayValue = rrspValue > 1000000 ?  `${Math.round(rrspValue/1000000)*1000000/1000000} M` : `${Math.round(rrspValue/1000)*1000/1000} k` 
+        // const tfsaDisplayValue = tfsaValue > 1000000 ?  `${Math.round(tfsaValue/1000000)*1000000/1000000} M` : `${Math.round(tfsaValue/1000)*1000/1000} k` 
+        // const nonRegisteredDisplayValue = nonRegisteredValue > 1000000 ?  `${Math.round(nonRegisteredValue/1000000)*1000000/1000000} M` : `${Math.round(nonRegisteredValue/1000)*1000/1000} k` 
+        // const total = tfsaValue + nonRegisteredValue
+        const totalDisplayValue = totalNestEgg
 
-        const workingLifetimeEarnings = Object.values(this.props.incomePerYear_reducer)                                          // turn object into array
-                                               .map(d => Object.values(d)
-                                                 .map(a => a.financialValue)                                                     // make sub arrays just show financial value
-                                                 .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
-                                                .slice(0,47)                                                                     // Grab Only working years 
-                                                .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
-
-        const averageWorkingEarnings = workingLifetimeEarnings/47                                       //calculate average working annual income, then round
-
-        const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed                                               : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
             <Left >
                                                                                                                  {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
                 <h1>
-                    Lifetime Savings & Wtihdrawals
+                   Savings and Withdrawal Plan
                 </h1>
             </Left>
             <Right>
-            <h2>Estimated Pension Income</h2>
+            <h2>Account Values at Retirement</h2>
             <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
                     <CPPSummary>
-                    {`${(cppIncome)/1000}k`}  
+                    {rrspDisplayValue}  
                         <h4>RRSP</h4>
                         <Tooltip 
                             x={this.state.x} 
@@ -65,7 +56,7 @@ return (
                         />
                     </CPPSummary>
                     <OASSummary >
-                    {`${(oasIncome)/1000}k`}
+                    {tfsaDisplayValue}
                         <h4 >TFSA</h4>
                         <Tooltip 
                         x={this.state.x} 
@@ -78,14 +69,14 @@ return (
                          />
                     </OASSummary>
                     <RRIFSummary>
-                    {`${(rrsp)/1000}k`}
+                    {nonRegisteredDisplayValue}
                     <h4 >N-Reg</h4>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
-                        text=   "A Registered Retirement Income Fund (rrsp) is an account registered with the government that 
+                        text=   "A Registered Retirement Income Fund (nonRegisteredValue) is an account registered with the government that 
                                  pays you income in retirement. Before, you were putting money into your RRSP to accumulate
-                                 savings for retirement. Now, you withdraw that money from your rrsp as retirement income."
+                                 savings for retirement. Now, you withdraw that money from your nonRegisteredValue as retirement income."
                         header= "Registered Retirement Income Fund"
                         className="rrifTooltip"
                     />
@@ -106,8 +97,8 @@ return (
                     </TaxSummary>
             </PensionIncomeWrapper>
             <Summary>
-             {`${(cppIncome + oasIncome + rrsp)/1000}k`}
-            <h4>Peak Value</h4>
+             {totalDisplayValue}
+            <h4>Total</h4>
             </Summary>
             </Right>
             
@@ -115,6 +106,15 @@ return (
         )
     }
 }
+
+const mapStateToProps = createStructuredSelector({
+    rrspDisplayValue,
+    tfsaDisplayValue,
+    nonRegisteredDisplayValue,
+    totalNestEgg
+})
+
+export default connect(mapStateToProps)(Header)
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 

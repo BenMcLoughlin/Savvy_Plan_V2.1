@@ -40,6 +40,7 @@ export default class HeaderValues extends Component {
 
         const shortFall =  Math.round((totalRetirementIncome - averageWorkingEarnings)/1000)*1000                                                         //determine retirement income shortfall to be displayed                                               : calculateMarginalTaxRate(totalRetirementIncome) || 0
 
+        console.log(rrsp);
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
             <Left >
@@ -54,6 +55,7 @@ return (
                     <CPPSummary>
                     {`${(cppIncome)/1000}k`}  
                         <h4>CPP</h4>
+                        <Circle color={"#F29278"}/>
                         <Tooltip 
                             x={this.state.x} 
                             y={this.state.y} 
@@ -69,6 +71,7 @@ return (
                     <OASSummary >
                     {`${(oasIncome)/1000}k`}
                         <h4 >OAS</h4>
+                        <Circle color={"#7DA8B8"}/>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
@@ -83,6 +86,7 @@ return (
                     <RRIFSummary>
                     {`${(rrsp)/1000}k`}
                     <h4 >RRSP</h4>
+                         <Circle color={"#B0CFE3"}/>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
@@ -96,6 +100,7 @@ return (
                     <TaxSummary>
                     {`${tfsa/1000}k`}
                     <h4>TFSA</h4>
+                         <Circle color={"#81CCAF"}/>
                     <Tooltip 
                     x={this.state.x} 
                     y={this.state.y} 
@@ -159,13 +164,12 @@ const Summary = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    display: inline-block;
     padding: 1rem;
     margin-top: 1rem;
     cursor: pointer;
     font-size: ${props => props.theme.fontSize.medium};
+    align-items: center;
+    justify-content: center;
 
   
 `
@@ -209,6 +213,15 @@ const Right = styled.div`
     flex-direction: column;
     text-align: center;
     align-items: center;
+`
+const Circle = styled.div`
+   border-radius: 50%;
+   height: 1rem;
+   width: 1rem;
+   margin-top: .5rem;
+   background: ${props => props.color}
+   display: flex;
+   align-items: center;
 `
 
 

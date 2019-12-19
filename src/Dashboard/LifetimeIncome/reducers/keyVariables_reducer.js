@@ -17,8 +17,9 @@ const keyVariables_reducer = (state = initialState, action) => {
         return {...state, [action.name]: action.value}        
         case "keyVariables_reducer/SET_RETIREMENT_INCOME": 
         return {...state, retirementIncome: {
-                        financialValue: action.financialValue, 
-                        rangeBarValue: action.rangeBarValue
+            ...state.retirementIncome, 
+                                        financialValue: action.financialValue, 
+                                        rangeBarValue: action.rangeBarValue
 
         }  }
         default: return state
