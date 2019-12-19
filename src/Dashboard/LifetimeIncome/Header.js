@@ -116,6 +116,7 @@ return (
                         <TaxSummary>
                         {`${nonRegistered/1000}k`}
                         <h4>N-Reg</h4>
+                             <Circle color={"#B9B0A2"}/>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 

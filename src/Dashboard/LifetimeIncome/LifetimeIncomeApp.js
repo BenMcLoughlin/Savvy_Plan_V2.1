@@ -70,7 +70,7 @@ const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPe
                 setIncome_action(age, false, 0, "CPP Income", "cppIncome")  
             }}
         else if  (name === "oasStartAge") {
-            const oasPayment = adjustOas(value, value, 7300)
+            const oasPayment = adjustOas(value, value, 7000)
             for (let age = value; age <=95; age ++) {                                                                                     //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
                 setIncome_action(age, false, oasPayment, "OAS Income", "oasIncome") 
             }
@@ -107,8 +107,8 @@ const {birthYear} = keyVariables_reducer
 
 
 const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
-
     setRetirementIncome_action(financialValue, rangeBarValue)
+    const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, financialValue)
     setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, tfsaStartAge) 
     addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString()), incomeStreams, rrifStartAge, tfsaStartAge, setIncome_action)
 } 

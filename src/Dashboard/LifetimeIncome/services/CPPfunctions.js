@@ -81,7 +81,7 @@ function calculateCppMemoized() {
              
                  const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
                  const annualCppPayment = averagePensionableEarnings * .25
-                 const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/100)*100
+                 const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/1000)*1000
                  cache[cacheKey] = adjustedCppPayment
                  return cache[cacheKey]
          }
@@ -101,7 +101,7 @@ export const renderCPPandOASIncome = (cacheKey, calculateCpp_action, cppStartAge
           setIncome_action(age, false, 0, "CPP Income", "cppIncome")                                                                     //When the user slides the age up, all the income inputted into the reducer below that age has to be removed
       }
     for (let age = oasStartAge; age <= 95; age++) {                                                                                      //sets OasIncome in the reducer using the above process
-          setIncome_action(age, false, 7300, "OAS Income", "oasIncome", 0)  
+          setIncome_action(age, false, 7000, "OAS Income", "oasIncome", 0)  
       }
     for (let age = 59; age < oasStartAge; age++) {
           setIncome_action(age, false,  0, "OAS Income", "oasIncome", 0)  
