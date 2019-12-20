@@ -6,23 +6,24 @@ import {rate1, rate2, investmentReturnsArray} from "../../reducers/savingsPlan_s
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "../../actions"
 import {renderSavings, optimizedWithdrawals, optimizedContribution} from "../../services/localFunctions"
 
-const  InvestmentFactors = ( {setInvestmentFactor_action, investmentReturnsArray, savingsPerYear_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2, count}) => {                                            //Use Destructing to assign variables and functions
+const  InvestmentFactors = ( { changeChart, setInvestmentFactor_action, investmentReturnsArray, savingsPerYear_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2,rrspStartAge, count, tfsaStartAge}) => {                                            //Use Destructing to assign variables and functions
                                                            
     const setInvestmentFactor = (value, nothing, {name}) => {
         setInvestmentFactor_action(name, value) 
         const array = ["rrsp", "tfsa", "nonRegistered"]
         array.map(account => {
-                renderSavings(65, 65, account, 0, 0, "withdraw", savingsPerYear_reducer, transaction_action, rate1, rate2 )
+                renderSavings(65, 65, account, 0, 0, "contribute", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
                 optimizedWithdrawals("rrsp", savingsPerYear_reducer, setOpitmizedValues_action, rate2)
                 optimizedContribution("rrsp", savingsPerYear_reducer, setOpitmizedValues_action, rate1)
                 return null;
     })
+    changeChart()
     }
     return (
         <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa SmallRangeBar for each */}
             {
-                count > 0 ? 
-                investmentReturnsArray.slice(1,3).map(d => <SmallRangeBar 
+                count > 1 ? 
+                investmentReturnsArray.map(d => <SmallRangeBar 
                                             id={d.name}
                                             key={d.name}
                                             setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
@@ -52,7 +53,7 @@ const Wrapper= styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    margin-top: 6rem;
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*

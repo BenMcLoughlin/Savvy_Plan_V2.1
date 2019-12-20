@@ -8,18 +8,37 @@ import ButtonLight from "../../../UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import {connect} from "react-redux"
 import {rate1 , rate2} from "../reducers/savingsPlan_selectors"
-import {reccomendedNestEgg} from "../services/localFunctions"
+import {reccomendedNestEgg, reccomendedSavingsPerYear} from "../services/localFunctions"
 
-const ControlPanel = ({incomePerYear_reducer, pensionStartAges_reducer, rate1})  =>{
+const ControlPanel = ({incomePerYear_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action})  =>{
 
    
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(4);
 
+    const {incomePerYear_reducer: {72: {rrsp: {financialValue: rrspIncome}}}} = {incomePerYear_reducer}
+    const {incomePerYear_reducer: {72: {tfsa: {financialValue: tfsaIncome}}}} = {incomePerYear_reducer}
+    const {incomePerYear_reducer: {72: {nonRegistered: {financialValue: nonRegisteredIncome}}}} = {incomePerYear_reducer}
+
+    const totalRetirementIncome = rrspIncome + tfsaIncome + nonRegisteredIncome
     const reccomendedRrspIncome = incomePerYear_reducer[72].rrsp.financialValue
-    const {pensionStartAges_reducer: {rrifStartAge: {rangeBarValue: rrifStartAge}}} = {pensionStartAges_reducer}
+    const reccomendedTfsaIncome = incomePerYear_reducer[72].tfsa.financialValue
+    const reccomendedNonRegisteredIncome = incomePerYear_reducer[72].nonRegistered.financialValue
+    const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
     const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
    
-    const nestEgg = reccomendedNestEgg(rate1, rrifStartAge, reccomendedRrspIncome)
+    const totalNestEgg = reccomendedNestEgg(rate2, rrspStartAge, totalRetirementIncome)
+    const tfsaNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedTfsaIncome)
+    const nonRegisteredNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedNonRegisteredIncome)
+
+    const reccomendedPayment = reccomendedSavingsPerYear(1988, rate1, rrspStartAge, totalRetirementIncome )
+
+    const currentAge = 18
+    const changeChart = () => {
+        initializeSavingsAndWithdrawals(currentAge, incomePerYear_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
+        
+
+    }
+    
         return (
                     <ControlPanelWrapper>
                         <Dialogue>
@@ -32,53 +51,53 @@ const ControlPanel = ({incomePerYear_reducer, pensionStartAges_reducer, rate1}) 
                                 <Text>
                                     {
                                      count === 0 ?  <DialogueWrapper>
-                                                        <DialogueHeader>In this section we determine how much you need saved for Retirement </DialogueHeader>  
-                                                        <DialogueHeader>Five factors will influence your plan </DialogueHeader>
-                                                        <List>
-                                                           <li>When and how much you contribute</li>
-                                                           <li>Income in Retirement</li>
-                                                           <li>Management Fees</li>
-                                                           <li>Rate of Return</li>
-                                                           <li>Inflation</li>
-                                                        </List>
+                                                        <h5>In this section we determine how much you need saved to fund your Retirement </h5>  
+                                                        <span>The Dark color represents your contributions - money you worked hard for. </span>  
+                                                        <span>The light color represents your interest earned on investing - money you earned while watching Netflix and sleeping.</span>  
+                                     
                                                    </DialogueWrapper>
   
                                      : 
-                                     count === 1 ?   <div>
-                                                         <DialogueHeader>{`If you want $${reccomendedRrspIncome/1000}k in income from your RRSPs you'll need to save $${nestEgg}`}</DialogueHeader>  
-                                                         <DialogueHeader>Change these dials to see how that can shift.</DialogueHeader>  
-                                                    </div>
+                                     count > 0 && count < 3 ?  
+                                                 <DialogueWrapper>
+                                                    <NestEggTotals>
+                                                                < NestEggTotalColumn>
+                                                                    <h5>
+                                                                        If you Want
+                                                                    </h5>
+                                                                    <Summary>{totalRetirementIncome/1000}k</Summary>
+                                                                        <h4>Target Retirement Income</h4>  
+                                                                </NestEggTotalColumn>
+                                                                < NestEggTotalColumn>
+                                                                    <h5>
+                                                                        You will need
+                                                                    </h5>
+                                                                    <Summary>{totalNestEgg}</Summary>
+                                                                        <h4>Total Savings</h4>  
+                                                                </NestEggTotalColumn>
+                                                                < NestEggTotalColumn>
+                                                                    <h5>
+                                                                        You must save
+                                                                    </h5>
+                                                                    <Summary>{reccomendedPayment}</Summary>
+                                                                        <h4>Annual Contributions</h4>  
+                                                                </NestEggTotalColumn>
+                                                    </NestEggTotals>
+                                                    {count === 2 ?   <span>See how your rate of return changes everything </span>  
+                                                   : null}
+                                                   </DialogueWrapper>
+
                                      : 
-                                     count === 2 ?  <div>
-                                                        <h5>Input your past earnings per year and estimate your future earnings. </h5>  
-                                                        <span>Your contributions to CPP are based on how much you earn. Old Age Security, OAS, is paid to all Canadian Citizens regardless or earnings. </span> 
-                                                    </div>
+                                     count === 3 ?    <DialogueWrapper>
+                                                            <h5>But life happens, not many people can save the same amount every year. </h5>  
+                                                            <span>See how contributing different amounts at different times changes the outcome. </span>  
+                                                        </DialogueWrapper>
+                                     : 
+                                     count === 4 ?   <DialogueWrapper>
+                                                            <h5>Finally, you can play with withdrawals to see how they would impact your plan.  </h5>  
+                                                        </DialogueWrapper>
                                       : 
-                                     count === 3 ?   <div>
-                                                        <h5>You can add as many income steams as you like. </h5>  
-                                                        <span>CPP contributions are not made on interest or business income. Ignore inflation and use todays dollars. </span> 
-                                                    </div>
-                                     :
-                                     count === 4 ?   <div>
-                                                        <h5>Your CPP and OAS payments either increase or decrease depending when you decide to start.</h5>  
-                                                        <span>You can begin collecting from your RRSP or TFSA at any age.</span> 
-                                                    </div>
-                                    :
-                                     count === 5 ?   <div>
-                                                        <h5>Input the amount of income you'd like in retirement.</h5>  
-                                                        <span>Knowing this we can determine your reccomended mix of income streams in retirement.</span> 
-                                                    </div>
-                                    :
-                                     count === 6 ?   <div>
-                                         {
-                                            100 > 1000 ? 
-                                                     <h5>{`By drawing $${100}k from your RRSP, $${100}k from your TFSA and  $${100}k from your Non-Registered accounts you'll minimuze your taxes both before and after retirement.`}</h5>  
-                                                    :
-                                                     <h5>{`By drawing $${100}k from your RRSP and $${100}k from your TFSA you'll minimuze your taxes both before and after retirement.`}</h5>  
-                                         }
-   
-                                                    </div>
-                                    :
+                          
                                      count === 7 ?   <div>
                                                         Next, we build your savings plan.
                                                         <ButtonWrapper to="/SavingsPlan">
@@ -99,19 +118,27 @@ const ControlPanel = ({incomePerYear_reducer, pensionStartAges_reducer, rate1}) 
                         </Dialogue>
      <Sections>
                             <Section>
-
-  
-                             <Contributions count={count}/>
+                             <Contributions 
+                                    count={count}
+                                    rrspStartAge={rrspStartAge}
+                                    tfsaStartAge={tfsaStartAge}
+                                    />
                             </Section>
                     
                             <Section>
    
-                               <Withdrawals count={count}/>
+                               <Withdrawals count={count}
+                                  rrspStartAge={rrspStartAge}
+                                  tfsaStartAge={tfsaStartAge}
+                               />
                             </Section>
                             <Section>
+                             <InvestmentFactors count={count}
+                                    changeChart={ changeChart}
+                                    rrspStartAge={rrspStartAge}
+                                    tfsaStartAge={tfsaStartAge}
+                             />  
 
-                             <InvestmentFactors count={count}/>  
-                                />
                         </Section>
                         {
                             count > 7 ? 
@@ -135,7 +162,8 @@ const ControlPanel = ({incomePerYear_reducer, pensionStartAges_reducer, rate1}) 
    const mapStateToProps = state => ({
         incomePerYear_reducer: state.incomePerYear_reducer,
         pensionStartAges_reducer: state.pensionStartAges_reducer,
-        rate1: rate1(state)
+        rate1: rate1(state),
+        rate2: rate2(state),
    })
 
    export default connect(mapStateToProps)(ControlPanel)
@@ -151,7 +179,6 @@ const ControlPanelWrapper = styled.div`
     margin-left: 3rem;
     margin-right: 3rem;
     position: relative;
-    
 `
 
 const Dialogue = styled.div`
@@ -170,6 +197,20 @@ const DialogueHeader = styled.div`
     margin-bottom: 1rem;
 `
 
+
+const NestEggTotals = styled.div`
+   display: flex;
+   justify-content: space-around;
+   width: 60%;
+   align-self: center;
+   padding: 0.5rem;
+`
+const NestEggTotalColumn = styled.div`
+
+`
+const NestEggTotalHeader = styled.div`
+
+`
 
 const Sections = styled.div`
     display: flex;
@@ -197,7 +238,20 @@ right: 3rem;
 
 `
 
+const Summary = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    display: inline-block;
+    padding: 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-size: ${props => props.theme.fontSize.medium};
 
+  
+`
 
 const List= styled.ol `
     text-align: left;
@@ -222,3 +276,13 @@ const ButtonWrapper = styled(NavLink)`
     right: 2rem;
 `
 
+const LargeTotal = styled.div`
+    font-size: ${props => props.theme.fontSize.medium};
+    font-weight: 300;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    color: ${props => props.theme.color.slate};
+ 
+
+`

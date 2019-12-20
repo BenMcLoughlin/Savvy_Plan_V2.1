@@ -9,10 +9,16 @@ import SavingsStackedChart from "./Charts/SavingsStackedChart"
 import SavingsAreaChart from "./Charts/SavingsAreaChart"
 import {initializeSavingsAndWithdrawals} from "./services/localFunctions"
 import {rate1, rate2} from "./reducers/savingsPlan_selectors"
-const SavingsPlanApp = ({transaction_action, incomePerYear_reducer,  rate1, rate2}) => {
+
+const SavingsPlanApp = ({incomePerYear_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action }) => {
+
+    const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
+    const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
+
+    const currentAge = 18 
 
     useEffect(() => {
-        initializeSavingsAndWithdrawals(incomePerYear_reducer, transaction_action, rate1, rate2)
+        initializeSavingsAndWithdrawals(currentAge, incomePerYear_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
     }, [])
 
         return (
@@ -24,7 +30,10 @@ const SavingsPlanApp = ({transaction_action, incomePerYear_reducer,  rate1, rate
                 <BarChartPlaceHolder>   
                     <SavingsStackedChart/>
                 </BarChartPlaceHolder>   
-            <ControlPanel/>
+            <ControlPanel
+            initializeSavingsAndWithdrawals={initializeSavingsAndWithdrawals}
+            transaction_action={transaction_action}
+            />
         </UserInterfaceWrapper>
         )
 }
@@ -33,6 +42,7 @@ const mapStateToProps = (state) => {
     return {
         rate1: rate1(state),
         rate2: rate2(state),
+        pensionStartAges_reducer: state.pensionStartAges_reducer,
         incomePerYear_reducer: state.incomePerYear_reducer,
     }
 }

@@ -13,6 +13,7 @@ const RangeBarSlider = ({setValue, rangeBarProps, color}) => {                  
         setRangeBarValue(e.target.value)
         setValue(logValue, rangeBarValue, rangeBarProps)
     }  
+    const sliderValue = rangeBarValue > 0 ? rangeBarValue : 0
         return (
             <Input
                 type="range"
@@ -21,7 +22,7 @@ const RangeBarSlider = ({setValue, rangeBarProps, color}) => {                  
                 value={rangeBarProps.rangeBarValue}
                 max={100}
                 step={0.1}
-                percentage={`${(rangeBarProps.rangeBarValue/100)*100}%`}
+                percentage={`${(rangeBarValue/100)*100}%`}
                 color={color}
             />
         )

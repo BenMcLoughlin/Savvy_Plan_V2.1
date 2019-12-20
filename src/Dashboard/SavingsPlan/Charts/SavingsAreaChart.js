@@ -33,7 +33,7 @@ const drawChart = (props, width, height) => {
 
 
 
-    const graph = svg.append("g").attr("height", graphHeight)
+    const graph = svg.append("g").attr("height", graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
                                  .attr("transform", `translate(${margin.left}, ${margin.top})`)
                                  

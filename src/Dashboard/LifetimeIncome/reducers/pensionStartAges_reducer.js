@@ -20,8 +20,8 @@ const initialState = {
             numberType: "age",
             valueThisRangeBarChanges: "oasIncome"
         },
-        rrifStartAge: {
-            name: "rrifStartAge",
+        rrspStartAge: {
+            name: "rrspStartAge",
             label: "Convert RRSP to rrsp",
             rangeBarValue: 65, 
             min: 50,

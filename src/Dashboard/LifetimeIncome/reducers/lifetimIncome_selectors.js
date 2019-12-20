@@ -6,6 +6,7 @@ const keyVariables_reducer = state => state.keyVariables_reducer
 const pensionStartAges_reducer = state => state.pensionStartAges_reducer
 
 
+
 export const stackedChartData = createSelector(
     [incomePerYear_reducer],
     (incomePerYear_reducer) => Object.values(incomePerYear_reducer).map(d => {                                                                  //the year list needs to be converted to an array so the chart can render the data
@@ -35,8 +36,6 @@ export const retirementPensionIncome = createSelector(                          
                                                 .map(d => d.financialValue)
                                                 .reduce((acc,num) => acc + num)                                                                       
 )
-
-
 
 
 

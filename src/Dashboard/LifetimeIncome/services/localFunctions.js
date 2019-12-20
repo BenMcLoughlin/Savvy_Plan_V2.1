@@ -96,9 +96,9 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
 //SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
 
 
-    export const setMaxContributions = ( birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, tfsaStartAge) => {
+    export const setMaxContributions = ( birthYear, incomePerYear_reducer, rrspStartAge, setMaxContribution_action, tfsaStartAge) => {
 
-       for (let age = 18; age < rrifStartAge; age ++) {
+       for (let age = 18; age < rrspStartAge; age ++) {
             const year = age + birthYear                                                                                                                                                      //year is used to determine the contribution room avaibale from the government
             const contributionLimit = historicRRSP[year] ? historicRRSP[year]  : 154611
             const totalRrspContEligibleIncome = Object.values(incomePerYear_reducer[age])                                                                                              //We're looking up their income for that year so we can sum it all
@@ -139,11 +139,11 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
 
 
 //SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
- export const determineMaxRegisteredPayments = (incomePerYear_reducer, rrifStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) => {
+ export const determineMaxRegisteredPayments = (incomePerYear_reducer, rrspStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) => {
 
-            const rrspContributionArray = Object.values(savingsPerYear_reducer).slice(0,(rrifStartAge - 18)).map(d => d.rrsp.maxContribution)
+            const rrspContributionArray = Object.values(savingsPerYear_reducer).slice(0,(rrspStartAge - 18)).map(d => d.rrsp.maxContribution)
             const maxRrspValue = rrspContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
-            const maxRrspPayment = payment(rate2, (95-rrifStartAge), maxRrspValue, 0)
+            const maxRrspPayment = payment(rate2, (95-rrspStartAge), maxRrspValue, 0)
             
             const tfsaContributionArray = Object.values(savingsPerYear_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
             const maxTfsaValue = tfsaContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)

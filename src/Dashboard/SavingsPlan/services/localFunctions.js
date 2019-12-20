@@ -4,34 +4,30 @@ import {inverseLogslider} from "../../../services/logorithmicFunctions"
 import * as d3 from "d3"
 
 
-export const setReccomendedSavingaPlan = (account, calculateReccomendedSavings_action, incomePerYear_reducer, investmentReturns_reducer, setReccomendedSavingsValue_action) => {
-    
-                                          
-    const rate1 = investmentReturns_reducer.rate1()
-    const rate2= investmentReturns_reducer.rate2()
+// export const setReccomendedSavingaPlan = (account, calculateReccomendedSavings_action, incomePerYear_reducer, investmentReturns_reducer, rate1, rate2, setReccomendedSavingsValue_action) => {
 
-    const withdrawal = incomePerYear_reducer[72][account].financialValue
-    const valueAtRetirement = presentValue(rate2, 30, withdrawal, 0)
-    const reccomendedSavings = payment(rate1 , 45, 0, valueAtRetirement)
+//     const withdrawal = incomePerYear_reducer[72][account].financialValue
+//     const valueAtRetirement = presentValue(rate2, 30, withdrawal, 0)
+//     const reccomendedSavings = payment(rate1 , 45, 0, valueAtRetirement)
 
-    for (let age = 20; age < 65; age ++) {
-        setReccomendedSavingsValue_action(age, reccomendedSavings, account )  
-        calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
-    }
-    for (let age = 65; age <= 95; age++ ) {
-        setReccomendedSavingsValue_action(age, -withdrawal, account)   
-        calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
-    }
-}
+//     for (let age = 20; age < 65; age ++) {
+//         setReccomendedSavingsValue_action(age, reccomendedSavings, account )  
+//         calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
+//     }
+//     for (let age = 65; age <= 95; age++ ) {
+//         setReccomendedSavingsValue_action(age, -withdrawal, account)   
+//         calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
+//     }
+// }
 
 
     //DATA CONVERSTION FOR STACKED BAR CHART
     export const convertReducerToArrayData = (reducer) => {
         const data = Object.values(reducer).map((d, age) => {  
-            const namesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
+            const namesArray = Object.keys(d)                                                                                                              //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
             const valueArray = Object.values(d).map((a, i) => (a.contribute + -a.withdraw))                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
-            var result = {age: d.rrsp.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
-            namesArray.forEach((key, i) => result[key] = valueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
+            var result = {age: d.rrsp.age};                                                                                                                //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
+            namesArray.forEach((key, i) => result[key] = valueArray[i]);                                                                                   //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
             return result
         })
         return data 
@@ -39,38 +35,45 @@ export const setReccomendedSavingaPlan = (account, calculateReccomendedSavings_a
 
 
 //RENDER SAVINGS - SETS ALL VALUES IN SAVINGS ARRAY
- export const renderSavings = (fromAge, toAge, name, value, rangeBarValue, transaction, savingsPerYear_reducer, transaction_action, rate1, rate2 ) => {
+ export const renderSavings = (fromAge, toAge, name, value, rangeBarValue, transaction, savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge ) => {
 
+    const retirementAge = name === "rrsp" ? rrspStartAge : tfsaStartAge
     for (let age = 18; age < fromAge; age++) {
         const contributionValue = savingsPerYear_reducer[age][name].contribute
         const rangeBarValue = inverseLogslider(contributionValue )
-        transaction_action(age, name, "contribute", rangeBarValue, contributionValue, rate1, rate2)
+        transaction_action(age, name, "contribute", rangeBarValue, rate1, rate2, retirementAge, contributionValue)                
     } 
     for (let age = fromAge; age < toAge; age++) {
-        transaction_action(age, name, transaction, rangeBarValue, value, rate1, rate2)
+        transaction_action(age, name, transaction, rangeBarValue, rate1, rate2, retirementAge, value)
     } 
+
     for (let age = toAge; age <= 95; age++) {
-        const withdrawalValue = savingsPerYear_reducer[age][name].withdraw
-        const rangeBarValue = inverseLogslider(withdrawalValue )
-        transaction_action(age, name, "withdraw", rangeBarValue, withdrawalValue,  rate1, rate2)
+
+        const withdrawal = savingsPerYear_reducer[age][name].totalValue > savingsPerYear_reducer[70][name].financialValue ? savingsPerYear_reducer[70][name].financialValue : 0
+        const rangeBarValue = inverseLogslider(withdrawal)
+        transaction_action(age, name, "withdraw", rangeBarValue,  rate1, rate2, retirementAge, withdrawal)
     } 
 }
 
 
 //INITIALIZE SAVINGS & WITHDRAWAL VALUES
 
-export const initializeSavingsAndWithdrawals = (incomePerYear_reducer, transaction_action, rate1, rate2) => {
+export const initializeSavingsAndWithdrawals = (currentAge, incomePerYear_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action) => {
+
     ["rrsp", "tfsa", "nonRegistered"].map(account => {
-        const reccomendedPayment = incomePerYear_reducer[72][account].financialValue > 0 ? incomePerYear_reducer[72][account].financialValue : 100
-        const nestEggValue = presentValue(rate2, 30, reccomendedPayment, 0)
-        const value = payment(rate1, 40, 0,nestEggValue) > 0 ? payment(rate1, 40, 0,nestEggValue) : 100
+        const retirementStartAge = account === "rrsp" ? rrspStartAge : tfsaStartAge
+        const reccomendedPayment = incomePerYear_reducer[72][account].financialValue > 0 ? incomePerYear_reducer[72][account].financialValue : 0
+        const nestEggValue = presentValue(rate2, (95-rrspStartAge), reccomendedPayment, 0)
+        const value = payment(rate1, (rrspStartAge - currentAge), 0, nestEggValue) > 0 ? payment(rate1, (rrspStartAge - currentAge), 0,nestEggValue) : 0
+
         const rangeBarValueC = inverseLogslider(value )
         const rangeBarValueW = inverseLogslider(reccomendedPayment)
-        for (let age = 18; age < 65; age++) {
-            transaction_action(age, account, "contribute", rangeBarValueC, value, rate1, rate2)
+        for (let age = 18; age < retirementStartAge; age++) {
+            transaction_action(age, account, "contribute", rangeBarValueC, rate1, rate2, retirementStartAge, value)
+            
         }
-        for (let age = 65; age <= 95; age++) {
-            transaction_action(age, account, "withdraw", rangeBarValueW, reccomendedPayment, rate1, rate2)
+        for (let age = retirementStartAge; age <= 95; age++) {
+            transaction_action(age, account, "withdraw", rangeBarValueW, rate1, rate2, retirementStartAge, reccomendedPayment)
         } 
     })
 }
@@ -96,9 +99,25 @@ export   const optimizedContribution = (account, savingsPerYear_reducer, setOpit
     } 
 }
 
-export const reccomendedNestEgg = (rate, rrifStartAge, withdrawal) => {
-    const duration = 95 - rrifStartAge
+export const reccomendedNestEgg = (rate, startAge, withdrawal) => {
+    const duration = 95 - startAge
    const value = -presentValue(rate, duration, withdrawal, 0)
+   const roundedValue = Math.round(value/1000)*1000
+   if (value > 1000000) {
+       return `${roundedValue/1000000} M`
+   }
+   else return `${roundedValue/1000} K`
+}
+
+export const reccomendedSavingsPerYear = (birthYear, rate, startAge, withdrawal) => {
+    const durationInRetirement = 95 - startAge
+    const nestEgg = -presentValue(rate, durationInRetirement, withdrawal, 0)
+
+    const thisYear = new Date().getFullYear()
+
+    const age = thisYear - birthYear
+    const duration = startAge - age
+   const value = -payment(rate , duration, 0, nestEgg)
    const roundedValue = Math.round(value/1000)*1000
    if (value > 1000000) {
        return `${roundedValue/1000000} M`

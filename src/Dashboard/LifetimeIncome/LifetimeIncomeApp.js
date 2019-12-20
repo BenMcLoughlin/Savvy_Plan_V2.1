@@ -22,11 +22,11 @@ const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPe
         const [fromAge, setFromAge] = useState(18)
         const [toAge, setToAge] = useState(65)    
 
-        const {pensionStartAges_reducer: {rrifStartAge: {rangeBarValue: rrifStartAge}}} = {pensionStartAges_reducer}
+        const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
         const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
         const {retirementIncome: {financialValue: retirementIncome}} = keyVariables_reducer
    
-        const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(incomePerYear_reducer, rrifStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) 
+        const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(incomePerYear_reducer, rrspStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) 
 
         const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, retirementIncome)
 
@@ -79,13 +79,13 @@ const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPe
             }}
         else if (name === "tfsaStartAge") {
             setKeyVariable_action(name, value)
-            setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, value) 
-            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, rrifStartAge, value, setIncome_action)
+            setMaxContributions(birthYear, incomePerYear_reducer, rrspStartAge, setMaxContribution_action, value) 
+            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, tfsaStartAge, value, setIncome_action)
         }
-        else if (name === "rrifStartAge") {
+        else if (name === "rrspStartAge") {
             setKeyVariable_action(name, value)
-            setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, value) 
-            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, value, tfsaStartAge, setIncome_action)
+            setMaxContributions(birthYear, incomePerYear_reducer, rrspStartAge, setMaxContribution_action, value) 
+            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, value, rrspStartAge, setIncome_action)
         }
 
        }
@@ -109,8 +109,8 @@ const {birthYear} = keyVariables_reducer
 const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
     setRetirementIncome_action(financialValue, rangeBarValue)
     const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, financialValue)
-    setMaxContributions(birthYear, incomePerYear_reducer, rrifStartAge, setMaxContribution_action, tfsaStartAge) 
-    addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString()), incomeStreams, rrifStartAge, tfsaStartAge, setIncome_action)
+    setMaxContributions(birthYear, incomePerYear_reducer, rrspStartAge, setMaxContribution_action, tfsaStartAge) 
+    addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString()), incomeStreams, rrspStartAge, tfsaStartAge, setIncome_action)
 } 
         return (
             <UserInterfaceWrapper>

@@ -6,8 +6,8 @@ const savingsPerYear = state => state.savingsPerYear_reducer
 const pensionStartAges = state => state.pensionStartAges_reducer
 const investmentReturns = state => state.investmentReturns_reducer
 
-export const rrspStartAge = (state) => state.pensionStartAges_reducer.rrifStartAge.rangeBarValue
-export const tfsaStartAge = (state) => state.pensionStartAges_reducer.rrifStartAge.rangeBarValue
+export const rrspStartAge = (state) => state.pensionStartAges_reducer.rrspStartAge.rangeBarValue
+export const tfsaStartAge = (state) => state.pensionStartAges_reducer.rrspStartAge.rangeBarValue
 
 
 const round = number => {
@@ -25,11 +25,11 @@ export const returns = state => state.investmentReturns_reducer
 
 export const rate1 = createSelector(
     [returns],
-    (returns) =>  0.065 - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue
+    (returns) =>  returns.beforeRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue > 0 ? returns.beforeRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue : 0
 )
 export const rate2 = createSelector(
     [returns],
-    (returns) => returns.afterRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue
+    (returns) => returns.afterRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue > 0 ? returns.afterRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue : 0
 )
 
 //CHART SELECTORS - change data format to be used in the charts

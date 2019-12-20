@@ -7,7 +7,7 @@ import {rate1, rate2} from "../../reducers/savingsPlan_selectors"
 import {transaction_action, setOpitmizedValues_action} from "../../actions"
 import {renderSavings, optimizedContribution} from "../../services/localFunctions"
 
-const Withdrawals = ({savingsPerYear_reducer,transaction_action, setOpitmizedValues_action, rate1, rate2, count}) => {
+const Withdrawals = ({count, savingsPerYear_reducer,transaction_action, setOpitmizedValues_action, rate1, rate2, rrspStartAge, tfsaStartAge}) => {
 
     const [fromAge, setFromAge] = useState(65)
     const [toAge, setToAge] = useState(95)    
@@ -17,50 +17,49 @@ const Withdrawals = ({savingsPerYear_reducer,transaction_action, setOpitmizedVal
     }
 
     const setWithdrawals = (value, rangeBarValue, {name})  => {
-        renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer, transaction_action, rate1, rate2 )
-        optimizedContribution(name, savingsPerYear_reducer, setOpitmizedValues_action, rate1)
+        renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+      //  optimizedContribution(name, savingsPerYear_reducer, setOpitmizedValues_action, rate1)
     }
 
 
     const rangeBarArray = Object.values(savingsPerYear_reducer[fromAge])
 
     return (
-        <Wrapper>        
-             {
-                 count > 6 ? 
+          
+                 count > 3 ? 
+                 <Wrapper>    
                  <YearsSelectorWrapper> 
-                 <SelectorTitleWrapper>
-                     <div>From Age</div>    
-                     <div>To Age</div>    
-                 </SelectorTitleWrapper>
-                 <DualRangeBar
-                     fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
-                     toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
-                     setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
-                 />
-               <RangeBarWrapper>
-                     {
-                         rangeBarArray.map(d => 
-                        
-                                 <Display>
-                                 <RangeBar
-                                                 key={d.name}
-                                                 financialValue= {d.financialValue}
-                                                 rangeBarProps={d}
-                                                 setValue={setWithdrawals}
-                                                 />
-                                                 <Value>{(Math.round(d.optimizedWithdrawal/1000)*1000)/1000}k</Value>
-                                 </Display>
-     
-     
-                         )
-                     }
-                     </RangeBarWrapper>
-     
-         </YearsSelectorWrapper>                                                                                    
-           : null
-             }
-    </Wrapper>      
+                            <SelectorTitleWrapper>
+                                <div>From Age</div>    
+                                <div>To Age</div>    
+                            </SelectorTitleWrapper>
+                            <DualRangeBar
+                                fromAge={fromAge}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
+                                toAge={toAge}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
+                                setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
+                            />
+                        <RangeBarWrapper>
+                                {
+                                    rangeBarArray.map(d => 
+                                    
+                                            <Display>
+                                            <RangeBar
+                                                            key={d.name}
+                                                            financialValue= {d.financialValue}
+                                                            rangeBarProps={d}
+                                                            setValue={setWithdrawals}
+                                                            />
+                                                            {/* <Value>{(Math.round(d.optimizedWithdrawal/1000)*1000)/1000}k</Value> */}
+                                            </Display>
+                
+                
+                                    )
+                                }
+                                </RangeBarWrapper>
+                
+                    </YearsSelectorWrapper>       
+                    </Wrapper>                                                                              
+           : null     
     )
 }
 

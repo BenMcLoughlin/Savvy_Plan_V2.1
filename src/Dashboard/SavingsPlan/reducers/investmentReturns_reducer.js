@@ -1,30 +1,30 @@
 
 const initialState = {
+        beforeRetirementReturn: {
+            name: "beforeRetirementReturn",
+            label: "Before Retirement Return",
+            rangeBarValue: .065, 
+            min: 0,
+            max: .11,
+            step: .0001,
+            numberType: "percentage",
+        },
             afterRetirementReturn: {
             name: "afterRetirementReturn",
             label: "After Retirement Return ",
             rangeBarValue: .05, 
             min: 0,
             max: .1,
-            step: .0025,
-            numberType: "percentage",
-        },
-        rateOfReturn: {
-            name: "rateOfReturn",
-            label: "Rate of Return",
-            rangeBarValue: .065, 
-            min: 0,
-            max: .1,
-            step: .0025,
+            step: .0001,
             numberType: "percentage",
         },
         managementFee: {
             name: "managementFee",
             label: "Management Fee",
-            rangeBarValue: .025, 
+            rangeBarValue: .02, 
             min: 0,
-            max: .1,
-            step: .0025,
+            max: .035,
+            step: .0001,
             numberType: "percentage",
         },
         inflationRate: {
@@ -33,7 +33,7 @@ const initialState = {
             rangeBarValue:.02, 
             min: 0,
             max: .1,
-            step: .0025,
+            step: .0001,
             numberType: "percentage",
         },
 }

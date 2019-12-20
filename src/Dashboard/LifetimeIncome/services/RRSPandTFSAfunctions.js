@@ -71,16 +71,16 @@ export const calculateOptimumIncomeStreams = calculateOptimumIncomeStreamsMemoiz
 function addRetirementIncomeMemoized() {
     let cache = {};
 
-    return function addRetirementIncome (cacheKey, incomeStreams, rrifStartAge, tfsaStartAge, setIncome_action) {
+    return function addRetirementIncome (cacheKey, incomeStreams, rrspStartAge, tfsaStartAge, setIncome_action) {
 
         if (cacheKey in cache) 
         return cache[cacheKey]
         else {
-            for (let age = 50; age < rrifStartAge; age++ ) {
+            for (let age = 50; age < rrspStartAge; age++ ) {
                 setIncome_action(age, false, 0, "RRSP Income", "rrsp", 0) 
             
             }
-            for (let age = rrifStartAge; age <= 95; age++ ) {
+            for (let age = rrspStartAge; age <= 95; age++ ) {
                 setIncome_action(age, false, Math.round(incomeStreams.rrsp/1000)*1000, "RRSP Income", "rrsp", 0) 
                 console.log(incomeStreams.rrsp);
             

@@ -8,7 +8,7 @@ import {transaction_action, setOpitmizedValues_action} from "../../actions"
 import {renderSavings, optimizedWithdrawals} from "../../services/localFunctions"
 
 
-const Contributions = ({savingsPerYear_reducer, transaction_action, rate1, rate2, setOpitmizedValues_action, count}) => {
+const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
 
     const [fromAge, setFromAge] = useState(18)
     const [toAge, setToAge] = useState(65)    
@@ -18,17 +18,18 @@ const Contributions = ({savingsPerYear_reducer, transaction_action, rate1, rate2
     }
 
      const setContributions = (value, rangeBarValue, {name})  => {
-        renderSavings(fromAge, toAge, name, value, rangeBarValue, "contribute", savingsPerYear_reducer, transaction_action, rate1, rate2 )
-        optimizedWithdrawals(name, savingsPerYear_reducer, setOpitmizedValues_action, rate2)
+
+        renderSavings(fromAge, toAge, name, value, rangeBarValue, "contribute", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+
+        // optimizedWithdrawals(name, savingsPerYear_reducer, setOpitmizedValues_action, rate2)
        
     }
 
     const rangeBarArray = Object.values(savingsPerYear_reducer[fromAge])
-
+    console.log(Object.values(savingsPerYear_reducer).map(d => d.rrsp));
     return (
-        <Wrapper>         
-            {
-                count > 3 ? 
+         count > 2 ? 
+                <Wrapper>     
                         <YearsSelectorWrapper> 
                             <SelectorTitleWrapper>
                                     <div>From Age</div>    
@@ -40,30 +41,23 @@ const Contributions = ({savingsPerYear_reducer, transaction_action, rate1, rate2
                                     setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
                                 />
                       </YearsSelectorWrapper>   
+                                      <RangeBarWrapper>
+                                      { rangeBarArray.map(d => 
+                                                  <Display>
+                                                  <RangeBar
+                                                                  key={d.name}
+                                                                  financialValue= {d.financialValue}
+                                                                  rangeBarProps={d}
+                                                                  setValue={setContributions}
+                                                                  />
+                                                              
+                                                                {/* <Value>{(Math.round(d.optimizedContribution/1000)*1000)/1000}k</Value>  */}
+                                                  </Display>
+                                          ) }
+                                </RangeBarWrapper>
+                 </Wrapper>   
                  : null 
-            }
-            {
-                count > 6 ? 
-                <RangeBarWrapper>
-                    { rangeBarArray.map(d => 
-                                <Display>
-                                <RangeBar
-                                                key={d.name}
-                                                financialValue= {d.financialValue}
-                                                rangeBarProps={d}
-                                                setValue={setContributions}
-                                                />
-                                            
-                                              <Value>{(Math.round(d.optimizedContribution/1000)*1000)/1000}k</Value> 
-                                </Display>
-                        ) }
-                    </RangeBarWrapper>
-                 : null 
-            }
-
-
-                                                                                
-        </Wrapper>                            
+        
     )
 }
 

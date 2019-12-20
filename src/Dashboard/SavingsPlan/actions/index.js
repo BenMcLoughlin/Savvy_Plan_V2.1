@@ -1,12 +1,13 @@
 
 
-export const transaction_action = (age, name, transaction, rangeBarValue, value, rate1, rate2) => ({
+export const transaction_action = (age, name, transaction, rangeBarValue, rate1, rate2, retirementAge, value) => ({
     type: "savingsPerYear_reducer/TRANSACTION", 
             age,
             name, 
             rangeBarValue, 
             rate1,
             rate2,
+            retirementAge,
             value,
             transaction
 })

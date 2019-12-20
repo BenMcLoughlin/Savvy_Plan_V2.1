@@ -1,18 +1,19 @@
 
-const determineTotalContributions = (age, name, state, transaction, value, rate1, rate2) => {
+const determineTotalContributions = (age, name, state, transaction, value)=> {
  const lastValue = state[age - 1][name]
- const principlePercentage = state[age - 1][name].totalContributions / state[age - 1][name].totalValue
+ const principlePercentage = lastValue.totalContributions / lastValue.totalValue
 const contribute = transaction === "contribute" ? value : (-value * principlePercentage)
 const totalContribution = lastValue.totalContributions + contribute 
 return totalContribution > 0 ? totalContribution : 0
 
 }
-const determineTotalInterest = (age, name, state, transaction, value, rate1, rate2) => {
-    const rate = age > 65 ? rate2 : rate1
-    const interestPercentage = state[age - 1][name].totalInterest / state[age - 1][name].totalValue
-    const withdraw = transaction === "withdraw" ? (-value * interestPercentage ) : 0
+const determineTotalInterest = (age, name, rate1, rate2, retirementAge, state, transaction, value) => {
     const lastValue = state[age - 1][name]
-    const totalInterest = ((lastValue.totalContributions + lastValue.totalInterest) * rate) + lastValue.totalInterest + withdraw
+    const rate = age >= retirementAge ? rate2 : rate1
+    const interestPercentage = lastValue.totalInterest / lastValue.totalValue
+    const withdraw = transaction === "withdraw" ? (value * interestPercentage ) : 0
+ 
+    const totalInterest = (((lastValue.totalContributions + lastValue.totalInterest) * rate) + lastValue.totalInterest) - withdraw
     return totalInterest > 0 ? totalInterest : 0
 }
 
@@ -74,7 +75,7 @@ return incomePerYear
     switch(action.type) {
         case "savingsPerYear_reducer/TRANSACTION": 
         const totalContributions = determineTotalContributions(action.age, action.name, state, action.transaction, action.value)
-        const totalInterest = determineTotalInterest(action.age, action.name, state, action.transaction, action.value, action.rate1, action.rate2)
+        const totalInterest = determineTotalInterest(action.age, action.name, action.rate1, action.rate2, action.retirementAge, state, action.transaction, action.value)
         const totalValue = totalContributions + totalInterest
         return {...state, [action.age]: {
                                     ...state[action.age], [action.name]: {
