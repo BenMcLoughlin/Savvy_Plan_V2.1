@@ -58,13 +58,15 @@ const drawChart = (props, width, height) => {
     const update = data => {
     
 
-        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) > -30000 ? -30000 : 
-                         d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 2000   
+        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) )
 
        const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
+        console.log(props.stackedBarData2);
+        console.log(d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ))
+
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
@@ -100,7 +102,7 @@ const drawChart = (props, width, height) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                                const thisYearTotalIncome = Object.values(props.data[i]).slice(1).reduce((acc, num) => acc + num)
+                                const thisYearTotalIncome = Object.values(props.stackedBarData2[i]).slice(1).reduce((acc, num) => acc + num)
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)
@@ -122,7 +124,7 @@ const drawChart = (props, width, height) => {
                                                 <div class="total" style="color: ${thisColor}; ">
                                                     <h3 class="title">  ${_.startCase(name)} </h3>
                                                     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                        ${(d[1] - d[0])/1000} 
+                                                        ${(Math.round((d[1] - d[0])/1000)*1000)/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>

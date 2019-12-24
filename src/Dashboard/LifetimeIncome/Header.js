@@ -97,7 +97,7 @@ return (
                         className="rrifTooltip"
                     />
                     </RRIFSummary>
-                    <TaxSummary>
+                    <NRegSummary>
                     {`${tfsa/1000}k`}
                     <h4>TFSA</h4>
                          <Circle color={"#81CCAF"}/>
@@ -110,10 +110,10 @@ return (
                     header= "Canada Pension Plan"
                     className="taxTooltip"
                 />
-                    </TaxSummary>
+                    </NRegSummary>
                     {
                         nonRegistered > 1000 ? 
-                        <TaxSummary>
+                        <NRegSummary>
                         {`${nonRegistered/1000}k`}
                         <h4>N-Reg</h4>
                              <Circle color={"#B9B0A2"}/>
@@ -126,7 +126,7 @@ return (
                         header= "Canada Pension Plan"
                         className="taxTooltip"
                     />
-                      </TaxSummary>
+                      </NRegSummary>
                     : null
                     }
 
@@ -192,7 +192,7 @@ const RRIFSummary = styled(Summary)`
         visibility: visible;
     }
 `
-const TaxSummary = styled(Summary)`
+const NRegSummary = styled(Summary)`
     &:hover .taxTooltip {
         opacity: 1;
         visibility: visible;

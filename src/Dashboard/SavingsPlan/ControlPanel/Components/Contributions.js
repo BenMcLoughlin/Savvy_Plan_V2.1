@@ -26,7 +26,6 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reduce
     }
 
     const rangeBarArray = Object.values(savingsPerYear_reducer[fromAge])
-    console.log(Object.values(savingsPerYear_reducer).map(d => d.rrsp));
     return (
          count > 2 ? 
                 <Wrapper>     

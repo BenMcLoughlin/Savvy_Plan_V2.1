@@ -20,7 +20,7 @@ const determineTotalInterest = (age, name, rate1, rate2, retirementAge, state, t
 
 const initialState = () => {
     const incomePerYear = {}
-    for (let age = 17; age <= 95; age++) {
+    for (let age = 17; age <= 96; age++) {
         incomePerYear[Number(age)] = {
                 rrsp: {
                     age: age, 

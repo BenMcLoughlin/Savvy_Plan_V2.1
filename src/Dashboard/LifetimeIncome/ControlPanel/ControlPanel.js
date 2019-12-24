@@ -66,7 +66,7 @@ export default function ControlPanel(props) {
                                              nonRegistered > 1000 ? 
                                                      <h5>{`By drawing $${rrsp/1000}k from your RRSP, $${tfsa/1000}k from your TFSA and  $${nonRegistered/1000}k from your Non-Registered accounts you'll minimuze your taxes both before and after retirement.`}</h5>  
                                                     :
-                                                     <h5>{`By drawing $${rrsp/1000}k from your RRSP and $${tfsa/1000}k from your TFSA you'll minimuze your taxes both before and after retirement.`}</h5>  
+                                                     <h5>{`By drawing $${rrsp/1000}k from your RRSP and $${tfsa/1000}k from your TFSA you'll minimize your taxes both before and after retirement.`}</h5>  
                                          }
    
                                                     </div>

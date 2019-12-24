@@ -1,4 +1,4 @@
-.tooltip {
+/* .tooltip {
     background: #F7F7F5;
     position: absolute;
     height: 18rem;
@@ -79,15 +79,14 @@ span {
     padding-left: .3rem;
 
     
-}
+} */
 
-.axis {
-    fill: none;
+/* .axis {
+    fill: red;
     stroke-opacity: .75;
     shape-rendering: crispEdges;
-    stroke: #F7F7F5 !important;
+    stroke: red;
     stroke-width:  .8px;
-    font-size: 1.5rem;
     font-family: 'Lato', sans-serif;
 
-}
+} */

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as d3 from "d3"
-import "./ChartStyles.css"
+import styles from "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
 import {stackedAreaData} from "../reducers/savingsPlan_selectors"

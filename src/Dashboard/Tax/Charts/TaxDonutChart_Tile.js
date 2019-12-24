@@ -18,7 +18,7 @@ const drawTaxDonutChart = (props, width, height) => {
                                     .map(d => d.value).reduce((acc, num) => acc + num)
 
 
-    const radius = width / 3.4
+    const radius = width / 4
     const center = {x: (width / 2), y: (height / 2)} // chart dimension
 
     const svg = d3.select(".canvasTaxDonutChart_tile")

@@ -1,4 +1,4 @@
-.tooltip {
+/* .tooltip {
     background: #F7F7F5;
     position: absolute;
     height: 18rem;
@@ -51,7 +51,7 @@
     height: 50%;
     text-align: left;
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 .financialOutput {
     padding: 1rem;
@@ -77,16 +77,16 @@ span {
     
 }
 
-.axis {
-    fill: none;
+/* .axis {
+    fill: red;
     stroke-opacity: .75;
     shape-rendering: crispEdges;
     stroke: #F7F7F5 !important;
     stroke-width:  .8px;
-    font-size: 1.5rem;
+    font-size: 1.2px;
     font-family: 'Lato', sans-serif;
 
 }
 .legend {
     font-size: 1.4rem;
-}
+} */

@@ -40,64 +40,53 @@ return (
             <Right>
             <h2>Account Values at Retirement</h2>
             <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
-                    <CPPSummary>
+                    <RRSPSummary>
                     {rrspDisplayValue}  
                         <h4>RRSP</h4>
                         <Tooltip 
                             x={this.state.x} 
                             y={this.state.y} 
-                            text="  A monthly, taxable benefit that replaces part of your income when you retire. 
-                                    If you qualify, you’ll receive the CPP retirement pension for the rest of your life. 
-                                    To qualify you must:
-                                    be at least 60 years old
-                                    have made at least one valid contribution to the CPP"
+                            text="Earnings in a Registered Retirement Savings Plan are tax-free and amounts paid out to you are taxable.
+                                  Since there is a minimum that you must take out in retirement, our planning goal is to ensure that you aren't forced to withdraw
+                                  so much that you are heavily taxed.
+                            
+                            "
                             header= "Canada Pension Plan"
                             className="cppTooltip"
                         />
-                    </CPPSummary>
-                    <OASSummary >
+                    </RRSPSummary>
+                    <TFSASummary >
                     {tfsaDisplayValue}
                         <h4 >TFSA</h4>
                         <Tooltip 
                         x={this.state.x} 
                         y={this.state.y} 
-                        text=   " The OAS pension is a monthly payment available to seniors aged 65 and older who 
-                                  meet the Canadian legal status and residence requirements. It is not based on 
-                                  contributions, every Canadian is elgible."
+                        text=   " Contributions to a Tax Free Savings Account are not deductible for income tax purposes. 
+                        Any amount contributed as well as any income earned in the account (for example, investment income and capital gains) is generally tax-free, even when it is withdrawn. "
                         header= "Old Age Security"
                         className="oasTooltip"
                          />
-                    </OASSummary>
-                    <RRIFSummary>
-                    {nonRegisteredDisplayValue}
-                    <h4 >N-Reg</h4>
-                        <Tooltip 
-                        x={this.state.x} 
-                        y={this.state.y} 
-                        text=   "A Registered Retirement Income Fund (nonRegisteredValue) is an account registered with the government that 
-                                 pays you income in retirement. Before, you were putting money into your RRSP to accumulate
-                                 savings for retirement. Now, you withdraw that money from your nonRegisteredValue as retirement income."
-                        header= "Registered Retirement Income Fund"
-                        className="rrifTooltip"
-                    />
-                    </RRIFSummary>
-                    <Vr/>
-                    <TaxSummary>
-                    {`${22}%`}
-                    <h4>Tax Rate</h4>
-                    <Tooltip 
-                    x={this.state.x} 
-                    y={this.state.y} 
-                    text="      Marginal tax is the amount of tax paid on an additional dollar of income. As income rises, so does the tax rate. 
-                                If retirement, if you earn over $78,000 you're Old Age Security will be clawed back
-                                at a rate of 15% on every additional dollar earned. "
-                    header= "Canada Pension Plan"
-                    className="taxTooltip"
-                />
-                    </TaxSummary>
+                    </TFSASummary>
+                    {nonRegisteredDisplayValue > 0 ?
+                   <NRegSummary>
+                   {nonRegisteredDisplayValue}
+                   <h4 >N-Reg</h4>
+                       <Tooltip 
+                       x={this.state.x} 
+                       y={this.state.y} 
+                       text=   "A Registered Retirement Income Fund (nonRegisteredValue) is an account registered with the government that 
+                                pays you income in retirement. Before, you were putting money into your RRSP to accumulate
+                                savings for retirement. Now, you withdraw that money from your nonRegisteredValue as retirement income."
+                       header= "Registered Retirement Income Fund"
+                       className="rrifTooltip"
+                   />
+                   </NRegSummary>
+                   : null
+                    }
+ 
             </PensionIncomeWrapper>
             <Summary>
-             {totalDisplayValue}
+             {totalNestEgg}
             <h4>Total</h4>
             </Summary>
             </Right>
@@ -149,19 +138,19 @@ const Summary = styled.div`
 
   
 `
-const CPPSummary = styled(Summary)`
+const RRSPSummary = styled(Summary)`
     &:hover .cppTooltip {
         opacity: 1;
         visibility: visible;
     }
 `
-const OASSummary = styled(Summary)`
+const TFSASummary = styled(Summary)`
     &:hover .oasTooltip {
         opacity: 1;
         visibility: visible;
     }
 `
-const RRIFSummary = styled(Summary)`
+const NRegSummary = styled(Summary)`
     &:hover .rrifTooltip {
         opacity: 1;
         visibility: visible;
