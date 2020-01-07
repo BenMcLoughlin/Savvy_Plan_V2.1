@@ -67,7 +67,7 @@ return (
                         className="oasTooltip"
                          />
                     </TFSASummary>
-                    {nonRegisteredDisplayValue > 0 ?
+
                    <NRegSummary>
                    {nonRegisteredDisplayValue}
                    <h4 >N-Reg</h4>
@@ -81,8 +81,7 @@ return (
                        className="rrifTooltip"
                    />
                    </NRegSummary>
-                   : null
-                    }
+
  
             </PensionIncomeWrapper>
             <Summary>
@@ -173,7 +172,7 @@ const Vr = styled.div`
 `
 
 const Right = styled.div`
-    width: 45%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     text-align: center;

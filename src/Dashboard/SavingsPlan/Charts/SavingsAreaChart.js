@@ -134,16 +134,16 @@ const drawChart = (props, width, height) => {
          
 
 
-            const xAxis = d3.axisBottom(xScale)
-                           .tickValues([])
+        //     const xAxis = d3.axisBottom(xScale)
+        //                    .tickValues([])
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('3')
-                            .tickFormat(d => `${d/1000}k`)
+        //     const yAxis = d3.axisLeft(yScale).ticks('3')
+        //                     .tickFormat(d => `${d/1000}k`)
 
 
-        xAxisGroup.call(xAxis)
-        yAxisGroup.call(yAxis)
+        // xAxisGroup.call(xAxis)
+        // yAxisGroup.call(yAxis)
     }
 
     update(data)

@@ -5,6 +5,7 @@ import {createGlobalStyle} from "styled-components"
 export const lightTheme = {
     color: {
         ice: "#FCFCFC",
+        blue: "#49A7D8",
         slate: "#536D7A",
         turquoise: "#4BB9D0",
         drab: "#324755",
@@ -21,6 +22,12 @@ export const lightTheme = {
         large: '4.2rem',
         large2: '6.2rem',
         largest: '8.8rem',
+    },
+    text: {
+        primaryHeading: `
+            font-size: 3rem,
+            color: red
+        `
     },
     border: {
         primary: "1px solid #DCDCDC",
@@ -56,7 +63,7 @@ export const GlobalStyles = createGlobalStyle`
 body {
    font-size: 100%;
    background: #fff;
-   font-family: 'Lato', sans-serif;
+   font-family: 'Muli', sans-serif;
 }
 html {
    @media (min-width: 0px) {
@@ -78,7 +85,7 @@ html {
        font-size: 52.5%;
    }
    @media (min-width: 1400px) {
-       font-size: 62.5%;
+       font-size: 57.5%;
    }
    @media (min-width: 1500px) {
        font-size: 67.5%;

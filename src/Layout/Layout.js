@@ -12,6 +12,7 @@ import SpendingApp from "../Dashboard/Spending/SpendingApp"
 import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
 import UserAccountApp from "../UserAccount/UserAccountApp"
+import LandingPage from "../Onboarding/LandingPage"
 import {ThemeProvider} from "styled-components"
 import { lightTheme} from "../Styles/Themes"
 import styled from "styled-components"
@@ -32,6 +33,7 @@ export default class Layout extends Component {
             <LeftNavBar/>
             <GridContainer>
                     <Route exact path="/" component={Dashboard}/>
+                    <Route path="/LandingPage" component={LandingPage}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
                     <Route path="/NetWorth" component={NetWorthApp}/>
                     <Route path="/Tax" component={TaxApp}/>

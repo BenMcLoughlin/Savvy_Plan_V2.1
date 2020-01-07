@@ -55,18 +55,21 @@ const drawChart = (props, width, height) => {
                         .attr("class", "title")
                         .text("Contributions & Withdrawals")
 
+                          
     const update = data => {
     
 
-        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) )
+        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + (typeof num === num ? num : 0)) ) > -30000 ? -30000 : 
+        d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 4000
 
        const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
         console.log(props.stackedBarData2);
-        console.log(d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ))
+        console.log(d3.min(data, d =>  data.map(d => Object.values(d).reduce((acc, num) => acc + num))))
 
+   
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
         .domain(data.map(item => item.age))
@@ -164,12 +167,12 @@ const drawChart = (props, width, height) => {
                             .tickFormat(function(d,i){ return tickLabels[i] })
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('1')
-                            .tickFormat(d => `${d/1000}k`)
+            // const yAxis = d3.axisLeft(yScale).ticks('1')
+            //                 .tickFormat(d => `${d/1000}k`)
 
 
         xAxisGroup.call(xAxis)
-        yAxisGroup.call(yAxis)
+        //yAxisGroup.call(yAxis)
     }
 
     update(data)

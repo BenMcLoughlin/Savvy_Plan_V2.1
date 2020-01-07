@@ -4,23 +4,6 @@ import {inverseLogslider} from "../../../services/logorithmicFunctions"
 import * as d3 from "d3"
 
 
-// export const setReccomendedSavingaPlan = (account, calculateReccomendedSavings_action, incomePerYear_reducer, investmentReturns_reducer, rate1, rate2, setReccomendedSavingsValue_action) => {
-
-//     const withdrawal = incomePerYear_reducer[72][account].financialValue
-//     const valueAtRetirement = presentValue(rate2, 30, withdrawal, 0)
-//     const reccomendedSavings = payment(rate1 , 45, 0, valueAtRetirement)
-
-//     for (let age = 20; age < 65; age ++) {
-//         setReccomendedSavingsValue_action(age, reccomendedSavings, account )  
-//         calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
-//     }
-//     for (let age = 65; age <= 95; age++ ) {
-//         setReccomendedSavingsValue_action(age, -withdrawal, account)   
-//         calculateReccomendedSavings_action(age, account, rate1, rate2 )                                                     
-//     }
-// }
-
-
     //DATA CONVERSTION FOR STACKED BAR CHART
     export const convertReducerToArrayData = (reducer) => {
         const data = Object.values(reducer).map((d, age) => {  
@@ -51,6 +34,7 @@ import * as d3 from "d3"
 
         const withdrawal = savingsPerYear_reducer[age][name].totalValue > savingsPerYear_reducer[70][name].financialValue ? savingsPerYear_reducer[70][name].financialValue : 0
         const rangeBarValue = inverseLogslider(withdrawal)
+        console.log(withdrawal)
         transaction_action(age, name, "withdraw", rangeBarValue,  rate1, rate2, retirementAge, withdrawal)
     } 
 }
@@ -62,9 +46,9 @@ export const initializeSavingsAndWithdrawals = (currentAge, incomePerYear_reduce
 
     ["rrsp", "tfsa", "nonRegistered"].map(account => {
         const retirementStartAge = account === "rrsp" ? rrspStartAge : tfsaStartAge
-        const reccomendedPayment = incomePerYear_reducer[72][account].financialValue > 0 ? incomePerYear_reducer[72][account].financialValue : 0
+        const reccomendedPayment = incomePerYear_reducer[72][account].financialValue > 0 ? incomePerYear_reducer[72][account].financialValue : 100
         const nestEggValue = presentValue(rate2, (95-rrspStartAge), reccomendedPayment, 0)
-        const value = payment(rate1, (rrspStartAge - currentAge), 0, nestEggValue) > 0 ? payment(rate1, (rrspStartAge - currentAge), 0,nestEggValue) : 0
+        const value = payment(rate1, (rrspStartAge - currentAge), 0, nestEggValue) > 0 ? payment(rate1, (rrspStartAge - currentAge), 0,nestEggValue) : 100
 
         const rangeBarValueC = inverseLogslider(value )
         const rangeBarValueW = inverseLogslider(reccomendedPayment)
