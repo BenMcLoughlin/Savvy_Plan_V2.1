@@ -10,7 +10,7 @@ import {connect} from "react-redux"
 import {rate1 , rate2} from "../reducers/savingsPlan_selectors"
 import {reccomendedNestEgg, reccomendedSavingsPerYear} from "../services/localFunctions"
 
-const ControlPanel = ({incomePerYear_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action})  =>{
+const ControlPanel = ({incomePerYear_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action, landingPage})  =>{
 
    
     const [count, setCount] = useState(4);
@@ -35,13 +35,12 @@ const ControlPanel = ({incomePerYear_reducer, initializeSavingsAndWithdrawals, p
     const currentAge = 18
     const changeChart = () => {
         initializeSavingsAndWithdrawals(currentAge, incomePerYear_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
-        
-
     }
     
         return (
                     <ControlPanelWrapper>
-                        <Dialogue>
+                        {landingPage ? null :
+                            <Dialogue>
                             {
                                 count > 7 ? 
                                null
@@ -116,6 +115,7 @@ const ControlPanel = ({incomePerYear_reducer, initializeSavingsAndWithdrawals, p
                             }
                           
                         </Dialogue>
+                        }
      <Sections>
                             <Section>
                              <Contributions 

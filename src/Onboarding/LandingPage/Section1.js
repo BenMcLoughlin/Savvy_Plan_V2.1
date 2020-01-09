@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from "styled-components"
-import logoLight from "../assets/svgs/SavvyPlan_logo_final_justlogo.svg"
-import SavingsStackedChart from "../Dashboard/SavingsPlan/Charts/SavingsStackedChart"
-import SavingsAreaChart from "../Dashboard/SavingsPlan/Charts/SavingsAreaChart"
-import Button from "../UI/Buttons/ButtonLight"
-import RangeBar from "../UI/RangeBar/RangeBar"
-import LifetimeIncomeBarChart from "../Dashboard/LifetimeIncome/Charts/LifetimeIncomeBarChart"
+import logoLight from "../../assets/svgs/SavvyPlan_logo_final_justlogo.svg"
+import SavingsStackedChart from "../../Dashboard/SavingsPlan/Charts/SavingsStackedChart"
+import SavingsAreaChart from "../../Dashboard/SavingsPlan/Charts/SavingsAreaChart"
+import Button from "../../UI/Buttons/ButtonLight"
+import RangeBar from "../../UI/RangeBar/RangeBar"
+import {connect} from "react-redux"
+import SavingsPlanApp from "../../Dashboard/SavingsPlan/SavingsPlanApp"
 
-export default function LandingPage() {
+export default function Section1() {
     const rangeBarProps = {
         age: 20, 
         contribute: 0,
@@ -25,31 +26,48 @@ export default function LandingPage() {
     }
 
     return (
-        <div>
-            <Section1>
+
+            <Wrapper>
                 <Header>
                     <Logo>
                         <img src={logoLight} height="100%" width="100%" fontSize="20rem" alt="logo"/>
                     </Logo>
                     <Title>
-                         Savvy Plan  
+                         Savvy Plan
                     </Title>
                 </Header>
-                <Charts>
-                    <AreaChartPlaceHolder>   
-                        <SavingsAreaChart  />
-                    </AreaChartPlaceHolder>  
-                    <BarChartPlaceHolder>   
-                        <SavingsStackedChart/>
-                    </BarChartPlaceHolder>   
-                </Charts>
-                < RangeBarWrapper>
-                    <RangeBar rangeBarProps={rangeBarProps}/>   
-                    <RangeBar rangeBarProps={rangeBarProps}/>
-                </RangeBarWrapper>
+                <SavingsPlanApp landingPage style={{marginTop: "-55rem"}}/>
 
-            </Section1>
+            </Wrapper>
 
-        </div>
     )
 }
+
+const Wrapper = styled.div`
+  
+    background: ${props => props.theme.color.ice};
+    width: 100%;
+    height: 90rem;
+    clip-path: polygon(0 0, 100% 0, 100% 57%, 0 100%);
+    display: flex;
+    flex-direction: column;
+`
+
+const Header = styled.div`
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   width: 50%;
+   height: 20%;
+   justify-content: space-around;
+` 
+const Logo = styled.div`
+   width: 50%;
+   height: 100%;
+`
+const Title = styled.div`
+   font-size: 7rem;
+   font-weight: 300;
+   color: ${props => props.theme.color.slate};
+   margin-left: -20%;
+`

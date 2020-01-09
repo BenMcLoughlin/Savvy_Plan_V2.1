@@ -43,8 +43,9 @@ export default Button
 
 const ButtonComponent = styled.button`
     padding: 1rem;
-    width: 10rem;
-    height: 4rem;
+    min-width: 165px;
+    width: auto;
+    height: 5rem;
     margin: 1rem;
     background: ${props => props.theme.color.ice};
     color: ${props => props.theme.color.slate};
@@ -52,10 +53,6 @@ const ButtonComponent = styled.button`
     outline: none;
     border-radius: 5rem;
     text-transform: uppercase;
-    position: relative
+    position: relative;
+    font-size: 1.6rem;
 `
-
-//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-/* Used to open the AddNewItem container or submit the details gathered to the reducer. 
-Currently this button is local to the NetWorth App but it could be placed in the UI 
-folder and be global to the entire app.  */

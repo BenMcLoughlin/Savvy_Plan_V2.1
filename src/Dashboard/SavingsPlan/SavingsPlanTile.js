@@ -14,7 +14,7 @@ import { NavLink} from "react-router-dom"
         const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} = this.props
 
         return (
-            <LifetimeIncomeTileWrapper to="/LifeTimeIncome">
+            <LifetimeIncomeTileWrapper to="/SavingsPlan">
             <Top>
                     <Left>
                     <LargeTotal>

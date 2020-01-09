@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from "styled-components"
 
-const ButtonDark = ({handleClick, text}) => {
+const ButtonDark = ({onClick, text}) => {
     return (
         <ButtonComponent
-            onClick={handleClick}
+            onClick={onClick}
         >
             {text}
         </ButtonComponent>
@@ -20,8 +20,9 @@ export default ButtonDark
 
 const ButtonComponent = styled.button`
     padding: 1rem;
-    width: 10rem;
-    height: 4rem;
+    min-width: 165px;
+    width: auto;
+    height: 5rem;
     margin: 1rem;
     background: ${props => props.theme.color.slate};
     color: ${props => props.theme.color.ice};
@@ -29,7 +30,8 @@ const ButtonComponent = styled.button`
     outline: none;
     border-radius: 5rem;
     text-transform: uppercase;
-    position: relative
+    position: relative;
+    font-size: 1.6rem;
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

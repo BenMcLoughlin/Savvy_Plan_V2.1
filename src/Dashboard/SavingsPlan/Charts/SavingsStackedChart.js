@@ -66,9 +66,6 @@ const drawChart = (props, width, height) => {
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
-        console.log(props.stackedBarData2);
-        console.log(d3.min(data, d =>  data.map(d => Object.values(d).reduce((acc, num) => acc + num))))
-
    
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)

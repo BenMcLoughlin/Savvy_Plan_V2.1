@@ -56,7 +56,6 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reduce
                                 </RangeBarWrapper>
                  </Wrapper>   
                  : null 
-        
     )
 }
 

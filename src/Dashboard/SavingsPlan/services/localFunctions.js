@@ -34,7 +34,7 @@ import * as d3 from "d3"
 
         const withdrawal = savingsPerYear_reducer[age][name].totalValue > savingsPerYear_reducer[70][name].financialValue ? savingsPerYear_reducer[70][name].financialValue : 0
         const rangeBarValue = inverseLogslider(withdrawal)
-        console.log(withdrawal)
+
         transaction_action(age, name, "withdraw", rangeBarValue,  rate1, rate2, retirementAge, withdrawal)
     } 
 }

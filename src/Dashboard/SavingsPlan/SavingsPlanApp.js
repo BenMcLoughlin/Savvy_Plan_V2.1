@@ -5,35 +5,47 @@ import {connect} from "react-redux"
 import {transaction_action} from "./actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
+import LandingPageControls from "./ControlPanel/Components/LandingPageControls"
 import SavingsStackedChart from "./Charts/SavingsStackedChart"
 import SavingsAreaChart from "./Charts/SavingsAreaChart"
 import {initializeSavingsAndWithdrawals} from "./services/localFunctions"
 import {rate1, rate2} from "./reducers/savingsPlan_selectors"
 
-const SavingsPlanApp = ({incomePerYear_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action }) => {
+const SavingsPlanApp = ({incomePerYear_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
 
     const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
     const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
 
     const currentAge = 18 
 
-    useEffect(() => {
-        initializeSavingsAndWithdrawals(currentAge, incomePerYear_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
-    }, [])
+    // useEffect(() => {
+    //     initializeSavingsAndWithdrawals(currentAge, incomePerYear_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
+    // }, [])
 
         return (
             <UserInterfaceWrapper>
-                <Header/>
+                 <Header
+                 landingPage
+                 />
                 <AreaChartPlaceHolder>   
                     <SavingsAreaChart  />
                 </AreaChartPlaceHolder>  
                 <BarChartPlaceHolder>   
                     <SavingsStackedChart/>
                 </BarChartPlaceHolder>   
-            <ControlPanel
-            initializeSavingsAndWithdrawals={initializeSavingsAndWithdrawals}
-            transaction_action={transaction_action}
-            />
+                {
+                    landingPage ? 
+                    <LandingPageControls
+                    initializeSavingsAndWithdrawals={initializeSavingsAndWithdrawals}
+                    transaction_action={transaction_action}
+                    />
+                    :
+                    <ControlPanel
+                    initializeSavingsAndWithdrawals={initializeSavingsAndWithdrawals}
+                    transaction_action={transaction_action}
+                    />
+                }
+
         </UserInterfaceWrapper>
         )
 }

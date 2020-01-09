@@ -6,6 +6,7 @@ export const lightTheme = {
     color: {
         ice: "#FCFCFC",
         blue: "#49A7D8",
+        grey: "#cbcbcb",
         slate: "#536D7A",
         turquoise: "#4BB9D0",
         drab: "#324755",

@@ -12,7 +12,9 @@ import SpendingApp from "../Dashboard/Spending/SpendingApp"
 import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
 import UserAccountApp from "../UserAccount/UserAccountApp"
+import Login from "../Pages/Login"
 import LandingPage from "../Onboarding/LandingPage"
+import OnboardingProcess from "../Onboarding/OnboardingProcess"
 import {ThemeProvider} from "styled-components"
 import { lightTheme} from "../Styles/Themes"
 import styled from "styled-components"
@@ -29,11 +31,13 @@ export default class Layout extends Component {
         return (
             <ThemeProvider theme={this.state.theme}>
             <>
-            <Header/>
+            <Header currentUser={this.props.currentUser}/>
             <LeftNavBar/>
             <GridContainer>
                     <Route exact path="/" component={Dashboard}/>
                     <Route path="/LandingPage" component={LandingPage}/>
+                    <Route path="/Login" component={Login}/>
+                    <Route path="/Onboarding" component={OnboardingProcess}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
                     <Route path="/NetWorth" component={NetWorthApp}/>
                     <Route path="/Tax" component={TaxApp}/>

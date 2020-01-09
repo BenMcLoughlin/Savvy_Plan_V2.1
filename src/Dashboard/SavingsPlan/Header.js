@@ -33,12 +33,19 @@ return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
             <Left >
                                                                                                                  {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
-                <h1>
+               {
+                   this.props.landingPage ? null : 
+                   <h1>
                    Savings and Withdrawal Plan
-                </h1>
+                  </h1>
+               }
             </Left>
             <Right>
-            <h2>Account Values at Retirement</h2>
+            {
+                   this.props.landingPage ? null : 
+                   <h2>Account Values at Retirement</h2>
+               }
+          
             <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
                     <RRSPSummary>
                     {rrspDisplayValue}  

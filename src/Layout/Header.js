@@ -3,8 +3,13 @@ import ButtonLight from "../UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import styled from "styled-components"
 import logoLight from "../assets/svgs/SavvyPlan_logo_final_grey.svg"
+import {auth} from "../firebase/firebaseUtils"
+import LinkButton from "../UI/Buttons/LinkButton"
 
 export default function Header(props) {
+
+    const {currentUser} = props
+    console.log(currentUser);
     return (
         <HeaderContainer>
             <Left>
@@ -35,8 +40,15 @@ export default function Header(props) {
                        ASSUMPTIONS
                     </PageSelect>
             </StyledNavLink>     
-            <ButtonLight text={"Login"}/>    
-            <ButtonLight text={"Sign Up"}/>    
+            {
+                currentUser ? 
+                    <ButtonLight text={"Sign Out"} onClick={() => auth.signOut()}/>  
+                :
+                <React.Fragment>
+                    <LinkButton  to='/Login' text={"Login"}>Login</LinkButton>
+                    <LinkButton to='/Onboarding'>Sign Up</LinkButton>
+                </React.Fragment>
+            }
             </Right>
                 
         </HeaderContainer>
