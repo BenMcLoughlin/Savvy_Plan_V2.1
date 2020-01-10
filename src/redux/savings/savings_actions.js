@@ -1,7 +1,7 @@
 
 
 export const transaction_action = (age, name, transaction, rangeBarValue, rate1, rate2, retirementAge, value) => ({
-    type: "savingsPerYear_reducer/TRANSACTION", 
+    type: "savings_reducer/TRANSACTION", 
             age,
             name, 
             rangeBarValue, 

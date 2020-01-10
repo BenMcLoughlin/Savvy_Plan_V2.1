@@ -7,7 +7,7 @@ import {rate1, rate2} from "../../reducers/savingsPlan_selectors"
 import {transaction_action, setOpitmizedValues_action} from "../../actions"
 import {renderSavings, optimizedContribution} from "../../services/localFunctions"
 
-const Withdrawals = ({count, savingsPerYear_reducer,transaction_action, setOpitmizedValues_action, rate1, rate2, rrspStartAge, tfsaStartAge}) => {
+const Withdrawals = ({count, savings_reducer,transaction_action, setOpitmizedValues_action, rate1, rate2, rrspStartAge, tfsaStartAge}) => {
 
     const [fromAge, setFromAge] = useState(65)
     const [toAge, setToAge] = useState(95)    
@@ -17,12 +17,12 @@ const Withdrawals = ({count, savingsPerYear_reducer,transaction_action, setOpitm
     }
 
     const setWithdrawals = (value, rangeBarValue, {name})  => {
-        renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
-      //  optimizedContribution(name, savingsPerYear_reducer, setOpitmizedValues_action, rate1)
+        renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+      //  optimizedContribution(name, savings_reducer, setOpitmizedValues_action, rate1)
     }
 
 
-    const rangeBarArray = Object.values(savingsPerYear_reducer[fromAge])
+    const rangeBarArray = Object.values(savings_reducer[fromAge])
 
     return (
           
@@ -67,7 +67,7 @@ const mapStateToProps = (state) => {
     return {
         rate1: rate1(state),
         rate2: rate2(state),
-        savingsPerYear_reducer: state.savingsPerYear_reducer,
+        savings_reducer: state.savings_reducer,
 
     }
 }

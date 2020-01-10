@@ -5,9 +5,9 @@ import styled from "styled-components"
 
 
 
-const DesiredRetirementIncome = ({ setReccomendedRetirementIncome, keyVariables_reducer, count }) => {                           //Uses Destructing to assign variables and functions needed for this function                                                
+const DesiredRetirementIncome = ({ setReccomendedRetirementIncome, user_reducer, count }) => {                           //Uses Destructing to assign variables and functions needed for this function                                                
 
-const {retirementIncome} = keyVariables_reducer
+const {retirementIncome} = user_reducer
 
     return (
         <Wrapper>            

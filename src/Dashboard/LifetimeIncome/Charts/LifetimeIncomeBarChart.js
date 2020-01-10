@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import styles from "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
-import {stackedChartData, stackedChartKeys} from "../reducers/lifetimIncome_selectors"
+import {stackedChartData, stackedChartKeys} from "../../../redux/incomePerYear/incomePerYear_selectors"
 import {connect} from "react-redux"
 
 const drawChart = (props, width, height) => {

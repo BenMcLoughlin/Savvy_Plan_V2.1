@@ -2,19 +2,19 @@ import React from 'react'
 import styled from "styled-components"
 import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
 import {connect} from "react-redux"
-import {rate1, rate2, investmentReturnsArray} from "../../reducers/savingsPlan_selectors"
-import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "../../actions"
+import {rate1, rate2, investmentReturnsArray} from "../../../../redux/savings/savings_selectors"
+import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "../../../../redux/savings/savings_actions"
 import {renderSavings, optimizedWithdrawals, optimizedContribution} from "../../services/localFunctions"
 
-const  InvestmentFactors = ( { changeChart, setInvestmentFactor_action, investmentReturnsArray, savingsPerYear_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2,rrspStartAge, count, tfsaStartAge}) => {                                            //Use Destructing to assign variables and functions
+const  InvestmentFactors = ( { changeChart, setInvestmentFactor_action, investmentReturnsArray, savings_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2,rrspStartAge, count, tfsaStartAge}) => {                                            //Use Destructing to assign variables and functions
                                                            
     const setInvestmentFactor = (value, nothing, {name}) => {
         setInvestmentFactor_action(name, value) 
         const array = ["rrsp", "tfsa", "nonRegistered"]
         array.map(account => {
-                renderSavings(65, 65, account, 0, 0, "contribute", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
-                optimizedWithdrawals("rrsp", savingsPerYear_reducer, setOpitmizedValues_action, rate2)
-                optimizedContribution("rrsp", savingsPerYear_reducer, setOpitmizedValues_action, rate1)
+                renderSavings(65, 65, account, 0, 0, "contribute", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+                optimizedWithdrawals("rrsp", savings_reducer, setOpitmizedValues_action, rate2)
+                optimizedContribution("rrsp", savings_reducer, setOpitmizedValues_action, rate1)
                 return null;
     })
     changeChart()
@@ -40,7 +40,7 @@ const mapStateToProps = (state) => {
         rate1: rate1(state),
         rate2: rate2(state),
         investmentReturnsArray: investmentReturnsArray(state),
-        savingsPerYear_reducer: state.savingsPerYear_reducer,
+        savings_reducer: state.savings_reducer,
 
     }
 }

@@ -6,16 +6,16 @@ import TaxDonutChart_Tile from "./Charts/TaxDonutChart_Tile"
 import { NavLink} from "react-router-dom"
 
 
-const TaxTile = ({taxVariables_reducer}) => {
+const TaxTile = ({tax_reducer}) => {
 
 
     
-  const incomeArray = Object.values(taxVariables_reducer.income).map(d => d.financialValue)                                    //Convert the regularIncome values into an array
+  const incomeArray = Object.values(tax_reducer.income).map(d => d.financialValue)                                    //Convert the regularIncome values into an array
   const [EI,  SEI,  II , EDI,  NEDI , CG ] =  incomeArray                                                                      //naming all income types, EI = employmentIncome, SEI = selfEmploymentIncome, II = interestIncome,
                                                   
-  const creditsRangeBarValues = Object.values( taxVariables_reducer.credits)
+  const creditsRangeBarValues = Object.values( tax_reducer.credits)
 
-console.log(taxVariables_reducer);
+console.log(tax_reducer);
   const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
 
   const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 
@@ -59,7 +59,7 @@ console.log(taxVariables_reducer);
 const mapStateToProps = (state) => {
 
     return {
-      taxVariables_reducer: state.taxVariables_reducer
+      tax_reducer: state.tax_reducer
     }
   }
 export default connect(mapStateToProps)(TaxTile)

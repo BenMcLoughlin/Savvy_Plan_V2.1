@@ -44,11 +44,3 @@ return {
 }
 
 
-export const setRetirementIncome_action = (financialValue, rangeBarValue) => {
-return {
-    type: "keyVariables_reducer/SET_RETIREMENT_INCOME", 
-        financialValue, 
-        rangeBarValue
-}
-}
-

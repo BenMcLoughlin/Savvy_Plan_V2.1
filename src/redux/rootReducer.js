@@ -1,19 +1,20 @@
 import {persistReducer} from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import {combineReducers} from "redux"
-//import authReducer from "./authReducer"
-import {netWorthState} from "../Dashboard/NetWorth/reducers/netWorthReducers"
-import incomePerYear_reducer from "../Dashboard/LifetimeIncome/reducers/incomePerYear_reducer"
-import user_reducer from "../Dashboard/LifetimeIncome/reducers/user_reducer"
-import pensionStartAges_reducer from "../Dashboard/LifetimeIncome/reducers/pensionStartAges_reducer"
-import savings_reducer from "../Dashboard/SavingsPlan/reducers/savings_reducer"
-import tax_reducer from "../Dashboard/Tax/reducers/tax_reducer"
+
+import incomePerYear_reducer from "./incomePerYear/incomePerYear_reducer"
+import pensionStartAges_reducer from "./pensionStartAges/pensionStartAges_reducer"
+import user_reducer from "./user/user_reducer"
+import netWorth_reducer from "./netWorth/netWorth_reducer"
+import tax_reducer from "./tax/tax_reducer"
+import savings_reducer from "./savings/savings_reducer"
+
 import investmentReturns_reducer from "../Dashboard/SavingsPlan/reducers/investmentReturns_reducer"
 
 const persistConfig = {
     key: "root",
     storage, 
-    whitelist: ["netWorthState", 
+    whitelist: ["netWorth_reducer", 
     "tax_reducer",
     "incomePerYear_reducer",
     "user_reducer",
@@ -26,7 +27,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 
     //   auth: authReducer,
-       netWorthState,
+       netWorth_reducer,
        tax_reducer,
        incomePerYear_reducer,
        user_reducer,

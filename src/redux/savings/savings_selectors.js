@@ -2,7 +2,7 @@ import {createSelector} from "reselect"
 
 
 
-const savingsPerYear = state => state.savingsPerYear_reducer
+const savingsPerYear = state => state.savings_reducer
 const pensionStartAges = state => state.pensionStartAges_reducer
 const investmentReturns = state => state.investmentReturns_reducer
 

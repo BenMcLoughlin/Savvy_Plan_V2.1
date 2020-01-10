@@ -7,7 +7,7 @@ import ButtonDark from "../../../UI/Buttons/ButtonDark"
 import ButtonLight from "../../../UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import {connect} from "react-redux"
-import {rate1 , rate2} from "../reducers/savingsPlan_selectors"
+import {rate1 , rate2} from "../../../redux/savings/savings_selectors"
 import {reccomendedNestEgg, reccomendedSavingsPerYear} from "../services/localFunctions"
 
 const ControlPanel = ({incomePerYear_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action, landingPage})  =>{

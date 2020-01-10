@@ -8,7 +8,7 @@ import {transaction_action, setOpitmizedValues_action} from "../../actions"
 import {renderSavings, optimizedWithdrawals} from "../../services/localFunctions"
 
 
-const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
+const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
 
     const [fromAge, setFromAge] = useState(18)
     const [toAge, setToAge] = useState(65)    
@@ -19,21 +19,21 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reduce
 
      const setContributions = (value, rangeBarValue, {name})  => {
         console.log([value, rangeBarValue, name]);
-        renderSavings(18, 65, name, value, rangeBarValue, "contribute", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+        renderSavings(18, 65, name, value, rangeBarValue, "contribute", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
 
-        // optimizedWithdrawals(name, savingsPerYear_reducer, setOpitmizedValues_action, rate2)
+        // optimizedWithdrawals(name, savings_reducer, setOpitmizedValues_action, rate2)
        
     }
 
     const setWithdrawals = (value, rangeBarValue, {name})  => {
         console.log([value, rangeBarValue, name]);
-        renderSavings(65, 95, name, value, rangeBarValue, "withdraw", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
-      //  optimizedContribution(name, savingsPerYear_reducer, setOpitmizedValues_action, rate1)
+        renderSavings(65, 95, name, value, rangeBarValue, "withdraw", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+      //  optimizedContribution(name, savings_reducer, setOpitmizedValues_action, rate1)
     }
 
 
-    const rangeBarContributions = savingsPerYear_reducer[18].rrsp
-    const rangeBarWithdrawals = savingsPerYear_reducer[72].rrsp
+    const rangeBarContributions = savings_reducer[18].rrsp
+    const rangeBarWithdrawals = savings_reducer[72].rrsp
 
     return (
 
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => {
     return {
         rate1: rate1(state),
         rate2: rate2(state),
-        savingsPerYear_reducer: state.savingsPerYear_reducer,
+        savings_reducer: state.savings_reducer,
 
     }
 }

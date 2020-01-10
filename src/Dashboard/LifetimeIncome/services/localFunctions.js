@@ -139,13 +139,13 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
 
 
 //SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
- export const determineMaxRegisteredPayments = (incomePerYear_reducer, rrspStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) => {
+ export const determineMaxRegisteredPayments = (incomePerYear_reducer, rrspStartAge, savings_reducer, tfsaStartAge, rate1, rate2) => {
 
-            const rrspContributionArray = Object.values(savingsPerYear_reducer).slice(0,(rrspStartAge - 18)).map(d => d.rrsp.maxContribution)
+            const rrspContributionArray = Object.values(savings_reducer).slice(0,(rrspStartAge - 18)).map(d => d.rrsp.maxContribution)
             const maxRrspValue = rrspContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
             const maxRrspPayment = payment(rate2, (95-rrspStartAge), maxRrspValue, 0)
             
-            const tfsaContributionArray = Object.values(savingsPerYear_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
+            const tfsaContributionArray = Object.values(savings_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
             const maxTfsaValue = tfsaContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
             const maxTfsaPayment = payment(rate2, (95-tfsaStartAge), maxTfsaValue, 0)
             

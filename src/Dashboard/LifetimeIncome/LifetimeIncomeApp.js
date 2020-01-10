@@ -1,21 +1,23 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp_action, setPensionStartAge_action, setRetirementIncome_action} from "./actions"
+import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp_action} from "../../redux/incomePerYear/incomePerYear_actions"
+import {setRetirementIncome_action} from "../../redux/user/user_actions"
+import {setPensionStartAge_action} from "../../redux/pensionStartAges/pensionStartAges_actions"
 import {setMaxContribution_action} from "../SavingsPlan/actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
 import LifetimeIncomeBarChart from "./Charts/LifetimeIncomeBarChart"
 import {payment}from "../..//services/financialFunctions"
 import { setMaxContributions, determineMaxRegisteredPayments} from "./services/localFunctions" 
-import {stackedChartData,  retirementPensionIncome} from "./reducers/lifetimIncome_selectors"
+import {stackedChartData,  retirementPensionIncome} from "../../redux/incomePerYear/incomePerYear_selectors"
 import {rate1 , rate2} from "../SavingsPlan/reducers/savingsPlan_selectors"
 import {renderCPPandOASIncome, adjustOas} from  "./services/CPPfunctions"
 import {calculateOptimumIncomeStreams, addRetirementIncome} from  "./services/RRSPandTFSAfunctions"
 
 const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, state, setPensionStartAge_action,                                    // destructure out variables
     incomePerYear_reducer, removeItem_action, pensionStartAges_reducer, setRetirementIncome_action,  stackedChartData,
-    setMaxContribution_action, keyVariables_reducer, savingsPerYear_reducer, rate1, rate2, retirementPensionIncome,
+    setMaxContribution_action, user_reducer, savings_reducer, rate1, rate2, retirementPensionIncome,
     pensionStartAges_reducer: {cppStartAge: {rangeBarValue: cppStartAge}},
     pensionStartAges_reducer: {oasStartAge: {rangeBarValue: oasStartAge }}}) => {
 
@@ -24,9 +26,9 @@ const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, state
 
         const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
         const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
-        const {retirementIncome: {financialValue: retirementIncome}} = keyVariables_reducer
+        const {retirementIncome: {financialValue: retirementIncome}} = user_reducer
    
-        const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(incomePerYear_reducer, rrspStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) 
+        const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(incomePerYear_reducer, rrspStartAge, savings_reducer, tfsaStartAge, rate1, rate2) 
 
         const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, retirementIncome)
 console.log(state);
@@ -98,7 +100,7 @@ const handleRemoveItem = ({name}) => {
     }
 }
 
-const {birthYear} = keyVariables_reducer
+const {birthYear} = user_reducer
 
 
 
@@ -128,14 +130,14 @@ const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
                     setToAge={setToAge}
                     fromAge={fromAge}
                     toAge={toAge}
-                    savingsPerYear_reducer={savingsPerYear_reducer}
+                    savings_reducer={savings_reducer}
                     setIncome_action={setIncome_action}
                     setIncome={setIncome}
                     setPensionIncome={setPensionIncome}
                     pensionStartAges_reducer={pensionStartAges_reducer}
                     incomePerYear_reducer={incomePerYear_reducer}
                     setRetirementIncome_action={setRetirementIncome_action}
-                    keyVariables_reducer={keyVariables_reducer}
+                    user_reducer={user_reducer}
                     setMaxContribution_action={setMaxContribution_action}
                     data={stackedChartData}
                     setKeyVariable_action={setKeyVariable_action}
@@ -150,9 +152,9 @@ const mapStateToProps = (state) => {
     return {
         state: state,
         incomePerYear_reducer: state.incomePerYear_reducer,
-        keyVariables_reducer: state.keyVariables_reducer,
+        user_reducer: state.user_reducer,
         pensionStartAges_reducer: state.pensionStartAges_reducer,
-        savingsPerYear_reducer: state.savingsPerYear_reducer,
+        savings_reducer: state.savings_reducer,
         stackedChartData: stackedChartData(state),
         rate1: rate1(state),
         rate2: rate2(state),

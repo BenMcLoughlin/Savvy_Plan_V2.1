@@ -3,12 +3,12 @@ import RangeBar from "../../../../UI/RangeBar/RangeBar"
 import DualRangeBar from "../../../../UI/DualRangeBar"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {rate1, rate2} from "../../reducers/savingsPlan_selectors"
-import {transaction_action, setOpitmizedValues_action} from "../../actions"
+import {rate1, rate2} from "../../../../redux/savings/savings_selectors"
+import {transaction_action, setOpitmizedValues_action} from "../../../../redux/savings/savings_actions"
 import {renderSavings, optimizedWithdrawals} from "../../services/localFunctions"
 
 
-const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
+const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
 
     const [fromAge, setFromAge] = useState(18)
     const [toAge, setToAge] = useState(65)    
@@ -19,13 +19,13 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savingsPerYear_reduce
 
      const setContributions = (value, rangeBarValue, {name})  => {
 
-        renderSavings(fromAge, toAge, name, value, rangeBarValue, "contribute", savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+        renderSavings(fromAge, toAge, name, value, rangeBarValue, "contribute", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
 
-        // optimizedWithdrawals(name, savingsPerYear_reducer, setOpitmizedValues_action, rate2)
+        // optimizedWithdrawals(name, savings_reducer, setOpitmizedValues_action, rate2)
        
     }
 
-    const rangeBarArray = Object.values(savingsPerYear_reducer[fromAge])
+    const rangeBarArray = Object.values(savings_reducer[fromAge])
     return (
          count > 2 ? 
                 <Wrapper>     
@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
     return {
         rate1: rate1(state),
         rate2: rate2(state),
-        savingsPerYear_reducer: state.savingsPerYear_reducer,
+        savings_reducer: state.savings_reducer,
 
     }
 }

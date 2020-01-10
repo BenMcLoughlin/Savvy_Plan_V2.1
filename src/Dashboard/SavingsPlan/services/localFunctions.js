@@ -18,11 +18,11 @@ import * as d3 from "d3"
 
 
 //RENDER SAVINGS - SETS ALL VALUES IN SAVINGS ARRAY
- export const renderSavings = (fromAge, toAge, name, value, rangeBarValue, transaction, savingsPerYear_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge ) => {
+ export const renderSavings = (fromAge, toAge, name, value, rangeBarValue, transaction, savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge ) => {
 
     const retirementAge = name === "rrsp" ? rrspStartAge : tfsaStartAge
     for (let age = 18; age < fromAge; age++) {
-        const contributionValue = savingsPerYear_reducer[age][name].contribute
+        const contributionValue = savings_reducer[age][name].contribute
         const rangeBarValue = inverseLogslider(contributionValue )
         transaction_action(age, name, "contribute", rangeBarValue, rate1, rate2, retirementAge, contributionValue)                
     } 
@@ -32,7 +32,7 @@ import * as d3 from "d3"
 
     for (let age = toAge; age <= 95; age++) {
 
-        const withdrawal = savingsPerYear_reducer[age][name].totalValue > savingsPerYear_reducer[70][name].financialValue ? savingsPerYear_reducer[70][name].financialValue : 0
+        const withdrawal = savings_reducer[age][name].totalValue > savings_reducer[70][name].financialValue ? savings_reducer[70][name].financialValue : 0
         const rangeBarValue = inverseLogslider(withdrawal)
 
         transaction_action(age, name, "withdraw", rangeBarValue,  rate1, rate2, retirementAge, withdrawal)
@@ -63,8 +63,8 @@ export const initializeSavingsAndWithdrawals = (currentAge, incomePerYear_reduce
 }
 
 //SET OPTIMIZED WITHDRAWAL VALUES AFTER CONTRIBUTION VALUES ARE INPUTTED
-export   const optimizedWithdrawals = (account, savingsPerYear_reducer, setOpitmizedValues_action, rate2) => {
-    const futureValue = savingsPerYear_reducer[65][account].totalValue
+export   const optimizedWithdrawals = (account, savings_reducer, setOpitmizedValues_action, rate2) => {
+    const futureValue = savings_reducer[65][account].totalValue
     const optimizedWithdrawal = -payment(rate2, 30, futureValue, 0)
 
     for (let age = 65; age <= 95; age++) {
@@ -73,8 +73,8 @@ export   const optimizedWithdrawals = (account, savingsPerYear_reducer, setOpitm
 }
 
 //SET OPTIMIZED CONTRIBUTION VALUES AFTER WITHDRAWAL VALUES ARE INPUTTED
-export   const optimizedContribution = (account, savingsPerYear_reducer, setOpitmizedValues_action, rate1) => {
-    const withdrawalPayment = savingsPerYear_reducer[72].rrsp.withdraw
+export   const optimizedContribution = (account, savings_reducer, setOpitmizedValues_action, rate1) => {
+    const withdrawalPayment = savings_reducer[72].rrsp.withdraw
     const nestEgg = presentValue(rate1, 30, withdrawalPayment, 0) 
     const optimizedContribution = payment(rate1, 45, 0, nestEgg)
 
