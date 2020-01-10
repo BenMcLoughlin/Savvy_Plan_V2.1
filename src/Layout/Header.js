@@ -23,7 +23,7 @@ export default function Header(props) {
             </Left>
             <Right>
             <Hr/>
-            <StyledNavLink to="/" activeClassName="active">
+            <StyledNavLink to="/dashboard" activeClassName="active">
                 <PageSelect>
                         DASHBOARD
                 </PageSelect>
@@ -42,11 +42,11 @@ export default function Header(props) {
             </StyledNavLink>     
             {
                 currentUser ? 
-                    <ButtonLight text={"Sign Out"} onClick={() => auth.signOut()}/>  
+                    <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => auth.signOut()}>Sign Out</LinkButton>
                 :
                 <React.Fragment>
                     <LinkButton  to='/Login' text={"Login"}>Login</LinkButton>
-                    <LinkButton to='/Onboarding'>Sign Up</LinkButton>
+                    <LinkButton to='/SignUp' text={"SignUp"}>Sign Up</LinkButton>
                 </React.Fragment>
             }
             </Right>

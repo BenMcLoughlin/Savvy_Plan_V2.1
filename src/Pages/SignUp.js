@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
-import FormInput from "../../UI/Forms/Input"
+import FormInput from "../UI/Forms/Input"
 import styled from "styled-components"
-import ButtonDark from "../../UI/Buttons/ButtonDark"
-import  SquareButton from "../../UI/Buttons/SquareButton"
-import { NavLink} from "react-router-dom"
-import {signInWithGoogle} from "../../firebase/firebaseUtils"
-import {auth, createUserProfileDocument} from "../../firebase/firebaseUtils"
+import ButtonDark from "../UI/Buttons/ButtonDark"
+import  SquareButton from "../UI/Buttons/SquareButton"
+import { NavLink, Redirect} from "react-router-dom"
+import {signInWithGoogle} from "../firebase/firebaseUtils"
+import {auth, createUserProfileDocument} from "../firebase/firebaseUtils"
 
-const SignUp = () => {
+const SignUp = ({currentUser}) => {
   const [userCredentials, setUserCredentials] = useState({
     displayName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
+
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const { displayName, email, password, confirmPassword } = userCredentials;
 
@@ -28,6 +30,7 @@ const SignUp = () => {
    try {
       const {user} = await auth.createUserWithEmailAndPassword(email, password)
       createUserProfileDocument(user, {displayName})
+      setLoggedIn(true)
       setUserCredentials({
         displayName: '',
         email: '',
@@ -45,19 +48,23 @@ const SignUp = () => {
     console.log(name);
     setUserCredentials({ ...userCredentials, [name]: value });
   };
-console.log(userCredentials.email);
     return (
     <Wrapper>
-
             <Title>
                   Lets Get Started
             </Title>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <FormInput label="First Name" handleChange={handleChange} type="text" value={displayName} name="displayName" required/>
                 <FormInput label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
                 <FormInput label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
                 <FormInput label="Confirm Password" handleChange={handleChange} type="password" value={confirmPassword} name="confirmPassword" required/>
-                <ButtonDark text={"SIGN UP"} type="submit" onClick={handleSubmit}/>
+                <ButtonDark text={"SIGN UP"} type="submit" onClick={handleSubmit} />
+                {
+                  loggedIn ? 
+                  <Redirect to="/onboarding"/>
+                  : null
+                }
+              
             </Form>
             <Buttons>
                     <ButtonDark text={"LOGIN"}/>
@@ -66,13 +73,17 @@ console.log(userCredentials.email);
             <Disclaimer> 
                 By Clicking Sign Up you are accepting our 
                 <LinkWrapper to='/Onboarding'> Terms of Use</LinkWrapper>
-            </Disclaimer>
+            </Disclaimer> 
     </Wrapper>
 
     )
 }
 
 export default SignUp
+
+
+//-----------------------------------------------STYLES-----------------------------------------------//
+
 
 const Wrapper = styled.div`
    color: ${props => props.theme.color.slate};

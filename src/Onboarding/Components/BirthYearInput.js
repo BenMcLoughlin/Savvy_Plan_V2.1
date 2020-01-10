@@ -8,34 +8,6 @@ import LinkButton from "../UI/Buttons/LinkButton"
 
 const Login = () => {
 
-    const [userCredentials, setCredentials] = useState({
-        email: '',
-        password: ''
-      });
-      const [loggedIn, setLoggedIn] = useState(false)
-
-  const { email, password } = userCredentials;
-
-  const handleSubmit = async event => {
-    event.preventDefault();
-    try {
-        await auth.signInWithEmailAndPassword(email, password)
-        setLoggedIn(true)
-        setCredentials({
-            email: '',
-            password: ''
-          })
-    } catch(error) {
-        console.log(error);
-    }
-
-  };
-
-  const handleChange = event => {
-    const { value, name } = event.target;
-
-    setCredentials({ ...userCredentials, [name]: value });
-  };
 
     return (
     <Wrapper>
@@ -56,11 +28,7 @@ const Login = () => {
                   : null
                 }
             </Form>
-            <Title>
-            Don't have an account? 
-            </Title>
-            <LinkButton to='/Onboarding'>Sign Up</LinkButton>
-           
+
     </Wrapper>
 
     )

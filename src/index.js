@@ -13,7 +13,7 @@ const store = createStore(reducers,devToolsEnhancer())
 
     
 const persistor = persistStore(store)
-
+console.log(reducers);
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>

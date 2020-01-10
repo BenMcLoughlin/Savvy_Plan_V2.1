@@ -12,7 +12,7 @@ export default function Section2() {
             <IntroText>Try Canada’s most intuitive financial planning software, <br></br>
                         built for regular people. 
             </IntroText>
-            <LinkButton to='/Onboarding'>Sign Up</LinkButton>
+            <LinkButton to='/SignUp'>Sign Up</LinkButton>
             {/* <Buttons>
                 <Button text="TRY FREE"/>
                 <Button text="LOGIN"/>

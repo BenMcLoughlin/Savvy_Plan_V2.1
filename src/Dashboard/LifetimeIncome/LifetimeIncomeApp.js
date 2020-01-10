@@ -13,7 +13,7 @@ import {rate1 , rate2} from "../SavingsPlan/reducers/savingsPlan_selectors"
 import {renderCPPandOASIncome, adjustOas} from  "./services/CPPfunctions"
 import {calculateOptimumIncomeStreams, addRetirementIncome} from  "./services/RRSPandTFSAfunctions"
 
-const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPensionStartAge_action,                                    // destructure out variables
+const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, state, setPensionStartAge_action,                                    // destructure out variables
     incomePerYear_reducer, removeItem_action, pensionStartAges_reducer, setRetirementIncome_action,  stackedChartData,
     setMaxContribution_action, keyVariables_reducer, savingsPerYear_reducer, rate1, rate2, retirementPensionIncome,
     pensionStartAges_reducer: {cppStartAge: {rangeBarValue: cppStartAge}},
@@ -29,7 +29,7 @@ const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, setPe
         const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(incomePerYear_reducer, rrspStartAge, savingsPerYear_reducer, tfsaStartAge, rate1, rate2) 
 
         const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, retirementIncome)
-
+console.log(state);
 
 
 //INCOME INPUT
@@ -148,6 +148,7 @@ const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
 
 const mapStateToProps = (state) => {
     return {
+        state: state,
         incomePerYear_reducer: state.incomePerYear_reducer,
         keyVariables_reducer: state.keyVariables_reducer,
         pensionStartAges_reducer: state.pensionStartAges_reducer,

@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import styled from "styled-components"
 import { NavLink} from "react-router-dom"
-import SignUp from "./Components/SignUp"
 import ButtonLight from "../UI/Buttons/ButtonLight"
 
 export default function OnBoardingProcess(props) {
@@ -13,7 +12,7 @@ export default function OnBoardingProcess(props) {
                  <Wrapper>
                      {
                          count === 0 ? 
-                            <SignUp/>
+                           <div className="">Onboarding page</div>
                          :
                         <Buttons>
                             < ButtonLight backward onClick={() => setCount(count > 0 ? count - 1 : 0)}/>

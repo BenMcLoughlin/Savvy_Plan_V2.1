@@ -15,6 +15,7 @@ import UserAccountApp from "../UserAccount/UserAccountApp"
 import Login from "../Pages/Login"
 import LandingPage from "../Onboarding/LandingPage"
 import OnboardingProcess from "../Onboarding/OnboardingProcess"
+import SignUp from "../Pages/SignUp"
 import {ThemeProvider} from "styled-components"
 import { lightTheme} from "../Styles/Themes"
 import styled from "styled-components"
@@ -33,11 +34,11 @@ export default class Layout extends Component {
             <>
             <Header currentUser={this.props.currentUser}/>
             <LeftNavBar/>
-            <GridContainer>
-                    <Route exact path="/" component={Dashboard}/>
-                    <Route path="/LandingPage" component={LandingPage}/>
-                    <Route path="/Login" component={Login}/>
+            {
+                    this.props.currentUser ? 
+            <GridContainer>  
                     <Route path="/Onboarding" component={OnboardingProcess}/>
+                    <Route exact path="/dashboard" component={Dashboard}/>
                     <Route path="/UserAccount" component={UserAccountApp}/>
                     <Route path="/NetWorth" component={NetWorthApp}/>
                     <Route path="/Tax" component={TaxApp}/>
@@ -48,6 +49,15 @@ export default class Layout extends Component {
                     <Route path="/Property" component={PropertyApp}/>
                     <Route path="/Debt" component={DebtApp}/>
             </GridContainer>
+                    :
+            <GridContainer>  
+                    <Route exact path="/" component={LandingPage}/>
+                    <Route path="/LandingPage" component={LandingPage}/>
+                    <Route path="/Login" component={Login}/>
+                    <Route path="/SignUp" component={SignUp} currentUser={this.props.currentUser}/>
+           </GridContainer>
+                     }
+                    
             <RightVideoSelector/>
             <Footer/>
             </>
