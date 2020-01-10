@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import RangeBar from "../../../UI/RangeBar/RangeBar"
+import RangeBar from "UI/RangeBar/RangeBar"
 
-export default class RegularIncomeInput extends Component {
+
+export default class RegularTaxAdvantagedIncomeInput extends Component {
 
 
     renderRangeBars = (incomeTypeArray) => {
@@ -23,11 +24,12 @@ export default class RegularIncomeInput extends Component {
 
         return (
 
-             <RegularIncomeWrapper>
+             <TaxAdvantagedIncomeWrapper>
 
-             {this.renderRangeBars(this.props.regularIncomeRangeBarValues)}
+             {this.renderRangeBars(this.props.taxAdvantagedIncomeRangeBarValues)}
 
-            </RegularIncomeWrapper>
+
+            </TaxAdvantagedIncomeWrapper>
 
         )
     }
@@ -39,7 +41,7 @@ export default class RegularIncomeInput extends Component {
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 
-const RegularIncomeWrapper = styled.div`
+const TaxAdvantagedIncomeWrapper = styled.div`
   overflow: hidden;
   position: relative;
   text-align: center;

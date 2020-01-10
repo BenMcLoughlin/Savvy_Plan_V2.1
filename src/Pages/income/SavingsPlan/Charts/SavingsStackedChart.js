@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import * as d3 from "d3"
+import React, { Component } from './node_modules/react'
+import * as d3 from "./node_modules/d3"
 import "./ChartStyles.css"
-import _ from "lodash"
-import styled from "styled-components"
+import _ from "./node_modules/lodash"
+import styled from "./node_modules/styled-components"
 import {stackedKeysBarChart, stackedBarData, stackedBarData2} from "redux/savings/savings_selectors"
-import {connect} from "react-redux"
-import {createStructuredSelector} from "reselect"
+import {connect} from "./node_modules/react-redux"
+import {createStructuredSelector} from "./node_modules/reselect"
 
 const drawChart = (props, width, height) => {
 

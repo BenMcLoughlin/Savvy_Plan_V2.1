@@ -3,12 +3,12 @@ import styled from "styled-components"
 import Withdrawals from "./Components/Withdrawals"
 import Contributions from"./Components/Contributions"
 import InvestmentFactors from "./Components/InvestmentFactors"
-import ButtonDark from "../../../UI/Buttons/ButtonDark"
-import ButtonLight from "../../../UI/Buttons/ButtonLight"
+import ButtonDark from "UI/Buttons/ButtonDark"
+import ButtonLight from "UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import {connect} from "react-redux"
-import {rate1 , rate2} from "../../../redux/assumptions/assumptions_selectors"
-import {reccomendedNestEgg, reccomendedSavingsPerYear} from "../services/localFunctions"
+import {rate1 , rate2} from "redux/assumptions/assumptions_selectors"
+import {reccomendedNestEgg, reccomendedSavingsPerYear} from "pages/savings/services/localFunctions"
 
 const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action, landingPage})  =>{
 

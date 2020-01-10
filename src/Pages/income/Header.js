@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-//import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
-import Tooltip from "../../UI/Tooltip/Tooltip"
+//import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
+import Tooltip from "UI/Tooltip/Tooltip"
 export default class HeaderValues extends Component {
 
 //GRAB MOUSE COORDINATES FOR TOOLTIP

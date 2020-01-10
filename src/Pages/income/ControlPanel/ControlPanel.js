@@ -3,8 +3,8 @@ import styled from "styled-components"
 import IncomeInput from "./Components/IncomeInput"
 import PensionIncomeStartAges from "./Components/PensionIncomeStartAges"
 import DesiredRetirementIncome from "./Components/DesiredRetirementIncome"
-import ButtonDark from "../../../UI/Buttons/ButtonDark"
-import ButtonLight from "../../../UI/Buttons/ButtonLight"
+import ButtonDark from "UI/Buttons/ButtonDark"
+import ButtonLight from "UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 
 export default function ControlPanel(props) {

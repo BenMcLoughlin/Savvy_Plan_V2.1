@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import { connect } from 'react-redux'
-import {ChevronIcon} from "../../../styles/Icons"
+import {ChevronIcon} from "styles/Icons"
 
  class SectionHeader extends Component {
     state = {

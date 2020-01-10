@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {signIn, signOut} from "../actions"
+import {signIn, signOut} from "actions"
 
 class GoogleAuth extends Component {
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styled from "styled-components"
 import { NavLink} from "react-router-dom"
-import ButtonLight from "../UI/Buttons/ButtonLight"
+import ButtonLight from "UI/Buttons/ButtonLight"
 
 export default function OnBoardingProcess(props) {
 

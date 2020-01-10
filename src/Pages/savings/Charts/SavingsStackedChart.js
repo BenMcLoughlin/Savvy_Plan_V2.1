@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
-import {stackedKeysBarChart, stackedBarData, stackedBarData2} from "../../../redux/savings/savings_selectors"
+import {stackedKeysBarChart, stackedBarData, stackedBarData2} from "redux/savings/savings_selectors"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
 

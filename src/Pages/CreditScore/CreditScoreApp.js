@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "../../styles/Themes";
+import { darkTheme, lightTheme } from "styles/Themes";
 import CreditScore from "./CreditScore";
 
 const CreditScoreApp = () => {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import FormInput from "../UI/Forms/Input"
+import FormInput from "UI/Forms/Input"
 import styled from "styled-components"
-import ButtonDark from "../UI/Buttons/ButtonDark"
+import ButtonDark from "UI/Buttons/ButtonDark"
 import { NavLink, Redirect} from "react-router-dom"
-import {auth, signInWithGoogle} from "../firebase/firebaseUtils"
-import LinkButton from "../UI/Buttons/LinkButton"
+import {auth, signInWithGoogle} from "firebase/firebaseUtils"
+import LinkButton from "UI/Buttons/LinkButton"
 
 const Login = () => {
 

@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import RangeBar from "../../../../UI/RangeBar/RangeBar"
-import DualRangeBar from "../../../../UI/DualRangeBar"
+import RangeBar from "componentsUI/RangeBar/RangeBar"
+import DualRangeBar from "componentsUI/DualRangeBar"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {rate1, rate2} from "../../../../redux/assumptions/assumptions_selectors"
-import {transaction_action, setOpitmizedValues_action} from "../../../../redux/savings/savings_actions"
-import {renderSavings, optimizedWithdrawals} from "../../services/localFunctions"
+import {rate1, rate2} from "componentsredux/assumptions/assumptions_selectors"
+import {transaction_action, setOpitmizedValues_action} from "componentsredux/savings/savings_actions"
+import {renderSavings, optimizedWithdrawals} from "services/localFunctions"
 
 
 const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import SavingsStackedChart from "../../../charts/savings/SavingsStackedChart"
-import SavingsAreaChart from "../../../charts/savings/SavingsAreaChart"
-import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "../../../redux/savings/savings_selectors"
+import SavingsStackedChart from "charts/savings/SavingsStackedChart"
+import SavingsAreaChart from "charts/savings/SavingsAreaChart"
+import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"
 import { NavLink} from "react-router-dom"
 
  class SavingsPlanTile extends Component {

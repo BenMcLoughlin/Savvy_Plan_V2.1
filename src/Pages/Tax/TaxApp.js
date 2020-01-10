@@ -5,7 +5,7 @@ import HeaderValues from "./Containers/HeaderValues"
 import ControlPanel from "./Containers/ControlPanel"
 import TaxDonutChart  from "./Charts/TaxDonutChart"
 import TaxStackedBarChart  from "./Charts/TaxStackedBarChart"
-import {setTaxIncome_action} from "../../redux/tax/tax_actions"
+import {setTaxIncome_action} from "redux/tax/tax_actions"
 import {calculateTaxesByBracket} from "./services/taxCalculations"
 
 const TaxApp = ({setTaxIncome_action, tax_reducer}) => {

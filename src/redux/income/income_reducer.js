@@ -1,5 +1,5 @@
 import _ from "lodash"
-import {calculateCpp} from  "../../services/cppFunctions"
+import {calculateCpp} from  "services/cppFunctions"
 
 const initialState = () => {
     const income = {}

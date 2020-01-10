@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from "styled-components"
-import SmallRangeBar from "../../../../UI/SmallRangeBar/SmallRangeBar"
+import SmallRangeBar from "UI/SmallRangeBar/SmallRangeBar"
 import {connect} from "react-redux"
-import {rate1, rate2, investmentReturnsArray} from "../../../../redux/assumptions/assumptions_selectors"
-import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "../../../../redux/savings/savings_actions"
-import {renderSavings, optimizedWithdrawals, optimizedContribution} from "../../services/localFunctions"
+import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
+import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
+import {renderSavings, optimizedWithdrawals, optimizedContribution} from "pages/savings/services/localFunctions"
 
 const  InvestmentFactors = ( { changeChart, setInvestmentFactor_action, investmentReturnsArray, savings_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2,rrspStartAge, count, tfsaStartAge}) => {                                            //Use Destructing to assign variables and functions
                                                            

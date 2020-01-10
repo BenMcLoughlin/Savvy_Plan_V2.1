@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import FormInput from "../UI/Forms/Input"
+import FormInput from "UI/Forms/Input"
 import styled from "styled-components"
-import ButtonDark from "../UI/Buttons/ButtonDark"
-import  SquareButton from "../UI/Buttons/SquareButton"
+import ButtonDark from "UI/Buttons/ButtonDark"
+import  SquareButton from "UI/Buttons/SquareButton"
 import { NavLink, Redirect} from "react-router-dom"
-import {signInWithGoogle} from "../firebase/firebaseUtils"
-import {auth, createUserProfileDocument} from "../firebase/firebaseUtils"
+import {signInWithGoogle} from "firebase/firebaseUtils"
+import {auth, createUserProfileDocument} from "firebase/firebaseUtils"
 
 const SignUp = ({currentUser}) => {
   const [userCredentials, setUserCredentials] = useState({

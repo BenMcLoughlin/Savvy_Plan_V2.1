@@ -1,6 +1,6 @@
 import React, { useState} from 'react'
 import styled from "styled-components"
-import {logslider} from "../../../services/logorithmicFunctions"
+import {logslider} from "services/logorithmicFunctions"
 
 const RangeBarSlider = ({setValue, rangeBarProps, color}) => {                                                                        //destructure essential props
 

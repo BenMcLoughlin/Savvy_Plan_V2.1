@@ -3,7 +3,7 @@ import * as d3 from "./node_modules/d3"
 import styles from "./ChartStyles.css"
 import _ from "./node_modules/lodash"
 import styled from "./node_modules/styled-components"
-import {stackedAreaData} from "../../../redux/savings/savings_selectors"
+import {stackedAreaData} from "redux/savings/savings_selectors"
 import {connect} from "./node_modules/react-redux"
 import {createStructuredSelector} from "./node_modules/reselect"
 

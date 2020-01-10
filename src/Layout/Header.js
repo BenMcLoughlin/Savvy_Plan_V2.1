@@ -1,10 +1,10 @@
 import React from 'react'
-import ButtonLight from "../UI/Buttons/ButtonLight"
+import ButtonLight from "UI/Buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import styled from "styled-components"
-import logoLight from "../assets/svgs/SavvyPlan_logo_final_grey.svg"
-import {auth} from "../firebase/firebaseUtils"
-import LinkButton from "../UI/Buttons/LinkButton"
+import logoLight from "assets/svgs/SavvyPlan_logo_final_grey.svg"
+import {auth} from "firebase/firebaseUtils"
+import LinkButton from "UI/Buttons/LinkButton"
 
 export default function Header(props) {
 

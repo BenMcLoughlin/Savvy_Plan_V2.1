@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import LifetimeIncomeBarChart from "../../income/Charts/LifetimeIncomeBarChart"
-import calculateMarginalTaxRate from "../../../services/taxCalculationServices/taxCalculator"
+import LifetimeIncomeBarChart from "pages/income/Charts/LifetimeIncomeBarChart"
+import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
 import { NavLink} from "react-router-dom"
 
  class LifetimeIncomeTile extends Component {

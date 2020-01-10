@@ -1,5 +1,5 @@
 import React from 'react'
-import RangeBar from "../../../../UI/RangeBar/RangeBar"
+import RangeBar from "UI/RangeBar/RangeBar"
 import styled from "styled-components"
 
 

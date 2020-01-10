@@ -1,10 +1,10 @@
 import React, { Component } from './node_modules/react'
 import styled from "./node_modules/styled-components"
-//import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
-import Tooltip from "../../UI/Tooltip/Tooltip"
+//import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
+import Tooltip from "UI/Tooltip/Tooltip"
 import {connect} from "./node_modules/react-redux"
 import {createStructuredSelector} from "./node_modules/reselect"
-import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "../../redux/savings/savings_selectors"
+import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"
 
 class Header extends Component {
 

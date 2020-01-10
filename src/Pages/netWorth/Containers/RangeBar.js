@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import { connect } from 'react-redux'
-import {setVariable, changeLabel, setRangeBarValue, removeItem} from "../actions/NetWorthActions"
-import {logslider, inverseLogslider, roundNumber} from "../services/logorithmicFunctions"
-import {CloseIcon} from "../Styles/icons"
-import RangeBarLabel from "../NetWorthContainers/RangeBar/RangeBarLabel"
-import RangeBarValue from "../NetWorthContainers/RangeBar/RangeBarValue"
-import RangeBarInput from "../NetWorthContainers/RangeBar/RangeBarInput"
+import {setVariable, changeLabel, setRangeBarValue, removeItem} from "actions/NetWorthActions"
+import {logslider, inverseLogslider, roundNumber} from "services/logorithmicFunctions"
+import {CloseIcon} from "Styles/icons"
+import RangeBarLabel from "NetWorthContainers/RangeBar/RangeBarLabel"
+import RangeBarValue from "NetWorthContainers/RangeBar/RangeBarValue"
+import RangeBarInput from "NetWorthContainers/RangeBar/RangeBarInput"
 
 class RangeBar extends Component {
 

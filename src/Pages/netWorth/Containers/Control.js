@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled, {keyframes, css} from "styled-components"
-import RangeBar from "../../../UI/RangeBar/RangeBar"
-import AddItemBox from "../../../UI/AddItemBox/AddItemBox"
-import SectionHeader from "../Components/SectionHeader"
-import {setItemValue, changeLabel, addItem, removeItem} from "../../../redux/netWorth/netWorth_actions"
+import RangeBar from "UI/RangeBar/RangeBar"
+import AddItemBox from "UI/AddItemBox/AddItemBox"
+import SectionHeader from "pages/netWorth/Components/SectionHeader"
+import {setItemValue, changeLabel, addItem, removeItem} from "redux/netWorth/netWorth_actions"
 import _ from "lodash"
 import { connect } from 'react-redux'
 

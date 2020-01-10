@@ -1,6 +1,6 @@
 
-import {presentValue, payment} from "../../../services/financialFunctions"
-import {inverseLogslider} from "../../../services/logorithmicFunctions"
+import {presentValue, payment} from "services/financialFunctions"
+import {inverseLogslider} from "services/logorithmicFunctions"
 import * as d3 from "d3"
 
 

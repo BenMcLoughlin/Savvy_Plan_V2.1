@@ -2,14 +2,14 @@
 import styled from "styled-components"
 import React, { useState, useEffect } from 'react'
 import {connect} from "react-redux"
-import {transaction_action} from "../../redux/savings/savings_actions"
+import {transaction_action} from "redux/savings/savings_actions"
 import Header from "./Header"
 import ControlPanel from "./ControlPanel/ControlPanel"
 import LandingPageControls from "./ControlPanel/Components/LandingPageControls"
 import SavingsStackedChart from "./Charts/SavingsStackedChart"
 import SavingsAreaChart from "./Charts/SavingsAreaChart"
 import {initializeSavingsAndWithdrawals} from "./services/localFunctions"
-import {rate1, rate2} from "../../redux/savings/savings_selectors"
+import {rate1, rate2} from "redux/savings/savings_selectors"
 
 const SavingsPlanApp = ({income_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
 

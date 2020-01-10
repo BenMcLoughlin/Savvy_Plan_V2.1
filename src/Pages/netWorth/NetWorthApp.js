@@ -1,7 +1,7 @@
 import React from "react"
 import UserInterface from "./Containers/UserInterface"
 import {ThemeProvider} from "styled-components"
-import {lightTheme} from "../../styles/Themes"
+import {lightTheme} from "styles/Themes"
 import styled from "styled-components"
 
 const NetWorthApp = () => {    

@@ -3,8 +3,8 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import SavingsStackedChart from "./Charts/SavingsStackedChart"
 import SavingsAreaChart from "./Charts/SavingsAreaChart"
-import calculateMarginalTaxRate from "../../services/taxCalculationServices/taxCalculator"
-import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "../../redux/savings/savings_selectors"
+import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
+import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"
 import { NavLink} from "react-router-dom"
 
  class SavingsPlanTile extends Component {

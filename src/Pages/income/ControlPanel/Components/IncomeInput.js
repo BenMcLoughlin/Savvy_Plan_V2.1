@@ -1,8 +1,8 @@
 import React from 'react'
-import RangeBar from "../../../../UI/RangeBar/RangeBar"
-import DualRangeBar from "../../../../UI/DualRangeBar"
+import RangeBar from "UI/RangeBar/RangeBar"
+import DualRangeBar from "UI/DualRangeBar"
 import styled from "styled-components"
-import AddItemBox from "../../../../UI/AddItemBox/AddItemBox"
+import AddItemBox from "UI/AddItemBox/AddItemBox"
 
 export default function IncomeInput({setIncome, handleChangeLabel, income_reducer, addItemToList, handleRemoveItem, setFromAge, setToAge, fromAge, toAge, count}) {                           //Uses Destructing to assign variables and functions needed for this function                                                
 

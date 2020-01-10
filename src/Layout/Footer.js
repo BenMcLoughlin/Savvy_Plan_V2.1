@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import { NavLink} from "react-router-dom"
-import logoLight from "../assets/svgs/SavvyPlan_logo_final_white_justlogo.svg"
+import logoLight from "assets/svgs/SavvyPlan_logo_final_white_justlogo.svg"
 
 
 export default function Header() {

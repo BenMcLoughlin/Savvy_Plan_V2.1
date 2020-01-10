@@ -1,4 +1,4 @@
-import {payment}from "../../../services/financialFunctions"
+import {payment}from "services/financialFunctions"
 
 const historicRRSP = {
     1990: 63889,
