@@ -9,7 +9,6 @@ import netWorth_reducer from "./netWorth/netWorth_reducer"
 import tax_reducer from "./tax/tax_reducer"
 import savings_reducer from "./savings/savings_reducer"
 
-import investmentReturns_reducer from "../Dashboard/SavingsPlan/reducers/investmentReturns_reducer"
 
 const persistConfig = {
     key: "root",
@@ -20,21 +19,17 @@ const persistConfig = {
     "user_reducer",
     "pensionStartAges_reducer",
     "savings_reducer",
-    "investmentReturns_reducer"
 ]
 }
 
 const rootReducer = combineReducers({
 
-    //   auth: authReducer,
        netWorth_reducer,
        tax_reducer,
        incomePerYear_reducer,
        user_reducer,
        pensionStartAges_reducer,
-       savings_reducer,
-       investmentReturns_reducer
-      
+       savings_reducer,      
    })
 
 export default persistReducer(persistConfig, rootReducer)
