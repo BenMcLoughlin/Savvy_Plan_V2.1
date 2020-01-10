@@ -4,7 +4,7 @@ import Add from "../Buttons/Add"
 import RangeBarSlider from "../RangeBar/Components/RangeBarSlider"
 import RangeBarValue from "../RangeBar/Components/RangeBarValue"
 import _ from "lodash"
-import {CloseIcon} from "../../Styles/Icons"
+import {CloseIcon} from "../../styles/Icons"
 import Checkbox from "../Buttons/Checkbox"
 
 class AddItemBox extends Component {

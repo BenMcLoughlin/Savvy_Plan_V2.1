@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from "styled-components"
 import logoLight from "../../assets/svgs/SavvyPlan_logo_final_justlogo.svg"
-import SavingsStackedChart from "../../Dashboard/SavingsPlan/Charts/SavingsStackedChart"
-import SavingsAreaChart from "../../Dashboard/SavingsPlan/Charts/SavingsAreaChart"
 import Button from "../../UI/Buttons/ButtonLight"
 import RangeBar from "../../UI/RangeBar/RangeBar"
 import {connect} from "react-redux"
-import SavingsPlanApp from "../../Dashboard/SavingsPlan/SavingsPlanApp"
+import Savings from "../../pages/savings/Savings"
 
 export default function Section1() {
     const rangeBarProps = {
@@ -36,7 +34,7 @@ export default function Section1() {
                          Savvy Plan
                     </Title>
                 </Header>
-                <SavingsPlanApp landingPage style={{marginTop: "-55rem"}}/>
+                <Savings landingPage style={{marginTop: "-55rem"}}/>
 
             </Wrapper>
 

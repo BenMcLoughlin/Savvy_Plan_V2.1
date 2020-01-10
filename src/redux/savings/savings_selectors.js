@@ -4,7 +4,7 @@ import {createSelector} from "reselect"
 
 const savingsPerYear = state => state.savings_reducer
 const pensionStartAges = state => state.pensionStartAges_reducer
-const investmentReturns = state => state.investmentReturns_reducer
+const investmentReturns = state => state.assumptions_reducer
 
 export const rrspStartAge = (state) => state.pensionStartAges_reducer.rrspStartAge.rangeBarValue
 export const tfsaStartAge = (state) => state.pensionStartAges_reducer.rrspStartAge.rangeBarValue
@@ -21,7 +21,7 @@ export const investmentReturnsArray = createSelector(
     (investmentReturns) => Object.values(investmentReturns)
 )
 
-export const returns = state => state.investmentReturns_reducer
+export const returns = state => state.assumptions_reducer
 
 export const rate1 = createSelector(
     [returns],

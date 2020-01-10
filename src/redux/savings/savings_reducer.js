@@ -19,9 +19,9 @@ const determineTotalContributions = (age, name, state, transaction, value)=> {
    
    
    const initialState = () => {
-       const incomePerYear = {}
+       const income = {}
        for (let age = 17; age <= 96; age++) {
-           incomePerYear[Number(age)] = {
+           income[Number(age)] = {
                    rrsp: {
                        age: age, 
                        contribute: 0,
@@ -68,7 +68,7 @@ const determineTotalContributions = (age, name, state, transaction, value)=> {
                        withdraw: 0,
                    }
            }}
-   return incomePerYear
+   return income
    }
    
     const savings_reducer = (state = initialState(), action) => {

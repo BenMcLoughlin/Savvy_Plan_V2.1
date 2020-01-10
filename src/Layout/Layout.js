@@ -2,22 +2,21 @@ import React, { Component } from 'react'
 import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
-import Dashboard from "../Dashboard/Dashboard"
+import Dashboard from "../pages/dashboard/Dashboard"
 import TaxApp from "../Dashboard/Tax/TaxApp"
-import NetWorthApp from "../Dashboard/NetWorth/NetWorthApp"
+import NetWorthApp from "../pages/netWorth/NetWorthApp"
 import CreditScoreApp from "../Dashboard/CreditScore/CreditScoreApp"
-import LifetimeIncomeApp from "../Dashboard/LifetimeIncome/LifetimeIncomeApp"
-import SavingsPlanApp from "../Dashboard/SavingsPlan/SavingsPlanApp"
+import Income from "../pages/income/Income"
+import Savings from "../pages/savings/Savings"
 import SpendingApp from "../Dashboard/Spending/SpendingApp"
 import PropertyApp from "../Dashboard/Property/PropertyApp"
 import DebtApp from "../Dashboard/Debt/DebtApp"
-import UserAccountApp from "../UserAccount/UserAccountApp"
-import Login from "../Pages/Login"
+import Login from "../pages/Login"
 import LandingPage from "../Onboarding/LandingPage"
 import OnboardingProcess from "../Onboarding/OnboardingProcess"
-import SignUp from "../Pages/SignUp"
+import SignUp from "../pages/SignUp"
 import {ThemeProvider} from "styled-components"
-import { lightTheme} from "../Styles/Themes"
+import { lightTheme} from "../styles/Themes"
 import styled from "styled-components"
 import LeftNavBar from "./Navigation/LeftNavBar"
 import RightVideoSelector from "./Navigation/RightVideoSelector"
@@ -39,11 +38,10 @@ export default class Layout extends Component {
             <GridContainer>  
                     <Route path="/Onboarding" component={OnboardingProcess}/>
                     <Route exact path="/dashboard" component={Dashboard}/>
-                    <Route path="/UserAccount" component={UserAccountApp}/>
                     <Route path="/NetWorth" component={NetWorthApp}/>
                     <Route path="/Tax" component={TaxApp}/>
-                    <Route path="/LifeTimeIncome" component={LifetimeIncomeApp}/>  
-                    <Route path="/SavingsPlan" component={SavingsPlanApp}/>              
+                    <Route path="/LifeTimeIncome" component={Income}/>  
+                    <Route path="/SavingsPlan" component={Savings}/>              
                     <Route path="/CreditScore" component={CreditScoreApp}/>              
                     <Route path="/Spending" component={SpendingApp}/>
                     <Route path="/Property" component={PropertyApp}/>

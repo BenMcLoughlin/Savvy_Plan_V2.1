@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Layout from "./Layout/Layout"
 import {BrowserRouter} from "react-router-dom"
-import { GlobalStyles } from "./Styles/Themes"
+import { GlobalStyles } from "./styles/Themes"
 import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"
 
 export default function App() {
