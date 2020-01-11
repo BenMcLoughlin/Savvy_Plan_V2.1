@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FormInput from "UI/Forms/Input"
 import styled from "styled-components"
 import ButtonDark from "UI/Buttons/ButtonDark"
-import { NavLink, Redirect} from "react-router-dom"
+import {Redirect} from "react-router-dom"
 import {auth, signInWithGoogle} from "firebase/firebaseUtils"
 import LinkButton from "UI/Buttons/LinkButton"
 
@@ -99,12 +99,4 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
-`
-const Disclaimer = styled.div`
-    text-align: center;
-    font-size: 1.6rem;
-`
-
-const LinkWrapper = styled(NavLink)`
-    font-weight: 700;
 `

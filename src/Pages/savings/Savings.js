@@ -1,22 +1,17 @@
 
 import styled from "styled-components"
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {connect} from "react-redux"
 import {transaction_action} from "redux/savings/savings_actions"
-import Header from "./Header"
-import ControlPanel from "./ControlPanel/ControlPanel"
-import LandingPageControls from "./ControlPanel/Components/LandingPageControls"
-import SavingsStackedChart from "./Charts/SavingsStackedChart"
-import SavingsAreaChart from "./Charts/SavingsAreaChart"
-import {initializeSavingsAndWithdrawals} from "./services/localFunctions"
+import Header from "pages/savings/components/Header"
+import ControlPanel from "pages/savings/components/ControlPanel"
+import LandingPageControls from "pages/savings/components/LandingPageControls"
+import SavingsStackedChart from "charts/savings/SavingsStackedChart"
+import SavingsAreaChart from "charts/savings/SavingsAreaChart"
+import {initializeSavingsAndWithdrawals} from "services/savings/savings_functions"
 import {rate1, rate2} from "redux/savings/savings_selectors"
 
 const Savings = ({income_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
-
-    const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
-    const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
-
-    const currentAge = 18 
 
     // useEffect(() => {
     //     initializeSavingsAndWithdrawals(currentAge, income_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import CreditScoreTile from "Dashboard/CreditScore/CreditScoreTile"
+import CreditScoreTile from "pages/dashboard/components/CreditScoreTile"
 import NetWorthTile from "./components/NetWorthTile"
 import SavingsPlanTile from "./components/SavingsPlanTile"
-//import ContributionPlanTile from "./components/ContributionPlanTile"
+import ContributionPlanTile from "./components/ContributionPlanTile"
 import GoalsTile from "./components/GoalsTile"
 import LifetimeIncomeTile from "./components/LifetimeIncomeTile"
-import TaxTile from "Dashboard/Tax/TaxTile"
+import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
 
 class Dashboard extends Component {

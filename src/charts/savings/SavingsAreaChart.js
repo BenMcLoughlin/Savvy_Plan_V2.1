@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import * as d3 from "d3"
-import styles from "./ChartStyles.css"
-import _ from "lodash"
 import styled from "styled-components"
 import {stackedAreaData} from "redux/savings/savings_selectors"
 import {connect} from "react-redux"
@@ -59,7 +57,10 @@ const drawChart = (props, width, height) => {
                         .style("top", 0)
                         .style("left", 0)
 
-
+                        const uselessFunctionToClearUnusedNames = () => {
+                            return tooltip
+                         }
+                         uselessFunctionToClearUnusedNames()
 
     const update = data => {
     
@@ -67,7 +68,6 @@ const drawChart = (props, width, height) => {
         const d3Max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 90000 ? 90000 : 
                         d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 10000
 
-        const layers = stack(data);
 
         const area = d3.area()
                     .x(d => xScale(d.data.age))
@@ -134,16 +134,16 @@ const drawChart = (props, width, height) => {
          
 
 
-        //     const xAxis = d3.axisBottom(xScale)
-        //                    .tickValues([])
+            const xAxis = d3.axisBottom(xScale)
+                           .tickValues([])
                            
                                     
-        //     const yAxis = d3.axisLeft(yScale).ticks('3')
-        //                     .tickFormat(d => `${d/1000}k`)
+            const yAxis = d3.axisLeft(yScale).ticks('3')
+                            .tickFormat(d => `${d/1000}k`)
 
 
-        // xAxisGroup.call(xAxis)
-        // yAxisGroup.call(yAxis)
+        xAxisGroup.call(xAxis)
+        yAxisGroup.call(yAxis)
     }
 
     update(data)

@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import styled from "styled-components"
-import {connect} from "react-redux"
-import { NavLink} from "react-router-dom"
+import React, { Component } from 'pages/property/node_modules/react'
+import styled from "pages/property/node_modules/styled-components"
+import {connect} from "pages/property/node_modules/react-redux"
+import { NavLink} from "pages/property/node_modules/react-router-dom"
 
  class HomePurchaseTile extends Component {
 

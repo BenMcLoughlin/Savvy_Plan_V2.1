@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import Layout from "./Layout/Layout"
+import Layout from "./layout/Layout"
 import {BrowserRouter} from "react-router-dom"
 import { GlobalStyles } from "./styles/Themes"
 import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"

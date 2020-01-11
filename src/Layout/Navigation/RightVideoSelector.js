@@ -1,7 +1,6 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 
-
 const RightVideoSelector = () => {
 
     const [visible, setVisible] = useState(false)

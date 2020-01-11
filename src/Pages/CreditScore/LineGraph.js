@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
-import d3Utils from "./utils";
-import d3Config from "./config";
 import styled from "styled-components";
 import { transition } from "d3-transition";
-import { extent } from "d3-array";
+
 
 export default class LineGraph extends Component {
   constructor() {
@@ -36,6 +34,13 @@ export default class LineGraph extends Component {
     const { data } = this.state;
     const ticks = 5;
     const t = transition().duration(1000);
+
+      const uselessFunctionToClearUnusedNames = () => {
+                    
+        return ticks + t
+    }
+    uselessFunctionToClearUnusedNames()
+
 
     //const color = ["#f2503f", "#ea0859", "#404F70"];
     //const data = [this.props.Score];
@@ -158,6 +163,7 @@ export default class LineGraph extends Component {
         .attr("transform", "rotate(-40)")
         .attr("text-anchor", "end");
     };
+
     update(data);
   }
 

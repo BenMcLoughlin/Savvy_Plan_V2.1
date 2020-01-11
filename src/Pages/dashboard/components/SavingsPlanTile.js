@@ -124,10 +124,6 @@ const LargeTotal = styled.div`
 
 
 `
-const ToolTip = styled.div`
-    background: red;
-    opacity: 0;
-`
 
 
 const TitleMain = styled.div `
@@ -137,13 +133,7 @@ const TitleMain = styled.div `
     font-weight: 300;
    
 ` 
-const Title = styled.div `
-    font-size: ${props => props.theme.fontSize.smallMedium};
-    text-align: center;
-    color: ${props => props.theme.color.slate};
-    font-weight: 300;
-   
-` 
+
 const ChartWrapper = styled.div`
     margin-top: -7rem;
     margin-bottom: 1rem;
@@ -173,23 +163,6 @@ const PensionIncomeWrapper = styled.div`
     border-bottom: ${props => props.theme.border.primary};
 `
 
-const Circle = styled.div`
-   border-radius: 50%;
-   height: .7rem;
-   width: .7rem;
-   margin-top: .5rem;
-   background: ${props => props.color}
-   display: flex;
-   align-items: center;
-`
-const Vr = styled.div`
-    height: 60%;
-    width: 1%;
-    margin-top: 2rem;
-    flex-basis: 0.1;
-    flex: 1 0.1 1;
-    border-left: ${props => props.theme.border.primary};
-`
 
 const AreaChartPlaceHolder = styled.div`
     width: 100%;

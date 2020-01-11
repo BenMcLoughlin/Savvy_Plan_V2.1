@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from "styled-components"
-import {CloseIcon} from "styles/Icons"
 import RangeBarLabel from "./Components/RangeBarLabel"
 import RangeBarValue from "./Components/RangeBarValue"
 import RangeBarSlider from "./Components/RangeBarSlider"

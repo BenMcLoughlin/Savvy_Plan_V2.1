@@ -1,8 +1,7 @@
 
 import React from 'react'
 import styled from "styled-components"
-import { NavLink} from "react-router-dom"
-import LinkButton from "../../UI/Buttons/LinkButton"
+import LinkButton from "UI/Buttons/LinkButton"
 
 export default function Section2() {
 
@@ -28,19 +27,6 @@ export default function Section2() {
     )
 }
 
-const Button = styled(NavLink)`
-    padding: 1rem;
-    width: 10rem;
-    height: 4rem;
-    margin: 1rem;
-    background: ${props => props.theme.color.ice};
-    color: ${props => props.theme.color.slate};
-    cursor: pointer;
-    outline: none;
-    border-radius: 5rem;
-    text-transform: uppercase;
-    position: relative
-`
 
 
 const Wrapper = styled.div`
@@ -68,12 +54,6 @@ const IntroText = styled.div`
     font-weight: 300;
     line-height: 3rem;
     letter-spacing: .3rem;
-`
-const Buttons = styled.div`
-    height: 20rem;
-    width: 100%;
-    margin-top: 2rem;
-    text-align: center;
 `
 const Section3Header = styled.div`
     font-size: 4rem;

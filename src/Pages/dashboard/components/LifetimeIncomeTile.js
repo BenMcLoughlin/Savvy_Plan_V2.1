@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import LifetimeIncomeBarChart from "pages/income/Charts/LifetimeIncomeBarChart"
+import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
 import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
 import { NavLink} from "react-router-dom"
 
@@ -29,9 +29,6 @@ const data = Object.values(this.props.income_reducer).map(d => {                
        const totalRetirementIncome = Object.values(this.props.income_reducer[75])                                        //Determines total income in retirement
                                         .map(d => d.financialValue)
                                         .reduce((acc, num) => acc + num)
-       const retirementTaxRate = totalRetirementIncome > 72000 && totalRetirementIncome < 122000 ? calculateMarginalTaxRate(totalRetirementIncome) + 15 : calculateMarginalTaxRate(totalRetirementIncome) || 0
-
-       //Calculate AVERAGE Earnings
 
 
         const workingLifetimeEarnings = Object.values(this.props.income_reducer)                                          // turn object into array
@@ -43,7 +40,6 @@ const data = Object.values(this.props.income_reducer).map(d => {                
 
         const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
 
-        const shortFall =  (totalRetirementIncome - averageWorkingEarnings)/1000                                                         //determine retirement income shortfall to be displayed 
 
 
         const {
@@ -170,11 +166,6 @@ const LargeTotal = styled.div`
 
 
 `
-const ToolTip = styled.div`
-    background: red;
-    opacity: 0;
-`
-
 
 const TitleMain = styled.div `
     font-size: ${props => props.theme.fontSize.medium};

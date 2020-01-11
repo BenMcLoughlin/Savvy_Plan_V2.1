@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import HeaderValues from "./Containers/HeaderValues"
-import ControlPanel from "./Containers/ControlPanel"
-import TaxDonutChart  from "./Charts/TaxDonutChart"
-import TaxStackedBarChart  from "./Charts/TaxStackedBarChart"
+import HeaderValues from "./components/HeaderValues"
+import ControlPanel from "./components/ControlPanel"
+import TaxDonutChart  from "charts/tax/TaxDonutChart"
+import TaxStackedBarChart  from "charts/tax/TaxStackedBarChart"
 import {setTaxIncome_action} from "redux/tax/tax_actions"
-import {calculateTaxesByBracket} from "./services/taxCalculations"
+import {calculateTaxesByBracket} from "functions/tax/taxCalculations"
 
 const TaxApp = ({setTaxIncome_action, tax_reducer}) => {
 

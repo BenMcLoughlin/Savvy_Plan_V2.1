@@ -5,15 +5,14 @@ import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp
 import {setRetirementIncome_action} from "redux/user/user_actions"
 import {setPensionStartAge_action} from "redux/pensionStartAges/pensionStartAges_actions"
 import {setMaxContribution_action} from "redux/savings/savings_actions"
-import Header from "./Header"
-import ControlPanel from "./ControlPanel/ControlPanel"
-import LifetimeIncomeBarChart from "./Charts/LifetimeIncomeBarChart"
-import {payment}from "services/financialFunctions"
-import { setMaxContributions, determineMaxRegisteredPayments} from "./services/localFunctions" 
+import Header from "pages/income/components/Header"
+import ControlPanel from "pages/income/components/ControlPanel"
+import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
+import { setMaxContributions, determineMaxRegisteredPayments} from "services/income/income_functions" 
 import {stackedChartData,  retirementPensionIncome} from "redux/income/income_selectors"
 import {rate1 , rate2} from "redux/savings/savings_selectors"
-import {renderCPPandOASIncome, adjustOas} from  "./services/CPPfunctions"
-import {calculateOptimumIncomeStreams, addRetirementIncome} from  "./services/RRSPandTFSAfunctions"
+import {renderCPPandOASIncome, adjustOas} from  "services/income/cpp_functions"
+import {calculateOptimumIncomeStreams, addRetirementIncome} from  "services/income/rrspAndTfsa_functions"
 
 const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, state, setPensionStartAge_action,                                    // destructure out variables
     income_reducer, removeItem_action, pensionStartAges_reducer, setRetirementIncome_action,  stackedChartData,
