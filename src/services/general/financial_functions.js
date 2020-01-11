@@ -4,8 +4,8 @@ export const calculateFutureValue = (rate, n, pmt, pv) => {
   return FutureValue
 }
 
-export const financeFV = (rate, cf0, numOfPeriod) => {
-  var rate = rate/100, fv;
+export const financeFV = (r, cf0, numOfPeriod) => {
+  let rate = r/100, fv;
   fv = cf0 * Math.pow((1 + rate), numOfPeriod);
   return Math.round(fv * 100) / 100;
 };
@@ -180,10 +180,6 @@ export function abbreviateNum(number) {
 
 
 export const presentValue = function (rate, periods, payment, future, type) {
-
-    var type = (typeof type === 'undefined') ? 0 : type;
-    rate = eval(rate);
-    periods = eval(periods);
   
     if (rate === 0) {
       return - payment * periods - future;
@@ -196,12 +192,12 @@ export const presentValue = function (rate, periods, payment, future, type) {
       if (!fv) fv = 0;
       if (!type) type = 0;
   
-      if (rate == 0) return -(pv + fv)/nperiod;
+      if (rate === 0) return -(pv + fv)/nperiod;
   
       var pvif = Math.pow(1 + rate, nperiod);
       var pmt = rate / (pvif - 1) * -(pv * pvif + fv);
   
-      if (type == 1) {
+      if (type === 1) {
           pmt /= (1 + rate);
       };
   

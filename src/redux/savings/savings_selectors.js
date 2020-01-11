@@ -1,9 +1,6 @@
 import {createSelector} from "reselect"
 
-
-
 const savingsPerYear = state => state.savings_reducer
-const pensionStartAges = state => state.pensionStartAges_reducer
 const investmentReturns = state => state.assumptions_reducer
 
 export const rrspStartAge = (state) => state.pensionStartAges_reducer.rrspStartAge.rangeBarValue

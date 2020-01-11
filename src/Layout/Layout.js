@@ -82,11 +82,6 @@ export default class Layout extends Component {
      on its grid location becomes m placing it in the "main position" */
 `
 
-const Right = styled.div`
-    position: absolute;
-    top: 10rem;
-    right: 2rem;
-`
 
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
     // This is the switch board of the app. The header and footer are rendred and always present. Then the 

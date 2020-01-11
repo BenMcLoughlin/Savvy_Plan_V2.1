@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 
-
-
 class MiniRangeBarSlider extends Component {
 
 
@@ -14,7 +12,7 @@ class MiniRangeBarSlider extends Component {
             <Input
                 type="range"
                 name={this.props.rangeBarProps.name}
-                onChange={(e) => this.props.setValueInReducer(e.target.name, +e.target.value, this.props.rangeBarProps)}
+                onChange={(e) => this.props.setValue(+e.target.value, +e.target.value, this.props.rangeBarProps)}
                 value={this.props.rangeBarProps.rangeBarValue}
                 max={this.props.rangeBarProps.max}
                 min={this.props.rangeBarProps.min}
@@ -70,6 +68,3 @@ const Input = styled.input`
 }
 
 `
-
-//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// The actual slider bar. 

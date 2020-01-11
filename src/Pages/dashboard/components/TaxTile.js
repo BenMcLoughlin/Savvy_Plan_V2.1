@@ -2,7 +2,7 @@ import React from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {calculateTaxesByBracket} from "functions/tax/taxCalculations"
-import TaxDonutChart_Tile from "charts/tax/TaxDonutChart_Tile"
+import TaxDonutChartTile from "charts/tax/TaxDonutChartTile"
 import { NavLink} from "react-router-dom"
 
 
@@ -48,7 +48,7 @@ console.log(tax_reducer);
     return (
         <TaxTileTileWrapper to="/Tax">
             <StackedBarChartPlaceHolder>
-            <TaxDonutChart_Tile
+            <TaxDonutChartTile
                 taxDonutChartData={taxDonutChartData}
             />
             </StackedBarChartPlaceHolder>

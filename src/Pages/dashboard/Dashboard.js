@@ -4,8 +4,6 @@ import {connect} from "react-redux"
 import CreditScoreTile from "pages/dashboard/components/CreditScoreTile"
 import NetWorthTile from "./components/NetWorthTile"
 import SavingsPlanTile from "./components/SavingsPlanTile"
-import ContributionPlanTile from "./components/ContributionPlanTile"
-import GoalsTile from "./components/GoalsTile"
 import LifetimeIncomeTile from "./components/LifetimeIncomeTile"
 import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
@@ -70,10 +68,7 @@ const StyledTilePane = styled.div`
     "g g g g g g g g g g g g g g g g g g h h h h h"
     "g g g g g g g g g g g g g g g g g g h h h h h"
 `
-const HorizontalLine = styled.div`
-    height: 1px;
-    border-top: ${props => props.theme.border.primary};
-`
+
 
 //This is the grid container that positions each of the tiles in the dashboard.
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
-import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
 import { NavLink} from "react-router-dom"
 
  class LifetimeIncomeTile extends Component {
@@ -21,26 +20,6 @@ const data = Object.values(this.props.income_reducer).map(d => {                
       const stackedKeys = Object.keys(this.props.income_reducer[18])                                                                            //creates a an array of each of the income type names, which is used in the stacked Income chart
 
        
-    //    const cppIncome = this.props.income_reducer[75].cppIncome.financialValue
-    //    const oasIncome = this.props.income_reducer[75].oasIncome.financialValue
-    //    const rrifIncome = this.props.income_reducer[75].rrsp.financialValue
-     //  const totalPensionIncome = `${(cppIncome + oasIncome + rrifIncome)/1000}k`
-      // const totalRrifIncome = `${(rrifIncome)/1000}k`
-       const totalRetirementIncome = Object.values(this.props.income_reducer[75])                                        //Determines total income in retirement
-                                        .map(d => d.financialValue)
-                                        .reduce((acc, num) => acc + num)
-
-
-        const workingLifetimeEarnings = Object.values(this.props.income_reducer)                                          // turn object into array
-        .map(d => Object.values(d)
-            .map(a => a.financialValue)                                                     // make sub arrays just show financial value
-            .reduce((acc, num) => acc + num))                                               // sum the earned value for each year. 
-        .slice(0,47)                                                                     // Grab Only working years 
-        .reduce((acc, num) => acc + num)                                                 // determine sum total of working years income
-
-        const averageWorkingEarnings = Math.round((workingLifetimeEarnings/47)/1000)*1000                                        //calculate average working annual income, then round
-
-
 
         const {
             cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer

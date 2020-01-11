@@ -94,3 +94,5 @@ const sharedStyles = `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 //THe value is displayed as either a regular number or an input when clicked which will change the number. 
+
+

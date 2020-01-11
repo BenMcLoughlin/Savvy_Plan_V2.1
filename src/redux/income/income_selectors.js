@@ -2,10 +2,6 @@ import {createSelector} from "reselect"
 
 
 const income_reducer = state => state.income_reducer
-const user_reducer = state => state.user_reducer
-const pensionStartAges_reducer = state => state.pensionStartAges_reducer
-
-
 
 export const stackedChartData = createSelector(
     [income_reducer],

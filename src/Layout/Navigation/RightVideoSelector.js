@@ -1,15 +1,11 @@
-import React, {useState} from "react"
+import React from "react"
 import styled from "styled-components"
 
 const RightVideoSelector = () => {
 
-    const [visible, setVisible] = useState(false)
-
-    return (
+ return (
         <RightVideoSelectorWrapper>
-            {
-                visible ? "hi" : <Arrow/>
-            }
+            <Arrow/>
 
         </RightVideoSelectorWrapper>
     )

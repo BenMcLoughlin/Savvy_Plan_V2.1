@@ -77,13 +77,6 @@ const RangeBarWrapper = styled.div`
   position: relative;
   text-align: center;
 `
-const Hr = styled.hr`
-    border-top: ${props => props.theme.border.primary};
-    width: 80%;
-    margin: 0 auto;
-    fill: red;
-`
-
 
 const YearsSelectorWrapper = styled.div`
     display: flex;

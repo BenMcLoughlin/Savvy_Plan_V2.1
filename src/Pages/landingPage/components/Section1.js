@@ -4,21 +4,6 @@ import logoLight from "assets/svgs/SavvyPlan_logo_final_justlogo.svg"
 import SavingsPlanApp from "pages/savings/Savings"
 
 export default function Section1() {
-    const rangeBarProps = {
-        age: 20, 
-        contribute: 0,
-        financialValue: 0,
-        label: "Contributions",
-        maxContribution: 0,
-        name: "nonRegistered",
-        optimizedContribution: 0, 
-        optimizedWithdrawal: 0, 
-        rangeBarValue: 0, 
-        totalContributions: 0, 
-        totalInterest: 0, 
-        totalValue: 0, 
-        withdraw: 0,
-    }
 
     return (
 

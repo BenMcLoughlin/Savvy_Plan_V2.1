@@ -58,6 +58,7 @@ return (
         for (let age = retirementStartAge; age <= 95; age++) {
             transaction_action(age, account, "withdraw", rangeBarValueW, rate1, rate2, retirementStartAge, reccomendedPayment)
         } 
+    return null;
     })
 ) 
 }

@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {rate1, rate2} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
-import {renderSavings, optimizedWithdrawals} from "services/savings/savings_functions"
+import {renderSavings} from "services/savings/savings_functions"
 
 
 const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
@@ -85,22 +85,6 @@ const YearsSelectorWrapper = styled.div`
     margin-bottom: 1rem;
 `
 
-const Value = styled.div `
-        position: absolute;
-        left: 77%;
-        top: .8rem;
-        border-radius: 3px;
-        padding: .4rem;
-        height: 2.6rem;
-        width: 4rem;
-        align-content: center;
-        text-align: center;
-        color: white;
-        border: none;
-        background: ${props => props.theme.color.slate};
-        font-size: ${props =>props.theme.fontSize.small};
-   
-` 
 const Display = styled.div `
    position:relative;
   
