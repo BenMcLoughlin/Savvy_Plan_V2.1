@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from "styled-components"
-import {CloseIcon} from "../../Styles/Icons"
 import RangeBarLabel from "./Components/RangeBarLabel"
 import RangeBarValue from "./Components/RangeBarValue"
 import RangeBarSlider from "./Components/RangeBarSlider"
-import Close from "../Buttons/Close"
+import Close from "UI/Buttons/Close"
 
 /*Props Required to be passed:
 1. setIncome 

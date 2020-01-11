@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import MiniRangeBarLabel from "./Components/MiniRangeBarLabel"
-import MiniRangeBarValue from "./Components/MiniRangeBarValue"
-import MiniRangeBarSlider from "./Components/MiniRangeBarSlider"
+import MiniRangeBarLabel from "UI/MiniRangeBar/Components/MiniRangeBarLabel"
+import MiniRangeBarValue from "UI/MiniRangeBar/Components/MiniRangeBarValue"
+import MiniRangeBarSlider from "UI/MiniRangeBar/Components/MiniRangeBarSlider"
 
 
 /*Props Required to be passed:
@@ -14,7 +14,7 @@ import MiniRangeBarSlider from "./Components/MiniRangeBarSlider"
      as well as a number types which will determine if it will display a percentage or a normal number. 
 */ 
 
-export default class MiniRangeBar extends Component {
+export default class SmallRangeBar extends Component {
 
     render() {
         return (
@@ -25,11 +25,11 @@ export default class MiniRangeBar extends Component {
                 />
                 <MiniRangeBarSlider
                      rangeBarProps={this.props.rangeBarProps}
-                     setValueInReducer={this.props.setValueInReducer}
+                     setValue={this.props.setValue}
                 />
                 <MiniRangeBarValue
                     rangeBarProps={this.props.rangeBarProps}
-                    setValueInReducer={this.props.setValueInReducer}
+                    setValue={this.props.setValue}
                 />
                
             </RangeBarWrapper>
@@ -52,4 +52,3 @@ const RangeBarWrapper = styled.div`
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // This is the entire rangebar wrapper that contains the label, the range bar input and the value output. 
-

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import {Provider} from "react-redux"
 import {createStore} from "redux"
-import reducers from "./reducers"
+import reducers from "./redux/rootReducer"
 import { devToolsEnhancer } from 'redux-devtools-extension';
 import {persistStore} from "redux-persist"
 import {PersistGate} from "redux-persist/integration/react"

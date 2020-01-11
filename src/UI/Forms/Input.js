@@ -1,22 +1,22 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styled from "styled-components"
 
 
 const FormInput = ({label, type, value, name, required, handleChange})  => {
-    const [text, changeText] = useState("")
-    const [error, showError] = useState(false)
+//const [error, showError] = useState(false)
 
 
-    const validate = text => {
+    // const validate = text => {
 
-       return label === "Email" ? 
-              (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(text)) ? showError(false) : showError(true) 
-        : 
-        label === "Password" ? 
-            text.length > 6 ? showError(false) : showError(true) 
-        :
-        null
-    }
+    //    return label === "Email" ? 
+    //           (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(text)) ? showError(false) : showError(true) 
+    //     : 
+    //     label === "Password" ? 
+    //         text.length > 6 ? showError(false) : showError(true) 
+    //     :
+    //     null
+    // }
+
     return (
         <Wrapper>
             <Input
@@ -27,11 +27,11 @@ const FormInput = ({label, type, value, name, required, handleChange})  => {
                 required={required}
             ></Input>
             <Label>{label}</Label>
-            {
+            {/* {
                 error ? 
                    <Error>{`Please Enter a valid ${label}`}</Error>
                 : null
-            }
+            } */}
           
         </Wrapper>
     )
@@ -92,16 +92,5 @@ const Input = styled.input`
         color: ${props => props.theme.color.grey};
         font-weight: 700;
     }
-
-`
-const Error = styled.div`
-    color: ${props => props.theme.color.salmon};
-    font-size: 12px;
-    font-weight: normal;
-    position: absolute;
-    pointer-events: none;
-    left: 5px;
-    top: 7rem;
-}
 
 `

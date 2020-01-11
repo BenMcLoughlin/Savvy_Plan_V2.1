@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {ChevronIcon} from "../../Styles/Icons"
+import {ChevronIcon} from "Styles/Icons"
 
  export default class SectionHeader extends Component {
 

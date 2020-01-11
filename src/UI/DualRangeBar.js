@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {ChevronIcon} from "../Styles/Icons"
+import {ChevronIcon} from "styles/Icons"
 
 /*Props Required to be passed:
 1. lowerValue and higherValue

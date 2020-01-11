@@ -6,7 +6,7 @@ import {PieChart} from "styled-icons/feather/PieChart"
 import {BarChart} from "styled-icons/feather/BarChart"
 
 
-import {setFlex} from "../../Styles/Themes"
+import {setFlex} from "Styles/Themes"
 
 // This component renders 4 different types of tile according to the type of data it is passed. It uses a ternary operator to 
 // determine which type of tile it is rendering according to the "tileType" prop it is passed. 
