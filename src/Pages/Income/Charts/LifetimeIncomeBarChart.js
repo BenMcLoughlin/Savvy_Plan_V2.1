@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import * as d3 from "d3"
+import React, { Component } from 'pages/income/Charts/node_modules/react'
+import * as d3 from "pages/income/Charts/node_modules/d3"
 import styles from "./ChartStyles.css"
-import _ from "lodash"
-import styled from "styled-components"
-import {stackedChartData, stackedChartKeys} from "redux/income/income_selectors"
-import {connect} from "react-redux"
+import _ from "pages/income/Charts/node_modules/lodash"
+import styled from "pages/income/Charts/node_modules/styled-components"
+import {stackedChartData, stackedChartKeys} from "pages/income/Charts/node_modules/redux/income/income_selectors"
+import {connect} from "pages/income/Charts/node_modules/react-redux"
 
 const drawChart = (props, width, height) => {
 

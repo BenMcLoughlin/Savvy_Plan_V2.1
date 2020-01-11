@@ -3,8 +3,8 @@ import React from 'react'
 import styled from "styled-components"
 import LinkButton from "UI/Buttons/LinkButton"
 
-export default function Section2() {
 
+export default function Section2() {
     return (
 
         <Wrapper>
