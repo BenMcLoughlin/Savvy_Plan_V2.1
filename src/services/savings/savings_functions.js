@@ -85,6 +85,7 @@ export   const optimizedContribution = (account, savings_reducer, setOpitmizedVa
 }
 
 export const reccomendedNestEgg = (rate, startAge, withdrawal) => {
+    console.log(withdrawal);
     const duration = 95 - startAge
    const value = -presentValue(rate, duration, withdrawal, 0)
    const roundedValue = Math.round(value/1000)*1000

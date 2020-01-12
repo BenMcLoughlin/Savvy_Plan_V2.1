@@ -1,6 +1,6 @@
 
 import styled from "styled-components"
-import React from 'react'
+import React, {useEffect} from 'react'
 import {connect} from "react-redux"
 import {transaction_action} from "redux/savings/savings_actions"
 import Header from "pages/savings/components/Header"
@@ -13,9 +13,9 @@ import {rate1, rate2} from "redux/savings/savings_selectors"
 
 const Savings = ({income_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
 
-    // useEffect(() => {
-    //     initializeSavingsAndWithdrawals(currentAge, income_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
-    // }, [])
+    useEffect(() => {
+        initializeSavingsAndWithdrawals(18, income_reducer, rate1, rate2, 65, 65, transaction_action)
+    }, [])
 
         return (
             <UserInterfaceWrapper>
