@@ -45,7 +45,7 @@ const Withdrawals = ({count, savings_reducer,transaction_action, setOpitmizedVal
                                     
                                             <Display>
                                             <RangeBar
-                                                            key={d.name}
+                                                            key={d.name + d.financialValue}
                                                             financialValue= {d.financialValue}
                                                             rangeBarProps={d}
                                                             setValue={setWithdrawals}

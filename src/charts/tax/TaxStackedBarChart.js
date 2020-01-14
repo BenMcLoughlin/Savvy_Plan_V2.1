@@ -23,7 +23,7 @@ const drawChart = (props, width, height) => {
 
 
 
-    const graph = svg.append("g").attr("height", graphHeight)
+    const graph = svg.append("g").attr("height", graphHeight > 100 ? graphHeight : 100)
                                  .attr("width", graphWidth)
                                  .attr("transform", `translate(${margin.left}, ${margin.top})`)
                                  
@@ -72,7 +72,7 @@ const drawChart = (props, width, height) => {
         rects.selectAll("rect")
             .data(d => d)
             .enter().append("rect")
-                .attr("x", d => xScale(d.data.bracket))
+                .attr("x", d => xScale(d.data.bracket) > 0 ? d => xScale(d.data.bracket) : 0)
                 .attr("y", d => yScale(d[1]))
              .merge(rects)
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))

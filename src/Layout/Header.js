@@ -1,14 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { NavLink} from "react-router-dom"
 import styled from "styled-components"
 import logoLight from "assets/svgs/SavvyPlan_logo_final_grey.svg"
 import {auth} from "firebase/firebaseUtils"
 import LinkButton from "UI/Buttons/LinkButton"
+import {connect} from "react-redux"
+import {setUserDetails_action} from "redux/user/user_actions"
 
-export default function Header(props) {
+ function Header(props) {
 
-    const {currentUser} = props
-    console.log(currentUser);
+    const {currentUser, setUserDetails_action} = props
+    useEffect(() => console.log(currentUser), [])
+        console.log(currentUser);
+
     return (
         <HeaderContainer>
             <Left>
@@ -55,7 +59,7 @@ export default function Header(props) {
 }
 
 
-
+export default connect(null, {setUserDetails_action})(Header)
 
 //--------HEADER GRID LAYOUT---------------------------------------------------------------//
 

@@ -9,11 +9,8 @@ import {persistStore} from "redux-persist"
 import {PersistGate} from "redux-persist/integration/react"
 
 const store = createStore(reducers,devToolsEnhancer())
-
-
-    
 const persistor = persistStore(store)
-console.log(reducers);
+
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>

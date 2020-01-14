@@ -1,5 +1,10 @@
 
 const initialState = {
+    id: "",
+    displayName: "",
+    email: "",
+    firstName: "Poo Brain",
+    province: "",
     birthYear: 1988,
     rrifWithdrawalAge: 65,
     retirementPensionIncome: 0,
@@ -22,6 +27,16 @@ const user_reducer = (state = initialState, action) => {
                                         rangeBarValue: action.rangeBarValue
 
         }  }
+        case "user_reducer/SET_USER_DETAILS": 
+        return {...state, 
+                                       id: action.userId,
+                                       email: action.useremail,
+                                       displayName: action.displayName,
+         }
+        case "user_reducer/SET_USER_DETAIL": 
+        return {...state, 
+                                    [action.name]: action.value
+         }
         default: return state
     }
 }

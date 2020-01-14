@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import FormInput from "UI/Forms/Input"
+import Input from "UI/Forms/Input"
 import styled from "styled-components"
 import ButtonDark from "UI/Buttons/ButtonDark"
 import {Redirect} from "react-router-dom"
@@ -44,8 +44,8 @@ const Login = () => {
                   Lets Get Started
             </Title>
             <Form onSubmit={handleSubmit}>
-                <FormInput label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
-                <FormInput label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
+                <Input label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
+                <Input label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
                 <Buttons>
                     <ButtonDark text={"LOGIN"} type="submit"/>
                     <ButtonDark text={"USE GOOGLE"} onClick={signInWithGoogle}/>

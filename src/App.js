@@ -3,8 +3,10 @@ import Layout from "./layout/Layout"
 import {BrowserRouter} from "react-router-dom"
 import { GlobalStyles } from "./styles/Themes"
 import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"
+import {setUserDetails_action} from "redux/user/user_actions"
+import {connect} from "react-redux"
 
-export default function App() {
+ function App({setUserDetails_action}) {
 
     const [currentUser, setCurrentUser] = useState(null)
 
@@ -19,6 +21,7 @@ export default function App() {
                                 ...snapshot.data()
                             }
                         })
+                        setUserDetails_action(snapshot.id, snapshot.data());
                     })
                 }
                 else {
@@ -39,7 +42,7 @@ export default function App() {
 }
 
 
-
+export default connect(null,{setUserDetails_action} )(App)
 
 
 //

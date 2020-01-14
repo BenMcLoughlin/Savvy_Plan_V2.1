@@ -15,7 +15,6 @@ const TaxTile = ({tax_reducer}) => {
                                                   
   const creditsRangeBarValues = Object.values( tax_reducer.credits)
 
-console.log(tax_reducer);
   const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
 
   const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 

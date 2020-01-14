@@ -18,7 +18,7 @@ const drawTaxDonutChart = (props, width, height) => {
                                     .map(d => d.value).reduce((acc, num) => acc + num)
 
 
-    const radius = width / 4.6
+    const radius = width / 5
     const center = {x: (width / 3), y: (height / 2)} // chart dimension
     const legendRectSize = 10; 
     const legendSpacing = 6; 
@@ -29,7 +29,7 @@ const drawTaxDonutChart = (props, width, height) => {
                     .attr('height', height + 100)
 
     const graph = svg.append("g")
-                    .attr("transform", `translate(${center.x}, ${center.y})`) //placing the chart in the center of the div
+                    .attr("transform", `translate(${center.x}, ${center.y + 15})`) //placing the chart in the center of the div
 
 
     const centerValue = d3.select('.canvasTaxDonutChart') 

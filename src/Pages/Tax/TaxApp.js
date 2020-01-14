@@ -104,7 +104,7 @@ export default connect(mapStateToProps, {setTaxIncome_action})(TaxApp)
 
 const UserInterfaceWrapper = styled.div`
     grid-area: m;
-    background: ${props => props.theme.color.ice};
+    background: white;
     display: grid;
     height: 100%;
     grid-template-rows: minmax(8rem, 10rem) minmax(24rem, 26rem);

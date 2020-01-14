@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {rate1, rate2} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
-import {renderSavings} from "services/savings/savings_functions"
+import {renderSavings, optimizedWithdrawals} from "services/savings/savings_functions"
 
 
 const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, tfsaStartAge, transaction_action,}) => {
@@ -21,7 +21,7 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOp
 
         renderSavings(fromAge, toAge, name, value, rangeBarValue, "contribute", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
 
-        // optimizedWithdrawals(name, savings_reducer, setOpitmizedValues_action, rate2)
+         optimizedWithdrawals(name, savings_reducer, setOpitmizedValues_action, rate2)
        
     }
 

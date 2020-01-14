@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import MiniRangeBar from "UI/MiniRangeBar/miniRangeBar"
 
 export default function PensionIncomeStartAges( {setPensionIncome, pensionStartAges_reducer, count}) {                                            //Use Destructing to assign variables and functions
    

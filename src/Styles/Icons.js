@@ -2,7 +2,7 @@ import styled from "styled-components"
 import {CloseO} from "styled-icons/evil/CloseO"
 import {PlusCircle} from "styled-icons/boxicons-solid/PlusCircle"
 import {ChevronsRight} from "styled-icons/feather/ChevronsRight"
-
+import {KeyboardArrowDown} from "styled-icons/material/KeyboardArrowDown"
 
 const sharedIconAttributes = `
     height: 2.2rem;
@@ -20,5 +20,11 @@ export const PlusIcon = styled(PlusCircle)`
 `
 export const ChevronIcon = styled(ChevronsRight)`
     ${sharedIconAttributes}
+    color: ${props => props.theme.color.turquoise}
+`
+
+export const ArrowDown = styled(KeyboardArrowDown)`
+    height: 3.2rem;
+    width: 3.2rem;
     color: ${props => props.theme.color.turquoise}
 `

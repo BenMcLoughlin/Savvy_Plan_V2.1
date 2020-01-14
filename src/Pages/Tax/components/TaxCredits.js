@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import MiniRangeBar from "UI/MiniRangeBar/miniRangeBar"
 
 export default class TaxCredits extends Component {
 

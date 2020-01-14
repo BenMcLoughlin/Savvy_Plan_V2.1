@@ -180,14 +180,16 @@ export function abbreviateNum(number) {
 
 
 export const presentValue = function (rate, periods, payment, future, type) {
-  
+
+    var paymentType = (typeof type === 'undefined') ? 0 : type;
+
     if (rate === 0) {
       return - payment * periods - future;
     } else {
-      return (((1 - Math.pow(1 + rate, periods)) / rate) * payment * (1 +rate * type) - future) / Math.pow(1 + rate, periods);
+      return (((1 - Math.pow(1 + rate, periods)) / rate) * payment * (1 +rate * paymentType) - future) / Math.pow(1 + rate, periods);
     }
   }
-  
+
  export const payment  = function(rate, nperiod, pv, fv, type) {
       if (!fv) fv = 0;
       if (!type) type = 0;
