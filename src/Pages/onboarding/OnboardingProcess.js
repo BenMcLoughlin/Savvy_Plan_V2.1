@@ -5,12 +5,14 @@ import {connect} from "react-redux"
 import FirstName from "pages/onboarding/components/FirstName"
 import BirthYear from "pages/onboarding/components/BirthYear"
 import Province from "pages/onboarding/components/Province"
+import Spouse from "pages/onboarding/components/Spouse"
+import Children from "pages/onboarding/components/Children"
 
 
 function OnboardingProcess(props) {
 
-    const [count, setCount] = useState(1);
-console.log(count);
+    const [count, setCount] = useState(3);
+
         return (
                  <Wrapper>
                     <Form>
@@ -23,6 +25,12 @@ console.log(count);
                             :
                             count === 2 ? 
                             <Province/>
+                            :
+                            count === 3 ? 
+                            <Spouse/>
+                            :
+                            count === 4 ? 
+                            <Children/>
                             :
                             null
                         }

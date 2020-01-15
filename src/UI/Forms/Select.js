@@ -4,21 +4,20 @@ import {ArrowDown} from "styles/Icons"
 import {useComponentVisible} from "services/ui/ui_functions"
 
 
-const Select = ({label, type, value, name, required, handleChange, setYear})  => {
+const Select = ({label, selectType, type, value, name, required, handleChange, setYear})  => {
 
     const renderYears = () => {
         const yearArray = []
         for (let i = 2010; i > 1930; i--) {
-            yearArray.push(i)
-            }
-        type === "year" ? 
-            yearArray.map(year => <SelectValue type={"type"} onClick={() => setYear(year)}>{year}</SelectValue>)
-        : 
-            provinceArray.map(year => <SelectValue type={"type"} onClick={() => setYear(year)}>{year}</SelectValue>
-        )
-
+           yearArray.push(i)
+        }
+       return yearArray.map(year => <SelectValue selectType={selectType} onClick={() => setYear(year)}>{year}</SelectValue>)
     }
-    const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true)
+    const renderProvinces = () => {
+       return provinceArray.map(province => <SelectValue selectType={selectType} onClick={() => setYear(province)}>{province}</SelectValue>)
+    }
+    const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false)
+
     return (
         <Wrapper >
              <Input
@@ -27,14 +26,14 @@ const Select = ({label, type, value, name, required, handleChange, setYear})  =>
                 value={value}
                 type={type}
                 required={required}
-
+                onClick={() => setIsComponentVisible(!isComponentVisible)}
             ></Input>
             <Label>{label}</Label>
             <ArrowPositioner onClick={() => setIsComponentVisible(!isComponentVisible)} >
                  <ArrowDown/>
             </ArrowPositioner>
             <div ref={ref}>
-                {isComponentVisible && (<DropDown>{renderYears()}</DropDown>)}
+                {isComponentVisible && (<DropDown >{selectType === "year" ? renderYears() : renderProvinces()}</DropDown>)}
             </div>
 
             
@@ -124,12 +123,13 @@ const DropDown = styled.div`
 
 const SelectValue = styled.div`
     padding: 2rem
-    width: ${props => props.type === "province" ? "100%" : "20%"};
+    width: ${props => props.selectType === "year" ? "20%" : "100%"};
     color: ${props => props.theme.color.slate};
     font-size: 2rem;
+    boz-sizing: border-box;
     &:hover {
         background: ${props => props.theme.color.ice};
-        border-bottom: .7px solid ${props => props.theme.color.grey};
+        border: .7px solid ${props => props.theme.color.grey};
         cursor: pointer;
     }
 `

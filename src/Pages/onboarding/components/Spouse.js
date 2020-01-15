@@ -1,23 +1,19 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import Select from "UI/Forms/Select"
+import CheckBox from "UI/Forms/CheckBox"
 import {connect} from "react-redux"
 import styled from "styled-components"
 
 const FirstName = ({user_reducer, setUserDetail_action}) => {
 
-    const handleChange = event => {
-        const { value, name } = event.target;
-        setUserDetail_action(name, value)
-      };
-    const setYear = year => {
-        setUserDetail_action("birthYear", year)
+    const handleChange = value => {
+        setUserDetail_action("spouse", value)
       };
 
 return (
     <React.Fragment>
-        <Title>What year were you born?</Title>
-        <Select selectType='year' label="Birth Year" handleChange={handleChange} type="text" value={user_reducer.birthYear} name="birthYear" required setYear={setYear}/>
+        <Title>Do you have a spouse?</Title>
+        <CheckBox label="First Name" handleChange={handleChange} type="text" value={user_reducer.spouse} required/>
     </React.Fragment>
 
 )

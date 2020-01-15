@@ -5,9 +5,12 @@ const initialState = {
     email: "",
     firstName: "Poo Brain",
     province: "",
+    spouse: false,
     birthYear: 1988,
     rrifWithdrawalAge: 65,
     retirementPensionIncome: 0,
+    hasChildren: false,
+    numberOfChildren: 0,
     retirementIncome: {
         financialValue: 0, 
         label: "Desired Retirement Income",

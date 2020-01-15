@@ -1,7 +1,7 @@
 import React from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {calculateTaxesByBracket} from "functions/tax/taxCalculations"
+import {calculateTaxesByBracket} from "services/tax/taxCalculations"
 import TaxDonutChartTile from "charts/tax/TaxDonutChartTile"
 import { NavLink} from "react-router-dom"
 

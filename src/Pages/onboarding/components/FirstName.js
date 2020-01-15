@@ -34,5 +34,5 @@ const Title = styled.div`
     height: 40%;
     text-align: center;
     padding-top: 3rem;
-    color: ${props => props.theme.color.blue}
+    color: ${props => props.theme.color.slate}
 `

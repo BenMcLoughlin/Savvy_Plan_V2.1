@@ -49,7 +49,6 @@ const Wrapper = styled.div`
     position: relative;
 `
 const Label = styled.label`
-    color: ${props => props.labelLifted ? "blue" : "green"};
     font-size: 16px;
     font-weight: normal;
     position: absolute;

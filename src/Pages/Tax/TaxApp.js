@@ -6,7 +6,7 @@ import ControlPanel from "./components/ControlPanel"
 import TaxDonutChart  from "charts/tax/TaxDonutChart"
 import TaxStackedBarChart  from "charts/tax/TaxStackedBarChart"
 import {setTaxIncome_action} from "redux/tax/tax_actions"
-import {calculateTaxesByBracket} from "functions/tax/taxCalculations"
+import {calculateTaxesByBracket} from "services/tax/taxCalculations"
 
 const TaxApp = ({setTaxIncome_action, tax_reducer}) => {
 

@@ -9,7 +9,10 @@ import netWorth_reducer from "./netWorth/netWorth_reducer"
 import tax_reducer from "./tax/tax_reducer"
 import savings_reducer from "./savings/savings_reducer"
 import assumptions_reducer from "./assumptions/assumptions_reducer"
+import auth_reducer from "./auth/auth_reducer"
 
+import { firebaseReducer } from 'react-redux-firebase'
+import { firestoreReducer } from 'redux-firestore'
 
 const persistConfig = {
     key: "root",
@@ -24,6 +27,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
+       auth: auth_reducer,
        assumptions_reducer, 
        netWorth_reducer,
        tax_reducer,
@@ -31,7 +35,8 @@ const rootReducer = combineReducers({
        user_reducer,
        pensionStartAges_reducer,
        savings_reducer,     
-      
+       firebase: firebaseReducer, 
+       firestore: firestoreReducer
    })
 
 export default persistReducer(persistConfig, rootReducer)
