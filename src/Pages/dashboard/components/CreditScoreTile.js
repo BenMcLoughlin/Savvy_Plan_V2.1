@@ -44,7 +44,7 @@ const CreditScoreWrapper = styled( NavLink)`
 `
 
 const LargeTotal = styled.div`
-    font-size: 6rem;
+    font-size: 5rem;
     font-weight: 250;
     text-align: center;
     display: flex;

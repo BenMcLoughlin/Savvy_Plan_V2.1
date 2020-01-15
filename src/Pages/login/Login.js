@@ -6,9 +6,9 @@ import {Redirect} from "react-router-dom"
 import {auth, signInWithGoogle} from "firebase/firebaseUtils"
 import LinkButton from "UI/Buttons/LinkButton"
 import {connect} from "react-redux"
-import {signIn} from "redux/auth/auth_actions"
+import {signIn_action} from "redux/auth/auth_actions"
 
-const Login = ({loginError, signIn}) => {
+const Login = ({loginError, signIn_action}) => {
 
     const [userCredentials, setCredentials] = useState({
         email: '',
@@ -20,7 +20,7 @@ const Login = ({loginError, signIn}) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    signIn(userCredentials)
+    signIn_action(userCredentials)
 
   };
 
@@ -65,7 +65,7 @@ const mapStateToProps = (state) => ({
   loginError: state.auth.loginError
 })
 
-export default connect(mapStateToProps, {signIn})(Login)
+export default connect(mapStateToProps, {signIn_action})(Login)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

@@ -11,7 +11,7 @@ import Children from "pages/onboarding/components/Children"
 
 function OnboardingProcess(props) {
 
-    const [count, setCount] = useState(3);
+    const [count, setCount] = useState(4);
 
         return (
                  <Wrapper>
@@ -65,7 +65,7 @@ const Wrapper = styled.div`
 
 `
 const Form = styled.form`
-    height: 30rem;
+    min-height: 30rem;
     display: flex;
     flex-direction: column;
     align-items: center;

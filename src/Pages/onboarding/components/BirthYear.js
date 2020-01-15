@@ -10,14 +10,15 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
         const { value, name } = event.target;
         setUserDetail_action(name, value)
       };
-    const setYear = year => {
-        setUserDetail_action("birthYear", year)
+
+      const setValue = (name, value) => {
+        setUserDetail_action(name, value)
       };
 
 return (
     <React.Fragment>
         <Title>What year were you born?</Title>
-        <Select selectType='year' label="Birth Year" handleChange={handleChange} type="text" value={user_reducer.birthYear} name="birthYear" required setYear={setYear}/>
+        <Select selectType='year' label="Birth Year" handleChange={handleChange} type="text" value={user_reducer.birthYear} name="birthYear" required setValue={setValue}/>
     </React.Fragment>
 
 )
@@ -34,7 +35,7 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 const Title = styled.div`   
     font-size: 3rem;
     width: 100%;
-    height: 40%;
+     height: 10rem;
     text-align: center;
     padding-top: 3rem;
     color: ${props => props.theme.color.slate}

@@ -10,14 +10,14 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
         const { value, name } = event.target;
         setUserDetail_action(name, value)
       };
-    const setProvince = year => {
-        setUserDetail_action("province", year)
+    const setValue = (name, value) => {
+        setUserDetail_action(name, value)
       };
 
 return (
     <React.Fragment>
         <Title>What is your province of residence?</Title>
-        <Select type={'province'} label="Province" handleChange={handleChange} type="text" value={user_reducer.province} name="province" required setYear={setProvince}/>
+        <Select type={'province'} label="Province" handleChange={handleChange} type="text" value={user_reducer.province} name="province" required setValue={setValue}/>
         
     </React.Fragment>
 
@@ -35,7 +35,7 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 const Title = styled.div`   
     font-size: 3rem;
     width: 100%;
-    height: 40%;
+    height: 10rem;
     text-align: center;
     padding-top: 3rem;
     color: ${props => props.theme.color.slate}

@@ -4,18 +4,25 @@ import {ArrowDown} from "styles/Icons"
 import {useComponentVisible} from "services/ui/ui_functions"
 
 
-const Select = ({label, selectType, type, value, name, required, handleChange, setYear})  => {
+const Select = ({label, selectType, type, value, name, required, handleChange, setValue})  => {
+
+    const handleSelect = (name, year) => {
+        setIsComponentVisible(!isComponentVisible)
+        setValue(name, year)
+    }
 
     const renderYears = () => {
         const yearArray = []
         for (let i = 2010; i > 1930; i--) {
            yearArray.push(i)
         }
-       return yearArray.map(year => <SelectValue selectType={selectType} onClick={() => setYear(year)}>{year}</SelectValue>)
+       return yearArray.map(year => <SelectValue selectType={selectType} onClick={() => handleSelect(name, year)}>{year}</SelectValue>)
     }
+
     const renderProvinces = () => {
-       return provinceArray.map(province => <SelectValue selectType={selectType} onClick={() => setYear(province)}>{province}</SelectValue>)
+       return provinceArray.map(province => <SelectValue selectType={selectType} onClick={() => handleSelect(name, province)}>{province}</SelectValue>)
     }
+    
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false)
 
     return (
@@ -129,7 +136,6 @@ const SelectValue = styled.div`
     boz-sizing: border-box;
     &:hover {
         background: ${props => props.theme.color.ice};
-        border: .7px solid ${props => props.theme.color.grey};
         cursor: pointer;
     }
 `

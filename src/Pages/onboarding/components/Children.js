@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import styled from "styled-components"
 import Input from "UI/Forms/Input"
 import Select from "UI/Forms/Select"
+import _ from "lodash"
 
 const FirstName = ({user_reducer, setUserDetail_action}) => {
 
@@ -17,20 +18,31 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
         setUserDetail_action(name, value)
       };
 
+      const setValue = (name, value) => {
+        setUserDetail_action(name, value)
+      };
+
+
 return (
     <React.Fragment>
         <Title>Do you have children?</Title>
-        <CheckBox handleChange={handleChange}  value={user_reducer.hasChildren}/>
+        <CheckBox handleChange={setHasChildren}  value={user_reducer.hasChildren}/>
         {
-            user_reducer.hasChildren ? 
-            <Input label="Number of Children" handleChange={setHasChildren} type="number" value={user_reducer.numberOfChildren} name="numberOfChildren" required/>
+            user_reducer.hasChildren ?
+            <Div>
+                <Input label="Number of Children" handleChange={handleChange} type="number" value={user_reducer.numberOfChildren} name="numberOfChildren" required/>
+                {
+                    user_reducer.numberOfChildren > 0 ? 
+                    _.range(user_reducer.numberOfChildren).map(child => 
+                        <Select selectType='year' label={`Child #${child + 1} BirthYear`} handleChange={handleChange} type="text" value={user_reducer[`child${child + 1}BirthYear`]} name={`child${child + 1}BirthYear`} required setValue={setValue}/>
+                        )
+                
+                    : ""
+                }
+            </Div> 
             : ""
         }
-        {
-            user_reducer.numberOfChildren > 0 ? 
-            <Input label="Number of Children" handleChange={handleChange} type="text" value={user_reducer.numberOfChildren} name="firstName" required/>
-            : ""
-        }
+
     </React.Fragment>
     )
 }
@@ -46,8 +58,15 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 const Title = styled.div`   
     font-size: 3rem;
     width: 100%;
-    height: 40%;
+    height: 10rem;
     text-align: center;
     padding-top: 3rem;
-    color: ${props => props.theme.color.slate}
+    color: ${props => props.theme.color.slate};
+`
+const Div = styled.div`
+    min-height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
 `

@@ -10,32 +10,32 @@ import {connect} from "react-redux"
 
     const [currentUser, setCurrentUser] = useState(null)
 
-    useEffect(() => {
-        auth.onAuthStateChanged(async userAuth => {
-                if(userAuth) {
-                    const userRef = await createUserProfileDocument(userAuth)
-                    userRef.onSnapshot(snapshot => {
-                        setCurrentUser({
-                            currentUser: {
-                                id: snapshot.id, 
-                                ...snapshot.data()
-                            }
-                        })
-                        setUserDetails_action(snapshot.id, snapshot.data());
-                    })
-                }
-                else {
-                    setCurrentUser(null)
-                }
-            })
-        }, [])
+    // useEffect(() => {
+    //     auth.onAuthStateChanged(async userAuth => {
+    //             if(userAuth) {
+    //                 const userRef = await createUserProfileDocument(userAuth)
+    //                 userRef.onSnapshot(snapshot => {
+    //                     setCurrentUser({
+    //                         currentUser: {
+    //                             id: snapshot.id, 
+    //                             ...snapshot.data()
+    //                         }
+    //                     })
+    //                     setUserDetails_action(snapshot.id, snapshot.data());
+    //                 })
+    //             }
+    //             else {
+    //                 setCurrentUser(null)
+    //             }
+    //         })
+    //     }, [])
 
 
     return (
         <>
           <GlobalStyles />
           <BrowserRouter>
-              <Layout currentUser={currentUser}/>
+              <Layout />
          </BrowserRouter>   
         </>
     )

@@ -6,13 +6,11 @@ import {auth} from "firebase/firebaseUtils"
 import LinkButton from "UI/Buttons/LinkButton"
 import {connect} from "react-redux"
 import {setUserDetails_action} from "redux/user/user_actions"
-import {signOut} from "redux/auth/auth_actions"
+import {signOut_action} from "redux/auth/auth_actions"
 
  function Header(props) {
 
-    const {currentUser, signOut} = props
-    useEffect(() => console.log(currentUser), [])
-        console.log(currentUser);
+    const {auth, signOut_action} = props
 
     return (
         <HeaderContainer>
@@ -27,7 +25,7 @@ import {signOut} from "redux/auth/auth_actions"
             </Left>
             <Right>
             <Hr/>
-            <StyledNavLink to="/dashboard" activeClassName="active">
+            <StyledNavLink to="/" activeClassName="active">
                 <PageSelect>
                         DASHBOARD
                 </PageSelect>
@@ -45,8 +43,8 @@ import {signOut} from "redux/auth/auth_actions"
                     </PageSelect>
             </StyledNavLink>     
             {
-                currentUser ? 
-                    <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut()}>Sign Out</LinkButton>
+                auth.uid ? 
+                    <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut_action()}>Sign Out</LinkButton>
                 :
                 <React.Fragment>
                     <LinkButton  to='/Login' text={"Login"}>Login</LinkButton>
@@ -60,7 +58,7 @@ import {signOut} from "redux/auth/auth_actions"
 }
 
 
-export default connect(null, {setUserDetails_action, signOut})(Header)
+export default connect(null, {setUserDetails_action, signOut_action})(Header)
 
 //--------HEADER GRID LAYOUT---------------------------------------------------------------//
 

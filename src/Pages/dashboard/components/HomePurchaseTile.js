@@ -50,7 +50,7 @@ const HomePurchaseTileWrapper = styled( NavLink)`
 `
 
 const LargeTotal = styled.div`
-    font-size: 4rem;
+    font-size: 3rem;
     text-align: center;
     display: flex;
     flex-direction: column;

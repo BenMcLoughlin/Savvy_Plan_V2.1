@@ -31,7 +31,7 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 const Title = styled.div`   
     font-size: 3rem;
     width: 100%;
-    height: 40%;
+    height: 10rem;
     text-align: center;
     padding-top: 3rem;
     color: ${props => props.theme.color.slate}
