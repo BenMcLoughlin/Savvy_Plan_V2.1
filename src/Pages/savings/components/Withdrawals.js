@@ -19,7 +19,7 @@ const Withdrawals = ({count, savings_reducer,transaction_action, setOpitmizedVal
 
     const setWithdrawals = (value, rangeBarValue, {name})  => {
         renderSavings(fromAge, toAge, name, value, rangeBarValue, "withdraw", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
-      //  optimizedContribution(name, savings_reducer, setOpitmizedValues_action, rate1)
+        //  optimizedContribution(name, savings_reducer, setOpitmizedValues_action, rate1)
     }
 
 
