@@ -1,14 +1,17 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { NavLink} from "react-router-dom"
 import styled from "styled-components"
 import logoLight from "assets/svgs/SavvyPlan_logo_final_grey.svg"
 import {auth} from "firebase/firebaseUtils"
 import LinkButton from "UI/Buttons/LinkButton"
+import {connect} from "react-redux"
+import {setUserDetails_action} from "redux/user/user_actions"
+import {signOut_action} from "redux/auth/auth_actions"
 
-export default function Header(props) {
+ function Header(props) {
 
-    const {currentUser} = props
-    console.log(currentUser);
+    const {auth, signOut_action} = props
+
     return (
         <HeaderContainer>
             <Left>
@@ -22,7 +25,7 @@ export default function Header(props) {
             </Left>
             <Right>
             <Hr/>
-            <StyledNavLink to="/dashboard" activeClassName="active">
+            <StyledNavLink to="/" activeClassName="active">
                 <PageSelect>
                         DASHBOARD
                 </PageSelect>
@@ -40,8 +43,8 @@ export default function Header(props) {
                     </PageSelect>
             </StyledNavLink>     
             {
-                currentUser ? 
-                    <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => auth.signOut()}>Sign Out</LinkButton>
+                auth.uid ? 
+                    <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut_action()}>Sign Out</LinkButton>
                 :
                 <React.Fragment>
                     <LinkButton  to='/Login' text={"Login"}>Login</LinkButton>
@@ -55,7 +58,7 @@ export default function Header(props) {
 }
 
 
-
+export default connect(null, {setUserDetails_action, signOut_action})(Header)
 
 //--------HEADER GRID LAYOUT---------------------------------------------------------------//
 

@@ -1,7 +1,7 @@
 import React from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {calculateTaxesByBracket} from "functions/tax/taxCalculations"
+import {calculateTaxesByBracket} from "services/tax/taxCalculations"
 import TaxDonutChartTile from "charts/tax/TaxDonutChartTile"
 import { NavLink} from "react-router-dom"
 
@@ -15,7 +15,6 @@ const TaxTile = ({tax_reducer}) => {
                                                   
   const creditsRangeBarValues = Object.values( tax_reducer.credits)
 
-console.log(tax_reducer);
   const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
 
   const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 

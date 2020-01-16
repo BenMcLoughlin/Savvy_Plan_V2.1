@@ -1,8 +1,16 @@
 
 const initialState = {
-    birthYear: 1988,
+    id: "",
+    displayName: "",
+    email: "",
+    firstName: "Poo Brain",
+    province: "",
+    spouse: false,
+    birthYear: 1978,
     rrifWithdrawalAge: 65,
     retirementPensionIncome: 0,
+    hasChildren: false,
+    numberOfChildren: 0,
     retirementIncome: {
         financialValue: 0, 
         label: "Desired Retirement Income",
@@ -22,6 +30,16 @@ const user_reducer = (state = initialState, action) => {
                                         rangeBarValue: action.rangeBarValue
 
         }  }
+        case "user_reducer/SET_USER_DETAILS": 
+        return {...state, 
+                                       id: action.userId,
+                                       email: action.useremail,
+                                       displayName: action.displayName,
+         }
+        case "user_reducer/SET_USER_DETAIL": 
+        return {...state, 
+                                    [action.name]: action.value
+         }
         default: return state
     }
 }

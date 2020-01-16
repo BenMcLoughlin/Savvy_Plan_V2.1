@@ -43,7 +43,7 @@ export default Button
 
 const ButtonComponent = styled.button`
     padding: 1rem;
-    min-width: 165px;
+    min-width: 8rem;
     width: auto;
     height: 5rem;
     margin: 1rem;

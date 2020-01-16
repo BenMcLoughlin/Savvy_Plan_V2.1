@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
@@ -20,51 +20,61 @@ import { lightTheme} from "styles/Themes"
 import styled from "styled-components"
 import LeftNavBar from "./navigation/LeftNavBar"
 import RightVideoSelector from "./navigation/RightVideoSelector"
+import WithSpinner from "HOC/withSpinner/WithSpinner"
+import {connect} from "react-redux"
 
-export default class Layout extends Component {
+const DashboardWithSpinner = WithSpinner(Dashboard);
+const TaxAppWithSpinner = WithSpinner(TaxApp);
+const SavingsWithSpinner = WithSpinner(Savings);
+const IncomeWithSpinner = WithSpinner(Income);
 
-   state = {
-       theme: lightTheme,
-   }
-
-    render() {
+const Layout = ({auth, state}) => {
+console.log(state);
         return (
-            <ThemeProvider theme={this.state.theme}>
-            <>
-            <Header currentUser={this.props.currentUser}/>
-            <LeftNavBar/>
-            {
-                    this.props.currentUser ? 
-            <GridContainer>  
-                    <Route path="/Onboarding" component={OnboardingProcess}/>
-                    <Route exact path="/dashboard" component={Dashboard}/>
-                    <Route path="/NetWorth" component={NetWorthApp}/>
-                    <Route path="/Tax" component={TaxApp}/>
-                    <Route path="/LifeTimeIncome" component={Income}/>  
-                    <Route path="/SavingsPlan" component={Savings}/>              
-                    <Route path="/CreditScore" component={CreditScoreApp}/>              
-                    <Route path="/Spending" component={SpendingApp}/>
-                    <Route path="/Property" component={PropertyApp}/>
-                    <Route path="/Debt" component={DebtApp}/>
-            </GridContainer>
-                    :
-            <GridContainer>  
-                    <Route exact path="/" component={LandingPage}/>
-                    <Route path="/LandingPage" component={LandingPage}/>
-                    <Route path="/Login" component={Login}/>
-                    <Route path="/SignUp" component={SignUp} currentUser={this.props.currentUser}/>
-           </GridContainer>
-                     }
-                    
-            <RightVideoSelector/>
-            <Footer/>
-            </>
+            <ThemeProvider theme={lightTheme}>
+                <>
+                <Header auth={auth}/>
+                <LeftNavBar/>
+
+                <GridContainer>  
+                        <Route path="/Onboarding" component={OnboardingProcess}/>
+                        <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
+                        <Route path="/NetWorth" component={NetWorthApp}/>
+                        <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
+                        <Route path="/LifeTimeIncome" component={Income}/>  
+                        <Route path="/SavingsPlan" component={Savings}/>              
+                        <Route path="/CreditScore" component={CreditScoreApp}/>              
+                        <Route path="/Spending" component={SpendingApp}/>
+                        <Route path="/Property" component={PropertyApp}/>
+                        <Route path="/Debt" component={DebtApp}/>
+                </GridContainer>
+
+                <GridContainer>  
+                            <Route exact path="/landingpage" component={LandingPage}/>
+                            <Route path="/LandingPage" component={LandingPage}/>
+                            <Route path="/Login" component={Login}/>
+                            <Route path="/SignUp" component={SignUp}/>
+                </GridContainer>
+
+
+                        
+                <RightVideoSelector/>
+                <Footer/>
+                </>
             </ThemeProvider>
         )
+
+}
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth,
+        state: state,
+        profile: state.firebase.profile
     }
 }
 
-
+export default connect(mapStateToProps)(Layout)
 //
 //------------------STYLES---------------------------------------------------------------
  const GridContainer = styled.div`

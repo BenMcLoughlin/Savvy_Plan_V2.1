@@ -6,7 +6,7 @@ import ControlPanel from "./components/ControlPanel"
 import TaxDonutChart  from "charts/tax/TaxDonutChart"
 import TaxStackedBarChart  from "charts/tax/TaxStackedBarChart"
 import {setTaxIncome_action} from "redux/tax/tax_actions"
-import {calculateTaxesByBracket} from "functions/tax/taxCalculations"
+import {calculateTaxesByBracket} from "services/tax/taxCalculations"
 
 const TaxApp = ({setTaxIncome_action, tax_reducer}) => {
 
@@ -104,7 +104,7 @@ export default connect(mapStateToProps, {setTaxIncome_action})(TaxApp)
 
 const UserInterfaceWrapper = styled.div`
     grid-area: m;
-    background: ${props => props.theme.color.ice};
+    background: white;
     display: grid;
     height: 100%;
     grid-template-rows: minmax(8rem, 10rem) minmax(24rem, 26rem);

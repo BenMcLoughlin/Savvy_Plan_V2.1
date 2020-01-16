@@ -49,7 +49,6 @@ const Wrapper = styled.div`
     position: relative;
 `
 const Label = styled.label`
-    color: ${props => props.labelLifted ? "blue" : "green"};
     font-size: 16px;
     font-weight: normal;
     position: absolute;
@@ -65,7 +64,7 @@ const Label = styled.label`
 const Input = styled.input`
     background: none;
     background-color: white;
-    color: $sub-color;
+    color: ${props => props.theme.color.drab};
     font-size: 18px;
     padding: 1.4rem;
     display: block;
@@ -73,7 +72,7 @@ const Input = styled.input`
     border: none;
     border-radius: 3px;
     margin: 1.2rem 0;
-    border: .7px solid ${props => props.theme.color.grey};
+    border: .7px solid ${props => props.theme.color.drab};
 
     &:focus {
     outline: none;

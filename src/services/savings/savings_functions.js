@@ -78,17 +78,19 @@ export   const optimizedContribution = (account, savings_reducer, setOpitmizedVa
     const withdrawalPayment = savings_reducer[72].rrsp.withdraw
     const nestEgg = presentValue(rate1, 30, withdrawalPayment, 0) 
     const optimizedContribution = payment(rate1, 45, 0, nestEgg)
-
+console.log(nestEgg);
     for (let age = 18; age <= 65; age++) {
         setOpitmizedValues_action(age, "rrsp", "optimizedContribution",optimizedContribution)
     } 
 }
 
 export const reccomendedNestEgg = (rate, startAge, withdrawal) => {
-    console.log(withdrawal);
+
     const duration = 95 - startAge
    const value = -presentValue(rate, duration, withdrawal, 0)
+
    const roundedValue = Math.round(value/1000)*1000
+   console.log(presentValue);
    if (value > 1000000) {
        return `${roundedValue/1000000} M`
    }

@@ -13,19 +13,23 @@ import {reccomendedNestEgg, reccomendedSavingsPerYear} from "services/savings/sa
 const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action, landingPage})  =>{
 
    
-    const [count, setCount] = useState(4);
+    const [count, setCount] = useState(0);
 
     const {income_reducer: {72: {rrsp: {financialValue: rrspIncome}}}} = {income_reducer}
     const {income_reducer: {72: {tfsa: {financialValue: tfsaIncome}}}} = {income_reducer}
     const {income_reducer: {72: {nonRegistered: {financialValue: nonRegisteredIncome}}}} = {income_reducer}
 
     const totalRetirementIncome = rrspIncome + tfsaIncome + nonRegisteredIncome
-
+    const reccomendedRrspIncome = income_reducer[72].rrsp.financialValue
+    const reccomendedTfsaIncome = income_reducer[72].tfsa.financialValue
+    const reccomendedNonRegisteredIncome = income_reducer[72].nonRegistered.financialValue
     const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
     const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
    
-    const totalNestEgg = reccomendedNestEgg(rate2, rrspStartAge, totalRetirementIncome)
- 
+    const totalNestEgg = reccomendedNestEgg(rate2, 65, totalRetirementIncome)
+    const tfsaNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedTfsaIncome)
+    const nonRegisteredNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedNonRegisteredIncome)
+
     const reccomendedPayment = reccomendedSavingsPerYear(1988, rate1, rrspStartAge, totalRetirementIncome )
 
     const currentAge = 18
@@ -185,6 +189,13 @@ const Dialogue = styled.div`
     width: 100%;
     margin-bottom: 1rem;
 `
+const DialogueHeader = styled.div`
+    display: flex;
+    justify-content: space-around;
+    height: 5rem;
+    width: 100%;
+    margin-bottom: 1rem;
+`
 
 
 const NestEggTotals = styled.div`
@@ -197,7 +208,9 @@ const NestEggTotals = styled.div`
 const NestEggTotalColumn = styled.div`
 
 `
+const NestEggTotalHeader = styled.div`
 
+`
 
 const Sections = styled.div`
     display: flex;
@@ -240,7 +253,15 @@ const Summary = styled.div`
   
 `
 
+const List= styled.ol `
+    text-align: left;
+    align-self: center;
+    font-size: ${props => props.theme.fontSize.smallMedium};
 
+   & li {
+       padding: 0.3rem;
+   }
+` 
 const DialogueWrapper= styled.div `
   display: flex;
     flex-direction: column;
@@ -253,4 +274,15 @@ const ButtonWrapper = styled(NavLink)`
     position: absolute;
     bottom: -10rem;
     right: 2rem;
+`
+
+const LargeTotal = styled.div`
+    font-size: ${props => props.theme.fontSize.medium};
+    font-weight: 300;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    color: ${props => props.theme.color.slate};
+ 
+
 `

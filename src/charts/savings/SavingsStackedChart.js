@@ -95,7 +95,7 @@ const drawChart = (props, width, height) => {
             .data(d => d)
             .enter().append("rect")
                 .attr("y", d => yScale(d[1]))
-                .attr("height", d => yScale(d[0]) - yScale(d[1]))
+                .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                 .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
                     .on("mouseover", (d,i,n) => {

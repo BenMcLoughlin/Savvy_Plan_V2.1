@@ -66,7 +66,7 @@ const UserInterfaceWrapper = styled.div`
     height: 100%;
     width: 100%;
     margin-letf: 5%;
-    grid-template-rows: minmax(6rem, 12rem) minmax(12rem, 14rem) minmax(14rem, 16rem) minmax(22rem, 24rem);
+    grid-template-rows: minmax(5rem, 8rem) minmax(18rem, 20rem) minmax(10rem, 12rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'
     'b b b b b b b b b b b b'

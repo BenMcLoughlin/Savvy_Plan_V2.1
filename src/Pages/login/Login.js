@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import FormInput from "UI/Forms/Input"
+import Input from "UI/Forms/Input"
 import styled from "styled-components"
 import ButtonDark from "UI/Buttons/ButtonDark"
 import {Redirect} from "react-router-dom"
 import {auth, signInWithGoogle} from "firebase/firebaseUtils"
 import LinkButton from "UI/Buttons/LinkButton"
+import {connect} from "react-redux"
+import {signIn_action} from "redux/auth/auth_actions"
 
-const Login = () => {
+const Login = ({loginError, signIn_action}) => {
 
     const [userCredentials, setCredentials] = useState({
         email: '',
@@ -18,16 +20,7 @@ const Login = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    try {
-        await auth.signInWithEmailAndPassword(email, password)
-        setLoggedIn(true)
-        setCredentials({
-            email: '',
-            password: ''
-          })
-    } catch(error) {
-        console.log(error);
-    }
+    signIn_action(userCredentials)
 
   };
 
@@ -43,9 +36,10 @@ const Login = () => {
             <Title>
                   Lets Get Started
             </Title>
+            <Error>{loginError ? 'Login failed, please check your credentials and try again.' : null}</Error> 
             <Form onSubmit={handleSubmit}>
-                <FormInput label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
-                <FormInput label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
+                <Input label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
+                <Input label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
                 <Buttons>
                     <ButtonDark text={"LOGIN"} type="submit"/>
                     <ButtonDark text={"USE GOOGLE"} onClick={signInWithGoogle}/>
@@ -56,6 +50,7 @@ const Login = () => {
                   : null
                 }
             </Form>
+         
             <Title>
             Don't have an account? 
             </Title>
@@ -66,7 +61,11 @@ const Login = () => {
     )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+  loginError: state.auth.loginError
+})
+
+export default connect(mapStateToProps, {signIn_action})(Login)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -84,7 +83,7 @@ const Wrapper = styled.div`
 const Title = styled.div`   
     font-size: 3rem;
     width: 100%;
-    height: 10%;
+    height: 10rem;
     text-align: center;
     padding-top: 3rem;
 `
@@ -95,8 +94,15 @@ const Buttons = styled.div`
 
 const Form = styled.form`
     width: 80%;
-    height: 40%;
+    height: 30rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+`
+const Error = styled.form`
+    width: 80%;
+    height: 4rem;
+    text-align: center;
+    font-size: 2rem;
+    color: ${props => props.theme.color.salmon}
 `

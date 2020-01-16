@@ -50,7 +50,7 @@ const NetWorthTileWrapper = styled(NavLink)`
 `
 
 const LargeTotal = styled.div`
-    font-size: 7rem};
+    font-size: 5rem;
     font-weight: 300;
     text-align: center;
     margin-top: 3rem;
