@@ -3,6 +3,8 @@ import {CloseO} from "styled-icons/evil/CloseO"
 import {PlusCircle} from "styled-icons/boxicons-solid/PlusCircle"
 import {ChevronsRight} from "styled-icons/feather/ChevronsRight"
 import {KeyboardArrowDown} from "styled-icons/material/KeyboardArrowDown"
+import {Navicon} from "styled-icons/evil/Navicon"
+import {NavigateBefore} from "styled-icons/material/NavigateBefore"
 
 const sharedIconAttributes = `
     height: 2.2rem;
@@ -27,4 +29,14 @@ export const ArrowDown = styled(KeyboardArrowDown)`
     height: 3.2rem;
     width: 3.2rem;
     color: ${props => props.theme.color.turquoise}
+`
+export const ArrowLeft = styled(NavigateBefore)`
+    height: 3.2rem;
+    width: 3.2rem;
+    color: ${props => props.theme.color.onyx}
+`
+export const NavIcon = styled(Navicon)`
+    height: 4.2rem;
+    width: 4.2rem;
+    color: ${props => props.theme.color.onyx}
 `
