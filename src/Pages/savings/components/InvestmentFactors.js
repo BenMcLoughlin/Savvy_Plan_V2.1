@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import MiniRangeBar from "UI/MiniRangeBar/miniRangeBar"
 import {connect} from "react-redux"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
