@@ -6,7 +6,7 @@ const initialState = {
     firstName: "Poo Brain",
     province: "",
     spouse: false,
-    birthYear: 1988,
+    birthYear: 1978,
     rrifWithdrawalAge: 65,
     retirementPensionIncome: 0,
     hasChildren: false,
