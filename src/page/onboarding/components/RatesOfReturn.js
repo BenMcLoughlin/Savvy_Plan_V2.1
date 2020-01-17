@@ -1,10 +1,10 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import Input from "UI/Forms/Input"
+import Input from "UI/forms1/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import minirangebar1 from "UI/miniRangeBar1/MiniRangeBar"
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
 
 const PreRetirementRate = ({count, user_reducer, setInvestmentFactor_action, investmentReturnsArray}) => {
@@ -55,7 +55,7 @@ return (
 
         {
 
-                 <MiniRangeBar 
+                 <minirangebar1 
                                             id={investmentReturnsArray[position].name}
                                             key={investmentReturnsArray[position].name}
                                             setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer

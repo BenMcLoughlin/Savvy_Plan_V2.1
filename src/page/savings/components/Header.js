@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 //import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
-import Tooltip from "UI/Tooltip/Tooltip"
+import Tooltip from "UI/toolTip1/Tooltip"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
 import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"

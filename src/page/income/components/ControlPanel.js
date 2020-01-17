@@ -3,8 +3,8 @@ import styled from "styled-components"
 import IncomeInput from "page/income/components/IncomeInput"
 import PensionIncomeStartAges from "page/income/components/PensionIncomeStartAges"
 import DesiredRetirementIncome from "page/income/components/DesiredRetirementIncome"
-import ButtonDark from "UI/Buttons/ButtonDark"
-import ButtonLight from "UI/Buttons/ButtonLight"
+import ButtonDark from "UI/buttons1/ButtonDark"
+import ButtonLight from "UI/buttons1/ButtonLight"
 import { NavLink} from "react-router-dom"
 
 export default function ControlPanel(props) {
@@ -32,7 +32,7 @@ export default function ControlPanel(props) {
                                     {
                                      count === 0 ?  <div>
                                                         <h5>We're going to estimate your pension income by reviewing your lifetime income by year. </h5>  
-                                                        <span>Use the arrow buttons to move through the tutorial</span> 
+                                                        <span>Use the arrow buttons1 to move through the tutorial</span> 
                                                    </div>
   
                                      : 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import minirangebar1 from "UI/miniRangeBar1/MiniRangeBar"
 import {connect} from "react-redux"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
@@ -29,10 +29,10 @@ const  InvestmentFactors = ( { setInvestmentFactor_action, investmentReturnsArra
     changeChart()
     }
     return (
-        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa MiniRangeBar for each */}
+        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa minirangebar1 for each */}
             {
                 count > 1 ? 
-                investmentReturnsArray.map(d => <MiniRangeBar 
+                investmentReturnsArray.map(d => <minirangebar1 
                                             id={d.name}
                                             key={d.name}
                                             setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer

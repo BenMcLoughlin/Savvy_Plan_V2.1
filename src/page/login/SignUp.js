@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import FormInput from "UI/Forms/Input"
+import FormInput from "UI/forms1/Input"
 import styled from "styled-components"
-import ButtonDark from "UI/Buttons/ButtonDark"
+import ButtonDark from "UI/buttons1/ButtonDark"
 import { NavLink, Redirect} from "react-router-dom"
 import {signInWithGoogle} from "firebase/firebaseUtils"
 import {auth, createUserProfileDocument} from "firebase/firebaseUtils"
@@ -47,10 +47,10 @@ console.log(auth);
                 </RedText>
               
             </Form>
-            <Buttons>
+            <buttons1>
                     <ButtonDark text={"LOGIN"}/>
                     <ButtonDark text={"USE GOOGLE"} onClick={signInWithGoogle}/>
-                </Buttons>
+                </buttons1>
             <Disclaimer> 
                 By Clicking Sign Up you are accepting our 
                 <LinkWrapper to='/Onboarding'> Terms of Use</LinkWrapper>
@@ -89,7 +89,7 @@ const Title = styled.div`
     text-align: center;
     padding-top: 3rem;
 `
-const Buttons = styled.div`   
+const buttons1 = styled.div`   
     display: flex;
     justify-content: space-around;
 `

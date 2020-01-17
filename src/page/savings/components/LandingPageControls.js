@@ -1,5 +1,5 @@
 import React from 'react'
-import RangeBar from "UI/RangeBar/RangeBar"
+import RangeBar from "UI/rangeBar1/RangeBar"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {rate1, rate2} from "redux/savings/savings_selectors"

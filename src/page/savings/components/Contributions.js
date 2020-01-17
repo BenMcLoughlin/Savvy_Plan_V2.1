@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import RangeBar from "UI/RangeBar/RangeBar"
-import DualRangeBar from "UI/DualRangeBar"
+import RangeBar from "UI/rangeBar1/RangeBar"
+import DualRangeBar from "UI/dualRangeBar1/DualRangeBar"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {rate1, rate2} from "redux/assumptions/assumptions_selectors"

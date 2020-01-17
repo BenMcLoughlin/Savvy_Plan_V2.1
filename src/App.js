@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from "./layout/Layout"
+import Layout from "./layoutNew/Layout"
 import {BrowserRouter} from "react-router-dom"
 import { GlobalStyles } from "./style/Themes"
 import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"

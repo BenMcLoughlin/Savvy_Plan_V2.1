@@ -1,10 +1,10 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import Input from "UI/Forms/Input"
+import Input from "UI/forms1/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import minirangebar1 from "UI/miniRangeBar1/MiniRangeBar"
 import {setNestedUserDetail_action} from "redux/user/user_actions"
 
 const LifeSpan = ({count, user_reducer, setNestedUserDetail_action}) => {
@@ -24,7 +24,7 @@ return (
 
         {
 
-                 <MiniRangeBar 
+                 <minirangebar1 
                                             id={lifeSpan.name}
                                             key={lifeSpan.name}
                                             setValue={handleChange}                                                        //Function Defined Above, sets the age in the reducer

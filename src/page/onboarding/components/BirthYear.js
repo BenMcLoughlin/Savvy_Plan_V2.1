@@ -1,6 +1,6 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import Select from "UI/Forms/Select"
+import Select from "UI/forms1/Select"
 import {connect} from "react-redux"
 import styled from "styled-components"
 

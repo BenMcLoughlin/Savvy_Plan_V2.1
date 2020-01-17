@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import RangeBar from "UI/RangeBar/RangeBar"
+import RangeBar from "UI/rangeBar1/RangeBar"
 
 
 export default class RegularTaxAdvantagedIncomeInput extends Component {

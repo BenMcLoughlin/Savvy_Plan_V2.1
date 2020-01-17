@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styled from "styled-components"
-import ButtonLight from "UI/Buttons/ButtonLight"
+import ButtonLight from "UI/buttons1/ButtonLight"
 import {connect} from "react-redux"
 import FirstName from "page/onboarding/components/FirstName"
 import BirthYear from "page/onboarding/components/BirthYear"
@@ -55,10 +55,10 @@ function OnboardingProcess(props) {
                     </Form>
 
 
-                   <Buttons>
+                   <buttons1>
                                 < ButtonLight backward onClick={() => setCount(count > 0 ? count - 1 : 0)}/>
                                 < ButtonLight forward onClick={() => setCount(count + 1)}/>
-                    </Buttons>
+                    </buttons1>
                 </Wrapper>
         )
           
@@ -91,7 +91,7 @@ const Form = styled.form`
     margin: 0 auto;
 `
 
-const Buttons = styled.div`
+const buttons1 = styled.div`
     width: 50%;
     display: flex;
     justify-content: center;

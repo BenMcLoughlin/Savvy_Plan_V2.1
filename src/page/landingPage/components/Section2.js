@@ -1,7 +1,7 @@
 
 import React from 'react'
 import styled from "styled-components"
-import LinkButton from "UI/Buttons/LinkButton"
+import LinkButton from "UI/buttons1/LinkButton"
 
 
 export default function Section2() {
@@ -13,10 +13,10 @@ export default function Section2() {
                         built for regular people. 
             </IntroText>
             <LinkButton to='/SignUp'>Sign Up</LinkButton>
-            {/* <Buttons>
+            {/* <buttons1>
                 <Button text="TRY FREE"/>
                 <Button text="LOGIN"/>
-            </Buttons> */}
+            </buttons1> */}
             <Section3Header>We're not an investment platform
             <IntroText>We provided the tools to help you make informed financial decisions.
             </IntroText>

@@ -1,6 +1,6 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import Input from "UI/Forms/Input"
+import Input from "UI/forms1/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 

@@ -1,10 +1,10 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import CheckBox from "UI/Forms/CheckBox"
+import CheckBox from "UI/forms1/CheckBox"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import Input from "UI/Forms/Input"
-import Select from "UI/Forms/Select"
+import Input from "UI/forms1/Input"
+import Select from "UI/forms1/Select"
 import _ from "lodash"
 
 const FirstName = ({user_reducer, setUserDetail_action}) => {

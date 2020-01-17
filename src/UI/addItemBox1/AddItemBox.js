@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import Add from "UI/Buttons/Add"
-import RangeBarSlider from "UI/RangeBar/Components/RangeBarSlider"
-import RangeBarValue from "UI/RangeBar/Components/RangeBarValue"
+import Add from "UI/buttons1/Add"
+import RangeBarSlider from "UI/rangeBar1/Components/RangeBarSlider"
+import RangeBarValue from "UI/rangeBar1/Components/RangeBarValue"
 import _ from "lodash"
 import {CloseIcon} from "style/Icons"
-import Checkbox from "UI/Buttons/Checkbox"
+import Checkbox from "UI/buttons1/Checkbox"
 
 class AddItemBox extends Component {
 

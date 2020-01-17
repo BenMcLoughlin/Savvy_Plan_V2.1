@@ -3,7 +3,7 @@ import { NavLink} from "react-router-dom"
 import styled from "styled-components"
 import logoLight from "assets/svgs/SavvyPlan_logo_final_grey.svg"
 import {auth} from "firebase/firebaseUtils"
-import LinkButton from "UI/Buttons/LinkButton"
+import LinkButton from "UI/buttons1/LinkButton"
 import {connect} from "react-redux"
 import {setUserDetails_action} from "redux/user/user_actions"
 import {signOut_action} from "redux/auth/auth_actions"
@@ -142,4 +142,4 @@ export const StyledNavLink = styled(NavLink)`
 
 //
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// Website header rendering the website title, buttons that change the theme, and a login button. 
+// Website header rendering the website title, buttons1 that change the theme, and a login button. 

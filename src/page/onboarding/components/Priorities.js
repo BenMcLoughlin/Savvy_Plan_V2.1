@@ -1,6 +1,6 @@
 import React from "react"
 import {setNestedUserDetail_action} from "redux/user/user_actions"
-import SelectOptionCard from "UI/Forms/SelectOptionCard"
+import SelectOptionCard from "UI/forms1/SelectOptionCard"
 import {connect} from "react-redux"
 import styled from "styled-components"
 

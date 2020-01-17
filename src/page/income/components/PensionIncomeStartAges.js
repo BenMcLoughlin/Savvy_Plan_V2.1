@@ -1,16 +1,16 @@
 import React from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import minirangebar1 from "UI/miniRangeBar1/MiniRangeBar"
 
 export default function PensionIncomeStartAges( {setPensionIncome, pensionStartAges_reducer, count}) {                                            //Use Destructing to assign variables and functions
    
     pensionStartAges_reducer = Object.values(pensionStartAges_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
  
     return (
-        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa MiniRangeBar for each */}
+        <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa minirangebar1 for each */}
             {
                     count > 3 ? 
-                pensionStartAges_reducer.map(d => <MiniRangeBar 
+                pensionStartAges_reducer.map(d => <minirangebar1 
                                             id={d.name}
                                             key={d.name}
                                             setValue={setPensionIncome}                                                        //Function Defined Above, sets the age in the reducer

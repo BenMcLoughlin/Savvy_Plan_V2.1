@@ -3,7 +3,7 @@ import styled from "styled-components"
 import RangeBarLabel from "./Components/RangeBarLabel"
 import RangeBarValue from "./Components/RangeBarValue"
 import RangeBarSlider from "./Components/RangeBarSlider"
-import Close from "UI/Buttons/Close"
+import Close from "UI/buttons1/Close"
 
 /*Props Required to be passed:
 1. setIncome 

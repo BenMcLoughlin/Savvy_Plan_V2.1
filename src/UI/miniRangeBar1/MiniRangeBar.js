@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import styled from "styled-components"
-import MiniRangeBarLabel from "UI/MiniRangeBar/Components/MiniRangeBarLabel"
-import MiniRangeBarValue from "UI/MiniRangeBar/Components/MiniRangeBarValue"
-import MiniRangeBarSlider from "UI/MiniRangeBar/Components/MiniRangeBarSlider"
+import MiniRangeBarLabel from "UI/miniRangeBar1/Components/MiniRangeBarLabel"
+import MiniRangeBarValue from "UI/miniRangeBar1/Components/MiniRangeBarValue"
+import MiniRangeBarSlider from "UI/miniRangeBar1/Components/MiniRangeBarSlider"
 
 
 /*Props Required to be passed:
@@ -14,7 +14,7 @@ import MiniRangeBarSlider from "UI/MiniRangeBar/Components/MiniRangeBarSlider"
      as well as a number types which will determine if it will display a percentage or a normal number. 
 */ 
 
-const MiniRangeBar = ({rangeBarProps,handleChangeLabel, setValue }) =>  {
+const minirangebar1 = ({rangeBarProps,handleChangeLabel, setValue }) =>  {
         return (
             < RangeBarWrapper>
                 <MiniRangeBarLabel
@@ -34,7 +34,7 @@ const MiniRangeBar = ({rangeBarProps,handleChangeLabel, setValue }) =>  {
         )
 }
 
-export default MiniRangeBar
+export default minirangebar1
 //-----------------------------------------------style-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`

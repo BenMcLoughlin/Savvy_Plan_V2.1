@@ -2,8 +2,8 @@
 import React from 'react'
 import styled from "styled-components"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
-import RangeBar from "UI/RangeBar/RangeBar"
-import DualRangeBar from "UI/DualRangeBar"
+import RangeBar from "UI/rangeBar1/RangeBar"
+import DualRangeBar from "UI//dualRangeBar1/DualRangeBar"
 
 export default function Section2() {
 

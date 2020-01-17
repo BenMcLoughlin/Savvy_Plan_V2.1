@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/MiniRangeBar/MiniRangeBar"
+import minirangebar1 from "UI/miniRangeBar1/MiniRangeBar"
 
 export default class TaxCredits extends Component {
 
      miniRenderRangeBars = (miniRangeBarPropsArray) => {
-         return miniRangeBarPropsArray.map(propsObject => <MiniRangeBar id={propsObject.name}
+         return miniRangeBarPropsArray.map(propsObject => <minirangebar1 id={propsObject.name}
                                                                    key={propsObject.name}
                                                                    setValue={this.props.setIncome}
                                                                    rangeBarProps={propsObject}

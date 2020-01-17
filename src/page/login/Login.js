@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import Input from "UI/Forms/Input"
+import Input from "UI/forms1/Input"
 import styled from "styled-components"
-import ButtonDark from "UI/Buttons/ButtonDark"
+import ButtonDark from "UI/buttons1/ButtonDark"
 import {Redirect} from "react-router-dom"
 import {auth, signInWithGoogle} from "firebase/firebaseUtils"
-import LinkButton from "UI/Buttons/LinkButton"
+import LinkButton from "UI/buttons1/LinkButton"
 import {connect} from "react-redux"
 import {signIn_action} from "redux/auth/auth_actions"
 
@@ -40,10 +40,10 @@ const Login = ({loginError, signIn_action}) => {
             <Form onSubmit={handleSubmit}>
                 <Input label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
                 <Input label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
-                <Buttons>
+                <buttons1>
                     <ButtonDark text={"LOGIN"} type="submit"/>
                     <ButtonDark text={"USE GOOGLE"} onClick={signInWithGoogle}/>
-                </Buttons>
+                </buttons1>
                 {
                   loggedIn ? 
                   <Redirect to="/dashboard"/>
@@ -87,7 +87,7 @@ const Title = styled.div`
     text-align: center;
     padding-top: 3rem;
 `
-const Buttons = styled.div`   
+const buttons1 = styled.div`   
     display: flex;
     justify-content: space-around;
 `

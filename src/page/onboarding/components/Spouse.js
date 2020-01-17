@@ -1,6 +1,6 @@
 import React from "react"
 import {setUserDetail_action} from "redux/user/user_actions"
-import CheckBox from "UI/Forms/CheckBox"
+import CheckBox from "UI/forms1/CheckBox"
 import {connect} from "react-redux"
 import styled from "styled-components"
 
