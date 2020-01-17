@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from "./layoutNew/Layout"
+import Layout from "./layout/Layout"
 import {BrowserRouter} from "react-router-dom"
 import { GlobalStyles } from "./style/Themes"
 import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"
@@ -25,4 +25,4 @@ export default connect(null, )(App)
 //
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 // Here the Global style are inserted and passed to all children in the app. Browser Router is 
-//also initiated to enable routing between page. 
+//also initiated to enable routing between pages. 

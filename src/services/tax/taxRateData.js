@@ -1,4 +1,4 @@
-// Data Obtained from https://www.canada.ca/en/revenue-agency/services/forms1-publications/payroll/t4032-payroll-deductions-tables/t4032bc/t4032bc-january-general-information.html
+// Data Obtained from https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032bc/t4032bc-january-general-information.html
 // QUEBEC IS WRONG, Couldnt find rates
 
 let FederalTaxRates2019 = [
