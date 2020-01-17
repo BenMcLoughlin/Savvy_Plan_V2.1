@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
@@ -11,6 +11,7 @@ import Savings from "pages/savings/Savings"
 import SpendingApp from "pages/spending/SpendingApp"
 import PropertyApp from "pages/property/PropertyApp"
 import DebtApp from "pages/debt/DebtApp"
+import Assumptions from "pages/assumptions/Assumptions"
 import Login from "pages/login/Login"
 import LandingPage from "pages/landingPage/LandingPage"
 import OnboardingProcess from "pages/onboarding/OnboardingProcess"
@@ -25,11 +26,10 @@ import {connect} from "react-redux"
 
 const DashboardWithSpinner = WithSpinner(Dashboard);
 const TaxAppWithSpinner = WithSpinner(TaxApp);
-const SavingsWithSpinner = WithSpinner(Savings);
-const IncomeWithSpinner = WithSpinner(Income);
+// const SavingsWithSpinner = WithSpinner(Savings);
+// const IncomeWithSpinner = WithSpinner(Income);
 
 const Layout = ({auth, state}) => {
-console.log(state);
         return (
             <ThemeProvider theme={lightTheme}>
                 <>
@@ -37,6 +37,7 @@ console.log(state);
                 <LeftNavBar/>
 
                 <GridContainer>  
+                        <Route path="/Assumptions" component={Assumptions}/>
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorthApp}/>
@@ -47,11 +48,7 @@ console.log(state);
                         <Route path="/Spending" component={SpendingApp}/>
                         <Route path="/Property" component={PropertyApp}/>
                         <Route path="/Debt" component={DebtApp}/>
-                </GridContainer>
-
-                <GridContainer>  
                             <Route exact path="/landingpage" component={LandingPage}/>
-                            <Route path="/LandingPage" component={LandingPage}/>
                             <Route path="/Login" component={Login}/>
                             <Route path="/SignUp" component={SignUp}/>
                 </GridContainer>

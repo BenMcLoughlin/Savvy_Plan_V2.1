@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { NavLink} from "react-router-dom"
 import styled from "styled-components"
 import logoLight from "assets/svgs/SavvyPlan_logo_final_grey.svg"
@@ -10,7 +10,7 @@ import {signOut_action} from "redux/auth/auth_actions"
 
  function Header(props) {
 
-    const {auth, signOut_action} = props
+    const {signOut_action} = props
 
     return (
         <HeaderContainer>
@@ -37,7 +37,7 @@ import {signOut_action} from "redux/auth/auth_actions"
                     </PageSelect>
             </StyledNavLink>
             <Hr/>
-            <StyledNavLink to="/Learn" activeClassName="active">
+            <StyledNavLink to="/assumptions" activeClassName="active">
                     <PageSelect>
                        ASSUMPTIONS
                     </PageSelect>

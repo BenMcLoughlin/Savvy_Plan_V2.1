@@ -18,6 +18,8 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
 return (
     <React.Fragment>
         <Title>What year were you born?</Title>
+        <Dialogue> Knowing your birth year helps us estimate your estimated Canada Pension Plan income.</Dialogue>
+
         <Select selectType='year' label="Birth Year" handleChange={handleChange} type="text" value={user_reducer.birthYear} name="birthYear" required setValue={setValue}/>
     </React.Fragment>
 
@@ -39,4 +41,21 @@ const Title = styled.div`
     text-align: center;
     padding-top: 3rem;
     color: ${props => props.theme.color.slate}
+`
+
+const Dialogue = styled.div`   
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 60rem;
+    height: 16rem;
+    padding-top: 3rem;
+    color: ${props => props.theme.color.slate}
+    & span {
+        padding: 1rem;
+        font-size: 1.4rem;
+        font-style: italic;
+        text-align: left;
+    }
 `

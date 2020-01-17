@@ -20,22 +20,18 @@ const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionS
     const {income_reducer: {72: {nonRegistered: {financialValue: nonRegisteredIncome}}}} = {income_reducer}
 
     const totalRetirementIncome = rrspIncome + tfsaIncome + nonRegisteredIncome
-    const reccomendedRrspIncome = income_reducer[72].rrsp.financialValue
+    //const reccomendedRrspIncome = income_reducer[72].rrsp.financialValue
     const reccomendedTfsaIncome = income_reducer[72].tfsa.financialValue
     const reccomendedNonRegisteredIncome = income_reducer[72].nonRegistered.financialValue
     const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
     const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
    
     const totalNestEgg = reccomendedNestEgg(rate2, 65, totalRetirementIncome)
-    const tfsaNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedTfsaIncome)
-    const nonRegisteredNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedNonRegisteredIncome)
+   // const tfsaNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedTfsaIncome)
+   //const nonRegisteredNestEgg = reccomendedNestEgg(rate2, tfsaStartAge, reccomendedNonRegisteredIncome)
 
     const reccomendedPayment = reccomendedSavingsPerYear(1988, rate1, rrspStartAge, totalRetirementIncome )
 
-    const currentAge = 18
-    const changeChart = () => {
-        initializeSavingsAndWithdrawals(currentAge, income_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
-    }
     
         return (
                     <ControlPanelWrapper>
@@ -134,9 +130,6 @@ const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionS
                             </Section>
                             <Section>
                              <InvestmentFactors count={count}
-                                    changeChart={ changeChart}
-                                    rrspStartAge={rrspStartAge}
-                                    tfsaStartAge={tfsaStartAge}
                              />  
 
                         </Section>

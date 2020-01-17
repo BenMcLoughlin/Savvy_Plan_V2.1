@@ -7,11 +7,17 @@ import BirthYear from "pages/onboarding/components/BirthYear"
 import Province from "pages/onboarding/components/Province"
 import Spouse from "pages/onboarding/components/Spouse"
 import Children from "pages/onboarding/components/Children"
-
+import Priorities from "pages/onboarding/components/Priorities"
+import RatesOfReturn from "pages/onboarding/components/RatesOfReturn"
+import RetirementAge from "pages/onboarding/components/RetirementAge"
+import LifeSpan from "pages/onboarding/components/LifeSpan"
+import { Redirect} from "react-router-dom"
 
 function OnboardingProcess(props) {
 
-    const [count, setCount] = useState(4);
+    const [count, setCount] = useState(0);
+
+    if (count > 11) return <Redirect to="/assumptions"/>
 
         return (
                  <Wrapper>
@@ -31,6 +37,18 @@ function OnboardingProcess(props) {
                             :
                             count === 4 ? 
                             <Children/>
+                            :
+                            count === 5 ? 
+                            <Priorities/>
+                            :
+                            count > 5 && count < 10 ? 
+                            <RatesOfReturn count={count}/>
+                            :
+                            count === 10 ? 
+                            <RetirementAge/>
+                            :
+                            count === 11 ? 
+                            <LifeSpan/>
                             :
                             null
                         }
@@ -65,7 +83,7 @@ const Wrapper = styled.div`
 
 `
 const Form = styled.form`
-    min-height: 30rem;
+    min-height: 45rem;
     display: flex;
     flex-direction: column;
     align-items: center;

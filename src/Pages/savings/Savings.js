@@ -61,7 +61,7 @@ export default connect(mapStateToProps, {transaction_action})(Savings)
 
 const UserInterfaceWrapper = styled.div`
     grid-area: m;
-    background: ${props => props.theme.color.ice};
+    background: #fcfcfc;
     display: grid;
     height: 100%;
     width: 100%;

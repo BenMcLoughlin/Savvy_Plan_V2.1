@@ -59,6 +59,7 @@ export const stackedBarData = createSelector(
         return data 
     }
 )
+
 export const stackedBarData2 = createSelector(
     [savingsPerYear, rrspStartAge],
     (savingsPerYear, rrspStartAge) =>    {

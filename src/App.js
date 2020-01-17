@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import Layout from "./layout/Layout"
 import {BrowserRouter} from "react-router-dom"
 import { GlobalStyles } from "./styles/Themes"
@@ -6,30 +6,7 @@ import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"
 import {setUserDetails_action} from "redux/user/user_actions"
 import {connect} from "react-redux"
 
- function App({setUserDetails_action}) {
-
-    const [currentUser, setCurrentUser] = useState(null)
-
-    // useEffect(() => {
-    //     auth.onAuthStateChanged(async userAuth => {
-    //             if(userAuth) {
-    //                 const userRef = await createUserProfileDocument(userAuth)
-    //                 userRef.onSnapshot(snapshot => {
-    //                     setCurrentUser({
-    //                         currentUser: {
-    //                             id: snapshot.id, 
-    //                             ...snapshot.data()
-    //                         }
-    //                     })
-    //                     setUserDetails_action(snapshot.id, snapshot.data());
-    //                 })
-    //             }
-    //             else {
-    //                 setCurrentUser(null)
-    //             }
-    //         })
-    //     }, [])
-
+ function App() {
 
     return (
         <>
@@ -42,7 +19,7 @@ import {connect} from "react-redux"
 }
 
 
-export default connect(null,{setUserDetails_action} )(App)
+export default connect(null, )(App)
 
 
 //

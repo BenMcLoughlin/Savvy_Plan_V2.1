@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import styled from "styled-components"
 import {ArrowDown} from "styles/Icons"
 import {useComponentVisible} from "services/ui/ui_functions"

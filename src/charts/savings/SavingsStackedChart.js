@@ -18,6 +18,7 @@ const drawChart = (props, width, height) => {
     d3.select(".tooltip").remove()
 
     const data = props.stackedBarData2
+    console.log(data);
     const svg = d3.select('.canvasSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     
@@ -59,7 +60,7 @@ const drawChart = (props, width, height) => {
     const update = data => {
     
 
-        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + (typeof num === num ? num : 0)) ) > -30000 ? -30000 : 
+        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + (typeof num === "number" ? num : 0)) ) > -30000 ? -30000 : 
         d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 4000
 
        const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 

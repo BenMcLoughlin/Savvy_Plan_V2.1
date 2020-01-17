@@ -26,7 +26,7 @@ const determineTotalContributions = (age, name, state, transaction, value)=> {
                        age: age, 
                        contribute: 0,
                        financialValue: 0,
-                       label: "RRSP",
+                       label: "RRSP Withdrawals",
                        maxContribution: 0,
                        optimizedContribution: 0, 
                        optimizedWithdrawal: 0, 

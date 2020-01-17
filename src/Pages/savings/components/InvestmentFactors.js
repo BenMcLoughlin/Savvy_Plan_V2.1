@@ -5,9 +5,18 @@ import {connect} from "react-redux"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
 import {renderSavings, optimizedWithdrawals, optimizedContribution} from "services/savings/savings_functions"
+import {initializeSavingsAndWithdrawals} from "services/savings/savings_functions"
 
-const  InvestmentFactors = ( { changeChart, setInvestmentFactor_action, investmentReturnsArray, savings_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2,rrspStartAge, count, tfsaStartAge}) => {                                            //Use Destructing to assign variables and functions
-                                                           
+const  InvestmentFactors = ( { setInvestmentFactor_action, investmentReturnsArray, income_reducer, savings_reducer, transaction_action, setOpitmizedValues_action, rate1, rate2, count, pensionStartAges_reducer}) => {                                            //Use Destructing to assign variables and functions
+          
+    const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
+    const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
+   
+    const currentAge = 18
+    const changeChart = () => {
+        initializeSavingsAndWithdrawals(currentAge, income_reducer, rate1, rate2, rrspStartAge, tfsaStartAge, transaction_action)
+    }
+
     const setInvestmentFactor = (value, nothing, {name}) => {
         setInvestmentFactor_action(name, value) 
         const array = ["rrsp", "tfsa", "nonRegistered"]
@@ -41,6 +50,8 @@ const mapStateToProps = (state) => {
         rate2: rate2(state),
         investmentReturnsArray: investmentReturnsArray(state),
         savings_reducer: state.savings_reducer,
+        income_reducer: state.income_reducer,
+        pensionStartAges_reducer: state.pensionStartAges_reducer,
 
     }
 }

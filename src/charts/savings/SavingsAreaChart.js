@@ -143,7 +143,7 @@ const drawChart = (props, width, height) => {
 
 
         xAxisGroup.call(xAxis)
-        yAxisGroup.call(yAxis)
+        //yAxisGroup.call(yAxis)
     }
 
     update(data)

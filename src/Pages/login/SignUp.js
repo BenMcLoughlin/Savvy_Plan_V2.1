@@ -38,7 +38,6 @@ console.log(auth);
                   Lets Get Started
             </Title>
             <Form onSubmit={handleSubmit}>
-                <FormInput label="First Name" handleChange={handleChange} type="text" value={firstName} name="firstName" required/>
                 <FormInput label="Email" handleChange={handleChange} type="email" value={email} name="email" required/>
                 <FormInput label="Password" handleChange={handleChange} type="password" value={password} name="password" required/>
                 <FormInput label="Confirm Password" handleChange={handleChange} type="password" value={confirmPassword} name="confirmPassword" required/>

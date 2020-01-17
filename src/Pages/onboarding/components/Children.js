@@ -26,6 +26,7 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
 return (
     <React.Fragment>
         <Title>Do you have children?</Title>
+        <Dialogue> Knowing if you have children helps us by knowing if we should incorporate education savings or tax strategies into our plan.</Dialogue>
         <CheckBox handleChange={setHasChildren}  value={user_reducer.hasChildren}/>
         {
             user_reducer.hasChildren ?
@@ -69,4 +70,20 @@ const Div = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
+`
+const Dialogue = styled.div`   
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 60rem;
+    height: 16rem;
+    padding-top: 3rem;
+    color: ${props => props.theme.color.slate}
+    & span {
+        padding: 1rem;
+        font-size: 1.4rem;
+        font-style: italic;
+        text-align: left;
+    }
 `

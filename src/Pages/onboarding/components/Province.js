@@ -17,7 +17,8 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
 return (
     <React.Fragment>
         <Title>What is your province of residence?</Title>
-        <Select type={'province'} label="Province" handleChange={handleChange} type="text" value={user_reducer.province} name="province" required setValue={setValue}/>
+        <Dialogue> Your province plays a role in how much you have to pay in taxes as each province has different rates.</Dialogue>
+        <Select label="Province" handleChange={handleChange} type="text" value={user_reducer.province} name="province" required setValue={setValue}/>
         
     </React.Fragment>
 
@@ -39,4 +40,21 @@ const Title = styled.div`
     text-align: center;
     padding-top: 3rem;
     color: ${props => props.theme.color.slate}
+`
+
+const Dialogue = styled.div`   
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 60rem;
+    height: 16rem;
+    padding-top: 3rem;
+    color: ${props => props.theme.color.slate}
+    & span {
+        padding: 1rem;
+        font-size: 1.4rem;
+        font-style: italic;
+        text-align: left;
+    }
 `

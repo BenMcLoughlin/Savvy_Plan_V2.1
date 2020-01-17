@@ -3,7 +3,7 @@ const initialState = {
     id: "",
     displayName: "",
     email: "",
-    firstName: "Poo Brain",
+    firstName: "",
     province: "",
     spouse: false,
     birthYear: 1978,
@@ -11,6 +11,32 @@ const initialState = {
     retirementPensionIncome: 0,
     hasChildren: false,
     numberOfChildren: 0,
+    retirementAge: {
+        name: "retirementAge",
+        label: "Target Retirement Age",
+        rangeBarValue: 65, 
+        min: 30,
+        max: 80,
+        step: 1,
+        numberType: "age",
+    },
+    lifeSpan: {
+        name: "lifeSpan",
+        label: "Estimated Life Span",
+        rangeBarValue: 95, 
+        min: 75,
+        max: 110,
+        step: 1,
+        numberType: "age",
+    },
+    priorities: {
+        gettingOutOfDebt: false,
+        buildingASavingsPlan: false,
+        CalculatingRetirementIncome: false,
+        purchasingAHome: false,
+        savingOnTaxes: false,
+        managingSpending: false,
+    },
     retirementIncome: {
         financialValue: 0, 
         label: "Desired Retirement Income",
@@ -39,6 +65,11 @@ const user_reducer = (state = initialState, action) => {
         case "user_reducer/SET_USER_DETAIL": 
         return {...state, 
                                     [action.name]: action.value
+         }
+        case "user_reducer/SET_NESTED_USER_DETAIL": 
+        return {...state, [action.identifier]: {
+            ...state[action.identifier], [action.name]: action.value
+        }
          }
         default: return state
     }

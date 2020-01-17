@@ -22,4 +22,11 @@ export const setUserDetail_action = (name, value) => ({
        value
     })
     
+export const setNestedUserDetail_action = (identifier, name, value) => ({
+    type: "user_reducer/SET_NESTED_USER_DETAIL", 
+       identifier,
+       name,
+       value
+    })
+    
     
