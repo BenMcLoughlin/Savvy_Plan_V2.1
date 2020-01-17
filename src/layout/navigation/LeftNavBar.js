@@ -1,13 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import {NavIcon} from "style/Icons"
+
 
 const LeftNavBar = () => {
 
 
     return (
         <LeftNavBarWrapper>
-            <NavIcon/>
+      
         </LeftNavBarWrapper>
     )
 }
