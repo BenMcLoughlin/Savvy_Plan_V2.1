@@ -224,7 +224,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 export default connect(mapStateToProps)(AssumptionsStackedBarChart)
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`
         width: 100%;

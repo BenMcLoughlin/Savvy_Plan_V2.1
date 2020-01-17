@@ -29,7 +29,7 @@ class MiniRangeBarSlider extends Component {
 
 export default MiniRangeBarSlider
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 
 const Wrapper = styled.div`

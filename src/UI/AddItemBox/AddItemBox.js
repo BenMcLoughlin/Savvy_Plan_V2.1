@@ -4,7 +4,7 @@ import Add from "UI/Buttons/Add"
 import RangeBarSlider from "UI/RangeBar/Components/RangeBarSlider"
 import RangeBarValue from "UI/RangeBar/Components/RangeBarValue"
 import _ from "lodash"
-import {CloseIcon} from "styles/Icons"
+import {CloseIcon} from "style/Icons"
 import Checkbox from "UI/Buttons/Checkbox"
 
 class AddItemBox extends Component {
@@ -136,7 +136,7 @@ class AddItemBox extends Component {
 export default AddItemBox
 
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 
 const TextInput = styled.input`

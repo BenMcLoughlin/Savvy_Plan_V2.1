@@ -40,7 +40,7 @@ const FormInput = ({label, type, value, name, required, handleChange})  => {
 
 export default FormInput
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
     width: 45rem;

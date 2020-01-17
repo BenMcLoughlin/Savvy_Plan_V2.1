@@ -45,7 +45,7 @@ import Close from "UI/Buttons/Close"
 
 export default RangeBar
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;

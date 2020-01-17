@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import {ArrowLeft} from "styles/Icons"
+import {ArrowLeft} from "style/Icons"
 
 const RightVideoSelector = () => {
 

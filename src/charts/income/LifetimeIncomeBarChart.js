@@ -226,7 +226,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(StackedBarChartLifetimeIncome)
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`
         width: 100%;

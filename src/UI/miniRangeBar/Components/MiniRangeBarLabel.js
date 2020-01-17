@@ -18,7 +18,7 @@ import styled from "styled-components"
 export default MiniRangeBarLabel
 
  
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
    text-align: center;

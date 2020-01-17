@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import {ChevronIcon} from "styles/Icons"
+import {ChevronIcon} from "style/Icons"
 
 /*Props Required to be passed:
 1. lowerValue and higherValue
@@ -194,7 +194,7 @@ class DualRangeRangeBar extends Component {
 export default DualRangeRangeBar
 
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const InputWrapper = styled.div`
     position: relative;
@@ -343,4 +343,4 @@ export const Value = styled.div`
 //fromAge one can't be toAge the the larger value. Most of the logic is ensure that if one selector thumb hits the other then it 
 // can push it along. 
 // Also I needed to create an overlay div that presented the color area of the area that has been selected. This uses logic
-//to change the styles of the div from where it begins on the left to how long it is. 
+//to change the style of the div from where it begins on the left to how long it is. 

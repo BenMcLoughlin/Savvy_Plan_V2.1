@@ -14,7 +14,7 @@ const Tooltip = ({header, x, y, text, className}) => {
 }
 
 export default Tooltip
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const TooltipWrapper = styled.div`
     background: #F7F7F5;

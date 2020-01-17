@@ -38,7 +38,7 @@ const Button = ({text, backward, forward, onClick}) => {
 
 export default Button
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 
 const ButtonComponent = styled.button`

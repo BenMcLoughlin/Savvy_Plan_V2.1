@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components"
-import {ArrowDown} from "styles/Icons"
+import {ArrowDown} from "style/Icons"
 import {useComponentVisible} from "services/ui/ui_functions"
 
 
@@ -51,7 +51,7 @@ const Select = ({label, selectType, type, value, name, required, handleChange, s
 
 export default Select
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
     width: 45rem;

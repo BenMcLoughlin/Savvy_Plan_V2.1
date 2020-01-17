@@ -15,7 +15,7 @@ const RangeBarLabel = ({handleChangeLabel, rangeBarProps}) => {
 
 export default RangeBarLabel
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const LabelAsInput = styled.input`
         font-size: ${props =>props.theme.fontSize.small};

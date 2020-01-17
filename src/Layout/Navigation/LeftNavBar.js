@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import {NavIcon} from "styles/Icons"
+import {NavIcon} from "style/Icons"
 
 const LeftNavBar = () => {
 

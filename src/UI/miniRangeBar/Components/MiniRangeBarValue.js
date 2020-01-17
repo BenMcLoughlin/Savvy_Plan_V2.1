@@ -54,7 +54,7 @@ import {inverseLogslider} from "services/general/logorithmic_functions"
 
 export default MiniRangeBarValue
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
     display: felx;

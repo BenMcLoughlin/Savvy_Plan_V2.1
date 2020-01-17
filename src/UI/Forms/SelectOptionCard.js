@@ -22,7 +22,7 @@ const SelectOptionCard = ({label, value, setValue})  => {
 
 export default SelectOptionCard
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 
 const Card = styled.div`

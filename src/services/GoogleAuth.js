@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {signIn, signOut})(GoogleAuth)
 
 
-//--------------------STYLES----------------------------------------------------//
+//--------------------style----------------------------------------------------//
 export const Button = styled.div`
         width: 12rem;
         height: 3rem;

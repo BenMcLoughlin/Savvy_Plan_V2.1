@@ -57,7 +57,7 @@ import {inverseLogslider} from "services/general/logorithmic_functions"
 
 export default RangeBarValue
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const sharedStyles = `
     position: absolute;

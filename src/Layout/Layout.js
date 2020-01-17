@@ -2,22 +2,21 @@ import React from 'react'
 import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
-import Dashboard from "pages/dashboard/Dashboard"
-import TaxApp from "pages/tax/TaxApp"
-import NetWorthApp from "pages/netWorth/NetWorthApp"
-import CreditScoreApp from "pages/creditScore/CreditScoreApp"
-import Income from "pages/income/Income"
-import Savings from "pages/savings/Savings"
-import SpendingApp from "pages/spending/SpendingApp"
-import PropertyApp from "pages/property/PropertyApp"
-import DebtApp from "pages/debt/DebtApp"
-import Assumptions from "pages/assumptions/Assumptions"
-import Login from "pages/login/Login"
-import LandingPage from "pages/landingPage/LandingPage"
-import OnboardingProcess from "pages/onboarding/OnboardingProcess"
-import SignUp from "pages/login/SignUp"
+import Dashboard from "page/dashboard/Dashboard"
+import TaxApp from "page/taxPosition/TaxApp"
+import NetWorthApp from "page/netWorth/NetWorthApp"
+import CreditScoreApp from "page/credit/CreditScoreApp"
+import Income from "page/income/Income"
+import Savings from "page/savings/Savings"
+import SpendingApp from "page/expenses/SpendingApp"
+import PropertyApp from "page/property/PropertyApp"
+import Assumptions from "page/assumptions/Assumptions"
+import Login from "page/login/Login"
+import LandingPage from "page/landingPage/LandingPage"
+import OnboardingProcess from "page/onboarding/OnboardingProcess"
+import SignUp from "page/login/SignUp"
 import {ThemeProvider} from "styled-components"
-import { lightTheme} from "styles/Themes"
+import { lightTheme} from "style/Themes"
 import styled from "styled-components"
 import LeftNavBar from "./navigation/LeftNavBar"
 import RightVideoSelector from "./navigation/RightVideoSelector"
@@ -47,7 +46,6 @@ const Layout = ({auth, state}) => {
                         <Route path="/CreditScore" component={CreditScoreApp}/>              
                         <Route path="/Spending" component={SpendingApp}/>
                         <Route path="/Property" component={PropertyApp}/>
-                        <Route path="/Debt" component={DebtApp}/>
                             <Route exact path="/landingpage" component={LandingPage}/>
                             <Route path="/Login" component={Login}/>
                             <Route path="/SignUp" component={SignUp}/>
@@ -73,7 +71,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(Layout)
 //
-//------------------STYLES---------------------------------------------------------------
+//------------------style---------------------------------------------------------------
  const GridContainer = styled.div`
     height: 100%;
     margin: 4px auto;

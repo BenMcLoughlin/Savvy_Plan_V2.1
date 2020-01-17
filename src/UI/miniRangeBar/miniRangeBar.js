@@ -35,7 +35,7 @@ const MiniRangeBar = ({rangeBarProps,handleChangeLabel, setValue }) =>  {
 }
 
 export default MiniRangeBar
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;

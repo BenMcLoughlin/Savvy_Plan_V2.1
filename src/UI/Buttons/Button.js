@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import {PlusIcon} from "Styles/Icons"
+import {PlusIcon} from "style/Icons"
 
 const Button = (props) => {
     return (
@@ -17,7 +17,7 @@ const Button = (props) => {
 
 export default Button
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 
 const ButtonComponent = styled.button`

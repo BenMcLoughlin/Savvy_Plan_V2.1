@@ -45,7 +45,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(SectionHeader)
 
 
-//-----------------------------------------------STYLES-----------------------------------------------//
+//-----------------------------------------------style-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;
