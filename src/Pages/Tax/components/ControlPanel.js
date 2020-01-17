@@ -25,7 +25,7 @@ export default class ControlPanel extends Component {
                      />
                 </Center>
                 <Right>
-                     <Title>Tax Credits & Deductions</Title>
+                     <Title>Tax Deductions & Credits </Title>
                      <TaxCredits
                          creditsRangeBarValues={this.props.creditsRangeBarValues}
                          setIncome={this.props.setIncome}

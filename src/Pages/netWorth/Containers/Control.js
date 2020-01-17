@@ -55,7 +55,8 @@ class Section extends Component {
                     handleChangeLabel={this.handleChangeLabel}
                     handleRemoveItem={this.handleRemoveItem}
                 />
-                )}
+                )}d
+                
              </SectionWrapper>
             
     }

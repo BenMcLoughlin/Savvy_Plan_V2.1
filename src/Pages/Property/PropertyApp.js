@@ -13,7 +13,7 @@ handleMouseMove(e) {
     render() {
         return (
             <Property onMouseMove={(e) => this.handleMouseMove(e)}>
-            hello
+            Property Details
           
             </Property>
         )

@@ -6,7 +6,7 @@ export default class DebtApp extends Component {
     render() {
         return (
             <Debt>
-                Debt details go here
+                Debt details 
             </Debt>
         )
     }

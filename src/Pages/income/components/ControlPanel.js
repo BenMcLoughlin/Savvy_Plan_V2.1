@@ -31,7 +31,7 @@ export default function ControlPanel(props) {
                                 <Text>
                                     {
                                      count === 0 ?  <div>
-                                                        <h5>We're going to estimate your pension income by reviewing your lifetime earnings. </h5>  
+                                                        <h5>We're going to estimate your pension income by reviewing your lifetime income by year. </h5>  
                                                         <span>Use the arrow buttons to move through the tutorial</span> 
                                                    </div>
   

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import CreditScoreTile from "pages/dashboard/components/CreditScoreTile"
@@ -8,10 +8,7 @@ import LifetimeIncomeTile from "./components/LifetimeIncomeTile"
 import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
 
-class Dashboard extends Component {
-
-
-    render() {
+const Dashboard = () =>  {
         return (
             <DashboardContainer>
                 <StyledTilePane>
@@ -25,7 +22,6 @@ class Dashboard extends Component {
                 </StyledTilePane>
             </DashboardContainer>
         )
-    }
 }
 
 const mapStateToProps = (state) => {
@@ -50,7 +46,7 @@ const StyledTilePane = styled.div`
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: repeat(24, 1fr);
-    grid-template-rows: repeat(14, minmax(2rem, 3rem)) ;
+    grid-template-rows: repeat(16, minmax(3rem, 4rem)) ;
     grid-template-areas:
     "a a a a a a b b b b b b c c c c c c d d d d d"
     "a a a a a a b b b b b b c c c c c c d d d d d"

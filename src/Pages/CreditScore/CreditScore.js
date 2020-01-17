@@ -50,7 +50,7 @@ export default class CreditScore extends Component {
           </DonutChartWrapper>
           <Vertical></Vertical>
           <ProgressContainer>
-            <h1>Where You Stand</h1>
+            <h1>Where You Stand Today</h1>
             <ProgressBarContainer>
               <BarLines color="#56bc7b" width="80%">
                 833-900

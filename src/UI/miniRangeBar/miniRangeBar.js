@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import styled from "styled-components"
 import MiniRangeBarLabel from "UI/MiniRangeBar/Components/MiniRangeBarLabel"
 import MiniRangeBarValue from "UI/MiniRangeBar/Components/MiniRangeBarValue"
@@ -14,30 +14,27 @@ import MiniRangeBarSlider from "UI/MiniRangeBar/Components/MiniRangeBarSlider"
      as well as a number types which will determine if it will display a percentage or a normal number. 
 */ 
 
-export default class SmallRangeBar extends Component {
-
-    render() {
+const MiniRangeBar = ({rangeBarProps,handleChangeLabel, setValue }) =>  {
         return (
             < RangeBarWrapper>
                 <MiniRangeBarLabel
-                     rangeBarProps={this.props.rangeBarProps}
-                     handleChangeLabel={this.props.handleChangeLabel}
+                     rangeBarProps={rangeBarProps}
+                     handleChangeLabel={handleChangeLabel}
                 />
                 <MiniRangeBarSlider
-                     rangeBarProps={this.props.rangeBarProps}
-                     setValue={this.props.setValue}
+                     rangeBarProps={rangeBarProps}
+                     setValue={setValue}
                 />
                 <MiniRangeBarValue
-                    rangeBarProps={this.props.rangeBarProps}
-                    setValue={this.props.setValue}
+                    rangeBarProps={rangeBarProps}
+                    setValue={setValue}
                 />
                
             </RangeBarWrapper>
         )
-    }
 }
 
-
+export default MiniRangeBar
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const RangeBarWrapper = styled.div`
