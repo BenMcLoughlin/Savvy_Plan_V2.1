@@ -28,7 +28,7 @@ const SelectorFat = styled.div`
     width: .4rem;
     height: 4rem;
     border-radius: 5px;
-    background: grey;
+    background: lightGrey;
 
 `
 
@@ -40,6 +40,6 @@ const SelectorSkinny = styled.div`
     width: .1rem;
     height: 4rem;
     border-radius: 5px;
-    background: grey;
+    background: lightGrey;
 
 `

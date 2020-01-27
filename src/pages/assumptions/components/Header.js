@@ -19,8 +19,6 @@ class Header extends Component {
               }                                                                                                                  //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
 
     render() {
-const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} = this.props
-
 
 
 return (
@@ -31,63 +29,7 @@ return (
                   Your Financial Plan Assumptions
                   </h1>
             </Left>
-            <Right>
-            {
-                   this.props.landingPage ? null : 
-                   <h2>Account Values at Retirement</h2>
-               }
-          
-            <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
-                    <RRSPSummary>
-                    {rrspDisplayValue}  
-                        <h4>RRSP</h4>
-                        <Tooltip 
-                            x={this.state.x} 
-                            y={this.state.y} 
-                            text="Earnings in a Registered Retirement Savings Plan are tax-free and amounts paid out to you are taxable.
-                                  Since there is a minimum that you must take out in retirement, our planning goal is to ensure that you aren't forced to withdraw
-                                  so much that you are heavily taxed.
-                            
-                            "
-                            header= "Canada Pension Plan"
-                            className="cppTooltip"
-                        />
-                    </RRSPSummary>
-                    <TFSASummary >
-                    {tfsaDisplayValue}
-                        <h4 >TFSA</h4>
-                        <Tooltip 
-                        x={this.state.x} 
-                        y={this.state.y} 
-                        text=   " Contributions to a Tax Free Savings Account are not deductible for income tax purposes. 
-                        Any amount contributed as well as any income earned in the account (for example, investment income and capital gains) is generally tax-free, even when it is withdrawn. "
-                        header= "Old Age Security"
-                        className="oasTooltip"
-                         />
-                    </TFSASummary>
 
-                   <NRegSummary>
-                   {nonRegisteredDisplayValue}
-                   <h4 >N-Reg</h4>
-                       <Tooltip 
-                       x={this.state.x} 
-                       y={this.state.y} 
-                       text=   "A Registered Retirement Income Fund (nonRegisteredValue) is an account registered with the government that 
-                                pays you income in retirement. Before, you were putting money into your RRSP to accumulate
-                                savings for retirement. Now, you withdraw that money from your nonRegisteredValue as retirement income."
-                       header= "Registered Retirement Income Fund"
-                       className="rrifTooltip"
-                   />
-                   </NRegSummary>
-
- 
-            </PensionIncomeWrapper>
-            <Summary>
-             {totalNestEgg}
-            <h4>Total</h4>
-            </Summary>
-            </Right>
-            
             </HeaderValuesWrapper>
         )
     }
@@ -120,57 +62,3 @@ const Left = styled.div`
     flex-direction: column;
     flex: 1;
 `
-
-const Summary = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    display: inline-block;
-    padding: 1rem;
-    margin-top: 1rem;
-    cursor: pointer;
-    font-size: ${props => props.theme.fontSize.medium};
-
-  
-`
-const RRSPSummary = styled(Summary)`
-    &:hover .cppTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
-const TFSASummary = styled(Summary)`
-    &:hover .oasTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
-const NRegSummary = styled(Summary)`
-    &:hover .rrifTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
-
-
-
-const Right = styled.div`
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-`
-
-
-const PensionIncomeWrapper = styled.div`
-    display: flex;
-    width: 60%;
-    border-bottom: ${props => props.theme.border.primary};
-`
-
-
-
-

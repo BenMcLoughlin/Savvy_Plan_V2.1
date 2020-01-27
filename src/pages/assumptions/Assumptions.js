@@ -1,74 +1,97 @@
 
 import styled from "styled-components"
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
 import {connect} from "react-redux"
-import {transaction_action} from "redux/savings/savings_actions"
 import Header from "pages/assumptions/components/Header"
-import ControlPanel from "pages/savings/components/ControlPanel"
-import LandingPageControls from "pages/savings/components/LandingPageControls"
-import SavingsStackedChart from "charts/savings/SavingsStackedChart"
-import AssumptionsStackedBarChart from "charts/assumptions/AssumptionsStackedBarChart"
-import {initializeSavingsAndWithdrawals} from "services/savings/savings_functions"
-import {rate1, rate2} from "redux/savings/savings_selectors"
+import StackedBarChart from "charts/assumptions/StackedBarChart"
 import InvestmentFactors from "pages/savings/components/InvestmentFactors"
+import HorizontalTimeline from "charts/assumptions/HorizontalTimeline"
+import NewEvent from "pages/onboarding/components/NewEvent"
+import LinkButton from "UI/buttons/LinkButton"
+import {Dialogue} from "pages/onboarding/components/FirstName"
 
-const Savings = ({income_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
+const Savings = () => {
 
-    useEffect(() => {
-        initializeSavingsAndWithdrawals(18, income_reducer, rate1, rate2, 65, 65, transaction_action)
-    }, [])
+    const [count, setCount] = useState(12);
 
         return (
-            <UserInterfaceWrapper>
+            <Page>
                  <Header
                  landingPage
                  />
                 <BarChartPlaceHolder>   
-                    <AssumptionsStackedBarChart  />
+                    <StackedBarChart  />
                 </BarChartPlaceHolder>  
-                <Section>
-                     <InvestmentFactors count={3} />
-                </Section>
-        </UserInterfaceWrapper>
+                <SectionWrapper>
+                    <Section>
+                        <InvestmentFactors count={3} />
+                    </Section>
+                </SectionWrapper>
+                <ChartWrapper>
+                        <HorizontalTimeline/>
+                </ChartWrapper>
+
+                <NewEventWrapper >
+                      <NewEvent></NewEvent>
+                </NewEventWrapper>
+                <LinkButtonWrapper>
+                    <LinkButton to="/networth">
+                        Next
+                    </LinkButton>
+                </LinkButtonWrapper>
+
+                    {/* <BlackoutDiv></BlackoutDiv>
+                    < Description>
+                        <Dialogue>This Chart teaches us alot</Dialogue>
+                    </Description> */}
+        </Page>
         )
 }
 
 const mapStateToProps = (state) => {
     return {
-        rate1: rate1(state),
-        rate2: rate2(state),
-        pensionStartAges_reducer: state.pensionStartAges_reducer,
-        income_reducer: state.income_reducer,
     }
 }
 
-export default connect(mapStateToProps, {transaction_action})(Savings)
+export default connect(mapStateToProps, {})(Savings)
 
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const UserInterfaceWrapper = styled.div`
-    grid-area: m;
-    background: #fcfcfc;
-    display: grid;
-    height: 100%;
-    width: 100%;
-    margin-letf: 5%;
+const Page = styled.div`
+    ${props => props.theme.pageBaseStyles}
     grid-template-rows: minmax(5rem, 8rem) minmax(18rem, 20rem) minmax(10rem, 12rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'
-    'b b b b b c c c c c c c'
-    'b b b b b c c c c c c c'
-    'd d d d d e e e e e e e'
-    'd d d d d e e e e e e e'
+    'b b b b c c c c c c c c'
+    'b b b b e e e e e e e e'
+    'd d d d e e e e e e e e'
+    'd d d d e e e e e e e e'
 `
-const AreaChartPlaceHolder = styled.div`
-    grid-area: b;
-    width: 90%;
-    margin-left: 5%;
-    height: 100%;
-    position: relative;
-
+const BlackoutDiv = styled.div`
+    position: absolute
+    background: black;
+    opacity: 0.5;
+    height: 300rem;
+    width: 300rem;
+    overflow: hidden;
+    top: 5rem;
+    left: 5rem;
+    z-index: 10;
+`
+const Description = styled.div`
+   position: absolute;
+   top: 20rem;
+   left: 60rem;
+    width: 35rem;
+    height: 18rem;
+    padding: 2rem;
+    text-align: center;
+    color: ${props => props.theme.color.slate}
+    border: .7px solid ${props => props.theme.color.lightGrey};
+    z-index: 100;
+    background: #49A7D8;
+    clip-path: polygon(11% 39%, 11% 0, 100% 0, 100% 100%, 11% 100%, 10% 48%, 0 45%);
 
 `
 const BarChartPlaceHolder = styled.div`
@@ -77,15 +100,44 @@ const BarChartPlaceHolder = styled.div`
     margin-left: 5%;
     height: 30rem;
     position: relative;
-
+    z-index: 500;
+    background: white;
+    border-radius: 20px;
 `
-const Section = styled.div`
+const SectionWrapper = styled.div`
     flex: 1;
     grid-area: d;
-    width: 50rem;
+    display: flex;
+    width: 100%
     margin-left: 5%;
     height: 30rem;
 ` 
+const Section = styled.div`
+    flex: 1;
+    width: 30rem;
+    margin-left: 5%;
+    height: 30rem;
+` 
+const ChartWrapper = styled.div`
+    height: 40rem;
+    width: 90rem;
+    margin-top: 4rem;
+    display: flex;
+    grid-area: c;
+`
+const NewEventWrapper = styled.div`
+    display: flex;
+    grid-area: e;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12rem;
+`
+const LinkButtonWrapper = styled.div`
+    position: absolute;
+    top: 75rem;
+    right: 20rem;
+`
 
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

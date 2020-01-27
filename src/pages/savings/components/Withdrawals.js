@@ -40,22 +40,19 @@ const Withdrawals = ({count, savings_reducer,transaction_action, setOpitmizedVal
                                 setKeyVariables={setKeyVariables}                                                                                      //reaches into reducer to set the values
                             />
                         <RangeBarWrapper>
-                                {
-                                    rangeBarArray.map(d => 
+
                                     
                                             <Display>
                                             <RangeBar
-                                                            key={d.name}
-                                                            financialValue= {d.financialValue}
-                                                            rangeBarProps={d}
+                                                            key={rangeBarArray[0].name}
+                                                            financialValue= {rangeBarArray[0].financialValue}
+                                                            rangeBarProps={rangeBarArray[0]}
                                                             setValue={setWithdrawals}
                                                             />
                                                             {/* <Value>{(Math.round(d.optimizedWithdrawal/1000)*1000)/1000}k</Value> */}
                                             </Display>
                 
-                
-                                    )
-                                }
+
                                 </RangeBarWrapper>
                 
                     </YearsSelectorWrapper>       

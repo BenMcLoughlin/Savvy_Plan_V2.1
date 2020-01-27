@@ -2,20 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const FormInput = ({label, type, value, name, required, handleChange})  => {
-//const [error, showError] = useState(false)
-
-
-    // const validate = text => {
-
-    //    return label === "Email" ? 
-    //           (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(text)) ? showError(false) : showError(true) 
-    //     : 
-    //     label === "Password" ? 
-    //         text.length > 6 ? showError(false) : showError(true) 
-    //     :
-    //     null
-    // }
+const NumberInput = ({label, type, value, name, required, handleChange})  => {
 
     return (
         <Wrapper>
@@ -23,40 +10,34 @@ const FormInput = ({label, type, value, name, required, handleChange})  => {
                 name={name}
                 onChange={e => handleChange(e)}
                 value={value}
-                type={type}
-                autoComplete="off"
+                type="number"
                 required={required}
             ></Input>
             <Label>{label}</Label>
-            {/* {
-                error ? 
-                   <Error>{`Please Enter a valid ${label}`}</Error>
-                : null
-            } */}
-          
+  
         </Wrapper>
     )
 }
 
 
-export default FormInput
+export default NumberInput
 
 //-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
-    width: 35rem;
+    width: 10rem;
     height: 7rem;
-    margin: 2rem 0 2rem 0;
+    margin: 1.5rem;
     position: relative;
-    display: flex;
 `
 const Label = styled.label`
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: normal;
     position: absolute;
+    width: 14rem;
     pointer-events: none;
-    left: 1rem;
-    top: 1.2rem;
+    left: 5px;
+    top: 1.7rem;
     transition: 200ms ease all;
     color: ${props => props.theme.color.lightGrey};
 
@@ -66,22 +47,21 @@ const Label = styled.label`
 const Input = styled.input`
     background: none;
     background-color: white;
-    color: ${props => props.theme.color.darkGrey};
-    font-size: 14px;
-    padding: 1.2rem;
+    color: ${props => props.theme.color.drab};
+    font-size: 18px;
+    padding: 1.4rem;
     display: block;
-    width: 35rem;
-    height: 5rem;
+    width: 14rem;
     border: none;
     border-radius: 3px;
+    margin: 1.2rem 0;
     border: .7px solid ${props => props.theme.color.lightGrey};
 
     &:focus {
     outline: none;
-    border: .7px solid ${props => props.theme.color.turquoise};
 
     &:focus ~ Label {
-        transform: translateY(-4rem);
+        transform: translateY(-3.4rem);
         font-size: 1.6rem;
         color: ${props => props.theme.color.lightGrey};
         font-weight: 700;
@@ -89,7 +69,7 @@ const Input = styled.input`
     }
 
     &:valid ~ Label {
-        transform: translateY(-4rem);
+        transform: translateY(-3.4rem);
         font-size: 1.6rem;
         color: ${props => props.theme.color.lightGrey};
         font-weight: 700;

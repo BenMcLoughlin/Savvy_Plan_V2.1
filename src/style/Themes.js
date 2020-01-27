@@ -6,7 +6,8 @@ export const lightTheme = {
     color: {
         ice: "#FCFCFC",
         blue: "#49A7D8",
-        grey: "#cbcbcb",
+        lightGrey: "#cbcbcb",
+        darkGrey: "#7f7f7f",
         slate: "#536D7A",
         turquoise: "#4BB9D0",
         drab: "#324755",
@@ -42,7 +43,16 @@ export const lightTheme = {
     },
     linearGradient: {
         primary: "-webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(29,37,41,1)), color-stop(100%, rgba(0,110,110,1)))",
-    }
+    },
+    pageBaseStyles: `{
+        margin-top: 5rem;
+        display: grid;
+        margin: 0 auto;
+        height: 80rem;
+        width:  120rem;
+        background: white;
+    }`
+
 }
 
 export const setFlex = ({align="center",justify="center"}) => {
@@ -53,7 +63,29 @@ export const setFlex = ({align="center",justify="center"}) => {
     `
 }
 
+export const buttonStyles = `
+    padding: 1rem 2rem 1rem 2rem;
+    min-width: 12rem;
+    width: auto;
+    height: 5rem;
+    margin: 1rem;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5rem;
+    text-transform: uppercase;
+    position: relative;
+    font-size: 1.4rem;
+`
 
+export const pageBaseStyles = `
+grid-area: 
+margin-top: 5rem;
+display: grid;
+margin: 0 auto;
+height: 90vh;
+width:  80vw;
+background: white;
+`
 export const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700&display=swap');
 *{

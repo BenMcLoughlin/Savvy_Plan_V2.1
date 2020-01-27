@@ -13,7 +13,7 @@ import {reccomendedNestEgg, reccomendedSavingsPerYear} from "services/savings/sa
 const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionStartAges_reducer, rate1, rate2, transaction_action, landingPage})  =>{
 
    
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(2);
 
     const {income_reducer: {72: {rrsp: {financialValue: rrspIncome}}}} = {income_reducer}
     const {income_reducer: {72: {tfsa: {financialValue: tfsaIncome}}}} = {income_reducer}
@@ -78,7 +78,7 @@ const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionS
                                                                         <h4>Annual Contributions</h4>  
                                                                 </NestEggTotalColumn>
                                                     </NestEggTotals>
-                                                    {count === 2 ?   <span>See how your rate of return changes everything </span>  
+                                                    {count === 2 ?   <span></span>  
                                                    : null}
                                                    </DialogueWrapper>
 

@@ -4,8 +4,9 @@ import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
-import miniRangeBar from "UI/miniRangeBar/MiniRangeBar"
+import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
+import {Title, Dialogue} from "pages/onboarding/components/FirstName"
 
 const PreRetirementRate = ({count, user_reducer, setInvestmentFactor_action, investmentReturnsArray}) => {
 
@@ -17,7 +18,15 @@ const PreRetirementRate = ({count, user_reducer, setInvestmentFactor_action, inv
 return (
     <>
         <Title>We need to make some assumptions.</Title>
-                {
+                    {
+            <MiniRangeBar
+                                                        id={investmentReturnsArray[position].name}
+                                                        key={investmentReturnsArray[position].name}
+                                                        setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
+                                                        rangeBarProps={investmentReturnsArray[position]}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
+                                />
+                        }
+                            {
                     count === 6 ? 
                           <Dialogue>
                               What rate of return would you like to use for your savings projections? 
@@ -53,15 +62,9 @@ return (
                 }
              
 
-        {
+        
 
-                 <miniRangeBar 
-                                            id={investmentReturnsArray[position].name}
-                                            key={investmentReturnsArray[position].name}
-                                            setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
-                                            rangeBarProps={investmentReturnsArray[position]}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
-                    />
-            }
+
 
     </>
 
@@ -77,28 +80,4 @@ export default connect(mapStateToProps, {setInvestmentFactor_action, })(PreRetir
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const Title = styled.div`   
-    font-size: 3rem;
-    width: 100%;
-    height: 10rem;
-    text-align: center;
-    padding-top: 3rem;
-    color: ${props => props.theme.color.slate}
-`
 
-const Dialogue = styled.div`   
-    font-size: 2rem;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    width: 60rem;
-    height: 16rem;
-    padding-top: 1rem;
-    color: ${props => props.theme.color.slate}
-    & span {
-        padding: 1rem;
-        font-size: 1.4rem;
-        font-style: italic;
-        text-align: left;
-    }
-`

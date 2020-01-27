@@ -73,14 +73,15 @@ export default connect(mapStateToProps)(Layout)
 //
 //------------------style---------------------------------------------------------------
  const GridContainer = styled.div`
-    height: 100%;
+    height: 100vw;
     margin: 4px auto;
-    width: 80vw;
+    width: 100vw;
     display: grid;
     grid-template-rows: 98vh;
     overflow: scroll;
+    color: ${props => props.theme.color.slate};
+    background: #FCFCFC;
     grid-template-areas: 
-
     "m"
 
     /* The Grid container holds the grid item "m" for "main" and "f" for footer. When a sub-app is clicked

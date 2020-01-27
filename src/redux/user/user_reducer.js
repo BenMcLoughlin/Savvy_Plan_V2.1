@@ -42,7 +42,8 @@ const initialState = {
         label: "Desired Retirement Income",
         name: "retirementIncome",
         rangeBarValue: 0, 
-    }
+    },
+        
 }
 
 const user_reducer = (state = initialState, action) => {
@@ -71,6 +72,7 @@ const user_reducer = (state = initialState, action) => {
             ...state[action.identifier], [action.name]: action.value
         }
          }
+
         default: return state
     }
 }

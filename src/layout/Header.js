@@ -8,9 +8,7 @@ import {connect} from "react-redux"
 import {setUserDetails_action} from "redux/user/user_actions"
 import {signOut_action} from "redux/auth/auth_actions"
 
- function Header(props) {
-
-    const {signOut_action} = props
+ function Header({auth, signOut_action}) {
 
     return (
         <HeaderContainer>

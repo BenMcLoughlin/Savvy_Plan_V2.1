@@ -7,65 +7,64 @@ import SavingsPlanTile from "./components/SavingsPlanTile"
 import LifetimeIncomeTile from "./components/LifetimeIncomeTile"
 import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
+import VerticalTimeline from "charts/assumptions/VerticalTimeline"
 
 const Dashboard = () =>  {
         return (
-            <DashboardContainer>
-                <StyledTilePane>
+            <Page>
                    <NetWorthTile/>
                    <LifetimeIncomeTile/>
                    <TaxTile/>
-                   <CreditScoreTile/>
-                   <HomePurchaseTile/>
                    <SavingsPlanTile/>
-
-                </StyledTilePane>
-            </DashboardContainer>
+                   <ChartWrapper>
+                        <VerticalTimeline />
+                   </ChartWrapper>
+            </Page>
         )
 }
 
 const mapStateToProps = (state) => {
-    
-   return { tilePaneData: state.tilePaneData }
+
 }
 
 export default connect(mapStateToProps)(Dashboard)
 
 //-----------------style--------------------------------------------------//
 
-const DashboardContainer = styled.div`
-    grid-area: m;
-    background: white;
-    display: grid;
-    height: 100%;
-    width: 100%;
+const Page = styled.div`
+  ${props => props.theme.pageBaseStyles}
+   display: grid;
+   margin: 1rem;
+   grid-gap: 1rem;
+   grid-template-columns: repeat(24, 1fr);
+   grid-template-rows: repeat(16, minmax(3rem, 4rem)) ;
+   grid-template-areas:
+   "a a a a a a b b b b b b c c c c c c h h h h h"
+   "a a a a a a b b b b b b c c c c c c h h h h h"
+   "a a a a a a b b b b b b c c c c c c h h h h h"
+   "a a a a a a b b b b b b c c c c c c h h h h h"
+   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "g g g g g g g g g g g g g g g g g g h h h h h"
+   "g g g g g g g g g g g g g g g g g g h h h h h"
+   "g g g g g g g g g g g g g g g g g g h h h h h"
+   "g g g g g g g g g g g g g g g g g g h h h h h"
+   "g g g g g g g g g g g g g g g g g g h h h h h"
+   "g g g g g g g g g g g g g g g g g g h h h h h"
 `
 
-const StyledTilePane = styled.div` 
-    height: 95vh;
-    display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(24, 1fr);
-    grid-template-rows: repeat(16, minmax(3rem, 4rem)) ;
-    grid-template-areas:
-    "a a a a a a b b b b b b c c c c c c d d d d d"
-    "a a a a a a b b b b b b c c c c c c d d d d d"
-    "a a a a a a b b b b b b c c c c c c x x x x x"
-    "a a a a a a b b b b b b c c c c c c x x x x x"
-    "e e e e e e e e e e e e e e e e e e f f f f f"
-    "e e e e e e e e e e e e e e e e e e f f f f f"
-    "e e e e e e e e e e e e e e e e e e f f f f f"
-    "e e e e e e e e e e e e e e e e e e f f f f f"
-    "e e e e e e e e e e e e e e e e e e f f f f f"
-    "e e e e e e e e e e e e e e e e e e f f f f f"
-    "g g g g g g g g g g g g g g g g g g h h h h h"
-    "g g g g g g g g g g g g g g g g g g h h h h h"
-    "g g g g g g g g g g g g g g g g g g h h h h h"
-    "g g g g g g g g g g g g g g g g g g h h h h h"
-    "g g g g g g g g g g g g g g g g g g h h h h h"
-    "g g g g g g g g g g g g g g g g g g h h h h h"
-`
 
+
+const ChartWrapper = styled.div`
+    height: 70rem;
+    width: 35rem;
+    display: flex;
+    grid-area: h;
+`
 
 //This is the grid container that positions each of the tiles in the dashboard.
 

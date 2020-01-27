@@ -1,25 +1,33 @@
 import React from 'react'
 import styled from "styled-components"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
+import {connect} from "react-redux"
+import {lifeEventsArray} from "redux/lifeEvents/lifeEvents_selectors"
 
-export default function PensionIncomeStartAges( {setPensionIncome, pensionStartAges_reducer, count}) {                                            //Use Destructing to assign variables and functions
-   
-    pensionStartAges_reducer = Object.values(pensionStartAges_reducer)                                                                    //Converts pensionStartAges_reducer to an array so they can be mapped through to render mini rangeBars                                                          
- 
+
+const  LifeEvents = ( {lifeEventsArray}) => {                                            //Use Destructing to assign variables and functions
+          
     return (
         <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa miniRangeBar for each */}
-            {
-                    count > 3 ? 
-                pensionStartAges_reducer.map(d => <MiniRangeBar
+               { lifeEventsArray.map(d => <MiniRangeBar
                                             id={d.name}
                                             key={d.name}
-                                            setValue={setPensionIncome}                                                        //Function Defined Above, sets the age in the reducer
+                                            setValue={() => console.log('hi')}                                                        //Function Defined Above, sets the age in the reducer
                                             rangeBarProps={d}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
                     />)
-           : null }
+               }
+
         </Wrapper>                            
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        lifeEventsArray: lifeEventsArray(state),
+    }
+}
+
+export default connect(mapStateToProps, {})(LifeEvents)
 //-----------------------------------------------style-----------------------------------------------//
 
 
@@ -27,7 +35,7 @@ const Wrapper= styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    margin-top: 6rem;
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*

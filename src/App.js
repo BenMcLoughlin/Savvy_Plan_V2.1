@@ -1,14 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Layout from "./layout/Layout"
 import {BrowserRouter} from "react-router-dom"
 import { GlobalStyles } from "./style/Themes"
 import {auth, createUserProfileDocument} from "./firebase/firebaseUtils"
 import {setUserDetails_action} from "redux/user/user_actions"
 import {connect} from "react-redux"
+import firebase from "firebase/firebaseUtils"
 
  function App() {
-
-    return (
+     return (
         <>
           <GlobalStyles />
           <BrowserRouter>

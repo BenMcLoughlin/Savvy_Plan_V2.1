@@ -167,11 +167,7 @@ export default connect(mapStateToProps, {setIncome_action,  setKeyVariable_actio
 //-----------------------------------------------style-----------------------------------------------//
 
 const UserInterfaceWrapper = styled.div`
-    grid-area: m;
-    background: ${props => props.theme.color.ice};
-    display: grid;
-    height: 100%;
-    width: 100%;
+    ${props => props.theme.pageBaseStyles}
     grid-template-rows: minmax(8rem, 14rem) minmax(18rem, 22rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'

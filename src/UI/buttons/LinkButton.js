@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import styled from "styled-components"
+import {buttonStyles} from "style/Themes"
 
 const LinkButton = (props) => {
   const {
@@ -34,16 +35,7 @@ export default withRouter(LinkButton)
 
 
 const ButtonComponent = styled.button`
-    padding: 1rem;
-    min-width: 165px;
-    width: auto;
-    height: 4rem;
-    margin: 1rem;
-    background: ${props => props.theme.color.ice};
-    color: ${props => props.theme.color.slate};
-    cursor: pointer;
-    outline: none;
-    border-radius: 5rem;
-    text-transform: uppercase;
-    position: relative
+  ${buttonStyles};
+  background: ${props => props.theme.color.ice};
+  color: ${props => props.theme.color.slate};
 `

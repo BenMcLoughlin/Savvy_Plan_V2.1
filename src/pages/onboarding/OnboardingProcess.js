@@ -11,13 +11,14 @@ import Priorities from "pages/onboarding/components/Priorities"
 import RatesOfReturn from "pages/onboarding/components/RatesOfReturn"
 import RetirementAge from "pages/onboarding/components/RetirementAge"
 import LifeSpan from "pages/onboarding/components/LifeSpan"
+import LifeEvents from "pages/onboarding/components/LifeEvents"
 import { Redirect} from "react-router-dom"
 
 function OnboardingProcess(props) {
 
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(12);
 
-    if (count > 11) return <Redirect to="/assumptions"/>
+    if (count > 12) return <Redirect to="/assumptions"/>
 
         return (
                  <Wrapper>
@@ -50,15 +51,18 @@ function OnboardingProcess(props) {
                             count === 11 ? 
                             <LifeSpan/>
                             :
+                            count === 12 ? 
+                            <LifeEvents/>
+                            :
                             null
                         }
                     </Form>
 
 
-                   <buttons>
+                   <Buttons>
                                 < ButtonLight backward onClick={() => setCount(count > 0 ? count - 1 : 0)}/>
                                 < ButtonLight forward onClick={() => setCount(count + 1)}/>
-                    </buttons>
+                    </Buttons>
                 </Wrapper>
         )
           
@@ -74,16 +78,19 @@ export default connect(mapStateToProps)(OnboardingProcess)
 
 const Wrapper = styled.div`
     grid-area: m;
+    margin-top: 5rem;
     display: grid;
-    height: 100%;
-    width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-
+    margin: 0 auto;
+    height: 90vh;
+    width:  80vw
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
 `
 const Form = styled.form`
-    min-height: 45rem;
+    min-height: 30rem;
+    width: 50rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,8 +98,11 @@ const Form = styled.form`
     margin: 0 auto;
 `
 
-const buttons = styled.div`
+const Buttons = styled.div`
     width: 50%;
     display: flex;
     justify-content: center;
+    position: absolute;
+    top: 60rem;
+    left: 25%;
 `

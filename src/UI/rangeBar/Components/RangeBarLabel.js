@@ -33,7 +33,7 @@ const LabelAsInput = styled.input`
         &:active {
             outline: 0  !important;
             border: none;
-            border-bottom: 1px dotted grey;
+            border-bottom: 1px dotted lightGrey;
             background: white;
            
         }

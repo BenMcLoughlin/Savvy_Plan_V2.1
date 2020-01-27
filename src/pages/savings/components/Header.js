@@ -26,7 +26,7 @@ const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestE
 return (
             <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
             <Left >
-                                                                                                                 {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for grey */}
+                                                                                                                 {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                {
                    this.props.landingPage ? null : 
                    <h1>

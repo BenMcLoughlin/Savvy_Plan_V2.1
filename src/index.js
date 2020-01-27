@@ -44,7 +44,7 @@ ReactDOM.render(
     <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
             <PersistGate persistor={persistor}>
-                <App/>
+                <App rootReducer={rootReducer}/>
             </PersistGate>
         </ReactReduxFirebaseProvider>
     </Provider>

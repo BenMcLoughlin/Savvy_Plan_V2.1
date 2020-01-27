@@ -3,6 +3,7 @@ import {setNestedUserDetail_action} from "redux/user/user_actions"
 import SelectOptionCard from "UI/forms/SelectOptionCard"
 import {connect} from "react-redux"
 import styled from "styled-components"
+import {Title} from "pages/onboarding/components/FirstName"
 
 const Priorities = ({user_reducer, setNestedUserDetail_action}) => {
 
@@ -34,22 +35,14 @@ export default connect(mapStateToProps, {setNestedUserDetail_action})(Priorities
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const Title = styled.div`   
-    font-size: 3rem;
-    width: 100%;
-    height: 10rem;
-    text-align: center;
-    padding-top: 3rem;
-    color: ${props => props.theme.color.slate}
-`
+
 const CardWrapper = styled.div`
-        min-height: 40rem;
-        max-height: 50rem;
-        width: 70rem;
+        height: 20rem;
+        width: 100rem;
         background: white;
         z-index: 500;
-
         display: flex;
         flex-wrap: wrap;
         padding: 2rem;
+
 `

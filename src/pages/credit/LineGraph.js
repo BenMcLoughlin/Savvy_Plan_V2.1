@@ -76,13 +76,13 @@ export default class LineGraph extends Component {
       .append("g")
       .attr("class", "x-axis")
       .attr("transform", "translate(0," + graphHeight + ")")
-      .attr("stroke", "grey")
+      .attr("stroke", "lightGrey")
       .attr("stroke-width", 1);
 
     const yAxisGroup = graph
       .append("g")
       .attr("class", "y-axis")
-      .attr("stroke", "grey")
+      .attr("stroke", "lightGrey")
       .attr("stroke-width", 1);
 
     //d3 line path generator
@@ -198,5 +198,5 @@ const HeaderWrapper = styled.div`
 `;
 
 const xAxis = styled.div`
-  stroke: "grey";
+  stroke: "lightGrey";
 `;

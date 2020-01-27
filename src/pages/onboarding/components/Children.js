@@ -6,6 +6,7 @@ import styled from "styled-components"
 import Input from "UI/forms/Input"
 import Select from "UI/forms/Select"
 import _ from "lodash"
+import {Title, Dialogue} from "pages/onboarding/components/FirstName"
 
 const FirstName = ({user_reducer, setUserDetail_action}) => {
 
@@ -26,8 +27,11 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
 return (
     <React.Fragment>
         <Title>Do you have children?</Title>
+        <CheckBoxWrapper>      
+              <CheckBox handleChange={setHasChildren}  value={user_reducer.hasChildren}/>
+        </CheckBoxWrapper>
         <Dialogue> Knowing if you have children helps us by knowing if we should incorporate education savings or tax strategies into our plan.</Dialogue>
-        <CheckBox handleChange={setHasChildren}  value={user_reducer.hasChildren}/>
+
         {
             user_reducer.hasChildren ?
             <Div>
@@ -56,34 +60,14 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const Title = styled.div`   
-    font-size: 3rem;
-    width: 100%;
-    height: 10rem;
-    text-align: center;
-    padding-top: 3rem;
-    color: ${props => props.theme.color.slate};
-`
+
 const Div = styled.div`
-    min-height: 30rem;
+    min-height: 10rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
 `
-const Dialogue = styled.div`   
-    font-size: 2rem;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    width: 60rem;
-    height: 16rem;
-    padding-top: 3rem;
-    color: ${props => props.theme.color.slate}
-    & span {
-        padding: 1rem;
-        font-size: 1.4rem;
-        font-style: italic;
-        text-align: left;
-    }
+const CheckBoxWrapper = styled.div`
+    height: 10rem;
 `

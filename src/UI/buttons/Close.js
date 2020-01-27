@@ -23,7 +23,7 @@ justify-content: center;
 align-items:center;
 text-align: center;
 cursor: pointer;
-border: 1px solid grey;
+border: 1px solid lightGrey;
 border-radius: 50%;
    &::before,
    &::after {

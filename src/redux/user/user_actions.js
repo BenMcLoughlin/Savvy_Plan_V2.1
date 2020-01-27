@@ -28,5 +28,3 @@ export const setNestedUserDetail_action = (identifier, name, value) => ({
        name,
        value
     })
-    
-    

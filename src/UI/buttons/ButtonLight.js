@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
+import {buttonStyles} from "style/Themes"
 
 const Button = ({text, backward, forward, onClick}) => {
     return (
@@ -42,17 +43,7 @@ export default Button
 
 
 const ButtonComponent = styled.button`
-    padding: 1rem;
-    min-width: 8rem;
-    width: auto;
-    height: 5rem;
-    margin: 1rem;
+    ${buttonStyles};
     background: ${props => props.theme.color.ice};
     color: ${props => props.theme.color.slate};
-    cursor: pointer;
-    outline: none;
-    border-radius: 5rem;
-    text-transform: uppercase;
-    position: relative;
-    font-size: 1.6rem;
 `

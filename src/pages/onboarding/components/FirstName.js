@@ -13,8 +13,9 @@ const FirstName = ({user_reducer, setUserDetail_action}) => {
 
 return (
     <React.Fragment>
-        <Title>Whats your first Name?</Title>
-        <Input label="First Name" handleChange={handleChange} type="text" value={user_reducer.firstName} name="firstName" required/>
+            <Title>Whats your first Name?</Title>
+            <Input label="First Name" handleChange={handleChange} type="text" value={user_reducer.firstName} name="firstName" required/>
+           <Dialogue/>
     </React.Fragment>
 
 )
@@ -28,11 +29,29 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const Title = styled.div`   
+export const Title = styled.div`   
     font-size: 3rem;
     width: 100%;
-    height: 10rem;
+    height: 14rem;
+    padding: 2rem;
     text-align: center;
     padding-top: 3rem;
     color: ${props => props.theme.color.slate}
+`
+export const Dialogue = styled.div`   
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 60rem;
+    height: 10rem;
+    padding-top: 3rem;
+    color: ${props => props.theme.color.slate}
+    padding: 2rem;
+    font-size: 1.6rem;
+    font-style: italic;
+    & span {
+        padding-top: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
 `

@@ -60,12 +60,7 @@ export default connect(mapStateToProps, {transaction_action})(Savings)
 //-----------------------------------------------style-----------------------------------------------//
 
 const UserInterfaceWrapper = styled.div`
-    grid-area: m;
-    background: #fcfcfc;
-    display: grid;
-    height: 100%;
-    width: 100%;
-    margin-letf: 5%;
+   ${props => props.theme.pageBaseStyles}
     grid-template-rows: minmax(5rem, 8rem) minmax(18rem, 20rem) minmax(10rem, 12rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'

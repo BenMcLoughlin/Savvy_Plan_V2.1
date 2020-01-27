@@ -26,14 +26,15 @@ export default SelectOptionCard
 
 
 const Card = styled.div`
-    margin: 1rem
-    padding: 2rem
+    margin: 1rem;
+    padding: 2rem;
+    min-height: 10rem;
     width: 30rem;
     color: ${props => props.selected ? "white" :  props.theme.color.slate}
     font-size: 2rem;
     border-radius: 5px;
     background: ${props => props.selected ? props.theme.color.blue : "white"}
-    border: .7px solid ${props => props.theme.color.grey};
+    border: .7px solid ${props => props.theme.color.lightGrey};
     cursor: pointer;
 
 `

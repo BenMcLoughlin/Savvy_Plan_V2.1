@@ -19,7 +19,7 @@ const Select = ({label, selectType, type, value, name, required, handleChange, s
        return yearArray.map(year => <SelectValue selectType={selectType} onClick={() => handleSelect(name, year)}>{year}</SelectValue>)
     }
 
-    const renderProvinces = () => {
+    const renderText = () => {
        return provinceArray.map(province => <SelectValue selectType={selectType} onClick={() => handleSelect(name, province)}>{province}</SelectValue>)
     }
     
@@ -30,8 +30,9 @@ const Select = ({label, selectType, type, value, name, required, handleChange, s
              <Input
                 name={name}
                 onChange={e => handleChange(e)}
+                type="text" 
+                autoComplete="off"
                 value={value}
-                type={type}
                 required={required}
                 onClick={() => setIsComponentVisible(!isComponentVisible)}
             ></Input>
@@ -40,7 +41,7 @@ const Select = ({label, selectType, type, value, name, required, handleChange, s
                  <ArrowDown/>
             </ArrowPositioner>
             <div ref={ref}>
-                {isComponentVisible && (<DropDown >{selectType === "year" ? renderYears() : renderProvinces()}</DropDown>)}
+                {isComponentVisible && (<DropDown >{selectType === "year" ? renderYears() : renderText()}</DropDown>)}
             </div>
 
             
@@ -54,20 +55,22 @@ export default Select
 //-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
-    width: 45rem;
+    width: 35rem;
     height: 7rem;
-    margin: 1.5rem;
+    margin: 2rem 0 2rem 0;
     position: relative;
+
 `
+
 const Label = styled.label`
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
-    left: 5px;
-    top: 1.7rem;
+    left: 1rem;
+    top: 1.2rem;
     transition: 200ms ease all;
-    color: ${props => props.theme.color.grey};
+    color: ${props => props.theme.color.lightGrey};
 
 }
 
@@ -75,52 +78,53 @@ const Label = styled.label`
 const Input = styled.input`
     background: none;
     background-color: white;
-    color:${props => props.theme.color.drab};
-    font-size: 18px;
-    padding: 1.4rem;
+    color: ${props => props.theme.color.darkGrey};
+    font-size: 14px;
+    padding: 1.2rem;
     display: block;
-    width: 50rem;
+    width: 35rem;
+    height: 5rem;
     border: none;
     border-radius: 3px;
-    margin: 1.2rem 0;
-    border: .7px solid ${props => props.theme.color.grey};
+    border: .7px solid ${props => props.theme.color.lightGrey};
 
     &:focus {
     outline: none;
+    border: .7px solid ${props => props.theme.color.turquoise};
 
     &:focus ~ Label {
-        transform: translateY(-3.4rem);
+        transform: translateY(-4rem);
         font-size: 1.6rem;
-        color: ${props => props.theme.color.grey};
+        color: ${props => props.theme.color.lightGrey};
         font-weight: 700;
     }
     }
 
     &:valid ~ Label {
-        transform: translateY(-3.4rem);
+        transform: translateY(-4rem);
         font-size: 1.6rem;
-        color: ${props => props.theme.color.grey};
+        color: ${props => props.theme.color.lightGrey};
         font-weight: 700;
     }
 
 `
 const ArrowPositioner = styled.div`
-    position: relative;
-    top: -5rem;
-    left: 45rem;
+    position: absolute;
+    top: 1rem;
+    left: 30rem;
     cursor: pointer;
 `
 
 const DropDown = styled.div`
     position: absolute;
-    top: 7rem;
+    top: 5rem;
     height: 30rem;
-    width: 50rem;
+    width: 35rem;
     background: white;
     z-index: 500;
     overflow: hidden;
     border-radius: 5px;
-    border: .7px solid ${props => props.theme.color.grey};
+    border: .7px solid ${props => props.theme.color.lightGrey};
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
@@ -132,7 +136,7 @@ const SelectValue = styled.div`
     padding: 2rem
     width: ${props => props.selectType === "year" ? "20%" : "100%"};
     color: ${props => props.theme.color.slate};
-    font-size: 2rem;
+    font-size: 1.4rem;
     boz-sizing: border-box;
     &:hover {
         background: ${props => props.theme.color.ice};
