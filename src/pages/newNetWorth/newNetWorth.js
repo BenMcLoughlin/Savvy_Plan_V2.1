@@ -10,7 +10,7 @@ import SunBurstChart from "charts/netWorth/SunBurstChart"
 
 const NetWorthApp = () => {    
 
-    const [display, setDisplay] = useState(false)                                                              // toggles display between assets and liabilities, true shows assets, false shows liabilities
+    const [display, setDisplay] = useState(true)                                                              // toggles display between assets and liabilities, true shows assets, false shows liabilities
      
     return (
         <Page> 

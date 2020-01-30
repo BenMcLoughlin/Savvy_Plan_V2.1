@@ -20,7 +20,8 @@ const initialState = {
             id: "Id10000234",
             rangeBarValue: 0, 
             registration: "none", 
-            category: "assets"
+            category: "assets",
+            mortgageId: 1, 
         },
         Id1000001: {
             type: "cash",
@@ -57,7 +58,8 @@ const initialState = {
             label: "Primary Residence",
             id: "Id1000003",
             rangeBarValue: 0, 
-            category: "liabilities"
+            category: "liabilities",
+            mortgageId: 1, 
         },
         Id1000004: {
             type: "shortTerm",

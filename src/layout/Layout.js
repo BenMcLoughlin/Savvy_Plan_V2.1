@@ -8,7 +8,6 @@ import newNetWorth from "pages/newNetWorth/newNetWorth"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
-import SpendingApp from "pages/expenses/SpendingApp"
 import PropertyApp from "pages/property/PropertyApp"
 import Assumptions from "pages/assumptions/Assumptions"
 import Login from "pages/login/Login"
@@ -22,6 +21,7 @@ import LeftNavBar from "./navigation/LeftNavBar"
 import RightVideoSelector from "./navigation/RightVideoSelector"
 import WithSpinner from "HOC/withSpinner/WithSpinner"
 import {connect} from "react-redux"
+import Spending from "pages/spending/Spending"
 
 const DashboardWithSpinner = WithSpinner(Dashboard);
 const TaxAppWithSpinner = WithSpinner(TaxApp);
@@ -44,7 +44,8 @@ const Layout = ({auth, state}) => {
                         <Route path="/LifeTimeIncome" component={Income}/>  
                         <Route path="/SavingsPlan" component={Savings}/>              
                         <Route path="/CreditScore" component={CreditScoreApp}/>              
-                        <Route path="/Spending" component={SpendingApp}/>
+                        <Route path="/Spending" component={Spending}/>              
+                       
                         <Route path="/Property" component={PropertyApp}/>
                             <Route exact path="/landingpage" component={LandingPage}/>
                             <Route path="/Login" component={Login}/>

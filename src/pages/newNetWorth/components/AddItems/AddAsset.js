@@ -13,7 +13,7 @@ const AddCash = ({addItem_action, removeItem_action}) => {
 
     const [count, setCount] = useState(0)
 
-    const [state, setState] = useState({
+    const emptyState = {
         addContainerOpen: false,
         isChecked: false,
         name: "", 
@@ -21,12 +21,14 @@ const AddCash = ({addItem_action, removeItem_action}) => {
         rangeBarValue: 0,
         catagory: "",
         type: "cash",
-        label: "",
+        label: null,
         registration: "none", 
         category: "assets",
         bookValue: 0,
         purchaseYear: 2015,
-})
+    }
+    const [state, setState] = useState({...emptyState})
+
     const [purchasePrice, setPurchasePrice] = useState({
         name: "BookValuerangeBar",
         financialValue: 0,
@@ -48,20 +50,7 @@ const changeLabel = (e, rangeBarProps) => {
 }
 
 const addItem = () => {
-    setState({
-        addContainerOpen: false,
-        isChecked: false,
-        name: "", 
-        financialValue: 0,
-        rangeBarValue: 0,
-        catagory: "",
-        type: "cash",
-        label: "",
-        registration: "none", 
-        category: "assets",
-        bookValue: 0,
-        purchaseYear: 2015,
-})
+    setState({...emptyState})
     setCount(0)
     const id = (Math.random() * 100000000).toFixed() 
     addItem_action(id, state)
@@ -79,16 +68,16 @@ const addItem = () => {
                     <Title>What kind of Asset are you adding? </Title>
                     <Form>
                         <AssetWizard 
-                        setState={setState}
-                        count={count}
-                        state={state}
-                        removeItem_action={removeItem_action}
-                        changeLabel={changeLabel}
-                        purchasePrice ={ purchasePrice}
-                        setPurchasePrice = {setPurchasePrice}
-                        setValue={setValue}
-                        setPurchasePriceValue={setPurchasePriceValue}
-                        addItem={addItem}
+                            setState={setState}
+                            count={count}
+                            state={state}
+                            removeItem_action={removeItem_action}
+                            changeLabel={changeLabel}
+                            purchasePrice ={ purchasePrice}
+                            setPurchasePrice = {setPurchasePrice}
+                            setValue={setValue}
+                            setPurchasePriceValue={setPurchasePriceValue}
+                            addItem={addItem}
                         />
                     </Form>
                      <Buttons>

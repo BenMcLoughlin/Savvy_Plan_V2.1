@@ -14,47 +14,26 @@ return (
     { count === 0 ? 
          <ChooseOne setValue ={(value) => setState({...state, type: value})} array={["cash", "investments", "property"]}/>
     :
-    count === 1 && state.type === "cash" || count === 2 && state.type === "investments"  ?
-    <>
-    <Input label="Asset Name" handleChange={(e) => setState({...state, label: e.target.value})} type="text" value={state.label} name="firstName"/>
-         <RangeBar
-         rangeBarProps={state}
-         setValue={setValue}
-         handleChangeLabel = {changeLabel}
-         handleRemoveItem={removeItem_action}
-         editable={true}
-         labelHidden
-         />
-         <Button onClick={() => addItem()} text={"Submit"}>Add </Button>
-     </>
+    count === 1 && state.type === "cash" || count === 2 && state.type === "investments"  || count === 2 && state.type === "property"?
+        <>
+        <Input label="Name" handleChange={(e) => setState({...state, label: e.target.value})} type="text" value={state.label} name="firstName"/>
+            <RangeBar
+            rangeBarProps={state}
+            setValue={setValue}
+            handleChangeLabel = {changeLabel}
+            handleRemoveItem={removeItem_action}
+            editable={true}
+            labelHidden
+            />
+            <Button onClick={() => addItem()} text={"Submit"}>Add </Button>
+        </>
 
- : 
-  count === 1 && state.type === "investments" ? 
-     <ChooseOne setValue ={(value) => setState({...state, registration: value})} array={["tfsa", "rrsp", "non-registered"]}/>
+    : 
+    count === 1 && state.type === "investments" ? 
+        <ChooseOne setValue ={(value) => setState({...state, registration: value})} array={["tfsa", "rrsp", "non-registered"]}/>
 
- : count === 1 && state.type === "property" ? 
-     <ChooseOne setValue ={(value) => setState({...state, registration: value})} array={["rental", "primary residence", "vacation home"]}/>
- : count === 2 && state.type === "property" ? 
- <>
-     <Input label="property Name" handleChange={(e) => setState({...state, label: e.target.value})} type="text" value={state.label} name="firstName"/>
-     <RangeBar
-         rangeBarProps={purchasePrice}
-         setValue={setPurchasePriceValue}
-         handleChangeLabel = {changeLabel}
-         handleRemoveItem={removeItem_action}
-         editable={true}
-         labelHidden
-     />
-     <RangeBar
-         rangeBarProps={state}
-         setValue={setValue}
-         handleChangeLabel = {changeLabel}
-         handleRemoveItem={removeItem_action}
-         editable={true}
-         labelHidden
-     />
-
- </>
+    : count === 1 && state.type === "property" ? 
+        <ChooseOne setValue ={(value) => setState({...state, registration: value})} array={["rental", "primary residence", "vacation home"]}/>
  
  :  count === 3 && state.type === "property" ? 
     <>

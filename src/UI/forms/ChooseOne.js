@@ -34,7 +34,7 @@ export default ChooseOne
 
 const Container = styled.div`
  width: 30rem;
- height: 25rem;
+ min-height: 20rem;
  background: white;
  font-size: 1.4rem;
 

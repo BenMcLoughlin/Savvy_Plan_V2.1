@@ -16,7 +16,7 @@ import Close from "UI/buttons/Close"
 */ 
 
  const RangeBar = ({...props}) => {
-
+console.log(props.rangeBarProps);
 
         return (
             < RangeBarWrapper>

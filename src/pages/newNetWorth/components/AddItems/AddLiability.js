@@ -20,7 +20,7 @@ const AddCash = ({addItem_action, removeItem_action}) => {
         financialValue: 0,
         rangeBarValue: 0,
         catagory: "",
-        type: "cash",
+        type: "",
         label: "",
         registration: "none", 
         category: "liabilities",
