@@ -5,14 +5,15 @@ import {ChevronsRight} from "styled-icons/feather/ChevronsRight"
 import {KeyboardArrowDown} from "styled-icons/material/KeyboardArrowDown"
 import {Navicon} from "styled-icons/evil/Navicon"
 import {NavigateBefore} from "styled-icons/material/NavigateBefore"
+import {Edit3} from "styled-icons/feather/Edit3"
 
 const sharedIconAttributes = `
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 2.4rem;
+    width: 2.4rem;
     color: lightGrey;
 `
 
-export const CloseIcon = styled(CloseO)`
+export const Close = styled(CloseO)`
     ${sharedIconAttributes}
     color: ${props => props.theme.color.slate}
 `
@@ -39,4 +40,9 @@ export const NavIcon = styled(Navicon)`
     height: 4.2rem;
     width: 4.2rem;
     color: ${props => props.theme.color.onyx}
+`
+export const Edit = styled(Edit3)`
+    height: 2.2rem;
+    width: 2.2rem;
+    color: ${props => props.theme.color.lightGrey}
 `

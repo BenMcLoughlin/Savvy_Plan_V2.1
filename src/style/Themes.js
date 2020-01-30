@@ -47,6 +47,7 @@ export const lightTheme = {
     pageBaseStyles: `{
         margin-top: 5rem;
         display: grid;
+        padding: 1rem;
         margin: 0 auto;
         height: 80rem;
         width:  120rem;

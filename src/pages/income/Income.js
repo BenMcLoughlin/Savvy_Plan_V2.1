@@ -114,7 +114,7 @@ const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
     addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString()), incomeStreams, rrspStartAge, tfsaStartAge, setIncome_action)
 } 
         return (
-            <UserInterfaceWrapper>
+            <Page>
                 <Header
                      income_reducer={income_reducer}
                 />
@@ -143,7 +143,7 @@ const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
                     setReccomendedRetirementIncome={setReccomendedRetirementIncome}
             />
 
-            </UserInterfaceWrapper>
+            </Page>
         )
 }
 
@@ -166,16 +166,16 @@ export default connect(mapStateToProps, {setIncome_action,  setKeyVariable_actio
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const UserInterfaceWrapper = styled.div`
+const Page = styled.div`
     ${props => props.theme.pageBaseStyles}
     grid-template-rows: minmax(8rem, 14rem) minmax(18rem, 22rem) minmax(22rem, 24rem);
     grid-template-areas:
     'a a a a a a a a a a a a'
+    'b b b b b b b b b b b b'
     'c c c c c c c c c c c c'
-    'd d d d d d d d d d d d'
 `
 const ChartPlaceHolder = styled.div`
-    grid-area: c;
+    grid-area: b;
     width: 90%;
     margin-left: 5%;
     height: 100%;

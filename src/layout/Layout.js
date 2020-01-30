@@ -4,7 +4,7 @@ import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "pages/dashboard/Dashboard"
 import TaxApp from "pages/taxPosition/TaxApp"
-import NetWorthApp from "pages/netWorth/NetWorthApp"
+import newNetWorth from "pages/newNetWorth/newNetWorth"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
@@ -39,7 +39,7 @@ const Layout = ({auth, state}) => {
                         <Route path="/Assumptions" component={Assumptions}/>
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
-                        <Route path="/NetWorth" component={NetWorthApp}/>
+                        <Route path="/NetWorth" component={newNetWorth}/>
                         <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
                         <Route path="/LifeTimeIncome" component={Income}/>  
                         <Route path="/SavingsPlan" component={Savings}/>              
@@ -73,7 +73,7 @@ export default connect(mapStateToProps)(Layout)
 //
 //------------------style---------------------------------------------------------------
  const GridContainer = styled.div`
-    height: 100vw;
+    height: 100vh;
     margin: 4px auto;
     width: 100vw;
     display: grid;

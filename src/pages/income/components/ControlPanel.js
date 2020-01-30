@@ -134,7 +134,7 @@ export default function ControlPanel(props) {
 //-----------------------------------------------style-----------------------------------------------//
 
 const ControlPanelWrapper = styled.div`
-    grid-area: d;
+    grid-area: c;
     display: flex;
     flex-direction: column;
     color: ${props => props.theme.color.slate};

@@ -14,6 +14,7 @@ const RangeBarSlider = ({setValue, rangeBarProps, color}) => {                  
         setValue(logValue, rangeBarValue, rangeBarProps)
     }  
     const sliderValue = rangeBarProps.rangeBarValue > 0 ? rangeBarProps.rangeBarValue : 0
+
         return (
             <Input
                 type="range"

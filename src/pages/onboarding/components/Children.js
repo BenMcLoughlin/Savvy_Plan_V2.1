@@ -62,7 +62,9 @@ export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
 
 
 const Div = styled.div`
-    min-height: 10rem;
+    height: 20rem;
+    overflow: scroll;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;

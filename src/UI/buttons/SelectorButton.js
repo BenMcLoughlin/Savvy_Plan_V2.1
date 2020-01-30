@@ -2,11 +2,20 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const SelectorButton = ({visible, text}) => {
+const SelectorButton = ({visible, onClick, text}) => {
     return (
-        <SelectorButtonWrapper>
+        <SelectorButtonWrapper onClick={onClick}>
             {
-               visible ? <SelectorFat/> : <SelectorSkinny/>
+               visible ? 
+                    <Selector>
+                        <SelectorFat/> 
+                        <SelectorSkinny/>
+                  </Selector> 
+                  : 
+                    <Selector>
+                        <SelectorSkinny/>
+                        <SelectorFat/> 
+                    </Selector>
             }
             <Title>{text}</Title>
         </SelectorButtonWrapper>
@@ -28,7 +37,7 @@ const SelectorFat = styled.div`
     width: .4rem;
     height: 4rem;
     border-radius: 5px;
-    background: lightGrey;
+    background: ${props => props.theme.color.onyx};
 
 `
 
@@ -40,6 +49,16 @@ const SelectorSkinny = styled.div`
     width: .1rem;
     height: 4rem;
     border-radius: 5px;
-    background: lightGrey;
+    background: ${props => props.theme.color.onyx};
 
+`
+
+const Selector = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 3rem;
+    height: 10rem;
+    align-content: center;
+    align-items: center;
+    justify-content: space-around;
 `

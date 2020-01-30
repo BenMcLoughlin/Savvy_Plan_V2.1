@@ -1,65 +1,51 @@
 import _ from "lodash"
 
-//This action us used to add a new asset or liability to the list. 
-export const addItem = (id, text, financialValue, rangeBarValue, section, category) => {
-    return {
-        type: "ADD_ITEM", 
-        payload: {
-            id: id, 
-            category: category,
-            section: section, 
-            name: _.camelCase(text),
-            label: text, 
-            rangeBarValue: rangeBarValue,
-            financialValue: financialValue,
-    }
-}
-}
-//gathers all the details from the AddNewItem container and sends these details as an object called payload
-// to the reducer. The reducer uses the details contained in this object to place the new object in the correct positionn. 
 
-export const removeItem = (id,  category, section,) => {
-    return {
-        type: "REMOVE_ITEM", 
+export const setItemValue_action = (logValue, rangeBarValue, rangeBarProps) => ({
+        type: "netWorth_reducer/SET_ITEM_VALUE",
+        id: rangeBarProps.id,
+        category: rangeBarProps.category,
+        financialValue: logValue,
+        rangeBarValue,
+        rangeBarProps
+})
+
+export const changeLabel_action = (e, rangeBarProps) => ({
+        type: "netWorth_reducer/CHANGE_LABEL",
+        id: rangeBarProps.id,
+        label: e.target.value,
+        category: rangeBarProps.category,
+        rangeBarProps
+})
+
+export const removeItem_action = (rangeBarProps) => ({
+        type: "netWorth_reducer/REMOVE_ITEM",
+        id: rangeBarProps.id,
+        category: rangeBarProps.category,
+})
+
+export const addItem_action = (id, state) => ({
+        type: "netWorth_reducer/ADD_ITEM",
         payload: {
-            category: category, 
-            section: section,
+            type: state.type,
             id: id,
+            financialValue: state.financialValue,
+            rangeBarValue: state.rangeBarValue,
+            category: state.category,
+            registration:  state.registration,
+            label:  state.label
         }
-}
-}
-//uses the item id to remove it from the reducer state
-
-export const setItemValue = (name, financialValue, rangeBarValue, rangeBarProps) => {
-    return {
-        type: "SET_ITEM_VALUE",
-        payload: {
-            name: name,
-            category: rangeBarProps.category, 
-            section: rangeBarProps.section,
-            id: rangeBarProps.id,
-            financialValue: financialValue,
-            rangeBarValue: rangeBarValue
-        }
-    }
-}
-// sets the financial value when inputted through the text input. 
+})
 
 
-export const changeLabel = (event, name, id, category, section) => {
-    return {
-        type: "CHANGE_LABEL",
-        payload: {
-            category: category, 
-            section: section,
-            event: event.target,
-            name: name,
-            id: id
-        }
-    }
-}
+// type: "property",
+//             financialValue: 10000, 
+//             label: "Primary Residence",
+//             id: "Id1000000",
+//             rangeBarValue: 0, 
+//             registration: "none", 
+//             category: "assets"
 
-// Changes the label 
 
-//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
-// All Actions related to the NetWorth App
+
+//this.props.addItemToList(this.state.financialValue, this.state.rangeBarValue, this.state) 

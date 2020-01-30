@@ -4,13 +4,13 @@ import Add from "UI/buttons/Add"
 import RangeBarSlider from "UI/rangeBar/Components/RangeBarSlider"
 import RangeBarValue from "UI/rangeBar/Components/RangeBarValue"
 import _ from "lodash"
-import {CloseIcon} from "style/Icons"
+import {Close} from "style/Icons"
 import Checkbox from "UI/buttons/Checkbox"
 
 class AddItemBox extends Component {
 
     state = {
-        addContainerOpen: false,
+        addContainerOpen: true,
         isChecked: false,
         name: "name", 
         label: "", 
@@ -150,7 +150,7 @@ const TextInput = styled.input`
         padding: 0.3rem;
         text-transform: capitalize;
         background: white;
-        border: 1px solid ${props => props.theme.color.drab};
+        border: 1px solid ${props => props.theme.color.lightGrey};
         cursor: pointer;
         &:focus,
         &:active {
@@ -163,8 +163,7 @@ const TextInput = styled.input`
 const Container = styled.div`
     width: 95%;
     height: 17rem;
-    position: relative;
-    border: 1px solid ${props => props.theme.color.drab};
+    border: 1px solid ${props => props.theme.color.lightGrey};
     border-radius: 3px;
     margin: 1rem;
     padding-top: 1rem;
@@ -182,7 +181,7 @@ const RangeBarWrapper = styled.div`
 const ButtonWrapper = styled.div`
     width: 18rem;
 `
-const Delete = styled(CloseIcon)`
+const Delete = styled(Close)`
     position: absolute;
     top: 2%;
     left: 93%;

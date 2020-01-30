@@ -20,9 +20,14 @@ import Close from "UI/buttons/Close"
 
         return (
             < RangeBarWrapper>
-                <RangeBarLabel
-                    {...props}
-                />
+               
+                {
+                    props.labelHidden ? null 
+                    :
+                     <RangeBarLabel {...props}
+                    />
+                }
+                   
                 <RangeBarSlider
                      {...props}
                 />
