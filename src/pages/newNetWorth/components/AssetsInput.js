@@ -6,14 +6,21 @@ import {createStructuredSelector} from "reselect"
 import RangeBar from "UI/rangeBar/RangeBar"
 import {setItemValue_action, changeLabel_action, removeItem_action} from "redux/netWorth/netWorth_actions"
 import AddAsset from "pages/newNetWorth/components/AddItems/AddAsset"
+import {transaction_action} from "redux/savings/savings_actions"
+import {savings_reducer} from "redux/savings/savings_reducer"
+import {renderSavings} from "services/savings/savings_functions"
 
-const AssetsInput = ({ property_selector, cash_selector, investments_selector, setItemValue_action, changeLabel_action, removeItem_action}) => {
+const AssetsInput = ({ property_selector, savings_reducer, cash_selector, investments_selector, setItemValue_action, changeLabel_action, removeItem_action, transaction_action}) => {
 
+    const setValueInAssetsAndSavings = (logValue, rangeBarValue, rangeBarProps) => {
+        renderSavings(32, 33, "tfsa", logValue, rangeBarValue, "contribute", savings_reducer, 65, .02, 0.02, transaction_action, 65)
+        setItemValue_action(logValue, rangeBarValue, rangeBarProps)
+    }
     const renderRangeBars = (selector) =>  selector.map( asset => 
                                                 <RangeBar                                                                                    //Checks the count to determine if the rangebars should be shown                                                
                                                 key={asset.name}
                                                 rangeBarProps={asset}
-                                                setValue={setItemValue_action}
+                                                setValue={setValueInAssetsAndSavings}
                                                 handleChangeLabel = {changeLabel_action}
                                                 handleRemoveItem={removeItem_action}
                                                 close={true}
@@ -42,13 +49,15 @@ const AssetsInput = ({ property_selector, cash_selector, investments_selector, s
 
 
 
-const mapStateToProps = createStructuredSelector({
-    property_selector,
-    cash_selector,
-    investments_selector,
+const mapStateToProps = (state) => ({
+    savings_reducer: state.savings_reducer,
+    property_selector: property_selector(state),
+    cash_selector: cash_selector(state),
+    investments_selector: investments_selector(state),
 
 })
-export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action})(AssetsInput)
+
+export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action, transaction_action})(AssetsInput)
 
 const Wrapper = styled.div`
     grid-area: c;

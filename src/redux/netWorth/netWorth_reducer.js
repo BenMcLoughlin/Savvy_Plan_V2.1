@@ -57,7 +57,8 @@ const initialState = {
             label: "Primary Residence",
             id: "Id1000003",
             rangeBarValue: 0, 
-            category: "liabilities"
+            category: "liabilities",
+            registration: "", 
         },
         Id1000004: {
             type: "shortTerm",
@@ -65,7 +66,8 @@ const initialState = {
             label: "Primary Residence",
             id: "Id1000004",
             rangeBarValue: 0, 
-            category: "liabilities"
+            category: "liabilities",
+            registration: "", 
         },
         Id1000004: {
             type: "other",
@@ -73,7 +75,8 @@ const initialState = {
             label: "Primary Residence",
             id: "Id1000004",
             rangeBarValue: 0, 
-            category: "liabilities"
+            category: "liabilities",
+            registration: "", 
         },
 
     },

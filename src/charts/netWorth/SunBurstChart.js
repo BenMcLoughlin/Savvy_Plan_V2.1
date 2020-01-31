@@ -5,35 +5,57 @@ import styled from "styled-components"
 import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
-import {chartAssets_selector} from "redux/netWorth/netWorth_selectors"
+import {chartAssets_selector, totalAssets_selector, chartLiabilities_selector, totalLiabilities_selector} from "redux/netWorth/netWorth_selectors"
 
 
 
 
 
-const drawChart = (data, width, height, birthYear) => {
+const drawChart = (data, width, height, total, className) => {
     
-    d3.select(".sunburtCanvas > *").remove()
+
+
 
     const margin = {top: 10, right: 50, bottom: 40, left: 80}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const colors = ["#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
+    const AssetColors = ['#72929B', "#4BB9D0",  "#B0CFE3", '#FEDE76', '#81CCAF',  '#78b7bb','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#a4d7e1", "#81CCAF",]
+    const LiabilitiesColors = ['red', "#F29278", "#f5ab97"]
+    const colors = className === "liabilitiesSunburst" ? LiabilitiesColors : AssetColors
+    const colorDomain = className === "liabilitiesSunburst" ? ["Short Term", "Long Term", "Other"] : ["Cash", "Investments", "Property"] 
+    const legendRectSize = 5; 
+    const legendSpacing = 8; 
 
         const radius = Math.min(width, height) / 2.5;
         const color = d3.scaleOrdinal(colors);
 
         const update = data => {
 
-        const svg = d3.select('.sunburtCanvas')
+            d3.select(`.${className} > *`).remove()
+
+            d3.select(".tooltip").remove()
+        
+
+        const svg = d3.select(`.${className}`)
                         .append("svg")
                         .attr("viewBox", `0 0 ${width} ${height}`)
-                        .style("fill", "blue")
 
         const graph = svg.append("g")
                         .attr("height", graphHeight)
                         .attr("width", graphWidth)
                         .attr("transform", `translate(${margin.left + 20}, ${margin.top + 90})`)
+
+      
+                        const tooltip = d3.select(`.${className}`).append("div")
+                        .attr("class", `tooltip`)
+                        .style("opacity", 0)
+                        .style("position", "absolute")
+                        .style("top", 0)
+                        .style("left", 0)
+                        .style("background", "#F7F7F5")
+                        .style("height", "18rem")
+                        .style("width", "24rem")
+                        .style("border", "1px solid #556976")
 
         const partition = d3.partition()
                       .size([2 * Math.PI, radius]);
@@ -57,39 +79,119 @@ const drawChart = (data, width, height, birthYear) => {
                         .attr("d", arc)
                         .style('stroke', '#fff')
                         .style("fill", d => color((d.children ? d : d.parent).data.name))
+                        .on("mouseover", (d,i,n) => {
+                            d3.select(n[i])
+                                .transition()
+                                    .duration(100)
+                                    .attr("opacity", 0.7)
+                                    .attr("cursor", "pointer")
+                        
+                                    tooltip.transition()
+                                    .duration(200)
+                                    .style("opacity", 1)
+                                    .style("pointer-events", "none")
+
+                                    tooltip.html(
+                                        `
+                                        <div class="topHeader">
+                                        </div>
+                                        <div class="financialOutput">
+                                            <div class="total" style="color: ${"#536D7A"}; ">
+                                                <h3 class="title">  ${_.startCase(d.data.name)} </h3>
+                                                <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
+                                                ${d.value/1000}
+                                                    <span> K</span>
+                                                </p>
+                                            </div>
+                                            <div class="total">
+                                                <h3 class="title">  Percentage </h3>
+                                                <p class="value" style="border-left: .3px solid #72929B;">  
+                                                    ${Math.round((d.value/total)*100)} 
+                                                    <span> %</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        `
+                                    )
+                                    
+                                })
+                                .on("mouseout", (d,i,n) => {d3.select(n[i])
+                                    .transition()
+                                    .duration(100)
+                                    .attr("opacity", 1)
+                        
+                                    tooltip.transition()
+                                    .duration(100)
+                                    .style("opacity", 0)   
+                                        })
+                                .on('mousemove', function(d) { // when mouse moves                  
+                                        tooltip.style('top', (d3.event.layerY ) + 30 + 'px') // always 10px below the cursor
+                                            .style('left', (d3.event.layerX ) + 15 + 'px'); // always 10px to the right of the mouse
+                                        });
+       const colorScale = d3.scaleOrdinal().domain(colorDomain).range(colors)
+        const legendGroup = graph.append('g')
+                        .attr("transform", `translate(100, 30)`)
+                
+        const legend = legendGroup.selectAll('.legend')
+                        .data(colorScale.domain())
+                        .enter() 
+                        .append('g')
+                        .attr('class', 'legend') 
+                        .attr('transform', function(d, i) {                   
+                            const height = legendRectSize + legendSpacing + 10;   
+                            const offset =  height * colorScale.domain().length / 1.2;  
+                            const horz = 2 * legendRectSize; 
+                            const vert = i * height - offset; 
+                            return 'translate(' + horz + ',' + vert + ')';   
+                        });
+                     
+                        legend.append('circle') // append rectangle squares to legend                                   
+                            .attr('r', legendRectSize) // width of rect size is defined above                        
+                            .attr('height', legendRectSize) // height of rect size is defined above                                     
+                            .style('fill', colorScale) // each fill is passed a color
+                            .style('stroke', color) // each stroke is passed a color
+                        
+                            legend.append('text')                                    
+                            .attr('x', legendRectSize + legendSpacing)
+                            .attr('y', legendRectSize - legendSpacing + 6)
+                            .text(function(d) { return d })
+                            .style("fill", "grey")
+                            .style("font-size", "12pt"); // return name
                        
-                        rects.append("text")
-                        .attr("fill","blue")
-                        .attr("x",d => d.x0)
-                        .attr("y",d => d.y0)
-                        .style('font-size', '100px')
-                        .text("95")
+                      
         }
         update(data)
         }
 
 
-const LifeEventsTimeline = ({data, user_reducer}) =>  {
+const LifeEventsTimeline = ({chartType, chartAssets_selector, chartLiabilities_selector, totalLiabilities_selector, totalAssets_selector}) =>  {
 
     const inputRef = useRef(null)
 
-    const birthYear = user_reducer.birthYear
+
+    const data = chartType === "liabilities" ? chartLiabilities_selector : chartAssets_selector
+    const total = chartType === "liabilities" ? totalLiabilities_selector : totalAssets_selector
+
+    const className = chartType === "liabilities" ? "liabilitiesSunburst" : "assetsSunburst"
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height, birthYear)
+        drawChart(data, width, height, total, className)
     }, [data])
 
         return (
-            <Canvas className="sunburtCanvas" ref={inputRef}>
+            <Canvas className={className} ref={inputRef}>
             </Canvas>
         )
 }
 
 
 const mapStateToProps = (state) => ({
-    data: chartAssets_selector(state), 
+    chartAssets_selector: chartAssets_selector(state), 
+    totalAssets_selector: totalAssets_selector(state), 
+    chartLiabilities_selector: chartLiabilities_selector(state), 
+    totalLiabilities_selector: totalLiabilities_selector(state), 
     user_reducer: state.user_reducer
 })
 

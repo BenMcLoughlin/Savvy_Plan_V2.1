@@ -8,86 +8,54 @@ import RangeBar from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import LiabilityWizard from "pages/newNetWorth/components/AddItems/LiabilityWizard"
 
-
 const AddCash = ({addItem_action, removeItem_action}) => {
 
     const [count, setCount] = useState(0)
+    const [addContainer, toggleAddContainer] = useState(false)
 
-    const [state, setState] = useState({
-        addContainerOpen: false,
-        isChecked: false,
+    const emptyState = {
         name: "", 
         financialValue: 0,
         rangeBarValue: 0,
         catagory: "",
-        type: "cash",
+        type: "",
         label: "",
-        registration: "none", 
         category: "liabilities",
-        bookValue: 0,
-        purchaseYear: 2015,
-})
-    const [purchasePrice, setPurchasePrice] = useState({
-        name: "BookValuerangeBar",
-        financialValue: 0,
-        rangeBarValue: 0,
-        label: "Purchase Price",
-})
+    }
+    const [state, setState] = useState({...emptyState})
 
-const setValue = (logValue, rangeBarValue, rangeBarProps) => {
-    setState({...state, financialValue: logValue, rangeBarValue: rangeBarValue})
-}
+    const setValue = (logValue, rangeBarValue, rangeBarProps) => {
+        setState({...state, financialValue: logValue, rangeBarValue: rangeBarValue})
+    }
 
-const setPurchasePriceValue = (logValue, rangeBarValue, rangeBarProps) => {
-    setPurchasePrice({...purchasePrice, financialValue: logValue, rangeBarValue: rangeBarValue})
-   
-}
+    const changeLabel = (e, rangeBarProps) => {
+        setState({...state, label: e.target.value})
+    }
 
-const changeLabel = (e, rangeBarProps) => {
-    setState({...state, label: e.target.value})
-}
-
-const addItem = () => {
-    setState({
-        addContainerOpen: false,
-        isChecked: false,
-        name: "", 
-        financialValue: 0,
-        rangeBarValue: 0,
-        catagory: "",
-        type: "cash",
-        label: "",
-        registration: "none", 
-        category: "liabilities",
-        bookValue: 0,
-        purchaseYear: 2015,
-})
-    setCount(0)
-    const id = (Math.random() * 100000000).toFixed() 
-    addItem_action(id, state)
-}
+    const addItem = () => {
+        setState({...emptyState})
+        setCount(0)
+        toggleAddContainer(false)
+        const id = (Math.random() * 100000000).toFixed() 
+        addItem_action(id, state)
+    }
 
 
     return (
             <>
             {
-                state.addContainerOpen ? 
+                addContainer ? 
                 <>
                 <Blackout/>
                 <Container>
                     <Exit  onClick={() => setState({...state, addContainerOpen: false})}/>
-                    <Title>What kind of Asset are you adding? </Title>
                     <Form>
                         <LiabilityWizard 
                         setState={setState}
                         count={count}
                         state={state}
                         removeItem_action={removeItem_action}
-                        changeLabel={changeLabel}
-                        purchasePrice ={ purchasePrice}
-                        setPurchasePrice = {setPurchasePrice}
                         setValue={setValue}
-                        setPurchasePriceValue={setPurchasePriceValue}
                         addItem={addItem}
                         />
                     </Form>
@@ -97,7 +65,7 @@ const addItem = () => {
                     </Buttons>
                 </Container>
                 </>
-                : <Button onClick={() => setState({...state, addContainerOpen: true})} text={"Add Liability"}></Button>
+                : <Button onClick={() => toggleAddContainer(true)} text={"Add Liability"}></Button>
             }
            
         </>
