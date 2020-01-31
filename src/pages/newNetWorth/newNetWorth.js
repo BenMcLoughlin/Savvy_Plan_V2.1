@@ -8,6 +8,7 @@ import ButtonLight from "UI/buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
 import SunBurstChart from "charts/netWorth/SunBurstChart"
 
+
 const NetWorthApp = () => {    
 
     const [display, setDisplay] = useState(true)                                                              // toggles display between assets and liabilities, true shows assets, false shows liabilities
@@ -15,9 +16,15 @@ const NetWorthApp = () => {
     return (
         <Page> 
             <Header display={display} setDisplay={setDisplay}/>
-            <ChartPlaceHolder>
-                <SunBurstChart/>
-            </ChartPlaceHolder>
+            <Charts>
+                <ChartPlaceHolder>
+                    <SunBurstChart chartType={"assets"}/>
+                </ChartPlaceHolder>
+                <ChartPlaceHolder>
+                    <SunBurstChart chartType={"liabilities"}/>
+                </ChartPlaceHolder>
+            </Charts>
+
             {
                 display ? 
                 <AssetsInput/>
@@ -42,9 +49,16 @@ const Page = styled.div`
     'a b b b b b b b b b b b'
     'c c c c c c c c c c c c'
 `
-const ChartPlaceHolder = styled.div`
+const Charts = styled.div`
     grid-area: b;
     width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+`
+const ChartPlaceHolder = styled.div`
+    width: 50%;
     height: 100%;
 `
 

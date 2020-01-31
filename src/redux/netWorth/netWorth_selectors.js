@@ -24,6 +24,11 @@ export const totalAssets_selector = createSelector(
     (netWorth_reducer) =>  Math.round(Object.values(netWorth_reducer.assets).map(d => d.financialValue).reduce((acc, num) => acc + num)/1000)*1000                                                                                                      //creates a an array of each of the income type names, which is used in the stacked Income chart
 )
 
+export const propertyNames_selector = createSelector(
+    [netWorth_reducer],
+    (netWorth_reducer) =>  Object.values(netWorth_reducer.assets).filter(d => d.type === "property").map(d => d.label)                                                                                                      //creates a an array of each of the income type names, which is used in the stacked Income chart
+)
+
 
 //LIABILITY SELECTORS
 export const longTerm_selector = createSelector(
@@ -50,7 +55,17 @@ export const totalLiabilities_selector = createSelector(
 
 export const chartAssets_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) => ({
+    (netWorth_reducer) => {
+        const linkMortgageToPropery = (property, mortgages) => {
+            return property.map(property => {
+                const mortgage = mortgages.find(d => d.registration === property.label)
+                    return ({
+                        name: property.label,
+                        value: property.financialValue - (mortgage ? mortgage.financialValue : 0)
+                    })
+            })
+        }
+       return  ({
         "name": "Assets", "children": [{
             "name": "cash",
             "children": Object.values(netWorth_reducer.assets).filter(d => d.type === "cash").map(d => ({name: d.label, value: d.financialValue}))
@@ -59,8 +74,26 @@ export const chartAssets_selector = createSelector(
             "children": Object.values(netWorth_reducer.assets).filter(d => d.type === "investments").map(d => ({name: d.label, value: d.financialValue}))
         }, {
             "name": "property",
-            "children": Object.values(netWorth_reducer.assets).filter(d => d.type === "property").map(d => ({name: d.label, value: d.financialValue}))
+            "children": linkMortgageToPropery(Object.values(netWorth_reducer.assets).filter(d => d.type === "property"), Object.values(netWorth_reducer.liabilities).filter(d => d.type === "longTerm"))
         }]
-    })
+    })}
+                                                                               
+)
+
+export const chartLiabilities_selector = createSelector(
+    [netWorth_reducer],
+    (netWorth_reducer) => {
+       return  ({
+        "name": "Assets", "children": [{
+            "name": "cash",
+            "children": Object.values(netWorth_reducer.liabilities).filter(d => d.type === "shortTerm").map(d => ({name: d.label, value: d.financialValue}))
+        }, {
+            "name": "investments",
+            "children": Object.values(netWorth_reducer.liabilities).filter(d => d.type === "longTerm").map(d => ({name: d.label, value: d.financialValue}))
+        }, {
+            "name": "property",
+            "children": Object.values(netWorth_reducer.liabilities).filter(d => d.type === "other").map(d => ({name: d.label, value: d.financialValue}))
+        }]
+    })}
                                                                                
 )

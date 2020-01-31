@@ -8,59 +8,46 @@ import RangeBar from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import AssetWizard from "pages/newNetWorth/components/AddItems/AssetWizard"
 
-
 const AddCash = ({addItem_action, removeItem_action}) => {
 
     const [count, setCount] = useState(0)
+    const [addContainer, toggleAddContainer] = useState(false)
 
     const emptyState = {
-        addContainerOpen: false,
-        isChecked: false,
+
         name: "", 
         financialValue: 0,
+        id: 0,
         rangeBarValue: 0,
         catagory: "",
-        type: "cash",
-        label: null,
+        type: "",
+        label: "",
         registration: "none", 
         category: "assets",
-        bookValue: 0,
-        purchaseYear: 2015,
     }
     const [state, setState] = useState({...emptyState})
 
-    const [purchasePrice, setPurchasePrice] = useState({
-        name: "BookValuerangeBar",
-        financialValue: 0,
-        rangeBarValue: 0,
-        label: "Purchase Price",
-})
+    const setValue = (logValue, rangeBarValue, rangeBarProps) => {
+        setState({...state, financialValue: logValue, rangeBarValue: rangeBarValue})
+    }
 
-const setValue = (logValue, rangeBarValue, rangeBarProps) => {
-    setState({...state, financialValue: logValue, rangeBarValue: rangeBarValue})
-}
+    const changeLabel = (e, rangeBarProps) => {
+        setState({...state, label: e.target.value})
+    }
 
-const setPurchasePriceValue = (logValue, rangeBarValue, rangeBarProps) => {
-    setPurchasePrice({...purchasePrice, financialValue: logValue, rangeBarValue: rangeBarValue})
-   
-}
-
-const changeLabel = (e, rangeBarProps) => {
-    setState({...state, label: e.target.value})
-}
-
-const addItem = () => {
-    setState({...emptyState})
-    setCount(0)
-    const id = (Math.random() * 100000000).toFixed() 
-    addItem_action(id, state)
-}
+    const addItem = () => {
+        setState({...emptyState})
+        setCount(0)
+        toggleAddContainer(false)
+        const id = (Math.random() * 100000000).toFixed() 
+        addItem_action(id, state)
+    }
 
 
     return (
             <>
             {
-                state.addContainerOpen ? 
+                addContainer ? 
                 <>
                 <Blackout/>
                 <Container>
@@ -68,16 +55,12 @@ const addItem = () => {
                     <Title>What kind of Asset are you adding? </Title>
                     <Form>
                         <AssetWizard 
-                            setState={setState}
-                            count={count}
-                            state={state}
-                            removeItem_action={removeItem_action}
-                            changeLabel={changeLabel}
-                            purchasePrice ={ purchasePrice}
-                            setPurchasePrice = {setPurchasePrice}
-                            setValue={setValue}
-                            setPurchasePriceValue={setPurchasePriceValue}
-                            addItem={addItem}
+                        setState={setState}
+                        count={count}
+                        state={state}
+                        removeItem_action={removeItem_action}
+                        setValue={setValue}
+                        addItem={addItem}
                         />
                     </Form>
                      <Buttons>
@@ -86,7 +69,7 @@ const addItem = () => {
                     </Buttons>
                 </Container>
                 </>
-                : <Button onClick={() => setState({...state, addContainerOpen: true})} text={"Add Asset"}></Button>
+                : <Button onClick={() => toggleAddContainer(true)} text={"Add Asset"}></Button>
             }
            
         </>
