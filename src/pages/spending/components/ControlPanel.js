@@ -17,5 +17,4 @@ export default ControlPanel
 
 const Container = styled.div`
     grid-area: c;
-    background: yellow
 `

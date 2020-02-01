@@ -1,4 +1,3 @@
-
 import styled from "styled-components"
 import React, {useEffect} from 'react'
 import {connect} from "react-redux"
@@ -74,8 +73,6 @@ const AreaChartPlaceHolder = styled.div`
     margin-left: 5%;
     height: 100%;
     position: relative;
-
-
 `
 const BarChartPlaceHolder = styled.div`
     grid-area: c;
@@ -83,13 +80,10 @@ const BarChartPlaceHolder = styled.div`
     margin-left: 5%;
     height: 100%;
     position: relative;
-
 `
 
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /* Shows the user the control panel, the tile pane and the chart of the LifeTime Income Calculator. 
-
 The main functions for this app are written here in the app. 
-
 */

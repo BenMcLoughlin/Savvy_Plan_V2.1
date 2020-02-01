@@ -22,27 +22,27 @@ import {ChevronIcon} from "style/Icons"
             switch(section) {
                 case("cashAssets"): return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>
-                                            ${(this.props.netWorthState.assets["cashAssetsTotal"]()).toLocaleString()}
+                                            ${(this.props.netWorthState.asset["cashAssetsTotal"]()).toLocaleString()}
                                             </CatagoryTotal>
                 case("retirementAssets"): return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>
-                                            ${(this.props.netWorthState.assets["retirementAssetsTotal"]()).toLocaleString()}
+                                            ${(this.props.netWorthState.asset["retirementAssetsTotal"]()).toLocaleString()}
                                             </CatagoryTotal>
                 case("propertyAssets"): return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>
-                                            ${(this.props.netWorthState.assets["propertyAssetsTotal"]()).toLocaleString()}
+                                            ${(this.props.netWorthState.asset["propertyAssetsTotal"]()).toLocaleString()}
                                             </CatagoryTotal>
                 case("unsecuredDebt"): return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>
-                                            ${(this.props.netWorthState.liabilities["unsecuredDebtTotal"]()).toLocaleString()}
+                                            ${(this.props.netWorthState.liability["unsecuredDebtTotal"]()).toLocaleString()}
                                             </CatagoryTotal>
                 case("securedDebt"): return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>
-                                            ${(this.props.netWorthState.liabilities["securedDebtTotal"]()).toLocaleString()}
+                                            ${(this.props.netWorthState.liability["securedDebtTotal"]()).toLocaleString()}
                                             </CatagoryTotal>
                 case("otherDebt"): return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>
-                                            ${(this.props.netWorthState.liabilities["otherDebtTotal"]()).toLocaleString()}
+                                            ${(this.props.netWorthState.liability["otherDebtTotal"]()).toLocaleString()}
                                             </CatagoryTotal>
                 default: return <CatagoryTotal 
                                             onClick={(event) => this.toggleItem(event)}>

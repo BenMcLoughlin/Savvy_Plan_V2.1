@@ -10,7 +10,7 @@ import styled from "styled-components"
     }
         /*
          Objective: map through state and receive props from state that render a unique section. This is done two times for each catagory.
-         a catagory is "assets" or "liabilities" a section example is "cashAssets" or "unsecuredDebt"
+         a catagory is "asset" or "liability" a section example is "cashAssets" or "unsecuredDebt"
         the first 4 items in the state array are methods totalling state so this function has to start 4 items deep, hence the .slice(4).
         */
 
@@ -28,14 +28,14 @@ import styled from "styled-components"
                 <SectionsWrapper>
                     <SectionWrapper>
                         <CatagoryTotal>
-                            $ {(this.props.netWorthState.assets.assetsTotal()).toLocaleString()}
+                            $ {(this.props.netWorthState.asset.assetsTotal()).toLocaleString()}
 
-                            {/* Renders the total net Assets to the user */}
+                            {/* Renders the total net asset to the user */}
 
-                            <span>Total Assets</span>
+                            <span>Total asset</span>
                             <p>What you own</p>
                         </CatagoryTotal>
-                        {this.renderSections(this.props.netWorthState.assets)}
+                        {this.renderSections(this.props.netWorthState.asset)}
 
                         
                         {/* Builds the table that displays the sections: "cashAssets", "retirementAssets" and "propertyAssets" */}
@@ -43,14 +43,14 @@ import styled from "styled-components"
                     </SectionWrapper>
                     <SectionWrapper>
                         <CatagoryTotal>
-                            $ {(this.props.netWorthState.liabilities.liabilitiesTotal()).toLocaleString()}
+                            $ {(this.props.netWorthState.liability.liabilitiesTotal()).toLocaleString()}
 
-                             {/* Renders the total net Liabilities to the user */}
+                             {/* Renders the total net liability to the user */}
 
-                            <span>Total Liabilities</span>
+                            <span>Total liability</span>
                             <p>What you owe</p>
                         </CatagoryTotal>
-                        {this.renderSections(this.props.netWorthState.liabilities)}
+                        {this.renderSections(this.props.netWorthState.liability)}
 
                         {/* Builds the table that displays the sections: "unsecuredDebt", "securedDebt" and "otherDebt"*/}
                        

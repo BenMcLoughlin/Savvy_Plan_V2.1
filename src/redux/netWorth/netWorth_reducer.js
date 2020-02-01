@@ -3,80 +3,93 @@ import _ from "lodash"
 
 
 const initialState = {
-    assets: {
+    asset: {
         Id1000000: {
-            type: "property",
+            subCategory: "property",
             financialValue: 10000, 
             label: "Primary Residence",
             id: "Id1000000",
             rangeBarValue: 0, 
             registration: "none", 
-            category: "assets"
+            category: "asset"
         },
         Id10000234: {
-            type: "property",
+            subCategory: "property",
             financialValue: 10000, 
             label: "Playa ",
             id: "Id10000234",
             rangeBarValue: 0, 
             registration: "none", 
-            category: "assets",
+            category: "asset",
             mortgageId: 1, 
         },
         Id1000001: {
-            type: "cash",
+            subCategory: "cash",
             financialValue: 10000, 
             label: "Checking Account",
             id: "Id1000001",
             rangeBarValue: 0, 
             registration: "none", 
-            category: "assets"
+            category: "asset"
         },
         Id1000007: {
-            type: "investments",
+            subCategory: "investments",
             financialValue: 10000, 
             label: "Tax Free Savings Account",
             id: "Id1000007",
             rangeBarValue: 0, 
             registration: "tfsa", 
-            category: "assets"
+            category: "asset"
         },
         Id1000007: {
-            type: "investments",
+            subCategory: "investments",
             financialValue: 10000, 
             label: "RRSP Investments",
             id: "Id1000007",
             rangeBarValue: 0, 
             registration: "rrsp", 
-            category: "assets"
+            category: "asset"
         },
     },
-    liabilities: {
+    liability: {
         Id1000003: {
-            type: "longTerm",
+            subCategory: "longTerm",
             financialValue: 15000, 
             label: "Primary Residence",
             id: "Id1000003",
             rangeBarValue: 0, 
-            category: "liabilities",
+            debtType: "mortgage",
+            category: "liability",
             registration: "", 
+            interestRate: {
+                rangeBarValue: 0,
+                label: "Interest Rate",
+            },
+            payment: {
+                rangeBarValue: 0,
+                label: "Payment",
+            },
+            yearsRemaining: {
+                rangeBarValue: 0,
+                label: "Years Remaining",
+            }
         },
         Id1000004: {
-            type: "shortTerm",
+            subCategory: "shortTerm",
             financialValue: 0, 
             label: "Primary Residence",
             id: "Id1000004",
             rangeBarValue: 0, 
-            category: "liabilities",
+            category: "liability",
             registration: "", 
         },
         Id1000004: {
-            type: "other",
+            subCategory: "other",
             financialValue: 0, 
             label: "Primary Residence",
             id: "Id1000004",
             rangeBarValue: 0, 
-            category: "liabilities",
+            category: "liability",
             registration: "", 
         },
 
@@ -106,7 +119,6 @@ switch(action.type) {
        }
 
     case "netWorth_reducer/ADD_ITEM": {
-        console.log(action.payload);
         return { ...state, [action.payload.category]:{
             ...state[action.payload.category], [action.payload.id]: action.payload }
 }

@@ -33,15 +33,19 @@ export default ChooseOne
 //-----------------------------------------------style-----------------------------------------------//
 
 const Container = styled.div`
- width: 30rem;
- min-height: 20rem;
- background: white;
- font-size: 1.4rem;
+    width: 30rem;
+    height: 25rem;
+    background: white;
+    font-size: 1.4rem;
+    overflow: scroll;
 
 `
 const SelectWrapper = styled.div`
-    width: 30rem;
-    height: 23rem;
+    min-height: 20rem;
+    max-height: 23rem;
+    background: white;
+    font-size: 1.4rem;
+    overflow: scroll;
     background: white;
     border-radius: 5px;
     border: .7px solid ${props => props.theme.color.lightGrey};
@@ -54,15 +58,15 @@ const SelectWrapper = styled.div`
 
 const SelectValue = styled.div`
     padding: 2rem
+    hieght: 3rem;
     width: 98%;
     color: ${props => props.selected ? "white" :  props.theme.color.slate}
-    font-size: 2rem;
+    font-size: 1.6rem;
     background: ${props => props.selected ? props.theme.color.blue : "white"}
     text-align: center;
     &:hover {
         background: ${props => props.selected ? props.theme.color.blue : props.theme.color.ice}
         color: ${props => props.selected ? "white" :  props.theme.color.slate}
         cursor: pointer;
-        overflow: hidden;
     }
 `

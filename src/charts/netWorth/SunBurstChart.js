@@ -169,10 +169,10 @@ const LifeEventsTimeline = ({chartType, chartAssets_selector, chartLiabilities_s
     const inputRef = useRef(null)
 
 
-    const data = chartType === "liabilities" ? chartLiabilities_selector : chartAssets_selector
-    const total = chartType === "liabilities" ? totalLiabilities_selector : totalAssets_selector
+    const data = chartType === "liability" ? chartLiabilities_selector : chartAssets_selector
+    const total = chartType === "liability" ? totalLiabilities_selector : totalAssets_selector
 
-    const className = chartType === "liabilities" ? "liabilitiesSunburst" : "assetsSunburst"
+    const className = chartType === "liability" ? "liabilitiesSunburst" : "assetsSunburst"
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth

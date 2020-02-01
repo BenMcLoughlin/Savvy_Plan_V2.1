@@ -1,15 +1,17 @@
-import React from "react"
+import React, {useState} from "react"
 import styled from "styled-components"
 import Header from "pages/spending/components/Header"
 import ControlPanel from "pages/spending/components/ControlPanel"
 
 
 const Spending = () => {
+
+    const [monthly, toggleMonthly] = useState(true)
+
     return (
         <Page>
-            <Header/>
+            <Header monthly={monthly} toggleMonthly={toggleMonthly}/>
             <ChartWrapper>
-
             </ChartWrapper>
             <ControlPanel/>
 
@@ -34,6 +36,6 @@ const Page = styled.div`
 
 const ChartWrapper = styled.div`
     grid-area: b;
-    background: green;
+
 
 `

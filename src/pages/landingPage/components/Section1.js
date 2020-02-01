@@ -17,7 +17,7 @@ export default function Section1() {
                     </Title>
                 </Header>
                 <SavingsPlanApp landingPage style={{marginTop: "-55rem"}}/>
-                {/* <img alt ="#"  src={require("assets/gifs/Savings Plan Gif.gif")} style={{height: "25rem", width: "75rem"}}/> */}
+                {/* <img alt ="#"  src={require("asset/gifs/Savings Plan Gif.gif")} style={{height: "25rem", width: "75rem"}}/> */}
             </Wrapper>
 
     )

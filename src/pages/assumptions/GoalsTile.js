@@ -9,7 +9,7 @@ import { NavLink} from "pages/goals/node_modules/react-router-dom"
 
         return (
             <GoalsTileWrapper to="/SavingsPlan">
-            <img alt ="#"  src={require("assets/images/goals_plan.png")} style={{height: "25rem",}}/>
+            <img alt ="#"  src={require("asset/images/goals_plan.png")} style={{height: "25rem",}}/>
             </GoalsTileWrapper>
         )
     }

@@ -29,7 +29,7 @@ const sumClassTypes = obj => Object.values(obj).map(a => Number(a.financialValue
             onClick={() => this.props.toggleState()}
             >
                 {this.props.allTitleProps.label}
-                <CatagoryTotal onClick={(event) => this.toggleItem(event)}>${sumClassTypes(this.props.netWorthState.assets.cashAssets).toLocaleString()}</CatagoryTotal>
+                <CatagoryTotal onClick={(event) => this.toggleItem(event)}>${sumClassTypes(this.props.netWorthState.asset.cashAssets).toLocaleString()}</CatagoryTotal>
             </Header>
         )
     }

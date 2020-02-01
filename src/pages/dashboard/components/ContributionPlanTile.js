@@ -9,7 +9,7 @@ import { NavLink} from "react-router-dom"
 
         return (
             <ContributionPlanTileWrapper to="/SavingsPlan">
-            <img alt ="#"  src={require("assets/images/contribution_plan.png")} style={{height: "160px", marginLeft: "2rem"}}/>
+            <img alt ="#"  src={require("asset/images/contribution_plan.png")} style={{height: "160px", marginLeft: "2rem"}}/>
             </ContributionPlanTileWrapper>
         )
     }

@@ -41,18 +41,18 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOp
                                 />
                       </YearsSelectorWrapper>   
                                       <RangeBarWrapper>
-  
+                                      { rangeBarArray.map(d => 
                                                   <Display>
                                                   <RangeBar
-                                                                  key={rangeBarArray[0].name}
-                                                                  financialValue= {rangeBarArray[0].financialValue}
-                                                                  rangeBarProps={rangeBarArray[0]}
+                                                                  key={d.name}
+                                                                  financialValue= {d.financialValue}
+                                                                  rangeBarProps={d}
                                                                   setValue={setContributions}
                                                                   />
                                                               
                                                                 {/* <Value>{(Math.round(d.optimizedContribution/1000)*1000)/1000}k</Value>  */}
                                                   </Display>
-                             
+                                          ) }
                                 </RangeBarWrapper>
                  </Wrapper>   
                  : null 
@@ -73,7 +73,6 @@ export default connect(mapStateToProps, {transaction_action, setOpitmizedValues_
 
 //-----------------------------------------------style-----------------------------------------------//
 const Wrapper= styled.div`
-
 `
 
 const YearsSelectorWrapper = styled.div`
@@ -88,8 +87,6 @@ const YearsSelectorWrapper = styled.div`
 const Display = styled.div `
    position:relative;
   
-
-
    
 ` 
 
@@ -108,14 +105,11 @@ const RangeBarWrapper = styled.div`
   text-align: center;
   margin-top: 1rem;
   width: 88%;
-
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*
-
 this component renders two rangebars, one that inputs the users current RRSP value and the other is their annual contributions. 
 When the user inputs these values it calculates the future RRSP value then uses that to determine the required withdrawal per year.
 It runs a loop for all years after the rrsp has been converted to a rrsp and inserts the minimum income into the income reducer. 
-
 */

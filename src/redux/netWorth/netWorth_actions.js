@@ -24,10 +24,12 @@ export const removeItem_action = (rangeBarProps) => ({
         category: rangeBarProps.category,
 })
 
-export const addItem_action = (id, state) => ({
+export const addItem_action = (id, state) => {
+        console.log(state);
+       return ({
         type: "netWorth_reducer/ADD_ITEM",
         payload: {
-            type: state.type,
+            subCategory: state.subCategory,
             id: id,
             financialValue: state.financialValue,
             rangeBarValue: state.rangeBarValue,
@@ -35,17 +37,8 @@ export const addItem_action = (id, state) => ({
             registration:  state.registration,
             label:  state.label
         }
-})
-
-
-// type: "property",
-//             financialValue: 10000, 
-//             label: "Primary Residence",
-//             id: "Id1000000",
-//             rangeBarValue: 0, 
-//             registration: "none", 
-//             category: "assets"
+})}
 
 
 
-//this.props.addItemToList(this.state.financialValue, this.state.rangeBarValue, this.state) 
+

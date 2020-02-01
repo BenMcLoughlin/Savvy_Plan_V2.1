@@ -3,9 +3,9 @@ import _ from "lodash"
 
 
 const initialState = {
-    netWorthTotal(){return this.assets.assetsTotal() - this.liabilities.liabilitiesTotal()},
+    netWorthTotal(){return this.asset.assetsTotal() - this.liability.liabilitiesTotal()},
 
-    assets: {
+    asset: {
         cashAssetsTotal(){return Object.values(this.cashAssets).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
         retirementAssetsTotal(){return Object.values(this.retirementAssets).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
         propertyAssetsTotal(){return Object.values(this.propertyAssets).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
@@ -14,12 +14,12 @@ const initialState = {
         cashAssets: {
             
             title: {
-                category: "assets",
+                category: "asset",
                 section: "cashAssets", 
                 name: "cashAssetsTitle",
-                label: "Cash and Liquid Assets",
+                label: "Cash and Liquid asset",
                 financialValue: 0,
-                explanation: "Easily accessible assets such as cash and savings accounts.",
+                explanation: "Easily accessible asset such as cash and savings accounts.",
                 total: "cashAssetsTotal",
                         
             },
@@ -33,7 +33,7 @@ const initialState = {
             },
             id1000000: {
                 id: "id1000000", 
-                category: "assets",
+                category: "asset",
                 section: "cashAssets", 
                 name: "checkingAccount",
                 label: "Checking Account", 
@@ -44,10 +44,10 @@ const initialState = {
         }, 
         retirementAssets: {
             title: {
-                category: "assets",
+                category: "asset",
                 section: "retirementAssets", 
                 name: "retirementAssetsTitle",
-                label: "Retirement Assets",
+                label: "Retirement asset",
                 financialValue: 0,
                 explanation: "Long term investment accounts for retirement.",
                 total: "cashAssetsTotal",
@@ -62,7 +62,7 @@ const initialState = {
             },
             id2000000: {
                 id: "id2000000", 
-                category: "assets",
+                category: "asset",
                 section: "retirementAssets", 
                 name: "tfsa",
                 label: "Tax Free Savings Account", 
@@ -72,10 +72,10 @@ const initialState = {
         },
         propertyAssets: {
             title: {
-                category: "assets",
+                category: "asset",
                 section: "propertyAssets", 
                 name: "propertyAssetsTitle",
-                label: "Property Assets",
+                label: "Property asset",
                 financialValue: 0,
                 explanation: "Primary residence, rental properties and vehicles.",
                 total: "cashAssetsTotal",
@@ -90,7 +90,7 @@ const initialState = {
             },
             id3000000: {
                 id: "id3000000", 
-                category: "assets",
+                category: "asset",
                 section: "propertyAssets", 
                 name: "vehicle",
                 label: "Personal Vehicle", 
@@ -99,7 +99,7 @@ const initialState = {
             }
         },
     },
-    liabilities: {
+    liability: {
 
         unsecuredDebtTotal(){return Object.values(this.unsecuredDebt).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
         securedDebtTotal(){return Object.values(this.securedDebt).map(a => Number(a.financialValue)).reduce((acc, num) => acc + num)},
@@ -108,7 +108,7 @@ const initialState = {
 
         unsecuredDebt: {
             title: {
-                category: "liabilities",
+                category: "liability",
                 section: "unsecuredDebt", 
                 name: "unsecuredDebtTitle",
                 label: "Unsecured Debt",
@@ -125,7 +125,7 @@ const initialState = {
             },
             id4000000: {
                 id: "id4000000", 
-                category: "liabilities",
+                category: "liability",
                 section: "unsecuredDebt", 
                 name: "creditCard",
                 label: "Credit Card", 
@@ -136,7 +136,7 @@ const initialState = {
         }, 
         securedDebt: {
             title: {
-                category: "liabilities",
+                category: "liability",
                 section: "securedDebt", 
                 name: "securedDebtitle",
                 label: "Secured Debt",
@@ -153,7 +153,7 @@ const initialState = {
             },
             id5000000: {
                 id: "id5000000", 
-                category: "liabilities",
+                category: "liability",
                 section: "securedDebt", 
                 name: "vehicleLoan",
                 label: "Vehicle Loan", 
@@ -163,7 +163,7 @@ const initialState = {
         },
         otherDebt: {
             title: {
-                category: "liabilities",
+                category: "liability",
                 section: "otherDebt", 
                 name: "otherDebttitle",
                 label: "Other Debt",
@@ -180,7 +180,7 @@ const initialState = {
             },
             id6000000: {
                 id: "id6000000", 
-                category: "liabilities",
+                category: "liability",
                 section: "otherDebt", 
                 name: "studentLoan",
                 label: "Student Loan", 

@@ -2,24 +2,26 @@ import React, {useState} from "react"
 import {property_selector, cash_selector, investments_selector} from "redux/netWorth/netWorth_selectors"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {createStructuredSelector} from "reselect"
 import RangeBar from "UI/rangeBar/RangeBar"
 import {setItemValue_action, changeLabel_action, removeItem_action} from "redux/netWorth/netWorth_actions"
-import AddAsset from "pages/newNetWorth/components/AddItems/AddAsset"
+import Popup from "pages/newNetWorth/components/Popup"
 import {transaction_action} from "redux/savings/savings_actions"
 import {savings_reducer} from "redux/savings/savings_reducer"
 import {renderSavings} from "services/savings/savings_functions"
+import DateInput from "UI/forms/DateInput"
 
-const AssetsInput = ({ property_selector, savings_reducer, cash_selector, investments_selector, setItemValue_action, changeLabel_action, removeItem_action, transaction_action}) => {
+
+
+const ControlPanel = ({ category, savings_reducer, subCategory3, subCategory1, subCategory2, setItemValue_action, changeLabel_action, removeItem_action, transaction_action}) => {
 
     const setValueInAssetsAndSavings = (logValue, rangeBarValue, rangeBarProps) => {
         renderSavings(32, 33, "tfsa", logValue, rangeBarValue, "contribute", savings_reducer, 65, .02, 0.02, transaction_action, 65)
         setItemValue_action(logValue, rangeBarValue, rangeBarProps)
     }
-    const renderRangeBars = (selector) =>  selector.map( asset => 
+    const renderRangeBars = (selector) =>  selector.map( item => 
                                                 <RangeBar                                                                                    //Checks the count to determine if the rangebars should be shown                                                
-                                                key={asset.name}
-                                                rangeBarProps={asset}
+                                                key={item.name}
+                                                rangeBarProps={item}
                                                 setValue={setValueInAssetsAndSavings}
                                                 handleChangeLabel = {changeLabel_action}
                                                 handleRemoveItem={removeItem_action}
@@ -30,18 +32,30 @@ const AssetsInput = ({ property_selector, savings_reducer, cash_selector, invest
 < Wrapper>
         <Sections>
             <Section>
-                < H2>Cash Assets</ H2>
-                {renderRangeBars(cash_selector)} 
+                < H2>{category === "asset" ? "Cash asset" : "Short Term Debts"}</ H2>
+                {renderRangeBars(subCategory1)} 
+                <Popup 
+                    category= {category} 
+                    subCategory={category === "asset" ? "cash" : "shortTerm"}
+                />  
            </Section>
             <Section>
-                < H2>Investment Assets</ H2>
-               {renderRangeBars(investments_selector)} 
+                < H2>{category === "asset" ? "Investment asset" : "Other Debts"}</ H2>
+               {renderRangeBars(subCategory2)} 
+               <Popup
+                      category= {category} 
+                      subCategory={category === "asset" ? "investments" : "other"}
+                />  
             </Section>
             <Section>
-                < H2>Property and Hard Assets</ H2>
-                {renderRangeBars(property_selector)}                                                                                    
+                < H2>{category === "asset" ? "Property and Hard asset" : "Long Term Debts"}</ H2>
+                {renderRangeBars(subCategory3)}  
+                <Popup 
+                    category= {category} 
+                    subCategory={category === "asset" ? "property" : "longTerm"}
+                />          
+                                                                                     
             </Section>
-            <AddAsset/>   
         </Sections>
 </Wrapper>
     )
@@ -57,10 +71,13 @@ const mapStateToProps = (state) => ({
 
 })
 
-export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action, transaction_action})(AssetsInput)
+export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action, transaction_action})(ControlPanel)
+
+
+//-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper = styled.div`
-    grid-area: c;
+    grid-area: d;
     width: 100%;
     border-top: .7px solid ${props => props.theme.color.lightGrey};
 
@@ -76,13 +93,10 @@ const Section = styled.div`
     overflow: scroll;
     display: flex;
     flex-direction: column;
+    align-items: left
 `
 const H2 = styled.h2`
     padding: 2rem;
-`
-const RangeBarWrapper = styled.div`
-  margin-top: 2rem;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
+    text-align: center;
+    width: 100%;
 `

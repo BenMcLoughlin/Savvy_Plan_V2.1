@@ -2,10 +2,10 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const AddButton = ({handleClick}) => {
+const AddButton = ({onClick}) => {
     return (
             <Add
-            onClick={handleClick}
+            onClick={onClick}
             />
     )
 

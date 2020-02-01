@@ -1,29 +1,36 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import * as d3 from "d3"
-import "./ChartStyles.css"
 import _ from "lodash"
 import styled from "styled-components"
-import {stackedKeysBarChart, stackedBarData, stackedBarData2} from "redux/savings/savings_selectors"
+import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
+import {chartProjection_selector} from "redux/netWorth/netWorth_selectors"
 
-const drawChart = (props, width, height) => {
 
+const drawChart = (data, width, height, className) => {
+    
+    
     const margin = {top: 20, right: 100, bottom: 50, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color =  ["age", '#3B7B8E', "#3B7B8E", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
+    const color =  ["age", '#3B7B8E', "#F29278",'#72929B',  "#B0CFE3", '#FEDE76', '#81CCAF',]
 
-    d3.select(".canvasSavingsStackedBarChart > *").remove()
+    d3.select(`.${className} > *`).remove()
     d3.select(".tooltip").remove()
 
-    const data = props.stackedBarData2
-    console.log(data);
 
-    const svg = d3.select('.canvasSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     
-    const stackedKeys = ["age", "rrspContributions", "tfsaContributions", "nonRegisteredContributions", "rrspInterest", "tfsaInterest",  "nonRegisteredInterest"]
+    const stackedKeys = ["age", "totalOther", "totalLongTerm", "totalProperty", "totalCash", "totalInvestments"]
+
+    // totalCash: lastValue.totalCash * 1.02,
+    //             totalInvestments: lastValue.totalInvestments * 1.05,
+    //             totalProperty: lastValue.totalProperty * 1.01,
+    //             totalLongTerm: - (lastValue.totalLongTerm - 100),
+    //             // ///totalShortTerm: Object.values(netWorth_reducer.liability).filter(d => d.subCategory == "shortTerm").map(d => d.financialValue).reduce((acc, num) => acc + num),
+    //            totalOther:
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -43,7 +50,7 @@ const drawChart = (props, width, height) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".canvasSavingsStackedBarChart").append("div")
+        const tooltip = d3.select(`.${className}`).append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -61,11 +68,9 @@ const drawChart = (props, width, height) => {
     const update = data => {
     
 
-        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + (typeof num === "number" ? num : 0)) ) > -30000 ? -30000 : 
-        d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 4000
+        const min = -80000
 
-       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
-                   d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+       const max = 100000
 
         const series = stack(data);
    
@@ -104,7 +109,7 @@ const drawChart = (props, width, height) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                                const thisYearTotalIncome = Object.values(props.stackedBarData2[i]).slice(1).reduce((acc, num) => acc + num)
+                               
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)
@@ -133,7 +138,7 @@ const drawChart = (props, width, height) => {
                                                 <div class="total">
                                                     <h3 class="title">  Total Income </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${thisYearTotalIncome/1000} 
+                                                        
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -175,68 +180,37 @@ const drawChart = (props, width, height) => {
     }
 
     update(data)
-    
-}
-
-class StackedBarChartSavings extends Component {
-
-    state = {
-        elementWidth: 0,
-        elementHeight: 0
     }
 
-    updateSize = () => {
-        this.setState({ 
-            elementWidth: this.divRef.clientWidth, 
-            elementHeight: this.divRef.clientHeight, 
-        });
-        drawChart(this.props, this.state.elementWidth, this.state.elementHeight )
-      }
+const LifeEventsTimeline = ({chartProjection_selector}) =>  {
 
-componentDidMount() {
-    this.setState({ 
-        elementWidth: this.divRef.clientWidth, 
-        elementHeight: this.divRef.clientHeight 
-    });
-    drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
-}
+    const inputRef = useRef(null)
 
-componentDidUpdate() {
-    drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
-}
 
-componentWillUnmount() {
-    window.removeEventListener('resize', this.updateSize);
-   }
-   
-    render() {
-        window.addEventListener('resize', this.updateSize)
- 
+    const className = "netWorthProjection"
+
+    useEffect(()=> {
+       const width = inputRef.current.offsetWidth
+       const height = inputRef.current.offsetHeight
+        drawChart(chartProjection_selector, width, height, className)
+    }, [chartProjection_selector])
+
         return (
-            <Canvas className="canvasSavingsStackedBarChart" ref={canvasSavingsStackedBarChart => this.divRef = canvasSavingsStackedBarChart}>
-                
+            <Canvas className={className} ref={inputRef}>
             </Canvas>
         )
-    }
 }
 
 
-const mapStateToProps = createStructuredSelector({
-    stackedKeysBarChart,
-    stackedBarData2,
-    stackedBarData,
+const mapStateToProps = (state) => ({
+    chartProjection_selector: chartProjection_selector(state), 
 })
 
-export default connect(mapStateToProps)(StackedBarChartSavings )
-
+export default connect(mapStateToProps)(LifeEventsTimeline)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`
         width: 100%;
         height: 100%;
-        position: absolute;
-        top: 0rem;
-        left: 0rem;
-        z-index: 2;
-
 `
+

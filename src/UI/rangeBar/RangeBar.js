@@ -16,7 +16,6 @@ import Close from "UI/buttons/Close"
 */ 
 
  const RangeBar = ({...props}) => {
-console.log(props.rangeBarProps);
 
         return (
             < RangeBarWrapper>
@@ -55,7 +54,6 @@ export default RangeBar
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;
     position: relative;
-    padding-left: 2rem;
     width: 23rem;
 
 `

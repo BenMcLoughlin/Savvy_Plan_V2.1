@@ -26,11 +26,11 @@ const Header = ({display, setDisplay, totalAssets_selector, totalLiabilities_sel
                     <SelectorButton visible={display} onClick={() => setDisplay(!display)}/>                             {/*when clicked it sets the display to the opposite enabling it to toggle back and forth*/}
                     <Catagories>
                         <Catagory display={display} onClick={() => setDisplay(!display)}>
-                            <h2>Assets</h2>
+                            <h2>asset</h2>
                             <span>{totalAssets_selector/1000}K</span>
                         </Catagory>
                         <Catagory display={!display} onClick={() => setDisplay(!display)} style={{color: "#F29278"}}>
-                            <h2>Liabilities</h2>
+                            <h2>liability</h2>
                             <span>{totalLiabilities_selector/1000}K</span>
                         </Catagory>
                     </Catagories>
@@ -48,7 +48,7 @@ const mapStateToProps = createStructuredSelector({
 export default connect(mapStateToProps)(Header)
 
 
-//-----------------------------------------------style-----------------------------------------------//
+//-----------------------------------------------STYLES-----------------------------------------------//
 
 
 const HeaderWrapper = styled.div`

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
+import miniRangeBar from "UI/miniRangeBar/MiniRangeBar"
 import {connect} from "react-redux"
 import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setInvestmentFactor_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
@@ -32,20 +32,12 @@ const  InvestmentFactors = ( { setInvestmentFactor_action, investmentReturnsArra
         <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa miniRangeBar for each */}
             {
                 count > 1 ? 
-                <>
-                 <MiniRangeBar
-                                            id={investmentReturnsArray[0].name}
-                                            key={investmentReturnsArray[0].name}
+                investmentReturnsArray.map(d => <miniRangeBar 
+                                            id={d.name}
+                                            key={d.name}
                                             setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
-                                            rangeBarProps={investmentReturnsArray[0]}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
-                    />
-                 <MiniRangeBar
-                                            id={investmentReturnsArray[2].name}
-                                            key={investmentReturnsArray[2].name}
-                                            setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
-                                            rangeBarProps={investmentReturnsArray[2]}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
-                    />
-                    </>
+                                            rangeBarProps={d}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
+                    />)
                     : null
             }
         </Wrapper>                            
@@ -73,15 +65,10 @@ const Wrapper= styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 6rem;
-    width: 50rem;
-    margin-top: 8rem;
-    margin-left: -43rem;
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*
-
 This component renders the MiniRangeBars on the bottom right of the Control panel. These range bars change the pension start ages such as
 CPP, OAS, and rrsp ages at which the user would begin collecting pension. There is also one rangebar that changes the interest rate return of the
 RRSP savings.
-
 */

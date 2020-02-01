@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import styled from "styled-components"
 import _ from "lodash"
 import {Close} from "style/Icons"
@@ -6,26 +6,38 @@ import {addItem_action, removeItem_action} from "redux/netWorth/netWorth_actions
 import {connect} from "react-redux"
 import RangeBar from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import AssetWizard from "pages/newNetWorth/components/AddItems/AssetWizard"
+import Add from "UI/buttons/Add"
+import Wizard from "pages/newNetWorth/components/Wizard"
 
-const AddCash = ({addItem_action, removeItem_action}) => {
+const Popup = ({category, addItem_action, removeItem_action, subCategory}) => {
 
     const [count, setCount] = useState(0)
     const [addContainer, toggleAddContainer] = useState(false)
 
+     
     const emptyState = {
-
         name: "", 
         financialValue: 0,
-        id: 0,
         rangeBarValue: 0,
-        catagory: "",
-        type: "",
+        subCategory: "",
         label: "",
         registration: "none", 
-        category: "assets",
+        category: "",
     }
+
     const [state, setState] = useState({...emptyState})
+
+    useEffect(()=> {
+
+        setState({...state, 
+                    category: category,
+                    subCategory: subCategory,
+        
+        })
+
+     }, [category])
+
+console.log(state);
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {
         setState({...state, financialValue: logValue, rangeBarValue: rangeBarValue})
@@ -43,7 +55,6 @@ const AddCash = ({addItem_action, removeItem_action}) => {
         addItem_action(id, state)
     }
 
-
     return (
             <>
             {
@@ -51,16 +62,18 @@ const AddCash = ({addItem_action, removeItem_action}) => {
                 <>
                 <Blackout/>
                 <Container>
-                    <Exit  onClick={() => setState({...state, addContainerOpen: false})}/>
-                    <Title>What kind of Asset are you adding? </Title>
+                    <Exit  onClick={() => toggleAddContainer(false)}/>
+                    <Title>What kind of {category} are you adding? </Title>
                     <Form>
-                        <AssetWizard 
-                        setState={setState}
-                        count={count}
-                        state={state}
-                        removeItem_action={removeItem_action}
-                        setValue={setValue}
-                        addItem={addItem}
+                        <Wizard 
+                            setState={setState}
+                            count={count}
+                            state={state}
+                            removeItem_action={removeItem_action}
+                            setValue={setValue}
+                            addItem={addItem}
+                            subCategory={subCategory}
+                            category={category}
                         />
                     </Form>
                      <Buttons>
@@ -69,7 +82,7 @@ const AddCash = ({addItem_action, removeItem_action}) => {
                     </Buttons>
                 </Container>
                 </>
-                : <Button onClick={() => toggleAddContainer(true)} text={"Add Asset"}></Button>
+                : <Add onClick={() => toggleAddContainer(true)}/>
             }
            
         </>
@@ -78,7 +91,7 @@ const AddCash = ({addItem_action, removeItem_action}) => {
     )
 }
 
-export default connect(null, {addItem_action, removeItem_action})(AddCash)
+export default connect(null, {addItem_action, removeItem_action})(Popup)
 
 
 
@@ -106,53 +119,23 @@ const Form = styled.div`
    align-items: center;
 `
 
-const TextInput = styled.input`
-        font-size: ${props =>props.theme.fontSize.small};
-        color: ${props => props.theme.color.slate};
-        position: absolute;
-        width: 85%;
-        top: -1.5rem;
-        left: 1rem;
-        border-radius: 3px;
-        padding: 0.3rem;
-        text-transform: capitalize;
-        background: white;
-        border: 1px solid ${props => props.theme.color.lightGrey};
-        cursor: pointer;
-        &:focus,
-        &:active {
-            outline: 0  !important;
-            border: 1px solid ${props => props.theme.color.drab};
-        }
-`
 
 
 const Container = styled.div`
     width: 50rem;
-    height: 45rem;
+    height: 50rem;
     border: 1px solid ${props => props.theme.color.lightGrey};
     border-radius: 3px;
     margin: 1rem;
     padding-top: 1rem;
     background-color: white;
     position: absolute;
-    top: 25%;
+    top: 22%;
     left: 30%;
     padding: 2rem;
     z-index: 500;
 `
-const RangeBarWrapper = styled.div`
-    margin-top: 2rem;
-    position: relative;
-    padding-left: 1rem;
-    width: 25rem;
-`
 
-
-
-const ButtonWrapper = styled.div`
-    width: 18rem;
-`
 const Exit = styled(Close)`
     position: absolute;
     top: 2rem;
@@ -163,10 +146,6 @@ const Exit = styled(Close)`
     height: 3rem;
 `
 
-const CheckboxWrapper = styled.div`
-
-
-`
 
 const Button = styled(ButtonLight)`
     bottom: 3rem;
@@ -182,7 +161,7 @@ const Buttons = styled.div`
     width: 50%;
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
+    margin-top: 7rem;
     margin-left: 11rem;
 `
 
