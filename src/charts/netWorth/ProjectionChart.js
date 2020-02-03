@@ -68,7 +68,7 @@ const drawChart = (data, width, height, className) => {
     const update = data => {
     
 
-        const min = -80000
+        const min = -180000
 
        const max = 100000
 

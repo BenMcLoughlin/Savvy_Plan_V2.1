@@ -7,14 +7,13 @@ import {connect} from "react-redux"
 import RangeBar from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import Add from "UI/buttons/Add"
-import Wizard from "pages/newNetWorth/components/Wizard"
+import Wizard from "pages/netWorth/components/Wizard"
 
 const Popup = ({category, addItem_action, removeItem_action, subCategory}) => {
 
     const [count, setCount] = useState(0)
     const [addContainer, toggleAddContainer] = useState(false)
 
-     
     const emptyState = {
         name: "", 
         financialValue: 0,
@@ -23,7 +22,34 @@ const Popup = ({category, addItem_action, removeItem_action, subCategory}) => {
         label: "",
         registration: "none", 
         category: "",
+        interestRate: {
+            rangeBarValue: 0,
+            label: "Interest Rate",
+            name: "interestRate",
+            max: .1, 
+            min: 0,
+            step: .01,
+            numberType: "percentage"
+        },
+        remainingYears: {
+            rangeBarValue: 0,
+            label: "Remaining Years",
+            name: "remainingYears",
+            max: 40, 
+            min: 0,
+            step: 1,
+        },
+        payment: {
+            rangeBarValue: 0,
+            label: "Payment",
+            name: "payment",
+            max: 5000, 
+            min: 0,
+            step: 10
+        },
     }
+
+    //balance, interest Rate, amortization, current value, payment, purchase year
 
     const [state, setState] = useState({...emptyState})
 
@@ -37,10 +63,13 @@ const Popup = ({category, addItem_action, removeItem_action, subCategory}) => {
 
      }, [category])
 
-console.log(state);
-
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {
         setState({...state, financialValue: logValue, rangeBarValue: rangeBarValue})
+    }
+    const setMiniRangeBarValue = (value, rangeBarValue, rangeBarProps) => {
+        setState({...state, [rangeBarProps.name]: {
+                            ...state[rangeBarProps.name], rangeBarValue
+        }})
     }
 
     const changeLabel = (e, rangeBarProps) => {
@@ -74,6 +103,7 @@ console.log(state);
                             addItem={addItem}
                             subCategory={subCategory}
                             category={category}
+                            setMiniRangeBarValue={setMiniRangeBarValue}
                         />
                     </Form>
                      <Buttons>
@@ -123,7 +153,7 @@ const Form = styled.div`
 
 const Container = styled.div`
     width: 50rem;
-    height: 50rem;
+    height: 60rem;
     border: 1px solid ${props => props.theme.color.lightGrey};
     border-radius: 3px;
     margin: 1rem;
@@ -147,16 +177,10 @@ const Exit = styled(Close)`
 `
 
 
-const Button = styled(ButtonLight)`
-    bottom: 3rem;
-    left: 1rem;
-    background: red;
-
-`
 
 const Buttons = styled.div`
     position: absolute;
-    top: 33rem;
+    top: 37rem;
     left: 2rem;
     width: 50%;
     display: flex;

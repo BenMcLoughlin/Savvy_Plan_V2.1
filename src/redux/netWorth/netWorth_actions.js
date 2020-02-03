@@ -29,13 +29,8 @@ export const addItem_action = (id, state) => {
        return ({
         type: "netWorth_reducer/ADD_ITEM",
         payload: {
-            subCategory: state.subCategory,
             id: id,
-            financialValue: state.financialValue,
-            rangeBarValue: state.rangeBarValue,
-            category: state.category,
-            registration:  state.registration,
-            label:  state.label
+            ...state,
         }
 })}
 

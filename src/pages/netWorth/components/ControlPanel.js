@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import styled from "styled-components"
 import RangeBar from "UI/rangeBar/RangeBar"
 import {setItemValue_action, changeLabel_action, removeItem_action} from "redux/netWorth/netWorth_actions"
-import Popup from "pages/newNetWorth/components/Popup"
+import Popup from "pages/netWorth/components/Popup"
 import {transaction_action} from "redux/savings/savings_actions"
 import {savings_reducer} from "redux/savings/savings_reducer"
 import {renderSavings} from "services/savings/savings_functions"
@@ -52,7 +52,7 @@ const ControlPanel = ({ category, savings_reducer, subCategory3, subCategory1, s
                 {renderRangeBars(subCategory3)}  
                 <Popup 
                     category= {category} 
-                    subCategory={category === "asset" ? "property" : "longTerm"}
+                    subCategory={category === "asset" ? "property" : "mortgage"}
                 />          
                                                                                      
             </Section>

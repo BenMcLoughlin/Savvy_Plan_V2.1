@@ -1,20 +1,20 @@
 import React, {useState} from "react"
 import styled from "styled-components"
-import ControlPanel from "pages/newNetWorth/components/ControlPanel"
-import Header from "pages/newNetWorth/components/Header"
+import ControlPanel from "pages/netWorth/components/ControlPanel"
+import Header from "pages/netWorth/components/Header"
 import ButtonDark from "UI/buttons/ButtonDark"
 import { NavLink} from "react-router-dom"
 import SunBurstChart from "charts/netWorth/SunBurstChart"
 import ProjectionChart from "charts/netWorth/ProjectionChart"
-import {property_selector, cash_selector, investments_selector, longTerm_selector, shortTerm_selector, other_selector, chartProjection_selector} from "redux/netWorth/netWorth_selectors"
+import {property_selector, cash_selector, investments_selector, mortgage_selector, shortTerm_selector, other_selector, chartProjection_selector, mortgageSchedule_selector} from "redux/netWorth/netWorth_selectors"
 import {connect} from "react-redux"
 import {setItemValue_action, changeLabel_action, removeItem_action} from "redux/netWorth/netWorth_actions"
 
 
-const NetWorthApp = ({property_selector, cash_selector, investments_selector, longTerm_selector, shortTerm_selector, other_selector, chartProjection_selector}) => {    
+const NetWorthApp = ({property_selector, cash_selector, investments_selector, mortgage_selector, shortTerm_selector, mortgageSchedule_selector, other_selector, chartProjection_selector}) => {    
 
     const [display, setDisplay] = useState(true)                                                              // toggles display between asset and liability, true shows asset, false shows liability
-     console.log(chartProjection_selector);
+     console.log(mortgageSchedule_selector);
     return (
         <Page> 
             <Header display={display} setDisplay={setDisplay}/>
@@ -43,7 +43,7 @@ const NetWorthApp = ({property_selector, cash_selector, investments_selector, lo
                             category={"liability"}
                             subCategory1 = {shortTerm_selector}
                             subCategory2 = {other_selector} 
-                            subCategory3 = {longTerm_selector}
+                            subCategory3 = {mortgage_selector}
                     />
             }
             
@@ -60,11 +60,12 @@ const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
     property_selector: property_selector(state),
     cash_selector: cash_selector(state),
-    longTerm_selector: longTerm_selector(state), 
+    mortgage_selector: mortgage_selector(state), 
     shortTerm_selector: shortTerm_selector(state), 
     other_selector: other_selector(state),
     investments_selector: investments_selector(state),
     chartProjection_selector: chartProjection_selector(state),
+    mortgageSchedule_selector: mortgageSchedule_selector(state)
 })
 
 export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action})(NetWorthApp )

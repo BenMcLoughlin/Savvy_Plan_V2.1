@@ -4,7 +4,7 @@ import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "pages/dashboard/Dashboard"
 import TaxApp from "pages/taxPosition/TaxApp"
-import newNetWorth from "pages/newNetWorth/newNetWorth"
+import netWorth from "pages/netWorth/netWorth"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
@@ -39,7 +39,7 @@ const Layout = ({auth, state}) => {
                         <Route path="/Assumptions" component={Assumptions}/>
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
-                        <Route path="/NetWorth" component={newNetWorth}/>
+                        <Route path="/NetWorth" component={netWorth}/>
                         <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
                         <Route path="/LifeTimeIncome" component={Income}/>  
                         <Route path="/SavingsPlan" component={Savings}/>              
@@ -50,10 +50,7 @@ const Layout = ({auth, state}) => {
                             <Route exact path="/landingpage" component={LandingPage}/>
                             <Route path="/Login" component={Login}/>
                             <Route path="/SignUp" component={SignUp}/>
-                </GridContainer>
-
-
-                        
+                </GridContainer>                        
                 <RightVideoSelector/>
                 <Footer/>
                 </>

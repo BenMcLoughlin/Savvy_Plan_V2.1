@@ -7,7 +7,6 @@ import {connect} from "react-redux"
 
 const Header = ({display, setDisplay, totalAssets_selector, totalLiabilities_selector}) => {                                                                    //receives the set display prop so it can pass it to the toggle button
 
-    console.log(totalAssets_selector);
     return (
     <HeaderWrapper>
 

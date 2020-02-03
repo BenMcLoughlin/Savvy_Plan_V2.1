@@ -149,9 +149,9 @@ const mortgagePayment = (mortgageAmount, rate, amortization, paymentType)  => {
 
 
 const payment = mortgagePayment(100000, 3.2, 30, "monthly")
-console.log(mortgagePayment(100000, 3.2, 30, "monthly"));
 
-getPaymentSchedules = function(scheduledPay, mortgageAmount, rate, term, amortization, paymentType, additionalPay, additionalPaymentType) {
+
+export const getPaymentSchedules = function(scheduledPay, mortgageAmount, rate, term, amortization, paymentType, additionalPay, additionalPaymentType) {
     var termSchedule = [],
        amortizationSchedule = [],
        annualSchedule = [];
@@ -214,7 +214,7 @@ getPaymentSchedules = function(scheduledPay, mortgageAmount, rate, term, amortiz
                annualPayment.totalDays = nextPayment.totalDays;
                annualPayment.date = nextPayment.date;
                annualPayment.year = year;
-               annualPayment.openingBalance = lastYearPayment.closingBalance;
+               annualPayment.openingBalance = lastYearPayment.closingBalance > 0 ? lastYearPayment.closingBalance : 0;
                annualPayment.closingBalance = nextPayment.closingBalance;
                annualPayment.interestPay = nextPayment.totalInterestPay - lastYearPayment.interestPay;
                annualPayment.totalInterestPay = nextPayment.totalInterestPay;
@@ -231,7 +231,34 @@ getPaymentSchedules = function(scheduledPay, mortgageAmount, rate, term, amortiz
    };
 
    annualSchedule.shift();
-   return {annualSchedule:annualSchedule};
+   return annualSchedule
 }
 
-console.log(getPaymentSchedules(payment, 100000, 3.2, 5, 30, "monthly", 0, 0));
+
+
+// function getPaymentEffectiveRate(rate) {
+//     var payments =12 
+//          return Math.pow( (1+(0.01*rate/2)), 2/payments) - 1;
+// };
+
+
+export const calculatMortgageBalance = (startingBalance, rate, payment, years) => {
+    console.log(years);
+    const number = years * 12
+    const array = [{
+        endingBalance: startingBalance,
+        year: 0
+    }]
+    const effectiveRate = getPaymentEffectiveRate(rate, "monthly") 
+    for (let i = 1; i < number + 1 ; i++) {
+        const lastValue = array[i-1]
+        const totalInterest = lastValue.endingBalance * effectiveRate
+        const principlePayment = payment - totalInterest
+        const balance = lastValue.endingBalance - principlePayment > 0 ? lastValue.endingBalance - principlePayment  : 0
+        array.push({
+            endingBalance: balance ,
+            year: i/12.
+        })
+    }
+    return array.filter(d => d.year % 1 === 0)
+}

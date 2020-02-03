@@ -53,26 +53,39 @@ const initialState = {
     },
     liability: {
         Id1000003: {
-            subCategory: "longTerm",
-            financialValue: 15000, 
-            label: "Primary Residence",
+            name: "", 
+            financialValue: 100000,
+            rangeBarValue: 0,
+            subCategory: "mortgage",
             id: "Id1000003",
-            rangeBarValue: 0, 
-            debtType: "mortgage",
+            label: "",
+            registration: "none", 
             category: "liability",
-            registration: "", 
             interestRate: {
-                rangeBarValue: 0,
+                rangeBarValue: .03,
                 label: "Interest Rate",
+                name: "interestRate",
+                max: .1, 
+                min: 0,
+                step: .01,
+                numberType: "percentage"
+            },
+            remainingYears: {
+                rangeBarValue: 30,
+                label: "Remaining Years",
+                name: "remainingYears",
+                max: 40, 
+                min: 0,
+                step: 1,
             },
             payment: {
-                rangeBarValue: 0,
+                rangeBarValue: 431,
                 label: "Payment",
+                name: "payment",
+                max: 5000, 
+                min: 0,
+                step: 10
             },
-            yearsRemaining: {
-                rangeBarValue: 0,
-                label: "Years Remaining",
-            }
         },
         Id1000004: {
             subCategory: "shortTerm",
