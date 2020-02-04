@@ -40,7 +40,7 @@ export default miniRangeBar
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;
     padding-left: 2rem;
-    width: 48%;
+    width: 20rem;
     display: flex;
     flex-direction: column;
     justify-content: center;

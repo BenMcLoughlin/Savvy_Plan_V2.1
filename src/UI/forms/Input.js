@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
-
+import _  from "lodash"
 
 const FormInput = ({label, type, value, name, required, handleChange})  => {
 //const [error, showError] = useState(false)
@@ -27,7 +27,7 @@ const FormInput = ({label, type, value, name, required, handleChange})  => {
                 autoComplete="off"
                 required={required}
             ></Input>
-            <Label>{label}</Label>
+            <Label>{_.startCase(label)}</Label>
             {/* {
                 error ? 
                    <Error>{`Please Enter a valid ${label}`}</Error>

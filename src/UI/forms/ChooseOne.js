@@ -12,7 +12,9 @@ const ChooseOne = ({value, setValue, array}) => {
 
     return (
         <Container>
-            Choose One
+            <Label>
+                 Choose One
+            </Label>
             <SelectWrapper>
                 {
                     array.map(d =>  <SelectValue selected={selected === d} onClick={() => handleSelect(d)}>
@@ -33,11 +35,15 @@ export default ChooseOne
 //-----------------------------------------------style-----------------------------------------------//
 
 const Container = styled.div`
-    width: 30rem;
+    width: 25rem;
     height: 25rem;
     background: white;
     font-size: 1.4rem;
     overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    margin-top: -2rem;
+
 
 `
 const SelectWrapper = styled.div`
@@ -55,9 +61,18 @@ const SelectWrapper = styled.div`
     justify-content: center;
 
 `
+const Label = styled.label`
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: ${props => props.theme.color.lightGrey};
+    width: 25rem;
+    padding: 1rem;
+    font-weight: 700;
+    text-align: left;
+`
 
 const SelectValue = styled.div`
-    padding: 2rem
+    padding: 2rem;
     hieght: 3rem;
     width: 98%;
     color: ${props => props.selected ? "white" :  props.theme.color.slate}

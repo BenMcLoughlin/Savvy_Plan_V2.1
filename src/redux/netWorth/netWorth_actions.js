@@ -24,14 +24,16 @@ export const removeItem_action = (rangeBarProps) => ({
         category: rangeBarProps.category,
 })
 
+
+
+
 export const addItem_action = (id, state) => {
-        console.log(state);
        return ({
         type: "netWorth_reducer/ADD_ITEM",
         payload: {
-            id: id,
-            ...state,
-        }
+                id: id,
+                ...state,
+        } 
 })}
 
 
