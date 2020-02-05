@@ -108,8 +108,8 @@ const Left = styled.div`
 `
 const ButtonWrapper = styled.div`
     position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 1rem;
+    right: 1rem;
 `
 const MiniRangeBarWrapper = styled.div`
     position: absolute;
@@ -126,9 +126,9 @@ const Center = styled.div`
 `
 const Container = styled.div`
     grid-area: b;
-    width: 80%;
+    width: 90rem;
     margin-left: 10%;
-    height: 35rem;
+    height: 32rem;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     display: flex;

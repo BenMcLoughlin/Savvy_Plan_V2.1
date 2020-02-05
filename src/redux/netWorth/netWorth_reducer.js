@@ -1,12 +1,11 @@
 import _ from "lodash"
 
 
-
 const initialState = {
-    asset: {
+    assets: {
 
     },
-    liability: {
+    liabilities: {
     }
 }
 

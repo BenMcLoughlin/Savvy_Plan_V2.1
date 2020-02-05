@@ -13,27 +13,28 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
 
     const initialState = {
         category: "asset", 
-        label: "",
+        label: null,
+        subCategory: "", 
         interestRate: {
             rangeBarValue: 0,
             name: "interestRate",
             max: 0.1,
             min: 0,
             step: 0.001,
-            label: "Rate of Return",
+            label: "Value Appreciation Rate",
             numberType: "percentage"
         },
         currentValue: {
             rangeBarValue: 0,
             financialValue: 0,
             name: "currentValue",
-            label: "Cash Value",
+            label: "Market Value",
         },
         bookValue: {
             rangeBarValue: 0,
             financialValue: 0,
             name: "bookValue",
-            label: "Book Value / Purchase Price",
+            label: "Purchase Price",
         }
     }
     console.log(netWorth_reducer);
@@ -54,13 +55,13 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
     return (
         <Wrapper>
             <Header>
-                <h2>Investment Assets</h2> 
+                <h2>Property Assets</h2> 
             </Header>
             <Container> 
                 <Left>
                     <ChooseOne
-                            array={["TFSA", "RRSP", "RESP","Non-Registered Savings", "LIRA" ]}
-                            setValue={() => "hi"}
+                            array={["Primary Residence", "Rental Property", "Vacation Home","Vehicle", "Other" ]}
+                            setValue={() => setState({...state, subCategory: "property"})}
                             value ={1}
                         />
                 </Left>
@@ -125,7 +126,7 @@ const Wrapper = styled.div`
 `
 const Header = styled.div`
     width: 100%;
-    background: ${props => props.theme.color.blue};
+    background: ${props => props.theme.color.sandy};
     height: 4rem;
     color: ${props => props.theme.color.ice}
 `

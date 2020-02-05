@@ -36,19 +36,16 @@ export default ChooseOne
 
 const Container = styled.div`
     width: 25rem;
-    height: 25rem;
+    height: 30rem;
     background: white;
     font-size: 1.4rem;
-    overflow: scroll;
     display: flex;
     flex-direction: column;
-    margin-top: -2rem;
-
+    margin-top: -1.6rem;
 
 `
 const SelectWrapper = styled.div`
-    min-height: 20rem;
-    max-height: 23rem;
+    height: 20rem;
     background: white;
     font-size: 1.4rem;
     overflow: scroll;
@@ -57,8 +54,6 @@ const SelectWrapper = styled.div`
     border: .7px solid ${props => props.theme.color.lightGrey};
     display: flex;
     flex-direction: column;
-    align-items:center;
-    justify-content: center;
 
 `
 const Label = styled.label`
@@ -66,6 +61,7 @@ const Label = styled.label`
     font-weight: normal;
     color: ${props => props.theme.color.lightGrey};
     width: 25rem;
+    height: 4rem;
     padding: 1rem;
     font-weight: 700;
     text-align: left;
@@ -73,7 +69,10 @@ const Label = styled.label`
 
 const SelectValue = styled.div`
     padding: 2rem;
-    hieght: 3rem;
+    height: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 98%;
     color: ${props => props.selected ? "white" :  props.theme.color.slate}
     font-size: 1.6rem;

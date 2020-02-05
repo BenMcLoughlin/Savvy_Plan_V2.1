@@ -5,10 +5,14 @@ import WelcomePage from "pages/newNetWorth/wizard/WelcomePage"
 import ButtonLight from "UI/buttons/ButtonLight"
 import ShortTermAssets from "pages/newNetWorth/wizard/ShortTermAssets"
 import InvestmentAssets from "pages/newNetWorth/wizard/InvestmentAssets"
+import PropertyAssets from "pages/newNetWorth/wizard/PropertyAssets"
+import UnsecuredDebt from "pages/newNetWorth/wizard/UnsecuredDebt"
+import SecuredDebt from "pages/newNetWorth/wizard/SecuredDebt"
+import AddForm from "pages/newNetWorth/wizard/AddForm"
 
 const Wizard = () => {    
 
-    const [count, setCount] = useState(2)                                                              // toggles display between asset and liability, true shows asset, false shows liability
+    const [count, setCount] = useState(1)                                                              // toggles display between asset and liability, true shows asset, false shows liability
 
     return (
         <Page> 
@@ -16,32 +20,55 @@ const Wizard = () => {
               count === 0 ? 
               <WelcomePage />
               : count === 1 ? 
-              <>
-                < Header>
-                        <Left>
-                        <h1>Assets</h1>
-                        </Left>
-                        <Right>
-                            <h2>Short Term</h2>
-                            <H3>Assets that can be converted to Cash immediately.</H3>
-                        </Right>
-                </Header>
-                <ShortTermAssets/>
-              </>
+
+                <AddForm
+                  category={"assets"}
+                  subCategory={"cashAssets"}
+                  currentValueLabel={"Cash Value"}
+                  interestRateLabel={"Interest Rate"}
+                  accountTypeArray = {["checking Account", "savings account", "garaunteed investment certificates"]}
+                />
+
               : count === 2 ? 
-              <>
-              < Header>
-              <Left>
-                        <h1>Assets</h1>
-                        </Left>
-                        <Right>
-                            <h2>Investments</h2>
-                            <H3>Savings for the long term.</H3>
-                        </Right>
-                </Header>
-                <InvestmentAssets/>
-              
-                </>
+
+                 <AddForm
+                  category={"assets"}
+                  subCategory={"investmentAssets"}
+                  currentValueLabel={"Current Value"}
+                  bookValueLabel={"Book Value"}
+                  interestRateLabel={"Rate of Return"}
+                  accountTypeArray = {["TFSA", "RRSP", "RESP","Non-Registered Savings", "LIRA" ]}
+                />
+
+              : count === 3 ? 
+
+                  <AddForm
+                  category={"assets"}
+                  subCategory={"propertyAssets"}
+                  currentValueLabel={"Market Value"}
+                  bookValueLabel={"Purchase Price"}
+                  interestRateLabel={"Appreciation Rate"}
+                  accountTypeArray = {["Primary Residence", "Rental Property", "Vacation Home","Vehicle", "Other" ]}
+                />
+              : count === 4 ? 
+                  <AddForm
+                  category={"liabilities"}
+                  subCategory={"unsecuredDebt"}
+                  currentValueLabel={"Current Debt Value"}
+                  interestRateLabel={"Interest Rate"}
+                  accountTypeArray = {["Credit Cards", "Line of Credit", "Student Loan","Other"]}
+                />
+              : count === 5 ? 
+
+                  <AddForm
+                  category={"liabilities"}
+                  subCategory={"securedDebt"}
+                  currentValueLabel={"Current Debt Value"}
+                  bookValueLabel={"Mortgage Starting Balance"}
+                  interestRateLabel={"Interest Rate"}
+                  accountTypeArray = {["Credit Cards", "Line of Credit", "Student Loan","Other"]}
+                />
+            
                : 
               null
           }
@@ -66,16 +93,11 @@ export default connect(mapStateToProps, {})(Wizard )
 
 
 const Page = styled.div`
-   ${props => props.theme.pageBaseStyles}
+    grid-area: b;
     width: 100%;
-    height: 80rem;
+    height: 40rem;
     display: grid;
     text-align: center;
-    grid-template-rows: minmax(10rem, 12rem) minmax(30rem, 40rem);
-    grid-template-areas: 
-    "a a a"
-    "b b b"
-
 `
 
 const Header = styled.div`
@@ -99,7 +121,7 @@ const Right = styled.div`
 
 const Buttons = styled.div`
     position: absolute;
-    top: 60rem;
+    top: 64rem;
     left: 38%;
     width: 15rem;
     display: flex;

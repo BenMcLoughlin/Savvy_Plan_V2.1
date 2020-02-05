@@ -132,32 +132,6 @@ const drawChart = (data, width, height, total, className) => {
         const legendGroup = graph.append('g')
                         .attr("transform", `translate(100, 30)`)
                 
-        const legend = legendGroup.selectAll('.legend')
-                        .data(colorScale.domain())
-                        .enter() 
-                        .append('g')
-                        .attr('class', 'legend') 
-                        .attr('transform', function(d, i) {                   
-                            const height = legendRectSize + legendSpacing + 10;   
-                            const offset =  height * colorScale.domain().length / 1.2;  
-                            const horz = 2 * legendRectSize; 
-                            const vert = i * height - offset; 
-                            return 'translate(' + horz + ',' + vert + ')';   
-                        });
-                     
-                        legend.append('circle') // append rectangle squares to legend                                   
-                            .attr('r', legendRectSize) // width of rect size is defined above                        
-                            .attr('height', legendRectSize) // height of rect size is defined above                                     
-                            .style('fill', colorScale) // each fill is passed a color
-                            .style('stroke', color) // each stroke is passed a color
-                        
-                            legend.append('text')                                    
-                            .attr('x', legendRectSize + legendSpacing)
-                            .attr('y', legendRectSize - legendSpacing + 6)
-                            .text(function(d) { return d })
-                            .style("fill", "grey")
-                            .style("font-size", "12pt"); // return name
-                       
                       
         }
         update(data)

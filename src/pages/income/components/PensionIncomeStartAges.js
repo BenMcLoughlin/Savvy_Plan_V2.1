@@ -28,6 +28,8 @@ const Wrapper= styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 2rem;
+    height: 25rem;
+    width: 40rem;
 `
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 /*

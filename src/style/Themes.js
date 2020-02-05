@@ -12,8 +12,10 @@ export const lightTheme = {
         turquoise: "#4BB9D0",
         drab: "#324755",
         sandy: '#ffd152',
+        steelBlue: '#3B7B8E',
         onyx: '#485056',
         salmon: '#F29278',
+        darkSalmon: '#F07655',
     },
     fontSize: {
         smallest: "1rem",

@@ -1,42 +1,67 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import styled from "styled-components"
 import ControlPanel from "pages/netWorth/components/ControlPanel"
 import {connect} from "react-redux"
 import ChooseOne from "UI/forms/ChooseOne"
 import FormInput  from "UI/forms/Input"
+import DateInput from "UI/forms/DateInput"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {addItem_action} from "redux/netWorth/netWorth_actions"
+import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
+import _ from "lodash"
 
-const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {    
+const AddForm = ({category, subCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, netWorth_reducer, addItem_action, propertyNames_selector}) => {    
 
     const initialState = {
-        category: "asset", 
+        category: category, 
         label: "",
+        subCategory: subCategory,
         interestRate: {
             rangeBarValue: 0,
             name: "interestRate",
-            max: 0.1,
+            max: 0.25,
             min: 0,
             step: 0.001,
-            label: "Rate of Return",
+            label: interestRateLabel,
             numberType: "percentage"
         },
         currentValue: {
             rangeBarValue: 0,
             financialValue: 0,
             name: "currentValue",
-            label: "Cash Value",
+            label: currentValueLabel,
         },
         bookValue: {
             rangeBarValue: 0,
             financialValue: 0,
             name: "bookValue",
-            label: "Book Value / Purchase Price",
-        }
+            label: bookValueLabel,
+        },
+        amortization: {
+            rangeBarValue: 0,
+            name: "amortization",
+            label: "Amortization",
+            max: 40,
+            min: 0,
+            step: 1,
+        },
+        startDate: {
+            rangeBarValue: 0,
+            name: "startDate",
+            label: "Start Date",
+            date: "",
+
+        },
+        payment: {
+            rangeBarValue: 0,
+            financialValue: 0,
+            name: "payment",
+            label: "Monthly Payment",
+        },
     }
-    console.log(netWorth_reducer);
+
     const [state, setState] = useState({...initialState})
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {
@@ -46,20 +71,37 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
                                         rangeBarValue: rangeBarValue
     }})
     }
+   
+    useEffect(() => {
+        setState({...initialState, subCategory: subCategory})
+    }, [subCategory])
+
+    console.log(netWorth_reducer);
+    console.log(category, state.category);
+    console.log(subCategory, state.subCategory);
+    const setDate = (event) => {
+        setState({...state, startDate: {
+                                ...state.startDate, 
+                                         date: event.target.value
+    }})
+    }
+
+
     const addItem = () => {
         const id = (Math.random() * 1000000).toFixed()
         addItem_action(id, state)
         setState({...initialState})
     }
+
     return (
         <Wrapper>
-            <Header>
-                <h2>Investment Assets</h2> 
+            <Header subCategory={subCategory}>
+                <h2>{_.startCase(subCategory)}</h2> 
             </Header>
             <Container> 
                 <Left>
                     <ChooseOne
-                            array={["TFSA", "RRSP", "RESP","Non-Registered Savings", "LIRA" ]}
+                            array={subCategory === "securedDebt" ? propertyNames_selector.concat("None of These") : accountTypeArray }
                             setValue={() => "hi"}
                             value ={1}
                         />
@@ -71,18 +113,37 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
                         type={"text"}
                         handleChange={(e) => setState({...state, label: e.target.value })}
                     />
-
-                    <RangeBar 
+                    {subCategory === "securedDebt" ? 
+                            <DateInput 
+                            label={"Mortgage Start Date"}
+                            value={state.startDate.date}
+                            handleChange={(event) => setDate(event)}
+                        />
+                        : null
+                    }
+                    {
+                        subCategory === "propertyAssets" || subCategory === "securedDebt" ?
+                <RangeBar 
                         rangeBarProps={state.bookValue}
                         setValue={setValue}                 
-                    />
+                    /> : null
+                    }
                 <RangeBar 
                         rangeBarProps={state.currentValue}
                         setValue={setValue}                 
-                    />
+                    /> 
+
                 </Center>
                 <Right>
                     <MiniRangeBarWrapper>
+                        {
+                            category === "liabilities" ? 
+                            <MiniRangeBar 
+                            rangeBarProps={state.amortization}
+                            setValue={setValue}
+                        /> : null
+                        }
+
                         <MiniRangeBar 
                             rangeBarProps={state.interestRate}
                             setValue={setValue}
@@ -96,6 +157,7 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
                     </ButtonWrapper>
                 </Right>
             </Container>
+            
         </Wrapper>
 
        
@@ -104,10 +166,11 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
 }
 //({text, backward, forward, onClick})
 const mapStateToProps = (state) => ({
-    netWorth_reducer: state.netWorth_reducer
+    netWorth_reducer: state.netWorth_reducer,
+    propertyNames_selector: propertyNames_selector(state),
 })
 
-export default connect(mapStateToProps, {addItem_action})(InvestmentAssets )
+export default connect(mapStateToProps, {addItem_action})(AddForm )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -121,13 +184,19 @@ const Wrapper = styled.div`
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     overflow: hidden;
-    height: 35rem;
+    height: 38rem;
 `
 const Header = styled.div`
     width: 100%;
-    background: ${props => props.theme.color.blue};
+    background: ${props => props.subCategory === "cashAssets" ? props.theme.color.blue : 
+                  props => props.subCategory === "investmentAssets" ? props.theme.color.steelBlue : 
+                  props => props.subCategory === "propertyAssets" ? props.theme.color.sandy : 
+                  props => props.subCategory === "unsecuredDebt" ? props.theme.color.salmon : 
+                  props => props.subCategory === "securedDebt" ? props.theme.color.darkSalmon : 
+    null};
     height: 4rem;
-    color: ${props => props.theme.color.ice}
+    color: ${props => props.theme.color.ice};
+
 `
 const Left = styled.div`
     width: 30rem;
@@ -142,7 +211,7 @@ const ButtonWrapper = styled.div`
 const MiniRangeBarWrapper = styled.div`
     position: absolute;
     right: 3rem;
-    top: 11rem;
+    top: 1rem;
 `
 const Right = styled.div`
     width: 30rem;
@@ -153,7 +222,7 @@ const Center = styled.div`
     padding: 2rem;
 `
 const Container = styled.div`
-    height: 28rem;
+    height: 33rem;
     display: flex;
     position: relative;
 `

@@ -9,32 +9,46 @@ import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {addItem_action} from "redux/netWorth/netWorth_actions"
 
-const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {    
+const UnsecuredDebt = ({netWorth_reducer, addItem_action}) => {    
 
     const initialState = {
-        category: "asset", 
-        label: "",
+        category: "liability", 
+        label: null,
         interestRate: {
             rangeBarValue: 0,
             name: "interestRate",
-            max: 0.1,
+            max: 0.25,
             min: 0,
             step: 0.001,
-            label: "Rate of Return",
+            label: "Interest Rate",
             numberType: "percentage"
         },
         currentValue: {
             rangeBarValue: 0,
             financialValue: 0,
             name: "currentValue",
-            label: "Cash Value",
+            label: "Market Value",
         },
         bookValue: {
             rangeBarValue: 0,
             financialValue: 0,
             name: "bookValue",
-            label: "Book Value / Purchase Price",
-        }
+            label: "Debt Value",
+        },
+        amortization: {
+            rangeBarValue: 0,
+            name: "amortization",
+            label: "Amortization",
+            max: 40,
+            min: 0,
+            step: 1,
+        },
+        payment: {
+            rangeBarValue: 0,
+            financialValue: 0,
+            name: "payment",
+            label: "Monthly Payment",
+        },
     }
     console.log(netWorth_reducer);
     const [state, setState] = useState({...initialState})
@@ -54,12 +68,12 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
     return (
         <Wrapper>
             <Header>
-                <h2>Investment Assets</h2> 
+                <h2>Unsecured Debt</h2> 
             </Header>
             <Container> 
                 <Left>
                     <ChooseOne
-                            array={["TFSA", "RRSP", "RESP","Non-Registered Savings", "LIRA" ]}
+                            array={["Credit Cards", "Line of Credit", "Student Loan","Other"]}
                             setValue={() => "hi"}
                             value ={1}
                         />
@@ -77,12 +91,16 @@ const InvestmentAssets = ({netWorth_reducer, addItem_action}) => {
                         setValue={setValue}                 
                     />
                 <RangeBar 
-                        rangeBarProps={state.currentValue}
+                        rangeBarProps={state.payment}
                         setValue={setValue}                 
                     />
                 </Center>
                 <Right>
                     <MiniRangeBarWrapper>
+                        <MiniRangeBar 
+                            rangeBarProps={state.amortization}
+                            setValue={setValue}
+                        />
                         <MiniRangeBar 
                             rangeBarProps={state.interestRate}
                             setValue={setValue}
@@ -107,7 +125,7 @@ const mapStateToProps = (state) => ({
     netWorth_reducer: state.netWorth_reducer
 })
 
-export default connect(mapStateToProps, {addItem_action})(InvestmentAssets )
+export default connect(mapStateToProps, {addItem_action})(UnsecuredDebt )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -125,7 +143,7 @@ const Wrapper = styled.div`
 `
 const Header = styled.div`
     width: 100%;
-    background: ${props => props.theme.color.blue};
+    background: ${props => props.theme.color.salmon};
     height: 4rem;
     color: ${props => props.theme.color.ice}
 `
@@ -142,7 +160,7 @@ const ButtonWrapper = styled.div`
 const MiniRangeBarWrapper = styled.div`
     position: absolute;
     right: 3rem;
-    top: 11rem;
+    top: 1rem;
 `
 const Right = styled.div`
     width: 30rem;

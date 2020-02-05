@@ -4,20 +4,25 @@ import ControlPanel from "pages/netWorth/components/ControlPanel"
 import Header from "pages/netWorth/components/Header"
 import Wizard from "pages/newNetWorth/wizard/Wizard"
 import {connect} from "react-redux"
+import SunBurstChart from "charts/netWorth/SunBurstChart"
+import ProjectionChart from "charts/netWorth/ProjectionChart"
 
 const NewNetWorthApp = () => {    
 
-    const [wizard, toggleWizard] = useState(true)                                                              // toggles display between asset and liability, true shows asset, false shows liability
-
     return (
-        <>
-        {
-        wizard ? <Wizard/> :
-        <Page> 
-        </Page>
-        }
 
-        </>
+        <Page> 
+            <Charts>
+            <ChartPlaceHolder>
+                    <SunBurstChart chartType={"asset"}/>
+                </ChartPlaceHolder>
+                < ProjectionChartPlaceHolder>
+                </ProjectionChartPlaceHolder>
+            </Charts>
+                <Wizard/> 
+        </Page>
+
+
        
     )
 
@@ -35,15 +40,14 @@ export default connect(mapStateToProps, {})(NewNetWorthApp )
 
 const Page = styled.div`
     ${props => props.theme.pageBaseStyles}
-    grid-template-rows: minmax(20rem, 22rem)  minmax(14rem, 16rem) minmax(24rem, 28rem);
+    grid-template-rows: minmax(20rem, 22rem) minmax(28rem, 40rem);
     width: 100%;
     grid-template-areas:
-    'a b b b b b b b b b b b'
-    'c c c c c c c c c c c c'
-    'd d d d d d d d d d d d'
+    'a a a a a a a a a a a a'
+    'b b b b b b b b b b b b'
 `
 const Charts = styled.div`
-    grid-area: b;
+    grid-area: a;
     width: 100%;
     height: 100%;
     display: flex;
@@ -51,6 +55,7 @@ const Charts = styled.div`
     flex-direction: row;
 `
 const ChartPlaceHolder = styled.div`
+
     width: 50%;
     height: 100%;
 `

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const DateInput = ({label, type, value, name, required, handleChange})  => {
+const DateInput = ({label, value, name, required, handleChange})  => {
 
     return (
         <Wrapper>
