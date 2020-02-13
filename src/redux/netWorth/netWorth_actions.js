@@ -1,18 +1,21 @@
 import _ from "lodash"
 
 
-export const setItemValue_action = (logValue, rangeBarValue, rangeBarProps) => ({
+export const setItemValue_action = (logValue, rangeBarValue, category, rangeBarProps, itemId) => {
+        console.log(itemId);
+        return ({
         type: "netWorth_reducer/SET_ITEM_VALUE",
-        id: rangeBarProps.id,
-        category: rangeBarProps.category,
+        id: itemId,
+        name: rangeBarProps.name,
+        category: category,
         financialValue: logValue,
         rangeBarValue,
         rangeBarProps
-})
+})}
 
-export const changeLabel_action = (e, rangeBarProps) => ({
+export const changeLabel_action = (e, rangeBarProps, itemId) => ({
         type: "netWorth_reducer/CHANGE_LABEL",
-        id: rangeBarProps.id,
+        id: itemId,
         label: e.target.value,
         category: rangeBarProps.category,
         rangeBarProps

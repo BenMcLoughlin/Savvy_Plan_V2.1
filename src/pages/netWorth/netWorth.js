@@ -1,74 +1,97 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 import ControlPanel from "pages/netWorth/components/ControlPanel"
-import Header from "pages/netWorth/components/Header"
-import ButtonDark from "UI/buttons/ButtonDark"
-import { NavLink} from "react-router-dom"
+import {connect} from "react-redux"
 import SunBurstChart from "charts/netWorth/SunBurstChart"
 import ProjectionChart from "charts/netWorth/ProjectionChart"
-import {property_selector, cash_selector, investments_selector, mortgage_selector, shortTerm_selector, other_selector, chartProjection_selector, mortgageSchedule_selector} from "redux/netWorth/netWorth_selectors"
-import {connect} from "react-redux"
-import {setItemValue_action, changeLabel_action, removeItem_action} from "redux/netWorth/netWorth_actions"
+import ButtonLight from "UI/buttons/ButtonLight"
+import AddForm from "pages/netWorth/components/AddForm"
+import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
+import Header from "pages/netWorth/components/Header"
+import WelcomePage from "pages/netWorth/components/WelcomePage"
+import ItemDisplayBox from "pages/netWorth/components/ItemDisplayBox"
 
+const NetWorth = () => {    
+    const [count, setCount] = useState(8)                                                               // Controls Count for wizard display
+    const [display, setDisplay] = useState("assets")                                                    // toggles display between asset and liability  
 
-const NetWorthApp = ({property_selector, cash_selector, investments_selector, mortgage_selector, shortTerm_selector, mortgageSchedule_selector, other_selector, chartProjection_selector}) => {    
+    const renderAddForm = data => {                                                                     // Takes data from netWorth_data and renders a different input 
+      return data.map(d =>                                                                              // based on the count, such as Cash Assets or Unsecured Debt
+        d.count === count ? 
+        <AddPage key={d.subCategory}>
+            <DisplayWrapper >                                                                           {/* shows the items the user has assed such as "Cash 100K"*/}  
+                <ItemDisplayBox                
+                category={d.category}
+                subCategory={d.subCategory}
+                setItemId={() => null}
+            />
+         </DisplayWrapper>
+        <AddFormWrapper>                                                                                 {/* form that enables users to add new items*/}  
+            <AddForm                                                                                  
+                category={d.category}
+                subCategory={d.subCategory}
+                bookValueLabel={d.bookValueLabel}
+                currentValueLabel={d.currentValueLabel}
+                interestRateLabel={d.interestRateLabel}
+                accountTypeArray = {d.accountTypeArray}  
+                setAddFormSubCategory={() => null}                                                        //This is set to null here because Add form is also used on the final page
+        />                                                                                                {/* which needs to use this function*/}  
+        </AddFormWrapper>
+      </AddPage>
+      : null
+      )
+    }
 
-    const [display, setDisplay] = useState(true)                                                              // toggles display between asset and liability, true shows asset, false shows liability
-     console.log(mortgageSchedule_selector);
     return (
-        <Page> 
-            <Header display={display} setDisplay={setDisplay}/>
-            <Charts>
-                <ChartPlaceHolder>
-                    <SunBurstChart chartType={"asset"}/>
-                </ChartPlaceHolder>
-                <ChartPlaceHolder>
-                    <SunBurstChart chartType={"liability"}/>
-                </ChartPlaceHolder>
-            </Charts>
-            <ProjectionChartPlaceHolder>
-                <ProjectionChart/>
-            </ProjectionChartPlaceHolder>
 
-            {
-                display ? 
-                   <ControlPanel
-                        category={"asset"}
-                        subCategory1 = {cash_selector}
-                        subCategory2 = {investments_selector}
-                        subCategory3 = {property_selector}
-                   />
-                : 
-                    <ControlPanel
-                            category={"liability"}
-                            subCategory1 = {shortTerm_selector}
-                            subCategory2 = {other_selector} 
-                            subCategory3 = {mortgage_selector}
-                    />
-            }
-            
-            <ButtonWrapper to="/SavingsPlan">
-                            <ButtonDark text={'Next'}/>
-           </ButtonWrapper>   
+        <Page> 
+          {count === 0 ?  <WelcomePage/>                                                                  // When user first arrive they see the welcoem page
+          :
+          count < 6 ? 
+
+          <>
+                {renderAddForm(netWorthWizard_data)}                                                      {/*This is the walk through wizard getting them to input their details*/}  
+          </>
+          : 
+                <>                                                                                        {/*Final Display Page showing charts and different assets and liabilities*/} 
+                <Header 
+                    display={display}
+                    setDisplay={setDisplay}
+                />
+                <Charts>                                                                                 {/*Displays two chartss*/}
+                    <SunBurstChartPlaceHolder>
+                            <SunBurstChart/>
+                    </SunBurstChartPlaceHolder>
+                    <ProjectionChartPlaceHolder>
+                            <ProjectionChart/>
+                    </ProjectionChartPlaceHolder>
+                </Charts>
+                <ControlPanel 
+                    setCount={setCount}
+                    display={display}
+                />
+                 </>
+          }
+               <Buttons>                                                                             {/* Fixed plan buttons enabling the toggling back and forth*/}
+                                < ButtonLight backward onClick={() => setCount(count > 0 ? count - 1 : 0)}/>
+                                < ButtonLight forward onClick={() => setCount(count + 1)}/>                   
+
+                </Buttons>
+
+                                
         </Page>
+
+
        
     )
 
 }
 
 const mapStateToProps = (state) => ({
-    savings_reducer: state.savings_reducer,
-    property_selector: property_selector(state),
-    cash_selector: cash_selector(state),
-    mortgage_selector: mortgage_selector(state), 
-    shortTerm_selector: shortTerm_selector(state), 
-    other_selector: other_selector(state),
-    investments_selector: investments_selector(state),
-    chartProjection_selector: chartProjection_selector(state),
-    mortgageSchedule_selector: mortgageSchedule_selector(state)
+
 })
 
-export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action})(NetWorthApp )
+export default connect(mapStateToProps, {})(NetWorth )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -76,13 +99,16 @@ export default connect(mapStateToProps, {setItemValue_action, changeLabel_action
 
 const Page = styled.div`
     ${props => props.theme.pageBaseStyles}
-    grid-template-rows: minmax(20rem, 22rem)  minmax(14rem, 16rem) minmax(24rem, 28rem);
+    grid-template-rows: minmax(7rem, 10rem) minmax(21rem, 22rem) minmax(28rem, 40rem);
     width: 100%;
+    position: relative;
     grid-template-areas:
-    'a b b b b b b b b b b b'
+    'a a a a a a a a a a a a'
+    'b b b b b b b b b b b b'
     'c c c c c c c c c c c c'
-    'd d d d d d d d d d d d'
 `
+const AddPage = styled(Page)``
+
 const Charts = styled.div`
     grid-area: b;
     width: 100%;
@@ -91,22 +117,40 @@ const Charts = styled.div`
     justify-content: space-around;
     flex-direction: row;
 `
-const ChartPlaceHolder = styled.div`
-    width: 50%;
-    height: 100%;
+const SunBurstChartPlaceHolder = styled.div`
+    width: 30%;
+    height: 90%;
 `
 const ProjectionChartPlaceHolder = styled.div`
-    grid-area: c;
+    width: 70%;
     height: 100%;
-
 `
 
-const ButtonWrapper = styled(NavLink)`
-    position: absolute;
-    right: 20rem;
-    bottom: 2rem;
+const Buttons = styled.div`
+position: absolute;
+width: 141rem;
+top: 30rem;
+left: -10rem;
+z-index: 100;
+display: flex;
+justify-content: space-between;
 `
 
 
+const DisplayWrapper = styled.div`
+    grid-area: a;
+    width: 80%;
+    margin-left: 10%;
+    height: 20rem;
+`
 
- 
+const AddFormWrapper = styled.div`
+    grid-area: c;
+    width: 80%;
+    margin-left: 10%;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 35rem;
+`
+
+

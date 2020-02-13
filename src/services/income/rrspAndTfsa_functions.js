@@ -5,14 +5,14 @@
 function calculateOptimumIncomeStreamsMemoized() {
     let cache = {};
     return function(cacheKey, highestIncomes, maxRrspPayment, maxTfsaPayment, pensionIncome, retirementIncome) {
-        console.log(`
-        cacheKey: ${cacheKey}
-        highestIncomes: ${highestIncomes}
-        maxRrspPayment: ${maxRrspPayment}
-        maxTfsaPayment: ${maxTfsaPayment}
-        pensionIncome: ${pensionIncome}
-        retirementIncome: ${retirementIncome}
-        `);
+        // console.log(`
+        // cacheKey: ${cacheKey}
+        // highestIncomes: ${highestIncomes}
+        // maxRrspPayment: ${maxRrspPayment}
+        // maxTfsaPayment: ${maxTfsaPayment}
+        // pensionIncome: ${pensionIncome}
+        // retirementIncome: ${retirementIncome}
+        // `);
         if (cacheKey in cache) 
             return cache[cacheKey]
             else {
@@ -25,7 +25,6 @@ function calculateOptimumIncomeStreamsMemoized() {
                 const rrspIncome = taxAdvantagedDifferentialLessTfsa > maxRrspPayment ? maxRrspPayment : taxAdvantagedDifferentialLessTfsa 
         
                 const nonRegistered = taxAdvantagedDifferentialLessTfsa - rrspIncome
-                console.log(rrspIncome);
                 return  {
                     rrsp: rrspIncome > 0 ? rrspIncome : 0,
                     tfsa: tfsaIncome > 0 ? tfsaIncome : 0, 
@@ -82,7 +81,6 @@ function addRetirementIncomeMemoized() {
             }
             for (let age = rrspStartAge; age <= 95; age++ ) {
                 setIncome_action(age, false, Math.round(incomeStreams.rrsp/1000)*1000, "RRSP Income", "rrsp", 0) 
-                console.log(incomeStreams.rrsp);
             
             }
             for (let age = 50 ; age < tfsaStartAge; age++ ) {

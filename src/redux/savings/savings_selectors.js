@@ -13,7 +13,7 @@ const round = number => {
 
 
 
-export const investmentReturnsArray = createSelector(
+export const investmentReturns_selector = createSelector(
     [investmentReturns], 
     (investmentReturns) => Object.values(investmentReturns)
 )

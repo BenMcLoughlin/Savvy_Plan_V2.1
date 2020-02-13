@@ -3,7 +3,7 @@ import {setUserDetail_action} from "redux/user/user_actions"
 import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {rate1, rate2, investmentReturnsArray} from "redux/assumptions/assumptions_selectors"
+import {rate1, rate2, investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
 import {setNestedUserDetail_action} from "redux/user/user_actions"
 import {Title, Dialogue} from "pages/onboarding/components/FirstName"
@@ -37,7 +37,7 @@ return (
 
 const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
-    investmentReturnsArray: investmentReturnsArray(state),
+    investmentReturns_selector: investmentReturns_selector(state),
 })
 
 export default connect(mapStateToProps, {setNestedUserDetail_action })(RetirementAge)

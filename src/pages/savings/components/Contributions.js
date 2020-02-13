@@ -41,18 +41,18 @@ const Contributions = ({count, rate1, rate2, rrspStartAge, savings_reducer,setOp
                                 />
                       </YearsSelectorWrapper>   
                                       <RangeBarWrapper>
-                                      { rangeBarArray.map(d => 
+    
                                                   <Display>
                                                   <RangeBar
-                                                                  key={d.name}
-                                                                  financialValue= {d.financialValue}
-                                                                  rangeBarProps={d}
+                                                                  key={rangeBarArray[0].name}
+                                                                  financialValue= {rangeBarArray[0].financialValue}
+                                                                  rangeBarProps={rangeBarArray[0]}
                                                                   setValue={setContributions}
                                                                   />
                                                               
                                                                 {/* <Value>{(Math.round(d.optimizedContribution/1000)*1000)/1000}k</Value>  */}
                                                   </Display>
-                                          ) }
+            
                                 </RangeBarWrapper>
                  </Wrapper>   
                  : null 

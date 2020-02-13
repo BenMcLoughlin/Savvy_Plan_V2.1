@@ -126,7 +126,7 @@ function getPaymentEffectiveRate(rate, paymentType) {
 };
 
 
-const mortgagePayment = (mortgageAmount, rate, amortization, paymentType)  => {
+export const mortgagePayment = (mortgageAmount, rate, amortization, paymentType)  => {
 	
     // 'rapid' payments are monthly payments divided by 2 (bi-weekly) or for ((weekly)
     var rateFactor = 1,
@@ -242,12 +242,14 @@ export const getPaymentSchedules = function(scheduledPay, mortgageAmount, rate, 
 // };
 
 
-export const calculatMortgageBalance = (startingBalance, rate, payment, years) => {
-    console.log(years);
+export const calculatMortgageBalance = (startingBalance, rate, payment, years, startDate, birthYear) => {
+   const mortgageStartAge =  startDate.getFullYear() - birthYear 
     const number = years * 12
     const array = [{
+        userAge: mortgageStartAge,
         endingBalance: startingBalance,
-        year: 0
+        mortgageYear: 0,
+        actualYear: startDate.getFullYear()
     }]
     const effectiveRate = getPaymentEffectiveRate(rate, "monthly") 
     for (let i = 1; i < number + 1 ; i++) {
@@ -256,9 +258,54 @@ export const calculatMortgageBalance = (startingBalance, rate, payment, years) =
         const principlePayment = payment - totalInterest
         const balance = lastValue.endingBalance - principlePayment > 0 ? lastValue.endingBalance - principlePayment  : 0
         array.push({
+            userAge: lastValue.userAge + 1/12,
             endingBalance: balance ,
-            year: i/12.
+            totalInterest: totalInterest,
+            principlePayment: principlePayment,
+            mortgageYear: i/12,
+            actualYear: lastValue.actualYear + 1/12,
+
         })
     }
-    return array.filter(d => d.year % 1 === 0)
+    return array.filter(d => d.mortgageYear % 1 === 0).map(d => ({
+        userAge: +d.userAge.toFixed(),
+        endingBalance: +d.endingBalance,
+        totalInterest: d.totalInterest,
+        principlePayment: d.principlePayment,
+        mortgageYear: +d.mortgageYear.toFixed(),
+        actualYear: +d.actualYear.toFixed()
+    }))
+}
+
+
+export const calculateCreditCardBalance =  (startingBalance, rate, payment) => {
+    const thisYear = new Date().getFullYear()
+    const array = [{
+        endingBalance: startingBalance,
+        mortgageYear: 0,
+        actualYear: thisYear
+    }]
+
+    for(let i = 1; i < 500; i++) {
+        const lastValue = array[i-1]
+        const totalInterest = (lastValue.endingBalance * (rate/100))/12
+        const principlePayment = payment - totalInterest
+        const balance = lastValue.endingBalance - principlePayment > 0 ? lastValue.endingBalance - principlePayment  : 0
+
+        array.push({
+            endingBalance: balance,
+            totalInterest: totalInterest,
+            principlePayment: principlePayment,
+            mortgageYear: i/12,
+            actualYear: lastValue.actualYear + 1/12,
+
+        })
+    }
+    return array.filter(d => d.mortgageYear % 1 === 0).map(d => ({
+        endingBalance: +d.endingBalance,
+        totalInterest: d.totalInterest,
+        principlePayment: d.principlePayment,
+        mortgageYear: +d.mortgageYear.toFixed(),
+        actualYear: +d.actualYear.toFixed()
+    }))
 }

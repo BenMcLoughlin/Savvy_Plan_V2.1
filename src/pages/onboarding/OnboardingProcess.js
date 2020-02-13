@@ -42,16 +42,16 @@ function OnboardingProcess(props) {
                             count === 5 ? 
                             <Priorities/>
                             :
-                            count > 5 && count < 10 ? 
+                            count > 5 && count < 11 ? 
                             <RatesOfReturn count={count}/>
                             :
-                            count === 10 ? 
+                            count === 11 ? 
                             <RetirementAge/>
                             :
-                            count === 11 ? 
+                            count === 12 ? 
                             <LifeSpan/>
                             :
-                            count === 12 ? 
+                            count === 13 ? 
                             <LifeEvents/>
                             :
                             null

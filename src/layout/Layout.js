@@ -4,7 +4,7 @@ import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "pages/dashboard/Dashboard"
 import TaxApp from "pages/taxPosition/TaxApp"
-import newNetWorth from "pages/newNetWorth/newNetWorth"
+import NetWorth from "pages/netWorth/NetWorth"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
@@ -12,6 +12,7 @@ import PropertyApp from "pages/property/PropertyApp"
 import Assumptions from "pages/assumptions/Assumptions"
 import Login from "pages/login/Login"
 import LandingPage from "pages/landingPage/LandingPage"
+import Plan from "pages/plan/Plan"
 import OnboardingProcess from "pages/onboarding/OnboardingProcess"
 import SignUp from "pages/login/SignUp"
 import {ThemeProvider} from "styled-components"
@@ -37,15 +38,15 @@ const Layout = ({auth, state}) => {
 
                 <GridContainer>  
                         <Route path="/Assumptions" component={Assumptions}/>
+                        <Route path="/Plan" component={Assumptions}/>
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
-                        <Route path="/NetWorth" component={newNetWorth}/>
+                        <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
                         <Route path="/LifeTimeIncome" component={Income}/>  
                         <Route path="/SavingsPlan" component={Savings}/>              
                         <Route path="/CreditScore" component={CreditScoreApp}/>              
-                        <Route path="/Spending" component={Spending}/>              
-                       
+                        <Route path="/Spending" component={Spending}/>                 
                         <Route path="/Property" component={PropertyApp}/>
                             <Route exact path="/landingpage" component={LandingPage}/>
                             <Route path="/Login" component={Login}/>
@@ -78,7 +79,6 @@ export default connect(mapStateToProps)(Layout)
     grid-template-rows: 98vh;
     overflow: scroll;
     color: ${props => props.theme.color.slate};
-    background: #FCFCFC;
     grid-template-areas: 
     "m"
 

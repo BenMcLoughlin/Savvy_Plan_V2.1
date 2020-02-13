@@ -18,7 +18,7 @@ const drawChart = (props, width, height) => {
     d3.select(".tooltip").remove()
 
     const data = props.stackedBarData2
-    console.log(data);
+
 
     const svg = d3.select('.canvasSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 

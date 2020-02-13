@@ -22,6 +22,12 @@ import {signOut_action} from "redux/auth/auth_actions"
 
             </Left>
             <Right>
+          
+            <StyledNavLink to="/plan" activeClassName="active">
+                <PageSelect>
+                        YOUR PLAN
+                </PageSelect>
+            </StyledNavLink>
             <Hr/>
             <StyledNavLink to="/" activeClassName="active">
                 <PageSelect>

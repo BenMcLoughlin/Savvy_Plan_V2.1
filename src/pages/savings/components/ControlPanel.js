@@ -114,6 +114,7 @@ const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionS
                         }
      <Sections>
                             <Section>
+                    
                              <Contributions 
                                     count={count}
                                     rrspStartAge={rrspStartAge}

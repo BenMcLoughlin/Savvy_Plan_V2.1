@@ -11,10 +11,10 @@ import {chartProjection_selector} from "redux/netWorth/netWorth_selectors"
 const drawChart = (data, width, height, className) => {
     
     
-    const margin = {top: 20, right: 100, bottom: 50, left: 100}
+    const margin = {top: 20, right: 40, bottom: 50, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color =  ["age", '#3B7B8E', "#F29278",'#72929B',  "#B0CFE3", '#FEDE76', '#81CCAF',]
+    const color =  ["age", '#8CB8B7', "#63bbcf",'#3b7b8e', "#F07655", "#F29278"]
 
     d3.select(`.${className} > *`).remove()
     d3.select(".tooltip").remove()
@@ -23,7 +23,7 @@ const drawChart = (data, width, height, className) => {
     const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     
-    const stackedKeys = ["age", "totalOther", "totalLongTerm", "totalProperty", "totalCash", "totalInvestments"]
+    const stackedKeys = ["age",  "totalPropertyEquity", "totalCash", "totalInvestments", "totalSecured", "totalUnsecured"]
 
     // totalCash: lastValue.totalCash * 1.02,
     //             totalInvestments: lastValue.totalInvestments * 1.05,
@@ -58,19 +58,17 @@ const drawChart = (data, width, height, className) => {
                         .style("left", 0)
    
        
- graph.append("text")
-                        .attr("y", -4)
-                        .attr("x", 10)
-                        .attr("class", "title")
-                        .text("Contributions & Withdrawals")
 
                           
     const update = data => {
     
 
-        const min = -180000
+        const d3Min = d3.min(data, d => d.totalSecured)
 
-       const max = 100000
+       const d3Max = d3.max(data, d => (Object.values(d).filter(d => d > 0).reduce((acc, num) => acc + num)))
+
+       const max = d3Max > 100000 ? d3Max + 10000 : 100000
+       const min = d3Min < -40000 ? d3Min - 40000 : - 40000
 
         const series = stack(data);
    
@@ -136,9 +134,9 @@ const drawChart = (data, width, height, className) => {
                                                     </p>
                                                 </div>
                                                 <div class="total">
-                                                    <h3 class="title">  Total Income </h3>
+                                                    <h3 class="title">  Estimated Net Worth</h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        
+                                                    ${Math.round(Object.values(d.data).reduce((acc, num) => acc + num)/1000)} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -164,14 +162,14 @@ const drawChart = (data, width, height, className) => {
                            
                                         
            var ticks = [20,40, 60, 80, 95];
-           var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
+           var tickLabels = [,'Age 40','Age 60','Age 80']
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
                             .tickFormat(function(d,i){ return tickLabels[i] })
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('1')
+            const yAxis = d3.axisLeft(yScale).ticks('3')
                             .tickFormat(d => `${d/1000}k`)
 
 

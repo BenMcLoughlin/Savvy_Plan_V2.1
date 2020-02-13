@@ -4,7 +4,6 @@
   "private": true,
   "homepage": "https://benmcloughlin.github.io/Savvy_Plan_V2.1/",
   "dependencies": {
-    "cryptocompare": "^1.0.0",
     "d3": "^5.14.2",
     "d3-legend": "^1.0.0",
     "d3-svg-legend": "^2.25.6",

@@ -19,21 +19,21 @@ const drawChart = (data, width, height, total, className) => {
     const margin = {top: 10, right: 50, bottom: 40, left: 80}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const AssetColors = ['#72929B', "#4BB9D0",  "#B0CFE3", '#FEDE76', '#81CCAF',  '#78b7bb','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#a4d7e1", "#81CCAF",]
+    const AssetColors = ['#72929B', "#4BB9D0",  "#B0CFE3", '#8CB8B7', '#81CCAF',  '#78b7bb','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#a4d7e1", "#81CCAF",]
     const LiabilitiesColors = ['red', "#F29278", "#f5ab97"]
     const colors = className === "liabilitiesSunburst" ? LiabilitiesColors : AssetColors
-    const colorDomain = className === "liabilitiesSunburst" ? ["Short Term", "Long Term", "Other"] : ["Cash", "Investments", "Property"] 
+
     const legendRectSize = 5; 
     const legendSpacing = 8; 
 
-        const radius = Math.min(width, height) / 2.5;
+        const radius = Math.min(width, height) / 2.2;
         const color = d3.scaleOrdinal(colors);
 
         const update = data => {
 
             d3.select(`.${className} > *`).remove()
 
-            d3.select(".tooltip").remove()
+            d3.select(".tooltipSunburst").remove()
         
 
         const svg = d3.select(`.${className}`)
@@ -43,11 +43,11 @@ const drawChart = (data, width, height, total, className) => {
         const graph = svg.append("g")
                         .attr("height", graphHeight)
                         .attr("width", graphWidth)
-                        .attr("transform", `translate(${margin.left + 20}, ${margin.top + 90})`)
+                        .attr("transform", `translate(${graphWidth/1.2}, ${graphHeight/1.5})`)
 
       
                         const tooltip = d3.select(`.${className}`).append("div")
-                        .attr("class", `tooltip`)
+                        .attr("class", `tooltipSunburst`)
                         .style("opacity", 0)
                         .style("position", "absolute")
                         .style("top", 0)
@@ -128,9 +128,7 @@ const drawChart = (data, width, height, total, className) => {
                                         tooltip.style('top', (d3.event.layerY ) + 30 + 'px') // always 10px below the cursor
                                             .style('left', (d3.event.layerX ) + 15 + 'px'); // always 10px to the right of the mouse
                                         });
-       const colorScale = d3.scaleOrdinal().domain(colorDomain).range(colors)
-        const legendGroup = graph.append('g')
-                        .attr("transform", `translate(100, 30)`)
+
                 
                       
         }

@@ -1,17 +1,18 @@
 import {createGlobalStyle} from "styled-components"
 
 
-
+//like #1995AD
 export const lightTheme = {
     color: {
         ice: "#FCFCFC",
-        blue: "#49A7D8",
+        blue: "#63bbcf",
         lightGrey: "#cbcbcb",
         darkGrey: "#7f7f7f",
         slate: "#536D7A",
         turquoise: "#4BB9D0",
         drab: "#324755",
         sandy: '#ffd152',
+        green: '#8CB8B7',
         steelBlue: '#3B7B8E',
         onyx: '#485056',
         salmon: '#F29278',

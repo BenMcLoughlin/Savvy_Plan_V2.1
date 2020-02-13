@@ -12,13 +12,7 @@ export const transaction_action = (age, name, transaction, rangeBarValue, rate1,
             transaction
 })
 
-export const setInvestmentFactor_action = (name, value) => {
-    return {
-        type: "investmentReturns/SET_VALUE", 
-            name, 
-            value 
-    }
-    }
+
 export const setOpitmizedValues_action = (age, name, transaction, value) => {
     return {
         type: "investmentReturns/SET_OPTIMIZED_VALUE", 

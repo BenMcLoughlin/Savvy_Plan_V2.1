@@ -1,102 +1,98 @@
 import React, {useState} from "react"
-import {property_selector, cash_selector, investments_selector} from "redux/netWorth/netWorth_selectors"
-import {connect} from "react-redux"
 import styled from "styled-components"
-import RangeBar from "UI/rangeBar/RangeBar"
-import {setItemValue_action, changeLabel_action, removeItem_action} from "redux/netWorth/netWorth_actions"
-import Popup from "pages/netWorth/components/Popup"
-import {transaction_action} from "redux/savings/savings_actions"
-import {savings_reducer} from "redux/savings/savings_reducer"
-import {renderSavings} from "services/savings/savings_functions"
-import DateInput from "UI/forms/DateInput"
+import {connect} from "react-redux"
+import _ from "lodash"
+import {removeItem_action} from "redux/netWorth/netWorth_actions"
+import ItemDisplayBox from "pages/netWorth/components/ItemDisplayBox"
+import EditForm from "pages/netWorth/components/EditForm"
+import AddForm from "pages/netWorth/components/AddForm"
+import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
+const ControlPanel = ({setCount, display, netWorth_reducer}) => {    
 
+    const [itemId, setItemId] = useState()                                                                      //If the user wants to change something this sets the id of the item they want to change
+  
+    const [addFormSubCategory, setAddFormSubCategory] = useState()                                              //If wants to add something this sets the category of the item theyd like to add
+    const addFormDetails = netWorthWizard_data.find(d => d.subCategory === addFormSubCategory)                  //Provides the add form with the details to render
 
-const ControlPanel = ({ category, savings_reducer, subCategory3, subCategory1, subCategory2, setItemValue_action, changeLabel_action, removeItem_action, transaction_action}) => {
+    const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
+    const subCategory = itemId ? netWorth_reducer[category][itemId].subCategory : "cashAssets"                  //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
-    const setValueInAssetsAndSavings = (logValue, rangeBarValue, rangeBarProps) => {
-        renderSavings(32, 33, "tfsa", logValue, rangeBarValue, "contribute", savings_reducer, 65, .02, 0.02, transaction_action, 65)
-        setItemValue_action(logValue, rangeBarValue, rangeBarProps)
-    }
-    const renderRangeBars = (selector) =>  selector.map( item => 
-                                                <RangeBar                                                                                    //Checks the count to determine if the rangebars should be shown                                                
-                                                key={item.name}
-                                                rangeBarProps={item}
-                                                setValue={setValueInAssetsAndSavings}
-                                                handleChangeLabel = {changeLabel_action}
-                                                handleRemoveItem={removeItem_action}
-                                                close={true}
-                                                editable={true}
-                                                />)
     return (
-< Wrapper>
-        <Sections>
-            <Section>
-                < H2>{category === "asset" ? "Cash asset" : "Short Term Debts"}</ H2>
-                {renderRangeBars(subCategory1)} 
-                <Popup 
-                    category= {category} 
-                    subCategory={category === "asset" ? "cash" : "shortTerm"}
-                />  
-           </Section>
-            <Section>
-                < H2>{category === "asset" ? "Investment asset" : "Other Debts"}</ H2>
-               {renderRangeBars(subCategory2)} 
-               <Popup
-                      category= {category} 
-                      subCategory={category === "asset" ? "investments" : "other"}
-                />  
-            </Section>
-            <Section>
-                < H2>{category === "asset" ? "Property and Hard asset" : "Long Term Debts"}</ H2>
-                {renderRangeBars(subCategory3)}  
-                <Popup 
-                    category= {category} 
-                    subCategory={category === "asset" ? "property" : "mortgage"}
-                />          
-                                                                                     
-            </Section>
-        </Sections>
-</Wrapper>
+        <Wrapper>   
+            <Sections>
+           { 
+                    itemId ? 
+                    <EditForm
+                        itemId={itemId}                                                                        //Clicking add takes the id of the item being added and sets it in the local state
+                        category={category}
+                        subCategory={subCategory}
+                        setItemId={setItemId}
+                    />
+                    :
+                    addFormSubCategory ? 
+                    <AddForm                                                                                   //if the user wants to add a new item this is shown and depends on if a subCategory is in local state
+                        category={addFormDetails.category}
+                        subCategory={addFormDetails.subCategory}
+                        accountTypeArray={addFormDetails.accountTypeArray}
+                        bookValueLabel={addFormDetails.bookValueLabel}
+                        currentValueLabel={addFormDetails.currentValueLabel}
+                        interestRateLabel={addFormDetails.interestRateLabel}
+                        setAddFormSubCategory={setAddFormSubCategory}
+                    />
+                    :
+                    <>
+                    {
+                        netWorthWizard_data.map(d => (                                                       //if neither add or edit forms are clicked then it renders out the item display
+                            d.category === display ? 
+                            <Section  key={d.subCategory}>
+                            <ItemDisplayBox                                                                  //Displays all the assets or liabilities they have added
+                                category={d.category}
+                                item={d}
+                                subCategory={d.subCategory}
+                                setCount={setCount}
+                                setItemId={setItemId}
+                                setAddFormSubCategory={setAddFormSubCategory}
+                                />
+                            </Section> 
+                            : null
+                        ))
+                    }
+                </>
+                 }
+            </Sections>            
+        </Wrapper>
+
+       
     )
+
 }
 
-
-
 const mapStateToProps = (state) => ({
-    savings_reducer: state.savings_reducer,
-    property_selector: property_selector(state),
-    cash_selector: cash_selector(state),
-    investments_selector: investments_selector(state),
-
+    netWorth_reducer: state.netWorth_reducer,
 })
 
-export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, removeItem_action, transaction_action})(ControlPanel)
+export default connect(mapStateToProps,{removeItem_action})(ControlPanel)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
+
 const Wrapper = styled.div`
-    grid-area: d;
-    width: 100%;
-    border-top: .7px solid ${props => props.theme.color.lightGrey};
+    grid-area: c;
+    width: 98%;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 1rem;
 
 `
 const Sections = styled.div`
     display: flex;
-    width: 100%;
+    padding: 1rem;
+
+    justify-content: center;
 `
 const Section = styled.div`
-    flex: 1;
-    margin-top: 2rem;
-    height: 40rem;
-    overflow: scroll;
-    display: flex;
-    flex-direction: column;
-    align-items: left
-`
-const H2 = styled.h2`
-    padding: 2rem;
-    text-align: center;
-    width: 100%;
+    width: 30%;
+    margin: 1rem;
 `

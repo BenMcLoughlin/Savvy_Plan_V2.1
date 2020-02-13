@@ -1,12 +1,14 @@
 .tooltipStackedChart, 
 .tooltipDonutChart, 
+.tooltipSunburst,
 .tooltipDonutChart_tile{
     background: #F7F7F5;
     position: absolute;
     height: 18rem;
     width: 24rem;
     border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: muli, Helvetica, sans-serif;
+    font-weight: 700;
     color:#556976;
     z-index: 20;
     border: 1px solid #556976;
@@ -72,14 +74,7 @@
     flex-direction: row;
     align-items: center;
 }
-.title {
-    width: 56%;
-    height: 50%;
-    text-align: left;
-    padding: 1rem;
-    font-size: 1.5rem;
 
-}
 .financialOutput {
     padding: 1rem;
 }
@@ -146,14 +141,10 @@ span {
     height: 50%;
     text-align: left;
     padding: 1rem;
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-size: 1.4rem;
+    font-weight: 700;
     stroke: #536D7A;
     fill: none;
     shape-rendering: crispEdges;
     font-family: 'muli', sans-serif;
-}
-.centerValue_tile{
-    font-size: 1.4rem;
-    fill: red;
 }
