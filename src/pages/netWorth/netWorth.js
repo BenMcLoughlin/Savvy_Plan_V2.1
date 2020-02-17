@@ -12,7 +12,7 @@ import WelcomePage from "pages/netWorth/components/WelcomePage"
 import ItemDisplayBox from "pages/netWorth/components/ItemDisplayBox"
 
 const NetWorth = () => {    
-    const [count, setCount] = useState(8)                                                               // Controls Count for wizard display
+    const [count, setCount] = useState(2)                                                               // Controls Count for wizard display
     const [display, setDisplay] = useState("assets")                                                    // toggles display between asset and liability  
 
     const renderAddForm = data => {                                                                     // Takes data from netWorth_data and renders a different input 

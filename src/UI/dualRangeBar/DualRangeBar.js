@@ -104,8 +104,8 @@ class DualRangeRangeBar extends Component {
     render() {
  
         const totalWidth = 300 // width the runner bar
-        const percentageMin = this.state.fromAge.length > 1 || this.state.fromAge.length === undefined ? this.state.fromAge / 77 : null //percentage of the runnerbar that is shifting left as the thumb moves
-        const percentageMax = this.state.toAge / 77 //total percentage of the toAge value
+        const percentageMin = this.state.fromAge.length > 1 || this.state.fromAge.length === undefined ? this.state.fromAge / (95-this.props.userAge) : null //percentage of the runnerbar that is shifting left as the thumb moves
+        const percentageMax = this.state.toAge / (95-this.props.userAge)//total percentage of the toAge value
         //to account for the fact that the minimum value is 18 we have to make the rage 77 (95 - 18)
 
         //the div moves by its left position and the divs length is set accordingly
@@ -124,7 +124,7 @@ class DualRangeRangeBar extends Component {
                     type="range"
                     onChange={(e) => this.handleSliderChange(e)}
                     value={this.state.fromAge}
-                    min={18}
+                    min={this.props.userAge}
                     max={95}
                     step={1}
             />
@@ -135,7 +135,7 @@ class DualRangeRangeBar extends Component {
                     type="range"
                     onChange={(e) => this.handleSliderChange(e)}
                     value={this.state.toAge}
-                    min={18}
+                    min={this.props.userAge}
                     max={95}
                     step={1}
             />
@@ -206,8 +206,8 @@ const InputWrapper = styled.div`
 `
 const Bar = styled.div`
     position: absolute;
-    width: ${props => props.fillBarWidth - 3}px;
-    left: ${props => props.leftPosition - 70}px;
+    width: ${props => props.fillBarWidth -8}px;
+    left: ${props => props.leftPosition - 145}px;
     height: 3px;
     background: ${props => props.theme.color.sandy};
     /* z-index: 11; */

@@ -29,7 +29,7 @@ const  InvestmentFactors = ( { setInvestmentFactor_action, investmentReturns_sel
     })
     changeChart()
     }
-    console.log(investmentReturns_selector);
+
     return (
         <Wrapper>                                                                                                                         {/* This walks through the pensionStartAges_reducer provided from the reducer and rendersa miniRangeBar for each */}
             {

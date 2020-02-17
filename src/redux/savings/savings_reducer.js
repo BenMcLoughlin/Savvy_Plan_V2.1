@@ -19,9 +19,9 @@ const determineTotalContributions = (age, name, state, transaction, value)=> {
    
    
    const initialState = () => {
-       const income = {}
+       const savings = {}
        for (let age = 17; age <= 96; age++) {
-           income[Number(age)] = {
+           savings[Number(age)] = {
                    rrsp: {
                        age: age, 
                        contribute: 0,
@@ -68,7 +68,7 @@ const determineTotalContributions = (age, name, state, transaction, value)=> {
                        withdraw: 0,
                    }
            }}
-   return income
+   return savings
    }
    
     const savings_reducer = (state = initialState(), action) => {
@@ -77,7 +77,6 @@ const determineTotalContributions = (age, name, state, transaction, value)=> {
            const totalContributions = determineTotalContributions(action.age, action.name, state, action.transaction, action.value)
            const totalInterest = determineTotalInterest(action.age, action.name, action.rate1, action.rate2, action.retirementAge, state, action.transaction, action.value)
            const totalValue = totalContributions + totalInterest
-           console.log('inside savings reducer action recieved');
            return {...state, [action.age]: {
                                        ...state[action.age], [action.name]: {
                                            ...state[action.age][action.name], [action.transaction]: totalValue <= 0 ? 0 : action.value,

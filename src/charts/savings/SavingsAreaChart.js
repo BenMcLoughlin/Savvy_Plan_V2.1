@@ -156,6 +156,7 @@ class StackedAreaChartSavings extends Component {
         elementWidth: 0,
         elementHeight: 0
     }
+  
 
     updateSize = () => {
         this.setState({ 
@@ -195,7 +196,7 @@ componentWillUnmount() {
 
 
 const mapStateToProps = createStructuredSelector({
-    stackedAreaData
+    stackedAreaData,
 })
 
 export default connect(mapStateToProps)(StackedAreaChartSavings )

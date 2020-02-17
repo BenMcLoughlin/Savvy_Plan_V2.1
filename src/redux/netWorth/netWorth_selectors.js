@@ -165,7 +165,7 @@ export const chartProjection_selector = createSelector(
             totalPropertyValue: sumSubCategory(netWorth_reducer, "assets", "propertyAssets"),
             totalPropertyEquity: sumSubCategory(netWorth_reducer, "assets", "propertyAssets") - sumSubCategory(netWorth_reducer, "liabilities", "securedDebt"),
             totalSecured: -sumSubCategory(netWorth_reducer, "liabilities", "securedDebt"),
-            totalUnsecured: console.log(unsecuredSchedule_selector),
+            totalUnsecured: -sumSubCategory(netWorth_reducer, "liabilities", "unsecuredDebt"),
         }]
 
         for (let age = userAge; age <= 85; age++) {
@@ -173,7 +173,7 @@ export const chartProjection_selector = createSelector(
             const mortgageArray = mortgageSchedule_selector.map(d => d.filter(a => a.userAge === age)[0] ? d.filter(a => a.userAge === age)[0].endingBalance : 0)
             const totalOutstandingMortgage = mortgageArray.length > 0 ? mortgageArray.reduce((acc, num) => acc + num) : 1
         
-            const unsecuredDebt = unsecuredSchedule_selector.map(d => d[age - userAge] ? d[age - userAge].endingBalance : 0).reduce((acc, num) => acc + num)
+            const unsecuredDebt = unsecuredSchedule_selector.lenght > 0 ? unsecuredSchedule_selector.map(d => d[age - userAge] ? d[age - userAge].endingBalance : 0).reduce((acc, num) => acc + num) : 0
   
             array.push({
                 age: age,

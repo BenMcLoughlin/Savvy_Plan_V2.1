@@ -16,9 +16,9 @@ import { Redirect} from "react-router-dom"
 
 function OnboardingProcess(props) {
 
-    const [count, setCount] = useState(12);
+    const [count, setCount] = useState(0);
 
-    if (count > 12) return <Redirect to="/assumptions"/>
+    if (count > 12) return <Redirect to="/plan"/>
 
         return (
                  <Wrapper>

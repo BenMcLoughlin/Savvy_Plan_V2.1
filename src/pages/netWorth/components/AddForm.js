@@ -11,10 +11,14 @@ import {addItem_action} from "redux/netWorth/netWorth_actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
 import _ from "lodash"
 import {individualItem_data} from "pages/netWorth/data/netWorth_data"
+import {renderSavings, optimizedWithdrawals} from "services/savings/savings_functions"
+import {transaction_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
+import {savings_reducer} from "redux/savings/savings_reducer"
+import {rate1, rate2} from "redux/assumptions/assumptions_selectors"
 
 //THe add form is used to add individual items to the users net worth.
 
-const AddForm = ({category, subCategory, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, addItem_action, propertyNames_selector}) => {    
+const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, transaction_action, rate1, rate2, accountTypeArray, bookValueLabel, setOpitmizedValues_action, currentValueLabel, interestRateLabel, addItem_action, propertyNames_selector}) => {    
 
     const initialState = individualItem_data(category,subCategory, bookValueLabel, currentValueLabel, interestRateLabel )      //initial State is found in data 
 
@@ -39,11 +43,22 @@ const AddForm = ({category, subCategory, setAddFormSubCategory, accountTypeArray
     }})
     }
 
+    const userAge = new Date().getFullYear() - user_reducer.birthYear
+
+
     const addItem = () => {                                                                                                   //Adds the item to the reducer
         setAddFormSubCategory(false)
         const id = (Math.random() * 10000000000).toFixed()                                                                    // Creates a unique id
         addItem_action(id, state)                                                                                             // Sets item in reducer
-        setState({...initialState})                                                                                           // resets the state
+ console.log(state.registration);
+        state.subCategory === "investmentAssets" ?  renderSavings((userAge-1), userAge, state.registration, state.currentValue.financialValue, 3, "contribute", savings_reducer, 65, rate1, rate2, transaction_action, 65 )   : console.log('""');
+                                                                               
+
+        //renderSavings(fromAge, toAge, name, value, rangeBarValue, "contribute", savings_reducer, rrspStartAge, rate1, rate2, transaction_action, tfsaStartAge)
+        setState({...initialState})     
+        
+        //optimizedWithdrawals("tfsa", savings_reducer, setOpitmizedValues_action, .02)
+        console.log(savings_reducer);
     }
 
 
@@ -53,7 +68,7 @@ const AddForm = ({category, subCategory, setAddFormSubCategory, accountTypeArray
                 <Left>                                                                                                  {/* Choose one is used to select the account type */}
                     <ChooseOne
                             array={subCategory === "securedDebt" ? propertyNames_selector.concat("None of These") : accountTypeArray }  //if it is secored (a mortgage) it has to be linked to the property its secured against
-                            setValue={(value) => setState({...state, registration: value})}
+                            setValue={(value) => setState({...state, registration: value.toLowerCase()})}
                             value ={1}
                             subCategory={subCategory}
                         />
@@ -136,9 +151,13 @@ const AddForm = ({category, subCategory, setAddFormSubCategory, accountTypeArray
 
 const mapStateToProps = (state) => ({
     propertyNames_selector: propertyNames_selector(state),
+    user_reducer: state.user_reducer,
+    savings_reducer: state.savings_reducer,
+    rate1: rate1(state),
+    rate2: rate2(state),
 })
 
-export default connect(mapStateToProps, {addItem_action})(AddForm )
+export default connect(mapStateToProps, {addItem_action, transaction_action, setOpitmizedValues_action})(AddForm )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

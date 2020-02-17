@@ -13,7 +13,7 @@ import {rate1, rate2} from "redux/savings/savings_selectors"
 const Savings = ({income_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
 
     useEffect(() => {
-        initializeSavingsAndWithdrawals(18, income_reducer, rate1, rate2, 65, 65, transaction_action)
+        //initializeSavingsAndWithdrawals(18, income_reducer, rate1, rate2, 65, 65, transaction_action)
     }, [])
 
         return (

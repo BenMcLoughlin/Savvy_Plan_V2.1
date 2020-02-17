@@ -38,7 +38,7 @@ const Layout = ({auth, state}) => {
 
                 <GridContainer>  
                         <Route path="/Assumptions" component={Assumptions}/>
-                        <Route path="/Plan" component={Assumptions}/>
+                        <Route path="/Plan" component={Plan}/>
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>

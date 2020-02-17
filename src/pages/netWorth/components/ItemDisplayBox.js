@@ -42,6 +42,7 @@ return (
               arrayOfitems.map(item => {  
                      return  <ItemDisplay                                                                                                         //Maps through the items showing each one
                                        item={item}                                                                                                //Passes all props it has recived as "item" which is used to remove it or set the id when clicked
+                                       key={item.id}                                                                                               
                                        removeItem_action={removeItem_action}
                                        value={item.currentValue.financialValue}
                                        setItemId={setItemId}
