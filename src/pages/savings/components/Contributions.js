@@ -7,11 +7,11 @@ import {rate1, rate2} from "redux/assumptions/assumptions_selectors"
 import {transaction_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
 import {renderSavings, optimizedWithdrawals} from "services/savings/savings_functions"
 import {action_selector} from "redux/savings/savings_selectors"
-import {changeSavings2_selector} from "redux/savings2/savings2_selector"
+import {changeSavings2_selector, renderSavings_selector} from "redux/savings2/savings2_selector"
 import {setSavings2_action, contribution_action } from "redux/savings2/savings2_actions"
 
 
-const Contributions = ({changeSavings2_selector,savings2_reducer, contribution_action , setSavings2_action, count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, user_reducer, tfsaStartAge, transaction_action,}) => {
+const Contributions = ({changeSavings2_selector,savings2_reducer, renderSavings_selector, contribution_action , setSavings2_action, count, rate1, rate2, rrspStartAge, savings_reducer,setOpitmizedValues_action, user_reducer, tfsaStartAge, transaction_action,}) => {
 
     const userAge = new Date().getFullYear() - user_reducer.birthYear
 
@@ -29,7 +29,7 @@ const Contributions = ({changeSavings2_selector,savings2_reducer, contribution_a
          optimizedWithdrawals(name, savings_reducer, setOpitmizedValues_action, rate2)
        
     }
-      console.log(savings2_reducer);
+      console.log(renderSavings_selector);
       //console.log(changeSavings2_selector);
       const newState = {
           newState: "Banana"
@@ -78,6 +78,7 @@ const mapStateToProps = (state) => {
         rate1: rate1(state),
         rate2: rate2(state),
         changeSavings2_selector: changeSavings2_selector(state),
+        renderSavings_selector: renderSavings_selector(state),
         savings_reducer: state.savings_reducer,
         savings2_reducer: state.savings2_reducer,
         user_reducer: state.user_reducer,
