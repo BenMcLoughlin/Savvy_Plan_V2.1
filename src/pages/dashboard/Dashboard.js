@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import CreditScoreTile from "pages/dashboard/components/CreditScoreTile"
+import SpendingTile from "pages/dashboard/components/SpendingTile"
 import NetWorthTile from "./components/NetWorthTile"
 import SavingsPlanTile from "./components/SavingsPlanTile"
 import LifetimeIncomeTile from "./components/LifetimeIncomeTile"
 import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
-import VerticalTimeline from "charts/assumptions/VerticalTimeline"
+import ContributionPlanTile from "./components/ContributionPlanTile"
 
 const Dashboard = () =>  {
         return (
@@ -15,10 +15,10 @@ const Dashboard = () =>  {
                    <NetWorthTile/>
                    <LifetimeIncomeTile/>
                    <TaxTile/>
+                   <HomePurchaseTile/>
+                   <SpendingTile/>
                    <SavingsPlanTile/>
-                   <ChartWrapper>
-                        <VerticalTimeline />
-                   </ChartWrapper>
+                   <ContributionPlanTile/>
             </Page>
         )
 }
@@ -39,16 +39,16 @@ const Page = styled.div`
    grid-template-columns: repeat(24, 1fr);
    grid-template-rows: repeat(16, minmax(3rem, 4rem)) ;
    grid-template-areas:
-   "a a a a a a b b b b b b c c c c c c h h h h h"
-   "a a a a a a b b b b b b c c c c c c h h h h h"
-   "a a a a a a b b b b b b c c c c c c h h h h h"
-   "a a a a a a b b b b b b c c c c c c h h h h h"
-   "e e e e e e e e e e e e e e e e e e h h h h h"
-   "e e e e e e e e e e e e e e e e e e h h h h h"
-   "e e e e e e e e e e e e e e e e e e h h h h h"
-   "e e e e e e e e e e e e e e e e e e h h h h h"
-   "e e e e e e e e e e e e e e e e e e h h h h h"
-   "e e e e e e e e e e e e e e e e e e h h h h h"
+   "a a a a a a b b b b b b b b b b b b c c c c c"
+   "a a a a a a b b b b b b b b b b b b c c c c c"
+   "a a a a a a b b b b b b b b b b b b d d d d d"
+   "a a a a a a b b b b b b b b b b b b d d d d d"
+   "e e e e e e e e e e e e e e e e e e e e e e e"
+   "e e e e e e e e e e e e e e e e e e e e e e e"
+   "e e e e e e e e e e e e e e e e e e e e e e e"
+   "e e e e e e e e e e e e e e e e e e e e e e e"
+   "e e e e e e e e e e e e e e e e e e e e e e e"
+   "e e e e e e e e e e e e e e e e e e e e e e e"
    "g g g g g g g g g g g g g g g g g g h h h h h"
    "g g g g g g g g g g g g g g g g g g h h h h h"
    "g g g g g g g g g g g g g g g g g g h h h h h"

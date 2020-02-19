@@ -9,11 +9,11 @@ import { NavLink} from "react-router-dom"
 
         return (
             <NetWorthTileWrapper to="/NetWorth">
+                <Title>
+                        Net Worth
+                </Title>
                 <LargeTotal>
                     140 k
-                    <span>
-                    Net Worth
-                    </span>
                 </LargeTotal>
             </NetWorthTileWrapper>
         )
@@ -35,6 +35,7 @@ const NetWorthTileWrapper = styled(NavLink)`
   text-decoration: none;
   grid-area: a;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   color: ${props => props.theme.color.slate};
   cursor: pointer;
@@ -49,16 +50,18 @@ const NetWorthTileWrapper = styled(NavLink)`
 
 `
 
-const LargeTotal = styled.div`
-    font-size: 5rem;
+const Title = styled.div`
+    font-size: 2rem;
     font-weight: 300;
+    margin-left: 2rem;
+    height: 3rem;
+    width: 100%;
+    margin-top: -2rem;
+`
+const LargeTotal = styled.div`
+    font-size: 7rem;
+    font-weight: 200;
     text-align: center;
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: column;
+    margin-top: -1rem;
     justify-content: center;
-    & span {
-        font-size: ${props => props.theme.fontSize.smallMedium};
-        text-align: center;
-}
 `

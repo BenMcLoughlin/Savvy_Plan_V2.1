@@ -3,16 +3,16 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import { NavLink} from "react-router-dom"
 
- class CreditScore extends Component {
+ class Spending extends Component {
      
     render() {
 
         return (
-            <CreditScoreWrapper to="/CreditScore">
+            <CreditScoreWrapper to="/Spending">
                 <LargeTotal>
-                    782 
+                    46 - 57K 
                     <span>
-                    Credit Score
+                    Annual Spending
                     </span>
                 </LargeTotal>
             </CreditScoreWrapper>
@@ -27,13 +27,13 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(CreditScore)
+export default connect(mapStateToProps)(Spending)
 
 //-----------------------------------------------style-----------------------------------------------//
 
 const CreditScoreWrapper = styled( NavLink)`
   text-decoration: none;
-  grid-area: d;
+  grid-area: c;
   display: flex;
   justify-content: center;
   background:${props => props.theme.color.drab};
@@ -44,7 +44,7 @@ const CreditScoreWrapper = styled( NavLink)`
 `
 
 const LargeTotal = styled.div`
-    font-size: 5rem;
+    font-size: 4rem;
     font-weight: 250;
     text-align: center;
     display: flex;
@@ -55,7 +55,6 @@ const LargeTotal = styled.div`
     & span {
         font-size: ${props => props.theme.fontSize.smallMedium};
         text-align: center;
-        margin-top: -1rem;
         font-weight: 300;
 }
 `

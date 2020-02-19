@@ -33,7 +33,7 @@ export default connect(mapStateToProps)(HomePurchaseTile)
 
 const HomePurchaseTileWrapper = styled( NavLink)`
   text-decoration: none;
-  grid-area: x;
+  grid-area: d;
   display: flex;
   justify-content: center;
   background: white;
