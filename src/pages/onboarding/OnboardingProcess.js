@@ -18,7 +18,7 @@ function OnboardingProcess(props) {
 
     const [count, setCount] = useState(0);
 
-    if (count > 12) return <Redirect to="/plan"/>
+    if (count > 12) return <Redirect to="/"/>
 
         return (
                  <Wrapper>

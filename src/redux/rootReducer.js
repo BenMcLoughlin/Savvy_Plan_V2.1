@@ -12,6 +12,7 @@ import savings2_reducer from "redux/savings2/savings2_reducer"
 import assumptions_reducer from "./assumptions/assumptions_reducer"
 import auth_reducer from "./auth/auth_reducer"
 import lifeEvents_reducer from "./lifeEvents/lifeEvents_reducer"
+import progress_reducer from "./progress/progress_reducer"
 
 import { firebaseReducer } from 'react-redux-firebase'
 import { firestoreReducer } from 'redux-firestore'
@@ -26,7 +27,8 @@ const persistConfig = {
     "pensionStartAges_reducer",
     "savings_reducer",
     "savings2_reducer",
-    "lifeEvents_reducer"
+    "lifeEvents_reducer",
+    "progress_reducer"
 ]
 }
 
@@ -41,6 +43,7 @@ const rootReducer = combineReducers({
        savings_reducer,     
        savings2_reducer,     
        lifeEvents_reducer,
+       progress_reducer,
        firebase: firebaseReducer, 
        firestore: firestoreReducer
    })

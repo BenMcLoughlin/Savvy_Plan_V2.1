@@ -10,10 +10,17 @@ import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 import Header from "pages/netWorth/components/Header"
 import WelcomePage from "pages/netWorth/components/WelcomePage"
 import ItemDisplayBox from "pages/netWorth/components/ItemDisplayBox"
+import {setProgress_action} from "redux/progress/progress_actions"
 
-const NetWorth = () => {    
+
+const NetWorth = ({setProgress_action}) => {    
     const [count, setCount] = useState(2)                                                               // Controls Count for wizard display
     const [display, setDisplay] = useState("assets")                                                    // toggles display between asset and liability  
+
+    const setCountAndProgress = (number) => {
+        setProgress_action("netWorth", number)
+        setCount(number)
+    }
 
     const renderAddForm = data => {                                                                     // Takes data from netWorth_data and renders a different input 
       return data.map(d =>                                                                              // based on the count, such as Cash Assets or Unsecured Debt
@@ -73,8 +80,8 @@ const NetWorth = () => {
                  </>
           }
                <Buttons>                                                                             {/* Fixed plan buttons enabling the toggling back and forth*/}
-                                < ButtonLight backward onClick={() => setCount(count > 0 ? count - 1 : 0)}/>
-                                < ButtonLight forward onClick={() => setCount(count + 1)}/>                   
+                                < ButtonLight backward onClick={() => setCountAndProgress(count > 0 ? count - 1 : 0)}/>
+                                < ButtonLight forward onClick={() => setCountAndProgress( count < 6 ? count + 1 : 5)}/>                   
 
                 </Buttons>
 
@@ -91,7 +98,7 @@ const mapStateToProps = (state) => ({
 
 })
 
-export default connect(mapStateToProps, {})(NetWorth )
+export default connect(mapStateToProps, {setProgress_action})(NetWorth )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -128,9 +135,9 @@ const ProjectionChartPlaceHolder = styled.div`
 
 const Buttons = styled.div`
 position: absolute;
-width: 141rem;
+width: 123rem;
 top: 30rem;
-left: -10rem;
+left: -1rem;
 z-index: 100;
 display: flex;
 justify-content: space-between;

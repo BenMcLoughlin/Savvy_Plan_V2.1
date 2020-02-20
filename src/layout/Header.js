@@ -23,29 +23,21 @@ import {signOut_action} from "redux/auth/auth_actions"
             </Left>
             <Right>
           
-            <StyledNavLink to="/plan" activeClassName="active">
-                <PageSelect>
+                <PageSelect to="/plan" activeClassName="active">
                         YOUR PLAN
                 </PageSelect>
-            </StyledNavLink>
             <Hr/>
-            <StyledNavLink to="/" activeClassName="active">
-                <PageSelect>
+                <PageSelect to="/" activeClassName="active">
                         DASHBOARD
                 </PageSelect>
-            </StyledNavLink>
             <Hr/>
-            <StyledNavLink to="/Learn" activeClassName="active">
-                    <PageSelect>
+                    <PageSelect to="/Learn" activeClassName="active">
                        ACCOUNT
                     </PageSelect>
-            </StyledNavLink>
             <Hr/>
-            <StyledNavLink to="/assumptions" activeClassName="active">
-                    <PageSelect>
+                    <PageSelect to="/assumptions" activeClassName="active">
                        ASSUMPTIONS
-                    </PageSelect>
-            </StyledNavLink>     
+                    </PageSelect>   
             {
                 auth.uid ? 
                     <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut_action()}>Sign Out</LinkButton>
@@ -114,7 +106,7 @@ export const PagePointer = styled.div`
         top: -2rem;
         z-index: 3;
 `
-export const PageSelect = styled.div`
+export const PageSelect = styled(NavLink)`
        padding: 1rem;
        margin: 1rem;
        font-size: ${props => props.theme.fontSize.small};
@@ -128,6 +120,12 @@ export const PageSelect = styled.div`
            background: ${props => props.theme.color.ice};
            color:  ${props => props.theme.color.slate};
        }
+       text-decoration: none;
+       color: white;
+    &.active ${PagePointer} {
+        background-color: ${props => props.theme.color.slate};
+    } 
+  } 
 `
 const Hr = styled.hr`
     width: 1rem;
@@ -136,12 +134,7 @@ const Hr = styled.hr`
 
 
 export const StyledNavLink = styled(NavLink)`
-       text-decoration: none;
-       color: white;
-    &.active ${PagePointer} {
-        background-color: ${props => props.theme.color.slate};
-    } 
-  } 
+ 
   `
 
 //

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import SpendingTile from "pages/dashboard/components/SpendingTile"
@@ -10,6 +10,7 @@ import HomePurchaseTile from "./components/HomePurchaseTile"
 import ContributionPlanTile from "./components/ContributionPlanTile"
 
 const Dashboard = () =>  {
+    const [count, setCount] = useState(0)
         return (
             <Page>
                    <NetWorthTile/>
