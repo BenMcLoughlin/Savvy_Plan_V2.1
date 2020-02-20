@@ -2,7 +2,7 @@ import React from 'react'
 import RangeBar from "UI/rangeBar/RangeBar"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import styled from "styled-components"
-import AddItemBox from "UI/addItemBox/AddItemBox"
+
 
 export default function IncomeInput({setIncome, handleChangeLabel, income_reducer, addItemToList, handleRemoveItem, setFromAge, setToAge, fromAge, toAge, count}) {                           //Uses Destructing to assign variables and functions needed for this function                                                
 
@@ -50,13 +50,7 @@ export default function IncomeInput({setIncome, handleChangeLabel, income_reduce
                                                           
                                                             />)
                         }
-                        <AddItemBox                                                                                                                       //Box allowing the user to add new types of income     
-                                firstButtonText={"Add New Income"}
-                                listNewItemWillBeAddedToo={incomeTypeArray}
-                                checkboxLabel={"Contribute To Canada Pension Plan?"}
-                                addItemToList={addItemToList}
-            
-                        />
+                    
                     </RangeBarWrapper>
                     : null
                 }                                                                                                             {/* Presents a dual rangebar for the user to input their starting and ending ages for inputting income */}
