@@ -6,6 +6,7 @@ import DesiredRetirementIncome from "pages/income/components/DesiredRetirementIn
 import ButtonDark from "UI/buttons/ButtonDark"
 import ButtonLight from "UI/buttons/ButtonLight"
 import { NavLink} from "react-router-dom"
+import AddIncome from "pages/income/components/AddIncome"
 
 export default function ControlPanel(props) {
 
@@ -17,8 +18,8 @@ export default function ControlPanel(props) {
    } = props.income_reducer[75]            
 
    
-    const [count, setCount] = useState(oasIncome > 0 ? 8 : 0);
-
+    const [count, setCount] = useState(oasIncome > 0 ? 8 : 3);
+     
         return (
                     <ControlPanelWrapper>
                         <Dialogue>
@@ -124,7 +125,11 @@ export default function ControlPanel(props) {
                         }
                         </Sections> 
 
-                
+                        <AddIncome 
+                        addItemToList={props.addItemToList}
+                        setFromAge={props.setFromAge}
+                        setToAge={props.setToAge}
+                        />
                 </ControlPanelWrapper>
         )
           
