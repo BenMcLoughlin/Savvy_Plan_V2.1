@@ -24,6 +24,7 @@ import WithSpinner from "HOC/withSpinner/WithSpinner"
 import {connect} from "react-redux"
 import Spending from "pages/spending/Spending"
 
+
 const DashboardWithSpinner = WithSpinner(Dashboard);
 const TaxAppWithSpinner = WithSpinner(TaxApp);
 // const SavingsWithSpinner = WithSpinner(Savings);
