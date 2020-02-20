@@ -21,7 +21,7 @@ import Add from "UI/buttons/Add"
 
 const AddIncome = ({addItemToList, setFromAge, setToAge}) => {    
   
-    const [addForm, setAddForm] = useState(true)  
+    const [addForm, setAddForm] = useState(false)  
     
     const initialState = {
         label: "",

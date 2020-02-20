@@ -13,13 +13,18 @@ import RetirementAge from "pages/onboarding/components/RetirementAge"
 import LifeSpan from "pages/onboarding/components/LifeSpan"
 import LifeEvents from "pages/onboarding/components/LifeEvents"
 import { Redirect} from "react-router-dom"
+import {setProgress_action} from "redux/progress/progress_actions"
 
-function OnboardingProcess(props) {
+function OnboardingProcess({setProgress_action}) {
 
     const [count, setCount] = useState(0);
 
     if (count > 12) return <Redirect to="/"/>
 
+    const setCountAndProgress = (section, number) => {
+        setProgress_action(section, number)
+        setCount(number)
+    }
         return (
                  <Wrapper>
                     <Form>
@@ -57,11 +62,9 @@ function OnboardingProcess(props) {
                             null
                         }
                     </Form>
-
-
                    <Buttons>
-                                < ButtonLight backward onClick={() => setCount(count > 0 ? count - 1 : 0)}/>
-                                < ButtonLight forward onClick={() => setCount(count + 1)}/>
+                                < ButtonLight backward onClick={() => setCountAndProgress("onboarding", (count > 0 ? count - 1 : 0))}/>
+                                < ButtonLight forward onClick={() => setCountAndProgress("onboarding", ( count < 14 ? count + 1 : 14))}/>      
                     </Buttons>
                 </Wrapper>
         )
@@ -73,7 +76,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer
 })   
 
-export default connect(mapStateToProps)(OnboardingProcess)
+export default connect(mapStateToProps, {setProgress_action})(OnboardingProcess)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`

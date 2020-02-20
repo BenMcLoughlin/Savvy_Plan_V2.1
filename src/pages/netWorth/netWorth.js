@@ -5,20 +5,21 @@ import {connect} from "react-redux"
 import SunBurstChart from "charts/netWorth/SunBurstChart"
 import ProjectionChart from "charts/netWorth/ProjectionChart"
 import ButtonLight from "UI/buttons/ButtonLight"
+import ButtonDark from "UI/buttons/ButtonDark"
 import AddForm from "pages/netWorth/components/AddForm"
 import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 import Header from "pages/netWorth/components/Header"
 import WelcomePage from "pages/netWorth/components/WelcomePage"
 import ItemDisplayBox from "pages/netWorth/components/ItemDisplayBox"
 import {setProgress_action} from "redux/progress/progress_actions"
+import { NavLink} from "react-router-dom"
 
-
-const NetWorth = ({setProgress_action}) => {    
-    const [count, setCount] = useState(2)                                                               // Controls Count for wizard display
+const NetWorth = ({progress_reducer, setProgress_action}) => {    
+    const [count, setCount] = useState(progress_reducer.netWorth)                                       // Controls Count for wizard display
     const [display, setDisplay] = useState("assets")                                                    // toggles display between asset and liability  
 
-    const setCountAndProgress = (number) => {
-        setProgress_action("netWorth", number)
+    const setCountAndProgress = (section, number) => {
+        setProgress_action(section, number)
         setCount(number)
     }
 
@@ -48,16 +49,30 @@ const NetWorth = ({setProgress_action}) => {
       : null
       )
     }
+    console.log("in networth", progress_reducer.netWorth);
 
     return (
 
         <Page> 
-          {count === 0 ?  <WelcomePage/>                                                                  // When user first arrive they see the welcoem page
+          {count === 0 ? 
+          <>
+          <WelcomePage/>                                                              
+          <Buttons>                                                                             {/* Fixed plan buttons enabling the toggling back and forth*/}
+                                < ButtonLight backward onClick={() => setCountAndProgress("netWorth", (count > 0 ? count - 1 : 0))}/>
+                                < ButtonLight forward onClick={() => setCountAndProgress("netWorth", ( count < 6 ? count + 1 : 6))}/>                   
+
+           </Buttons>
+         </>
           :
           count < 6 ? 
 
           <>
                 {renderAddForm(netWorthWizard_data)}                                                      {/*This is the walk through wizard getting them to input their details*/}  
+                <Buttons>                                                                             {/* Fixed plan buttons enabling the toggling back and forth*/}
+                                < ButtonLight backward onClick={() => setCountAndProgress("netWorth", (count > 0 ? count - 1 : 0))}/>
+                                < ButtonLight forward onClick={() => setCountAndProgress("netWorth", ( count < 6 ? count + 1 : 6))}/>                   
+
+                </Buttons>
           </>
           : 
                 <>                                                                                        {/*Final Display Page showing charts and different assets and liabilities*/} 
@@ -77,13 +92,15 @@ const NetWorth = ({setProgress_action}) => {
                     setCount={setCount}
                     display={display}
                 />
+                <ButtonsFinal>                                                                             {/* Fixed plan buttons enabling the toggling back and forth*/}
+                    < ButtonLight text={"reset progress"} onClick={() => setCountAndProgress("netWorth", 0)}/>
+                    <ButtonWrapper to="/">
+                                     <ButtonDark text={'Next'} onClick={() =>  setCountAndProgress("dashboard", 3)}/>
+                    </ButtonWrapper>            
+                </ButtonsFinal>
                  </>
           }
-               <Buttons>                                                                             {/* Fixed plan buttons enabling the toggling back and forth*/}
-                                < ButtonLight backward onClick={() => setCountAndProgress(count > 0 ? count - 1 : 0)}/>
-                                < ButtonLight forward onClick={() => setCountAndProgress( count < 6 ? count + 1 : 5)}/>                   
 
-                </Buttons>
 
                                 
         </Page>
@@ -95,7 +112,7 @@ const NetWorth = ({setProgress_action}) => {
 }
 
 const mapStateToProps = (state) => ({
-
+    progress_reducer: state.progress_reducer
 })
 
 export default connect(mapStateToProps, {setProgress_action})(NetWorth )
@@ -134,13 +151,16 @@ const ProjectionChartPlaceHolder = styled.div`
 `
 
 const Buttons = styled.div`
-position: absolute;
-width: 123rem;
-top: 30rem;
-left: -1rem;
-z-index: 100;
-display: flex;
-justify-content: space-between;
+    position: absolute;
+    width: 123rem;
+    top: 30rem;
+    left: -1rem;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+`
+const ButtonsFinal = styled(Buttons)`
+    top: 65rem;
 `
 
 
@@ -161,3 +181,6 @@ const AddFormWrapper = styled.div`
 `
 
 
+const ButtonWrapper = styled(NavLink)`
+
+`

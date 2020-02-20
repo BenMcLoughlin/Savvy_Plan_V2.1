@@ -8,27 +8,59 @@ import LifetimeIncomeTile from "./components/LifetimeIncomeTile"
 import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
 import ContributionPlanTile from "./components/ContributionPlanTile"
+import Wizard from "./components/Wizard"
+import {setProgress_action} from "redux/progress/progress_actions"
 
-const Dashboard = () =>  {
-    const [count, setCount] = useState(0)
+const Dashboard = ({progress_reducer, setProgress_action}) =>  {
+    const [count, setCount] = useState(progress_reducer.dashboard)
+console.log(progress_reducer.dashboard);
+    const setCountAndProgress = (section, number) => {
+        setProgress_action(section, number)
+        setCount(number)
+    }
+
+    console.log(count);
         return (
             <Page>
-                   <NetWorthTile/>
-                   <LifetimeIncomeTile/>
-                   <TaxTile/>
+                 {
+                  count < 7 ?  <Blackout/> : null
+                }
+              
+                <Wizard 
+                    count={count}
+                    setCountAndProgress={setCountAndProgress}
+                    progress_reducer={progress_reducer}
+                    />
+                   <NetWorthTile 
+                        progress_reducer={progress_reducer}
+                        onClick = {() => count === 2 ? setCountAndProgress(count + 1) : null}
+                        />
+                   <LifetimeIncomeTile
+                        progress_reducer={progress_reducer}
+                        onClick = {() => count === 2 ? setCountAndProgress(count + 1) : null}
+                   />
+                   <TaxTile
+                     progress_reducer={progress_reducer}
+                     onClick = {() => count === 2 ? setCountAndProgress(count + 1) : null}
+                   />
                    <HomePurchaseTile/>
-                   <SpendingTile/>
-                   <SavingsPlanTile/>
+                   <SpendingTile
+                     progress_reducer={progress_reducer}
+                   />
+                   <SavingsPlanTile
+                       progress_reducer={progress_reducer}
+                       onClick = {() => count === 2 ? setCountAndProgress(count + 1) : null}
+                   />
                    <ContributionPlanTile/>
             </Page>
         )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
+    progress_reducer: state. progress_reducer
+})
 
-}
-
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps, {setProgress_action})(Dashboard)
 
 //-----------------style--------------------------------------------------//
 
@@ -66,6 +98,16 @@ const ChartWrapper = styled.div`
     display: flex;
     grid-area: h;
 `
+const Blackout = styled.div`
+    background: black;
+    opacity: .5;
+    position: absolute;
+    top: -44rem;
+    left: -30rem;
+    height: 300rem;
+    width: 200rem;
+    z-index: 500;
+    `
 
 //This is the grid container that positions each of the tiles in the dashboard.
 

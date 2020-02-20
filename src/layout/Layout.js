@@ -24,7 +24,6 @@ import WithSpinner from "HOC/withSpinner/WithSpinner"
 import {connect} from "react-redux"
 import Spending from "pages/spending/Spending"
 
-
 const DashboardWithSpinner = WithSpinner(Dashboard);
 const TaxAppWithSpinner = WithSpinner(TaxApp);
 // const SavingsWithSpinner = WithSpinner(Savings);
@@ -44,8 +43,8 @@ const Layout = ({auth, state}) => {
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
-                        <Route path="/LifeTimeIncome" component={Income}/>  
-                        <Route path="/SavingsPlan" component={Savings}/>              
+                        <Route path="/income" component={Income}/>  
+                        <Route path="/Savings" component={Savings}/>              
                         <Route path="/CreditScore" component={CreditScoreApp}/>              
                         <Route path="/Spending" component={Spending}/>                 
                         <Route path="/Property" component={PropertyApp}/>

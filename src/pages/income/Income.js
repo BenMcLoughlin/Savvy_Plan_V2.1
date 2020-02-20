@@ -42,9 +42,10 @@ console.log(state);
             contributeToCpp && renderCPPandOASIncome(cacheKey, calculateCpp_action, cppStartAge, oasStartAge, setIncome_action)    
                                                                                                                             //only recalculates CPP if contributions to CPP are made on the income                                                        
     }
+console.log(income_reducer);
 
-
-    const addItemToList = (financialValue, rangeBarValue, {isChecked, label, name}) => {
+    const addItemToList = (label, {isChecked, name, financialValue, rangeBarValue}) => {
+        console.log(label);
         let contributeToCpp = isChecked
         for(let age = 18; age < 95; age++) {
         setIncome_action(age, isChecked, 0, label, name, 0)

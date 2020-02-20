@@ -4,7 +4,7 @@ import {calculateCpp} from  "services/cppFunctions"
 const initialState = () => {
     const income = {}
     for (let i = 18; i <= 95; i++) {
-        income[Number(i)] = {
+        income[i] = {
                 cppIncome: {
                     age: i, 
                     contributeToCpp: true,
@@ -12,15 +12,6 @@ const initialState = () => {
                     label: "CPP Income",
                     name: "cppIncome",
                     rangeBarValue: 0, 
-                },
-              employmentIncome: {
-                    age: i, 
-                    contributeToCpp: true,
-                    financialValue: 0, 
-                    label: "Employment Income",
-                    name: "employmentIncome",
-                    rangeBarValue: 0, 
-
                 },
                 oasIncome: {
                     age: i, 
@@ -37,15 +28,6 @@ const initialState = () => {
                     label: "RRSP Income",
                     name: "rrsp",
                     rangeBarValue: 0, 
-                },
-                businessIncome: {
-                    age: i, 
-                    contributeToCpp: false,
-                    financialValue: 0, 
-                    label: "Business Income",
-                    name: "businessIncome",
-                    rangeBarValue: 0, 
-
                 },
                 tfsa: {
                     age: i, 

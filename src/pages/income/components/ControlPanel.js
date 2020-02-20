@@ -33,13 +33,11 @@ export default function ControlPanel(props) {
                                     {
                                      count === 0 ?  <div>
                                                         <h5>We're going to estimate your pension income by reviewing your lifetime income by year. </h5>  
-                                                        <span>Use the arrow buttons to move through the tutorial</span> 
                                                    </div>
   
                                      : 
                                      count === 1 ?   <div>
                                                          <h5>This selector enables you to choose the age range in which you'd like to input income </h5>  
-                                                         <span>To calculate CPP we will need income estimates from ages 18 - 65.</span> 
                                                     </div>
                                      : 
                                      count === 2 ?  <div>
