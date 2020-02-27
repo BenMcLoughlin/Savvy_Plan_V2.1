@@ -1,77 +1,40 @@
 import _ from "lodash"
-import {calculateCpp} from  "services/cppFunctions"
 
-const initialState = () => {
-    const income = {}
-    for (let i = 18; i <= 95; i++) {
-        income[i] = {
-                cppIncome: {
-                    age: i, 
-                    contributeToCpp: true,
-                    financialValue: 0, 
-                    label: "CPP Income",
-                    name: "cppIncome",
-                    rangeBarValue: 0, 
-                },
-                oasIncome: {
-                    age: i, 
-                    contributeToCpp: false,
-                    financialValue: 0, 
-                    label: "OAS Income",
-                    name: "oasIncome",
-                    rangeBarValue: 0, 
-                },
-                rrsp: {
-                    age: i, 
-                    contributeToCpp: false,
-                    financialValue: 0, 
-                    label: "RRSP Income",
-                    name: "rrsp",
-                    rangeBarValue: 0, 
-                },
-                tfsa: {
-                    age: i, 
-                    contributeToCpp: false,
-                    financialValue: 0, 
-                    label: "TFSA Income",
-                    name: "tfsa",
-                    rangeBarValue: 0, 
-
-                },
-                nonRegistered: {
-                    age: i, 
-                    contributeToCpp: false,
-                    financialValue: 0, 
-                    label: "Non-Registered Income",
-                    name: "nonRegistered",
-                    rangeBarValue: 0, 
-
-                },
-        }}
-return income
+const initialState = {
+  123:  {                                                                                           //this is the initial state of income being stored to the reducer. 
+        contributeToCPP: true, 
+        id: 123,
+        category: "Wal Mart Income",                                                                         //examples include "employment", "business", "pension"
+        taxable: true,       
+        color: "#B0CFE3",                                                                       //Some forms of income might not be taxable such as inheritance
+        fromAge: 18,
+        toAge: 40,
+        income: {                                                                                  //The value of the income being added
+            rangeBarValue: 0,
+            financialValue: 5000,
+            name: "income",
+            label: "Income Amount",
+        },
+    },
 }
 
- const income_reducer = (state = initialState(), action) => {
+ const income_reducer2 = (state = initialState, action) => {
     switch(action.type) {
-        case "SET_INCOME_PER_YEAR": 
-        return {...state, [action.payload.age]: {
-                                        ...state[action.payload.age], [action.payload.name]: action.payload
-                                        }}
-        case "REMOVE_INCOME_TYPE": 
-
-        return {...state, [action.age]:  _.omit(state[action.age], action.name)
-            }
-        case "CALCULATE_CPP_REFACTOR":  
-                const cppPayment = calculateCpp(action.age, 1988, action.cacheKey, action.cppStartAge, 55420, state)
-                return {...state, [action.age]: {
-                                                    ...state[action.age], cppIncome: {
-                                                        age: action.age,
-                                                        financialValue: cppPayment,
-                                                        label: "CPP Income",
-                                                        name: "cppIncome"
+        case "income/ADD_INCOME": return {...state, [action.payload.id]: action.payload}
+        case "income/CHANGE_AGE": return {...state, [action.id]: {
+                                                     ...state[action.id], [action.ageType]: action.value
+        }}
+        case "income/DELETE": return  _.omit(state, [action.id])                  
+        case "income/CHANGE_LABEL": return {...state, [action.id]: {
+                                                        ...state[action.id], [action.key]: action.event.target.value
+        }}
+        case "income/CHANGE_INCOME": return {...state, [action.id]: {
+                                                    ...state[action.id], [action.name]: {
+                                                        ...state[action.id][action.name], 
+                                                                    financialValue: action.financialValue,
+                                                                    rangeBarValue: action.rangeBarValue,
                                                     }
-                                                    }}
-
+        }}
 
         default: return state
     }
@@ -80,7 +43,7 @@ return income
 
 
 
-export default income_reducer
+export default income_reducer2
 
 
 

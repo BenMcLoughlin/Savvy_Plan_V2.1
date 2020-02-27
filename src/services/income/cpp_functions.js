@@ -1,114 +1,5 @@
-//DETERMINE CPP AND OAS PAYMENT AFTER AGE CHANGES
 
-function adjustCppMemoized() {                                                                      //CPP is either increased or reduced according to the age the user takes it
-    let cache = {};                                                                                 //To increase speed this function is memoized
-    return function( age, cacheKey, income) {
-        if (cacheKey in cache) {
-            return cache[cacheKey]
-        } else {
-            if (age < 65) {                                                                          //If Income is less than 65 it is reduced by 7.2% per year
-                const years = 65 - age 
-                const percentage = years * .072
-                const value = income * (1-percentage)
-                return value
-             }
-             else if (age === 65) {return income}                                                     //If age is 65 it is the amount originally calculatied
-             
-             else if (age > 65) {                                                                     //If age is over 65 income is increased by 7.2% per year
-                 const years = age -65
-                 const percentage = years * .072
-                 const value = income * (1 + percentage)
-                 return value
-              }
-        }
-      }
-}
-
-export const adjustCpp = adjustCppMemoized()
-
-
-
-
-function adjustOasMemoized() {                                                                      //OAS is  also either increased or reduced 
-    let cache = {};                             
-    return function( age, cacheKey, income) { 
-        if (cacheKey in cache) {
-            return cache[cacheKey]                                                                  //it can only begin at age 65 so there is no reduction if taken earlier because the user cant
-        } else {
-            if (age === 65) {return income}
-  
-            else if (age > 65 && age <= 70) {                                                       //anything above age 65 is increased each year
-                const years = age -65
-                const percentage = years * .072
-                const value = income * (1 + percentage)
-                return Math.round(value/100)*100
-             }
-          
-             if (age > 70) {return income * 1.36}                                                    //The largest increase possible is 36%, if the user is over 70 it's just increased by that amount.
-        }
-      }
-}
-
-export const adjustOas = adjustOasMemoized()
-
-
-
-function calculateCppMemoized() {
-    let cache = {};
-    return function(age,birthYear, cacheKey, cppStartAge, ympe, state) {
-         if (cacheKey in cache) {
-             return cache[cacheKey]
-         } else {
-             const pensionableIncome  = Object.values(state).slice(0,53).map(d => {
- 
-                 const pensionableIncome = Object.values(d).filter(d => d.contributeToCpp)
-                                                         .map(d => d.financialValue)
-                                                         .reduce((acc, num) => acc + num)
-                  
-                     const currentAge = Object.values(d)[0].age
-                     const currentYear = currentAge + birthYear
-                     const percentage = currentYear < 2019 && currentAge <= 70 ? 
-                                                 pensionableIncome / historicYmpe[birthYear + currentAge] < 1 ? 
-                                                  pensionableIncome / historicYmpe[birthYear + currentAge] : 1 :
-                                                 pensionableIncome / ympe < 1 ? pensionableIncome / ympe : 1
-     
-                     return { adjustedPensionableIncome: percentage * ympe,}})
-                                 
-                 const  totalAdustedPensionableEarnings =  Object.values(pensionableIncome)
-                                                                 .map(d => d.adjustedPensionableIncome)
-                                                                 .sort().slice(8,47)
-                                                                 .reduce((acc, num) => acc + num)
-             
-                 const averagePensionableEarnings = totalAdustedPensionableEarnings / 39
-                 const annualCppPayment = averagePensionableEarnings * .25
-                 const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/1000)*1000
-                 cache[cacheKey] = adjustedCppPayment
-                 return cache[cacheKey]
-         }
-    }
- }
- 
- export const calculateCpp = calculateCppMemoized()
- 
-
-
-//CALCULATE AND INSERT CPP AND OAS INCOME INTO REDUCER
-export const renderCPPandOASIncome = (cacheKey, calculateCpp_action, cppStartAge, oasStartAge, setIncome_action) => {                   //caclualtes the cpp and oas payments and places them into the income_reducer               
-    for (let age = cppStartAge; age <= 95; age++) {
-          calculateCpp_action(age, cppStartAge, cacheKey)                                                                                //to support memoization we are passing in the financial value as a caheKey which the funciton will use to know if it's ran before
-      }                                                                                                                                  //the actual calculation of the CPP payment is done in the reducer to solve an async issue
-    for (let age = 59; age < cppStartAge; age++) {                                                                                       //resets cpp payments to 0 before the selected start age
-          setIncome_action(age, false, 0, "CPP Income", "cppIncome")                                                                     //When the user slides the age up, all the income inputted into the reducer below that age has to be removed
-      }
-    for (let age = oasStartAge; age <= 95; age++) {                                                                                      //sets OasIncome in the reducer using the above process
-          setIncome_action(age, false, 7000, "OAS Income", "oasIncome", 0)  
-      }
-    for (let age = 59; age < oasStartAge; age++) {
-          setIncome_action(age, false,  0, "OAS Income", "oasIncome", 0)  
-      }
-} 
-
- const historicYmpe = {
+const historicYmpe = {
     1971: 5400,
     1972: 5500,
     1973: 5600,
@@ -159,3 +50,129 @@ export const renderCPPandOASIncome = (cacheKey, calculateCpp_action, cppStartAge
     2018: 55900,
     2019: 57400,
 };
+
+const fiveYearYMPE = 58000
+
+const adjustCppMemoized = () =>  {                                                                  //CPP is either increased or reduced according to the age the user takes it
+    let cache = {};                                                                                 //To increase speed this function is memoized
+    return function( age, cacheKey, income) {
+        if (cacheKey in cache) {
+            return cache[cacheKey]
+        } else {
+            if (age < 65) {                                                                          //If Income is less than 65 it is reduced by 7.2% per year
+                const years = 65 - age 
+                const percentage = years * .072
+                const value = income * (1-percentage)
+                return value
+             }
+             else if (age === 65) {return income}                                                     //If age is 65 it is the amount originally calculatied
+             
+             else if (age > 65) {                                                                     //If age is over 65 income is increased by 7.2% per year
+                 const years = age -65
+                 const percentage = years * .072
+                 const value = income * (1 + percentage)
+                 return value
+              }
+        }
+      }
+}
+
+function adjustOasMemoized() {                                                                      //OAS is  also either increased or reduced 
+    let cache = {};                             
+    return function( age, cacheKey, income) { 
+        if (cacheKey in cache) {
+            return cache[cacheKey]                                                                  //it can only begin at age 65 so there is no reduction if taken earlier because the user cant
+        } else {
+            if (age === 65) {return income}
+  
+            else if (age > 65 && age <= 70) {                                                       //anything above age 65 is increased each year
+                const years = age -65
+                const percentage = years * .072
+                const value = income * (1 + percentage)
+                return Math.round(value/100)*100
+             }
+          
+             if (age > 70) {return income * 1.36}                                                    //The largest increase possible is 36%, if the user is over 70 it's just increased by that amount.
+        }
+      }
+}
+
+export const adjustOas = adjustOasMemoized()
+
+
+const adjustCpp = adjustCppMemoized()
+
+function calculateCppMemoized() {
+    let cache = {};                                                                                                                    //Its a heavy function so we use caching
+    return function(income_reducer, age, birthYear, cacheKey, cppStartAge, ympe) {
+        const incomeArray = Object.values(income_reducer).filter(d => d.contributeToCPP === true)                                            //convert object containing income streams to array filtering out only CPP contributory Income
+        console.log(income_reducer); 
+        if (incomeArray.length > 0) {
+       
+            const array = []                                                                                                               // create our array into which income will be pushed
+            for (let age = 18; age <= 65; age ++) {                                                                                         //start a for loop to adjust pensionable earnings of each year of users life
+             const year = birthYear + age                                                                                                  //determine the year for which we are adjusting earnings
+             const unadjustedPensionableEarnings = incomeArray.map(d => age >= d.fromAge                                                   //map through the income streams to see if there was income in this year
+                                                         && age <= d.toAge ? 
+                                                         d.income.financialValue : 0                                                       //If there was pensionable income, give the financial value
+                                                                  ).reduce((acc, num) => acc + num)                                        //Sum all financial values of pensionable income earned
+         
+             const adjustedEarningsPercentage = year < 2019 && age <= 70 ?                                                                 //if income was earned before 2020, we need to adjusted it using the history YMPE, if not its the same as the pensionable income above
+                                       unadjustedPensionableEarnings / historicYmpe[year] < 1 ?                                            //Next we want to check if the percentage is less than one, if so we want to use it, if not we just want 100%
+                                       unadjustedPensionableEarnings / historicYmpe[year] : 1 :
+                                       unadjustedPensionableEarnings / fiveYearYMPE < 1 ? unadjustedPensionableEarnings / fiveYearYMPE : 1
+              
+            const adjustedPensionableEarnings =  adjustedEarningsPercentage * fiveYearYMPE                                                 //This adjusts the users pensionable earnings into todays dollars
+            array.push(adjustedPensionableEarnings)                                                                                       //Pushed to the array, giving and adjusted value for each year
+         }
+         const totalAdjustedPensionableEarnings = array.sort().slice(8,47).reduce((acc, num) => acc + num)                                  //array is sorted and sliced to remove lowest 8 years then summed up
+         const averagePensionableEarnings = totalAdjustedPensionableEarnings / 39                                                           //divided by 39, the highest earning years of the client
+         const annualCppPayment = averagePensionableEarnings * .25                                                                          //Multiplied by 25%
+         const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/1000)*1000
+         const cppIncome = {
+             label: "CPP Income",
+             category: "CPP Income",
+             color: "#F29278",
+             fromAge: cppStartAge,
+             toAge: 95,
+             income: {
+                financialValue: adjustedCppPayment
+             }
+         }
+         cache[cacheKey] = cppIncome                                                                                              //cache's the answer for later
+         return cache[cacheKey] 
+        }
+        else return {
+            label: "CPP Income",
+            category: "CPP Income",
+            contributeToCPP: "retirement",
+             fromAge: cppStartAge,
+             toAge: 95,
+            income: {
+               financialValue: 0
+            }
+        }            
+
+}
+}
+export const calculateCpp = calculateCppMemoized()
+
+
+export const calculateOAS = (age) => ({
+    label: "OASIncome",
+    category: "OAS Income",
+    contributeToCPP: "retirement",
+    color: "#81CCAF",
+    fromAge: age,
+    toAge: 95,
+    income: {
+       financialValue:  adjustCpp(age, age, 7200),
+    }
+})
+
+//DETERMINE CPP AND OAS PAYMENT AFTER AGE CHANGES
+
+
+
+
+

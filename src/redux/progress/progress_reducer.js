@@ -9,6 +9,7 @@ const initialState = {
     saving: 0,
     taxes: 0,
     dashboard: 0,
+    incomeColor: 0,
 }
 
  const progress_reducer = (state = initialState, action) => {
