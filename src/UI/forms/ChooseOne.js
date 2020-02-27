@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import _ from "lodash"
 
-const ChooseOne = ({value, setValue, array, subCategory}) => {
+const ChooseOne = ({value, setValue, array, subCategory, title}) => {
 
     const [selected, select] = useState(value)
     const handleSelect = (value) => {
@@ -13,7 +13,7 @@ const ChooseOne = ({value, setValue, array, subCategory}) => {
     return (
         <Container>
             <Label>
-                 Choose One
+                 {title ? `${title}` : "Choose One"}
             </Label>
             <SelectWrapper>
                 {

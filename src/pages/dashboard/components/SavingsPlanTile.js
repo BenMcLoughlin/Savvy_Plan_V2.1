@@ -6,14 +6,12 @@ import SavingsAreaChart from "charts/savings/SavingsAreaChart"
 import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"
 import { NavLink} from "react-router-dom"
 
- class SavingsPlanTile extends Component {
+const SavingsPlanTile = ({rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg, progress_reducer}) => {
 
-    render() {
 
-        const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} = this.props
 
         return (
-            <LifetimeIncomeTileWrapper to="/SavingsPlan">
+            <Wrapper to="/SavingsPlan" count={progress_reducer.dashboard}>
             <Top>
                     <Left>
                     <LargeTotal>
@@ -55,9 +53,8 @@ import { NavLink} from "react-router-dom"
                     <SavingsStackedChart/>
                 </BarChartPlaceHolder>   
             </ChartWrapper>
-            </LifetimeIncomeTileWrapper>
+            </Wrapper>
         )
-    }
 }
 
 
@@ -77,7 +74,7 @@ export default connect(mapStateToProps)(SavingsPlanTile)
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const LifetimeIncomeTileWrapper = styled(NavLink)`
+const Wrapper = styled(NavLink)`
   text-decoration: none;
   grid-area: g;
   color: ${props => props.theme.color.slate};
@@ -85,7 +82,7 @@ const LifetimeIncomeTileWrapper = styled(NavLink)`
   border: ${props => props.theme.border.primary};
   cursor: pointer;
   display: flex;
-
+  z-index: ${props => props.count === 5 ? 900 : 0};
   flex-direction: column;
   transition: all .2s ease-in-out;
   background: ${props => props.theme.color.ice};

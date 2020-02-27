@@ -64,7 +64,7 @@ export const HeaderContainer = styled.div`
     display: flex;
     height: 6rem;
     background: ${props => props.theme.color.slate};
-    font-weight: 200;    
+    font-weight: 400;    
 `
 const Logo = styled.div`
         width: 10rem;
@@ -86,7 +86,7 @@ const Left = styled.div`
 const Header3 = styled.div`
         font-size: ${props => props.theme.fontSize.medium};
         color: ${props => props.theme.color.ice};
-        font-weight: 300;
+        font-weight: 400;
      
 `
 const Right = styled.div`

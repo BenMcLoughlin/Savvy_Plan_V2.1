@@ -1,46 +1,39 @@
-export const setIncome_action = (age, contributeToCpp, financialValue, label, name, rangeBarValue) => ({
-    type: "SET_INCOME_PER_YEAR", 
+export const addIncome_action = (id, state) => {
+    console.log(state);
+   return ({
+    type: "income/ADD_INCOME",
     payload: {
-        age, 
-        contributeToCpp, 
-        financialValue, 
-        label,
-        name,
-        rangeBarValue,
+        id,
+        ...state,
     }
+})}
+
+export const changeIncome_action = (id, financialValue, rangeBarValue, {name}) => ({
+    type: "income/CHANGE_INCOME",
+    id, 
+    name,
+    financialValue,
+    rangeBarValue
+})
+export const changeLabel_action = (id, key, event) => ({
+    type: "income/CHANGE_LABEL",
+    id, 
+    key,
+    event
+})
+export const changeAge_action = (id, ageType, value) => {
+    console.log(ageType);
+    return ({
+    type: "income/CHANGE_AGE",
+    id, 
+    ageType,
+    value
+})}
+
+export const delete_action = (id) => ({
+    type: "income/DELETE",
+    id,
 })
 
-export const removeItem_action = (age, name) => ({
-    type: "REMOVE_INCOME_TYPE", 
-        age,
-        name
-})
-
-
-export const setKeyVariable_action = (name, value) => {
-console.log(value);
-    return{
-    type: "SET_KEY_VARIABLE", 
-    name, 
-    value: value 
-}
-
-}
-export const calculateCpp_action = (age, cppStartAge, cacheKey) => {
-return {
-    type: "CALCULATE_CPP_REFACTOR", 
-        age,   
-        cacheKey,
-        cppStartAge, 
-}
-}
-
-export const setPensionStartAge_action = (name, value) => {
-return {
-    type: "SET_PENSION_START_AGE", 
-        name, 
-        value 
-}
-}
 
 

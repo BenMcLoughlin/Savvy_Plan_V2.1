@@ -4,7 +4,7 @@ import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "pages/dashboard/Dashboard"
 import TaxApp from "pages/taxPosition/TaxApp"
-import NetWorth from "pages/netWorth/NetWorth"
+import NetWorth from "pages/netWorth/NetWorth1"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
@@ -23,8 +23,6 @@ import RightVideoSelector from "./navigation/RightVideoSelector"
 import WithSpinner from "HOC/withSpinner/WithSpinner"
 import {connect} from "react-redux"
 import Spending from "pages/spending/Spending"
-
-
 
 const DashboardWithSpinner = WithSpinner(Dashboard);
 const TaxAppWithSpinner = WithSpinner(TaxApp);
@@ -45,8 +43,8 @@ const Layout = ({auth, state}) => {
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
-                        <Route path="/LifeTimeIncome" component={Income}/>  
-                        <Route path="/SavingsPlan" component={Savings}/>              
+                        <Route path="/income" component={Income}/>  
+                        <Route path="/Savings" component={Savings}/>              
                         <Route path="/CreditScore" component={CreditScoreApp}/>              
                         <Route path="/Spending" component={Spending}/>                 
                         <Route path="/Property" component={PropertyApp}/>

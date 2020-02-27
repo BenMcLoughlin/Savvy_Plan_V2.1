@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as d3 from "d3"
 import _ from "lodash"
 import styled from "styled-components"
-import {stackedChartData, stackedChartKeys} from "redux/income/income_selectors"
+import {incomeArray_selector, color_selector} from "redux/income/income_selectors"
 import {connect} from "react-redux"
 
 const drawChart = (props, width, height) => {
@@ -11,13 +11,16 @@ const drawChart = (props, width, height) => {
     const margin = {top: 20, right: 100, bottom: 50, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ["#ef7959", "#4BB9D0",'#72929B',  "#B0CFE3", '#FEDE76', '#81CCAF',  '#78b7bb','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#a4d7e1", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    const data = props.stackedChartData
+    const color = ["#ef7959", "green", "#4BB9D0",'#72929B',  "#B0CFE3", '#FEDE76', '#81CCAF',  '#78b7bb','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#a4d7e1", "#81CCAF", '#F7CDAB', '#D8BABB'];
+    const data = props.incomeArray_selector
 
    //VALUE ACCESSORS
 //    const xValue = d => d.age
 //    const yValue = d => d.country
 
+    const colors = props.color_selector
+   
+    const stackedKeys = Object.keys(data[0])
 
     d3.select(".canvasStackedbarChart > *").remove()
     d3.select(".tooltip").remove()
@@ -34,7 +37,7 @@ const drawChart = (props, width, height) => {
                                  .style("background", "blue")
                                
     const stack = d3.stack()
-                                .keys(props.stackedChartKeys)
+                                .keys(stackedKeys)
                                 .order(d3.stackOrderNone)
                                 .offset(d3.stackOffsetNone);
         
@@ -59,7 +62,7 @@ const drawChart = (props, width, height) => {
 ////-------------------------PROTECT--------------------------------        
 
     const layers = graph.append("g").selectAll("g")
-                                            .data(series).enter().append("g").attr("fill", (d,i) => color[i])
+                                            .data(series).enter().append("g").attr("fill", (d,i) => colors[d.key])
                                             .attr("backgroundColor", (d,i) => color[i])
                                             .attr("class", (d,i) => (
                                                 d.key === "cppIncome" ? "CPP Income" 
@@ -83,7 +86,7 @@ const drawChart = (props, width, height) => {
 
       rects.on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
-                                const nameIndex = props.stackedChartKeys.findIndex(type => type === name)
+                                const nameIndex = stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
                                 const thisYearTotalIncome = Object.values(data[i]).slice(1).reduce((acc, num) => acc + num)
                                 d3.select(n[i])
@@ -219,8 +222,8 @@ componentWillUnmount() {
 
 const mapStateToProps = (state) => {
     return {
-        stackedChartData: stackedChartData(state),
-        stackedChartKeys: stackedChartKeys(state)
+        incomeArray_selector: incomeArray_selector(state),
+        color_selector: color_selector(state),
     }
 }
 

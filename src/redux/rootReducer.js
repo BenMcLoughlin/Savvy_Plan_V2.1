@@ -1,7 +1,6 @@
 import {persistReducer} from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import {combineReducers} from "redux"
-
 import income_reducer from "./income/income_reducer"
 import pensionStartAges_reducer from "./pensionStartAges/pensionStartAges_reducer"
 import user_reducer from "./user/user_reducer"
@@ -28,7 +27,7 @@ const persistConfig = {
     "savings_reducer",
     "savings2_reducer",
     "lifeEvents_reducer",
-    "progress_reducer"
+    "progress_reducer",
 ]
 }
 

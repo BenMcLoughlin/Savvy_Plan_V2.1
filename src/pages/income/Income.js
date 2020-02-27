@@ -1,147 +1,71 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {setIncome_action, setKeyVariable_action, removeItem_action, calculateCpp_action} from "redux/income/income_actions"
-import {setRetirementIncome_action} from "redux/user/user_actions"
-import {setPensionStartAge_action} from "redux/pensionStartAges/pensionStartAges_actions"
-import {setMaxContribution_action} from "redux/savings/savings_actions"
+import {setProgress_action} from "redux/progress/progress_actions"
 import Header from "pages/income/components/Header"
-import ControlPanel from "pages/income/components/ControlPanel"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
-import { setMaxContributions, determineMaxRegisteredPayments} from "services/income/income_functions" 
-import {stackedChartData,  retirementPensionIncome} from "redux/income/income_selectors"
-import {rate1 , rate2} from "redux/savings/savings_selectors"
-import {renderCPPandOASIncome, adjustOas} from  "services/income/cpp_functions"
-import {calculateOptimumIncomeStreams, addRetirementIncome} from  "services/income/rrspAndTfsa_functions"
+import EditIncome from "pages/income/components/EditIncome"
+import DisplayBox from "pages/income/components/DisplayBox"
+import {addIncome_action} from "redux/income/income_actions"
+import {income_selector} from "redux/income/income_selectors"
+import {displayBox_data} from "pages/income/data/income_data"
 
-const LifetimeIncomeAppRefactor = ({setIncome_action, calculateCpp_action, state, setPensionStartAge_action,                                    // destructure out variables
-    income_reducer, removeItem_action, pensionStartAges_reducer, setRetirementIncome_action,  stackedChartData,
-    setMaxContribution_action, user_reducer, savings_reducer, rate1, rate2, retirementPensionIncome,
-    pensionStartAges_reducer: {cppStartAge: {rangeBarValue: cppStartAge}},
-    pensionStartAges_reducer: {oasStartAge: {rangeBarValue: oasStartAge }}}) => {
-
-        const [fromAge, setFromAge] = useState(18)
-        const [toAge, setToAge] = useState(65)    
-
-        const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
-        const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
-        const {retirementIncome: {financialValue: retirementIncome}} = user_reducer
+const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action,  income_reducer}) => {
+  
+    const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
    
-        const {maxTfsaPayment, maxRrspPayment, highestIncomes, } = determineMaxRegisteredPayments(income_reducer, rrspStartAge, savings_reducer, tfsaStartAge, rate1, rate2) 
-
-        const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, retirementIncome)
-console.log(state);
-
-
-//INCOME INPUT
-    const setIncome = (financialValue, rangeBarValue, {contributeToCpp, label, name}) => {                                                 //used by rangebars to set income in incomeByYear reducer
-    const cacheKey = financialValue + name +  (fromAge.toString()) + (toAge.toString())                                                   //creates a unique cacheKey which will be used to check if the function has been run before and return the last answer if it was - memoization
-        for (let age = fromAge; age < toAge; age++ ) {                                                           
-            setIncome_action(age, contributeToCpp, financialValue, label, name, rangeBarValue)                                            //sets the income for each of the years between the selected ranges
-        }    
-            contributeToCpp && renderCPPandOASIncome(cacheKey, calculateCpp_action, cppStartAge, oasStartAge, setIncome_action)    
-                                                                                                                            //only recalculates CPP if contributions to CPP are made on the income                                                        
+    const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
+                                                     
+    const [id, setId] = useState()                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
+    
+    const setCountAndProgress = (section, number) => {                                                                               //Moves the count forward locally and also stores it in the reducer
+        setProgress_action(section, number)                                                                                          //this action enables us to show a progress bar throughout the entire application
+        setCount(number)                                                                                                             //sets the count locally
     }
-
-
-    const addItemToList = (financialValue, rangeBarValue, {isChecked, label, name}) => {
-        let contributeToCpp = isChecked
-        for(let age = 18; age < 95; age++) {
-        setIncome_action(age, isChecked, 0, label, name, 0)
-        }
-        setIncome (financialValue, rangeBarValue, {contributeToCpp, label, name})
+ 
+    const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
+        const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
+                addIncome_action(newId, {...state})                                                                                  //This action fires and sets the state in the reducer, 
+                setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
+                setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
+console.log(id);
+    const instanceArray =  Object.values(income_selector).filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge)   //here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
 
-//CHANGE INCOME LABEL
-    const handleChangeLabel = (e,  {financialValue, rangeBarValue, contributeToCpp, label, name}) => {                                   // eg. the user changes label from "Employment income" to "Wal mart Income"
-    for (let age = fromAge; age < toAge; age++ ) {
-        setIncome_action(age, contributeToCpp, financialValue, e.target.value, name, rangeBarValue) 
-    }
-    }
-
-//PENSION INCOME CALCULATION
-    const setPensionIncome = (x, value, {name})  => {   
-        setPensionStartAge_action(name, value)                                                                                           //Takes value from rangeBar and sets it into the pension start age reducer 
-        const cacheKey = value+name
-        if  (name === "cppStartAge") {                                                                                                   //Checks name of value being changed and sets it into the lifetimeIncomeYearList 
-            for (let age = value; age <=95; age ++) {                                                                                    //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
-                calculateCpp_action(age, value, cacheKey)
-            }
-            for (let age = 59; age < value; age++) {
-                setIncome_action(age, false, 0, "CPP Income", "cppIncome")  
-            }}
-        else if  (name === "oasStartAge") {
-            const oasPayment = adjustOas(value, value, 7000)
-            for (let age = value; age <=95; age ++) {                                                                                     //Runs from the age selected in the rangeBar to age 95 and inserts the income into the reducer
-                setIncome_action(age, false, oasPayment, "OAS Income", "oasIncome") 
-            }
-            for (let age = 64; age < value; age++) {
-                setIncome_action(age, false, 0, "OAS Income", "oasIncome")  
-            }}
-        else if (name === "tfsaStartAge") {
-            setKeyVariable_action(name, value)
-            setMaxContributions(birthYear, income_reducer, rrspStartAge, setMaxContribution_action, value) 
-            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, tfsaStartAge, value, setIncome_action)
-        }
-        else if (name === "rrspStartAge") {
-            setKeyVariable_action(name, value)
-            setMaxContributions(birthYear, income_reducer, rrspStartAge, setMaxContribution_action, value) 
-            addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString() + value), incomeStreams, value, rrspStartAge, setIncome_action)
-        }
-
-       }
-
-//REMOVE INCOME TYPE
-const handleRemoveItem = ({name}) => {          
-    console.log(name);                                                                                            //used to remove income types from reducer
-    for (let age = 18; age < 95; age++ ) {
-      removeItem_action(age, name)
-    }
-}
-
-const {birthYear} = user_reducer
-
-
-
-//SET TOTAL RETIREMENT PENSION INCOME IN KEY VARIABLES REDUCER
-
-
-
-const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
-    setRetirementIncome_action(financialValue, rangeBarValue)
-    const incomeStreams = calculateOptimumIncomeStreams((retirementPensionIncome + maxRrspPayment.toString()), highestIncomes, maxRrspPayment, maxTfsaPayment, retirementPensionIncome, financialValue)
-    setMaxContributions(birthYear, income_reducer, rrspStartAge, setMaxContribution_action, tfsaStartAge) 
-    addRetirementIncome((incomeStreams.tfsa + incomeStreams.rrsp.toString()), incomeStreams, rrspStartAge, tfsaStartAge, setIncome_action)
-} 
         return (
             <Page>
                 <Header
                      income_reducer={income_reducer}
                 />
                 <ChartPlaceHolder>
-                <LifetimeIncomeBarChart/>
+                   <LifetimeIncomeBarChart/>
                 </ChartPlaceHolder>    
-            <ControlPanel
-                    handleChangeLabel = {handleChangeLabel}
-                    handleRemoveItem={handleRemoveItem}
-                    addItemToList={addItemToList}
-                    setFromAge={setFromAge}
-                    setToAge={setToAge}
-                    fromAge={fromAge}
-                    toAge={toAge}
-                    savings_reducer={savings_reducer}
-                    setIncome_action={setIncome_action}
-                    setIncome={setIncome}
-                    setPensionIncome={setPensionIncome}
-                    pensionStartAges_reducer={pensionStartAges_reducer}
-                    income_reducer={income_reducer}
-                    setRetirementIncome_action={setRetirementIncome_action}
-                    user_reducer={user_reducer}
-                    setMaxContribution_action={setMaxContribution_action}
-                    data={stackedChartData}
-                    setKeyVariable_action={setKeyVariable_action}
-                    setReccomendedRetirementIncome={setReccomendedRetirementIncome}
-            />
+                {
+                    category ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
+
+                    <EditIncome  id={id} 
+                                 setCategory={setCategory}
+                                 category={category} 
+                                 setId={setId} 
+                                 instanceArray={instanceArray}
+                                 createNewItem={createNewItem}/>
+                    : 
+                    <>
+                    {
+                        displayBox_data.map(d => <DisplayBox setCategory={setCategory}                                              //This is the box showing the names of all the streams
+                                                                id={id}                                                             //This mapping will provide 3 boxes, one for employment income, one for business income and one for retirement income
+                                                                incomeType={d.incomeType}
+                                                                contributeToCPP={d.contributeToCPP}                                 //the income types are seperated according to if they make contributions to CPP
+                                                                setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
+                                                                category={category}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
+                                                                createNewItem={createNewItem} 
+                                                                instanceArray={instanceArray}
+                                                                />
+                        )
+                    }
+
+                     </>           
+                }
 
             </Page>
         )
@@ -149,20 +73,14 @@ const setReccomendedRetirementIncome = (financialValue, rangeBarValue) => {
 
 const mapStateToProps = (state) => {
     return {
-        state: state,
+        progress_reducer: state.progress_reducer,
+        income_reducer2: state.income_reducer2,
         income_reducer: state.income_reducer,
-        user_reducer: state.user_reducer,
-        pensionStartAges_reducer: state.pensionStartAges_reducer,
-        savings_reducer: state.savings_reducer,
-        stackedChartData: stackedChartData(state),
-        rate1: rate1(state),
-        rate2: rate2(state),
-        retirementPensionIncome: retirementPensionIncome(state),
+        income_selector: income_selector(state),
     }
 }
 
-export default connect(mapStateToProps, {setIncome_action,  setKeyVariable_action, setMaxContribution_action, calculateCpp_action, setPensionStartAge_action,  removeItem_action, setRetirementIncome_action})(LifetimeIncomeAppRefactor)
-
+export default connect(mapStateToProps, {addIncome_action})(Income)
 
 //-----------------------------------------------style-----------------------------------------------//
 

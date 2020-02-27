@@ -1,19 +1,20 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import styled from "styled-components"
 import { NavLink} from "react-router-dom"
-import ProgressIndicator from "UI/progressIndicator/ProgressIndicator"
 import {connect} from "react-redux"
+import ProgressIndicator from "UI/progressIndicator/ProgressIndicator"
 import {ArrowLeft, NavIcon} from "style/Icons"
 
 const LeftNavBar = ({progress_reducer}) => {
 
-    const [open, toggleOpen] = useState(false)
+    const [open, toggleOpen] = useState((false))
+
 
     return (
         <>
         {
-            open ? 
-            <LeftNavBarWrapper>
+            open || progress_reducer.dashboard === 1 ? 
+            <LeftNavBarWrapper progress_reducer={progress_reducer}>
             <Header>Progress Tracker</Header>
             <Arrow onClick={() => toggleOpen(false)}/>
             <PageSelect to="/NetWorth"> NetWorth</PageSelect>
@@ -26,17 +27,17 @@ const LeftNavBar = ({progress_reducer}) => {
                     complete={0} 
                     totalSteps={3}
                     />
-            <PageSelect to="/NetWorth"> Income</PageSelect>
+            <PageSelect to="/income"> Income</PageSelect>
             <ProgressIndicator 
                     complete={0} 
                     totalSteps={3}
                     />
-            <PageSelect to="/NetWorth"> Savings Plan</PageSelect>
+            <PageSelect to="/savings"> Savings Plan</PageSelect>
             <ProgressIndicator 
                     complete={0} 
                     totalSteps={3}
                     />
-            <PageSelect to="/NetWorth"> Tax Position</PageSelect>
+            <PageSelect to="/tax"> Tax Position</PageSelect>
             <ProgressIndicator 
                     complete={0} 
                     totalSteps={3}
@@ -74,6 +75,7 @@ const LeftNavBarWrapper = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 3px;
+    z-index: ${props => props.progress_reducer.dashboard === 1 ? 900 : 0}
 `
 
 export const PageSelect = styled(NavLink)`

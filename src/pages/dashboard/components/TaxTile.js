@@ -6,7 +6,7 @@ import TaxDonutChartTile from "charts/tax/TaxDonutChartTile"
 import { NavLink} from "react-router-dom"
 
 
-const TaxTile = ({tax_reducer}) => {
+const TaxTile = ({tax_reducer, progress_reducer}) => {
 
 
     
@@ -45,7 +45,7 @@ const TaxTile = ({tax_reducer}) => {
   ]
 
     return (
-        <TaxTileTileWrapper to="/Tax">
+        <TaxTileTileWrapper to="/Tax" count={progress_reducer.dashboard}>
             <StackedBarChartPlaceHolder>
             <TaxDonutChartTile
                 taxDonutChartData={taxDonutChartData}
@@ -71,8 +71,8 @@ const TaxTileTileWrapper = styled(NavLink)`
   position: relative;
   width: 100%;
   height: 100%;  
+  z-index: ${props => props.count === 6 ? 900 : 0}
   border-radius: 5px;
-  z-index: 1;
   border: ${props => props.theme.border.primary};
   transition: all .2s ease-in-out;
   background: ${props => props.theme.color.ice};

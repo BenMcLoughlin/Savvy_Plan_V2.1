@@ -4,12 +4,12 @@ import {connect} from "react-redux"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
 import { NavLink} from "react-router-dom"
 
- class LifetimeIncomeTile extends Component {
+const LifetimeIncomeTile = ({progress_reducer, income_reducer}) => {
 
-    render() {
+
 
 //DATA CONVERSTION FOR STACKED BAR CHART
-const data = Object.values(this.props.income_reducer).map(d => {                                                                     //the year list needs to be converted to an array so the chart can render the data
+const data = Object.values(income_reducer).map(d => {                                                                     //the year list needs to be converted to an array so the chart can render the data
     const incomeNamesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
     const financialValueArray = Object.values(d).map(a => a.financialValue)                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
     var result = {age: d.cppIncome.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
@@ -17,7 +17,7 @@ const data = Object.values(this.props.income_reducer).map(d => {                
     return result
 })
        
-      const stackedKeys = Object.keys(this.props.income_reducer[18])                                                                            //creates a an array of each of the income type names, which is used in the stacked Income chart
+      const stackedKeys = Object.keys(income_reducer[18])                                                                            //creates a an array of each of the income type names, which is used in the stacked Income chart
 
        
 
@@ -27,11 +27,11 @@ const data = Object.values(this.props.income_reducer).map(d => {                
             rrsp: {financialValue: rrsp },
             tfsa: {financialValue: tfsa },
             nonRegistered: {financialValue: nonRegistered },
-       } = this.props.income_reducer[75]            
+       } = income_reducer[75]            
 
 
         return (
-            <LifetimeIncomeTileWrapper to="/LifeTimeIncome">
+            <LifetimeIncomeTileWrapper to="/income" count={progress_reducer.dashboard} >
             <Top>
                     <Left>
                     <LargeTotal>
@@ -86,7 +86,7 @@ const data = Object.values(this.props.income_reducer).map(d => {                
             </ChartWrapper>
             </LifetimeIncomeTileWrapper>
         )
-    }
+
 }
 
 const mapStateToProps = (state) => {
@@ -109,6 +109,7 @@ const LifetimeIncomeTileWrapper = styled(NavLink)`
   border: ${props => props.theme.border.primary};
   cursor: pointer;
   display: flex;
+  z-index: ${props => props.count === 4 ? 900 : 0}
   flex-direction: column;
   transition: all .2s ease-in-out;
   background: ${props => props.theme.color.ice};

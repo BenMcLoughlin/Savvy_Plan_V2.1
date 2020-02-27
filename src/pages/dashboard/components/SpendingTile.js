@@ -3,21 +3,19 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import { NavLink} from "react-router-dom"
 
- class Spending extends Component {
+const Spending = ({progress_reducer}) => {
      
-    render() {
-
         return (
-            <CreditScoreWrapper to="/Spending">
+            <Wrapper to="/Spending" progress_reducer={progress_reducer}>
                 <LargeTotal>
                     46 - 57K 
                     <span>
                     Annual Spending
                     </span>
                 </LargeTotal>
-            </CreditScoreWrapper>
+            </Wrapper>
         )
-    }
+
 }
 
 const mapStateToProps = (state) => {
@@ -31,7 +29,7 @@ export default connect(mapStateToProps)(Spending)
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const CreditScoreWrapper = styled( NavLink)`
+const Wrapper = styled( NavLink)`
   text-decoration: none;
   grid-area: c;
   display: flex;
@@ -40,6 +38,7 @@ const CreditScoreWrapper = styled( NavLink)`
   cursor: pointer;
   border-radius: 5px;
   border: ${props => props.theme.border.primary};
+  z-index: ${props => props.progress_reducer.dashboard === 3 ? 900 : 0}
 
 `
 

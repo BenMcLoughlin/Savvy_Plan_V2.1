@@ -2,11 +2,14 @@ import _ from "lodash"
 import {calculateCpp} from  "services/cppFunctions"
 
 const initialState = {
+    onboarding: 0,
     netWorth: 0,
     spending: 0,
     income: 0,
     saving: 0,
     taxes: 0,
+    dashboard: 0,
+    incomeColor: 0,
 }
 
  const progress_reducer = (state = initialState, action) => {
