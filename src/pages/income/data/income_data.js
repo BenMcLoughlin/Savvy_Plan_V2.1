@@ -1,10 +1,10 @@
 
-export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, incomeRangeBar, color, contributeToCPP) => ({                                              //this is the initial state of income being stored to the reducer. 
+export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, incomeRangeBar, color, incomeType) => ({                                              //this is the initial state of income being stored to the reducer. 
     label: category,                                                                                 //the label is editable by the user and is what is displayed 
-    contributeToCPP, 
+    incomeType, 
     category,                                                                                        //examples include "employment", "business", "pension"
     color, 
-    taxable: true,                                                                                   //Some forms of income might not be taxable such as inheritance
+    taxable: true,                                                                                  //Some forms of income might not be taxable such as inheritance
     fromAge,
     toAge,
     income: {                                                                                        //The value of the income being added
@@ -17,19 +17,24 @@ export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, inc
 
 export const displayBox_data = [
     {
-        title: "Employment Income",
-        incomeType: "employment",
-        contributeToCPP: true,
+        incomeType: "employmentIncome",
     },
     {
-        title: "Business / Investment Income",
-        incomeType: "business",
-        contributeToCPP: false,
+        incomeType: "businessIncome",
     },
     {
-        title: "Retirment Income",
-        incomeType: "retirement",
-        contributeToCPP: "retirement",
+        incomeType: "retirementIncome",
+    }
+]
+export const retirementIncome_data = [
+    {
+        incomeType: "employmentIncome",
+    },
+    {
+        incomeType: "businessIncome",
+    },
+    {
+        incomeType: "retirementIncome",
     }
 ]
 

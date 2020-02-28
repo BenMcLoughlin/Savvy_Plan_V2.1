@@ -4,85 +4,26 @@ import {connect} from "react-redux"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
 import { NavLink} from "react-router-dom"
 
-const LifetimeIncomeTile = ({progress_reducer, income_reducer}) => {
+const LifetimeIncomeTile = ({progress_reducer}) => {
 
 
 
-//DATA CONVERSTION FOR STACKED BAR CHART
-const data = Object.values(income_reducer).map(d => {                                                                     //the year list needs to be converted to an array so the chart can render the data
-    const incomeNamesArray = Object.keys(d)                                                                                                 //Creates an array of all the names eg ["employmentIncome", "cppIncome", etc.]
-    const financialValueArray = Object.values(d).map(a => a.financialValue)                                                                 //Creates an array of all the financial Values eg ["22000", "1200", etc.]
-    var result = {age: d.cppIncome.age};                                                                                                    //I have to go into one of the objects to access its age which acts like id, I just used cppIncome because it wont be deleted
-    incomeNamesArray.forEach((key, i) => result[key] = financialValueArray[i]);                                                             //Merges the two arrays into a set of key value pairs eg ["employmentIncome": 22000]   
-    return result
-})
-       
-      const stackedKeys = Object.keys(income_reducer[18])                                                                            //creates a an array of each of the income type names, which is used in the stacked Income chart
-
-       
-
-        const {
-            cppIncome : {financialValue: cppIncome },                                                                          //Grabs and assigns variable names from reducer
-            oasIncome : {financialValue: oasIncome },
-            rrsp: {financialValue: rrsp },
-            tfsa: {financialValue: tfsa },
-            nonRegistered: {financialValue: nonRegistered },
-       } = income_reducer[75]            
-
+   
 
         return (
             <LifetimeIncomeTileWrapper to="/income" count={progress_reducer.dashboard} >
             <Top>
                     <Left>
-                    <LargeTotal>
-                    <TitleMain>Lifetime Income Streams</TitleMain>
-                    {/* {`${(cppIncome + oasIncome + rrsp + tfsa + nonRegistered)/1000}k`} */}
-                    </LargeTotal>
+
                 </Left>
                 <Right>
-                    <Title>Target Retirement Income</Title>
-                        <PensionIncomeWrapper>
-                        <Summary>
-                    {`${(cppIncome)/1000}k`}  
-                        <h4>CPP</h4>
-                        <Circle color={"#F29278"}/>
-                    </Summary>
-                    <Summary >
-                    {`${(oasIncome)/1000}k`}
-                        <h4 >OAS</h4>
-                        <Circle color={"#7DA8B8"}/>
-                    </Summary>
-                    <Vr/>
-                    <Summary>
-                    {`${(rrsp)/1000}k`}
-                    <h4 >RRSP</h4>
-                         <Circle color={"#B0CFE3"}/>
-                    </Summary>
-                    <Summary>
-                    {`${tfsa/1000}k`}
-                    <h4>TFSA</h4>
-                         <Circle color={"#81CCAF"}/>
-                    </Summary>
-                    {
-                        nonRegistered > 1000 ? 
-                        <Summary>
-                        {`${nonRegistered/1000}k`}
-                        <h4>N-Reg</h4>
-                             <Circle color={"#B9B0A2"}/>
-                      </Summary>
-                    : null
-                    }
-                             </PensionIncomeWrapper>
+
                     </Right>
             
             </Top>
 
             <ChartWrapper>
-                    <LifetimeIncomeBarChart
-                        data={data}
-                        stackedKeys={stackedKeys}
-                        retirementIncome={20000}
-                        />
+                    <LifetimeIncomeBarChart/>
             </ChartWrapper>
             </LifetimeIncomeTileWrapper>
         )

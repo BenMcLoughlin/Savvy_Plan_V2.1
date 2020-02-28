@@ -54,7 +54,7 @@ export default RangeBar
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;
     position: relative;
-    width: 23rem;
+    width: 26rem;
 
 `
 const  CloseWrapper = styled.div`

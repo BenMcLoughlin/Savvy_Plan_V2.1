@@ -32,7 +32,6 @@ const EditIncome = ({category, instanceArray, changeIncome_action, createNewItem
             setCategory(e.target.value)                                                                                        //sets the category
 
     }
-    console.log(instanceArray);
 
     const setAge = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         const ageType = name === "bottom" ? "fromAge" : "toAge"                                                                //checks what range bar is being changed in the dual range bar
@@ -85,6 +84,20 @@ const EditIncome = ({category, instanceArray, changeIncome_action, createNewItem
             <Container >                                                                      
      
                 <Left>                                                                                                         {/* Choose one is used to select the account type */}
+                <FormInput
+                        label="Income name"
+                        value={item.label}                                                                                        //because the category also set if the item is shown we need this ternary to prevent it from exiting when the text is empty
+                        type={"text"}  
+                        handleChange={(e) => changeLabel(e)}                                                                      //sets the state in the local state
+                    />
+                                    <RangeBar 
+                        rangeBarProps={item.income}                                                                               //Every Add item has a range bar to set its value
+                        setValue={setValue}                 
+                    /> 
+
+                </Left>
+
+                <Right>
                 <YearsSelectorWrapper> 
                     <Label>
                     Earning Years Selector
@@ -99,20 +112,7 @@ const EditIncome = ({category, instanceArray, changeIncome_action, createNewItem
                         setValue={setAge}                                                                                         //reaches into reducer to set the values
                     />
             </YearsSelectorWrapper> 
-                </Left>
 
-                <Right>
-              
-                <FormInput
-                        label="Income name"
-                        value={item.label}                                                                                        //because the category also set if the item is shown we need this ternary to prevent it from exiting when the text is empty
-                        type={"text"}  
-                        handleChange={(e) => changeLabel(e)}                                                                      //sets the state in the local state
-                    />
-                <RangeBar 
-                        rangeBarProps={item.income}                                                                               //Every Add item has a range bar to set its value
-                        setValue={setValue}                 
-                    /> 
 
                     <ButtonWrapper>
                             <ButtonLight 
@@ -145,8 +145,9 @@ export default connect(mapStateToProps, {changeLabel_action, changeIncome_action
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper = styled.div`
-    width: 110rem;
-    height: 40rem;
+    width: 90rem;
+    height: 33rem;
+    margin: 0 auto;
     border-radius: 5px;
     overflow: hidden;
     border: ${props => props.theme.border.primary};
@@ -157,21 +158,17 @@ const Left = styled.div`
     width:  50%;
     height: 100%;
     padding: 2rem;
+    margin-left: 2rem;
 `
 const ButtonWrapper = styled.div`
     position: absolute;
-    bottom: 0rem;
+    bottom: 2rem;
     right: 2rem;
 `
 const ButtonLeftWrapper = styled.div`
     position: absolute;
-    bottom: 0rem;
+    bottom: 2rem;
     left: 2rem;
-`
-const MiniRangeBarWrapper = styled.div`
-    position: absolute;
-    right: 3rem;
-    top: 1rem;
 `
 const Right = styled.div`
     width:  50%;
@@ -189,11 +186,10 @@ const Label = styled.label`
 `
 
 const Container = styled.div`
-    width: 110rem;
+    width: 90rem;
+    height: 25rem;
     border-radius: 5px;
     overflow: hidden;
-    height: ${props => props.subCategory === "securedDebt" ? "33rem" : "30rem"};                                                    //mortgage requires more height because there are more inputs
-    border: ${props => props.theme.border.primary};
     position: relative;
     display: flex;
     background: ${props => props.theme.color.ice};
@@ -221,5 +217,8 @@ const Header = styled.div`
     width: 100%;
     background: ${props => props.color};
     height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: ${props => props.theme.color.ice};
 `

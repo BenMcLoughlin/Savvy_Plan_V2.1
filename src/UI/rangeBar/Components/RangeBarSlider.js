@@ -41,8 +41,8 @@ export default RangeBarSlider
 
 const Input = styled.input`
 
-    width: 18rem;
-    height: 3px;
+    width: 20rem;
+    height: 4px;
     -webkit-appearance: none;
     background: linear-gradient(90deg, 
         ${props => props.theme.color.sandy} ${props => props.percentage}, 

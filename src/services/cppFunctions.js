@@ -61,7 +61,7 @@ function calculateCppMemoized() {
          } else {
              const pensionableIncome  = Object.values(state).slice(0,53).map(d => {
  
-                 const pensionableIncome = Object.values(d).filter(d => d.contributeToCpp)
+                 const pensionableIncome = Object.values(d).filter(d => d.incomeType)
                                                          .map(d => d.financialValue)
                                                          .reduce((acc, num) => acc + num)
                   

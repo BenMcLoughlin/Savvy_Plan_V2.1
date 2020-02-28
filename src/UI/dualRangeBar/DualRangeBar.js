@@ -7,7 +7,7 @@ const DualRangeBar = ({bottom, top, setValue}) =>  {
 
     const handleChange = (e) => {
      const {name, value} = e.target
-     console.log(value);
+
 
         if (bottom > (top - 2)) {
             setValue(name, +value)
@@ -181,7 +181,7 @@ const sharedStyles = `
 const ValueAsInput = styled.input`
         ${sharedStyles}
         background: ${props => props.theme.color.slate};
-        font-size: ${props =>props.theme.fontSize.small};
+        font-size: ${props =>props.theme.fontSize.smallMedium};
         z-index: 33;
         outline: none;
         ::-webkit-inner-spin-button, 

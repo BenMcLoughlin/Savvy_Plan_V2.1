@@ -65,8 +65,8 @@ const sharedStyles = `
     position: relative;
     border-radius: 3px;
     padding: .4rem;
-    height: 2.6rem;
-    width: 6rem;
+    height: 3rem;
+    width: 7rem;
     align-content: center;
     text-align: center;
     color: white;
@@ -75,7 +75,7 @@ const sharedStyles = `
  const Value = styled.div`
          ${sharedStyles}
         background: ${props => props.theme.color.slate};
-        font-size: ${props =>props.theme.fontSize.small};
+        font-size: ${props =>props.theme.fontSize.smallMedium};
         &:before {
             content: "";
             height: 1rem;

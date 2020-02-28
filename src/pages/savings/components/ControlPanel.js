@@ -15,14 +15,14 @@ const ControlPanel = ({income_reducer, initializeSavingsAndWithdrawals, pensionS
    
     const [count, setCount] = useState(4);
 
-    const {income_reducer: {72: {rrsp: {financialValue: rrspIncome}}}} = {income_reducer}
-    const {income_reducer: {72: {tfsa: {financialValue: tfsaIncome}}}} = {income_reducer}
-    const {income_reducer: {72: {nonRegistered: {financialValue: nonRegisteredIncome}}}} = {income_reducer}
+    const rrspIncome = 22000 //{income_reducer: /{72: {rrsp: {financialValue: rrspIncome}}}} = {income_reducer}
+    const tfsaIncome = 12000 //{income_reducer: {72: {tfsa: {financialValue: tfsaIncome}}}} = {income_reducer}
+    const nonRegisteredIncome = 2000 //{income_reducer: {72: {nonRegistered: {financialValue: nonRegisteredIncome}}}} = {income_reducer}
 
     const totalRetirementIncome = rrspIncome + tfsaIncome + nonRegisteredIncome
-    //const reccomendedRrspIncome = income_reducer[72].rrsp.financialValue
-    const reccomendedTfsaIncome = income_reducer[72].tfsa.financialValue
-    const reccomendedNonRegisteredIncome = income_reducer[72].nonRegistered.financialValue
+    const reccomendedRrspIncome = 12000 //income_reducer[72].rrsp.financialValue
+    const reccomendedTfsaIncome = 5000 //income_reducer[72].tfsa.financialValue
+    const reccomendedNonRegisteredIncome = 2000 //income_reducer[72].nonRegistered.financialValue
     const {pensionStartAges_reducer: {rrspStartAge: {rangeBarValue: rrspStartAge}}} = {pensionStartAges_reducer}
     const {pensionStartAges_reducer: {tfsaStartAge: {rangeBarValue: tfsaStartAge}}} = {pensionStartAges_reducer}
    

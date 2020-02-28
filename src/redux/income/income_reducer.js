@@ -1,21 +1,7 @@
 import _ from "lodash"
 
 const initialState = {
-  123:  {                                                                                           //this is the initial state of income being stored to the reducer. 
-        contributeToCPP: true, 
-        id: 123,
-        category: "Wal Mart Income",                                                                         //examples include "employment", "business", "pension"
-        taxable: true,       
-        color: "#B0CFE3",                                                                       //Some forms of income might not be taxable such as inheritance
-        fromAge: 18,
-        toAge: 40,
-        income: {                                                                                  //The value of the income being added
-            rangeBarValue: 0,
-            financialValue: 5000,
-            name: "income",
-            label: "Income Amount",
-        },
-    },
+
 }
 
  const income_reducer2 = (state = initialState, action) => {

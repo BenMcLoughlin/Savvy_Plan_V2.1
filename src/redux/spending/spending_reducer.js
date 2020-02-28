@@ -14,7 +14,7 @@ const initialState = () => {
                 },
               groceries: {
                     age: i, 
-                    contributeToCpp: true,
+                    incomeType: true,
                     financialValue: 0, 
                     label: "Groceries",
                     name: "groceries",

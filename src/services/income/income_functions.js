@@ -102,7 +102,7 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
             const year = age + birthYear                                                                                                                                                      //year is used to determine the contribution room avaibale from the government
             const contributionLimit = historicRRSP[year] ? historicRRSP[year]  : 154611
             const totalRrspContEligibleIncome = Object.values(income_reducer[age])                                                                                              //We're looking up their income for that year so we can sum it all
-                                                                    .filter(d => d.contributeToCpp)                                                                                    //We only want to sum income on which RRSP is eligible so we remove income on which CPP contributions aren't made
+                                                                    .filter(d => d.incomeType)                                                                                    //We only want to sum income on which RRSP is eligible so we remove income on which CPP contributions aren't made
                                                                     .map(d => d.financialValue).reduce((acc, num) => acc + num)                                                        //Sum the value of all income streams
 
             const rrspMaxContribution = totalRrspContEligibleIncome > contributionLimit ? (contributionLimit * .18) : (totalRrspContEligibleIncome * .18)
