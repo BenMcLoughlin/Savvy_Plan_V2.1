@@ -21,6 +21,9 @@ export const changeLabel_action = (id, key, event) => ({
     key,
     event
 })
+
+
+
 export const changeAge_action = (id, ageType, value) => {
     console.log(ageType);
     return ({

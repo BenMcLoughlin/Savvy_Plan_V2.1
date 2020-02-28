@@ -65,8 +65,8 @@ const sharedStyles = `
     top: .8rem;
     border-radius: 3px;
     padding: .4rem;
-    height: 2.6rem;
-    width: 8rem;
+    height: 3rem;
+    width: 9rem;
     align-content: center;
     text-align: center;
     color: white;
@@ -76,7 +76,7 @@ const sharedStyles = `
 const ValueAsInput = styled.input`
         ${sharedStyles}
         background: ${props => props.theme.color.slate};
-        font-size: ${props =>props.theme.fontSize.small};
+        font-size: ${props =>props.theme.fontSize.smallMedium};
         z-index: 23;
         outline: none;
         ::-webkit-inner-spin-button, 
@@ -89,7 +89,7 @@ const ValueAsInput = styled.input`
 export const Value = styled.div`
          ${sharedStyles}
         background: ${props => props.theme.color.slate};
-        font-size: ${props =>props.theme.fontSize.small};
+        font-size: ${props =>props.theme.fontSize.smallMedium};
         cursor: pointer;
     
 }

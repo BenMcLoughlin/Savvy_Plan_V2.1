@@ -28,12 +28,12 @@ const DisplayTile = ({delete_action, income_selector, setId, category, setCatego
          
      }
     const color =  Object.values(income_selector).filter(d => d.category === category)[0].color                            //Grabs a new color to assign
-
+    const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.category === category).map(d => d.income.financialValue))
     return (
         <Item label={category} color={color} >
             <Text onClick={() => setCategoryAndId(category)}>                                                              {/*When the category is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{category}</H2>
-                <H2>{0/1000}K</H2>
+                <H2>{maxIncome/1000}K</H2>
             </Text>
             <Exit onClick={() => removeItem()}/>                                                                           {/*  If the x is clicked the category is removed */}
         </Item>
@@ -84,7 +84,7 @@ const Text = styled.div`
 const Exit = styled(Close)`
     width: 1.3rem;
     height: 1.3rem;
-    color: ${props => props.theme.color.grey};
+    color: white;
     display: flex;
     position: absolute;
     top: .2rem;

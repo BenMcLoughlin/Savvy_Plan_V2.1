@@ -11,7 +11,7 @@ const SavingsPlanTile = ({rrspDisplayValue, tfsaDisplayValue, nonRegisteredDispl
 
 
         return (
-            <Wrapper to="/SavingsPlan" count={progress_reducer.dashboard}>
+            <Wrapper to="/Savings" count={progress_reducer.dashboard}>
             <Top>
                     <Left>
                     <LargeTotal>

@@ -10,13 +10,10 @@ const PhaseSelector = ({itemList, id, setId, deleteInstance, color, addSection})
         select(value)
         setId(value)
     }
-    console.log(itemList);
+  
 
     return (
         <Container>
-            <Label>
-                Earning Phases
-            </Label>
             <SelectWrapper>
                 {
                     itemList.map(d =>  <SelectValue 
@@ -24,9 +21,13 @@ const PhaseSelector = ({itemList, id, setId, deleteInstance, color, addSection})
                             key={d.id}
                             selected={selected === d.id} 
                             >
-                                <Text onClick={() => handleSelect(d.id)}>
-                                {`Age ${d.fromAge} to ${d.toAge}`}
-                                </Text>
+                                <TextAndValueWrapper>
+   
+                                    <Text onClick={() => handleSelect(d.id)}  selected={selected === d.id} >
+                                    {`Ages ${d.fromAge} to ${d.toAge}`}
+                                    </Text>
+                                </TextAndValueWrapper>
+
                  
                         <Exit onClick={() =>  deleteInstance(d)}/>
                      </SelectValue>)
@@ -45,67 +46,61 @@ export default PhaseSelector
 
 const Container = styled.div`
     width: 100%;
-    height: 5rem;
+    height: 4rem;
     font-size: 1.4rem;
     display: flex;
-    align-content: center;
+    align-items: center;
     border-radius: 5px;
-    border: ${props => props.theme.border.primary}
+
 
 `
 const SelectWrapper = styled.div`
-    height: 5rem;
+    height: 4rem;
     width: 100%;
     background: white;
     font-size: 1.4rem;
-    overflow: scroll;
     background: white;
     border-radius: 5px;
     display: flex;
     flex-direction: row;
 
 `
-const Label = styled.label`
-    font-size: 1.6rem;
-    font-weight: normal;
-    color: ${props => props.theme.color.darkGrey};
-    width: 25rem;
+const TextAndValueWrapper = styled.div`
+    display: flex;
     height: 4rem;
-    padding: 1rem;
-    font-weight: 700;
-    text-align: left;
+    flex-direction: column;
+
 `
+
 const Text = styled.label`
     font-size: 1.6rem;
     font-weight: normal;
-    color: ${props => props.selected ? "white" :  props.theme.color.slate}
+    color: ${props => props.theme.color.slate}
     text-align: center;
     cursor: pointer;
 `
 
 const SelectValue = styled.div`
     padding: 1rem;
-    margin: 0.5rem;
+    margin: 0.7rem;
     height: 4rem;
     max-width: 15rem;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-right: ${props => props.selected ?  null : props.theme.border.primary};
     width: 100%;
-    color: ${props => props.selected ? "white" :  props.theme.color.slate}
+    color: ${props => props.theme.color.slate}
     font-size: 1.6rem;
-    background: ${props => props.selected ? props.color : "white"}
+    border-radius: 5px;
+    background: ${props => props.selected ? props.theme.color.ice : "white"}
     text-align: center;
-    &:hover {
-        background: ${props => props.selected ? props.color : props.theme.color.ice}
-        color: ${props => props.selected ? "white" :  props.theme.color.slate}
-    }
 `
 
 const Exit = styled(Close)`
     width: 1.3rem;
-    height: 1.3rem;
+    height: 4.3rem;
     color: ${props => props.theme.color.grey};
     display: flex;
     position: absolute;
@@ -116,6 +111,7 @@ const Exit = styled(Close)`
 `
 const Add = styled(PlusIcon)`
     width: 4rem;
+    margin-top: 1.2rem;
     color: white;
     display: flex;
     position: relative;

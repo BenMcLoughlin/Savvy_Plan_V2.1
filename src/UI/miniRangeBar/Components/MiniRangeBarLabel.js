@@ -24,7 +24,7 @@ const Wrapper = styled.div`
    text-align: center;
 `
 const Label = styled.div`
-        font-size: ${props =>props.theme.fontSize.small};
+        font-size: ${props =>props.theme.fontSize.smallMedium};
         color: ${props => props.theme.color.slate};
         padding: 0.3rem;
         text-transform: capitalize;

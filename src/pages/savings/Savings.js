@@ -10,7 +10,7 @@ import SavingsAreaChart from "charts/savings/SavingsAreaChart"
 import {initializeSavingsAndWithdrawals} from "services/savings/savings_functions"
 import {rate1, rate2} from "redux/savings/savings_selectors"
 
-const Savings = ({income_reducer, pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
+const Savings = ({pensionStartAges_reducer,  rate1, rate2, transaction_action, landingPage }) => {
 
     useEffect(() => {
         //initializeSavingsAndWithdrawals(18, income_reducer, rate1, rate2, 65, 65, transaction_action)
@@ -49,7 +49,6 @@ const mapStateToProps = (state) => {
         rate1: rate1(state),
         rate2: rate2(state),
         pensionStartAges_reducer: state.pensionStartAges_reducer,
-        income_reducer: state.income_reducer,
     }
 }
 

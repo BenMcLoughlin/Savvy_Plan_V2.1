@@ -80,6 +80,7 @@ const drawChart = (props, width, height) => {
     const rects = layers.selectAll("rect").data(d => d).enter().append("rect")
                                             .attr("x", (d,i) => xScale(d.data.age))
                                             .attr("y", d => yScale(d[1]))
+                                            .attr("border-radius", "10px")
                                             .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                                             .attr("width", xScale.bandwidth())
                                     

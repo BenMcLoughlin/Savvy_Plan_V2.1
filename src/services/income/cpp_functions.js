@@ -104,8 +104,8 @@ const adjustCpp = adjustCppMemoized()
 
 function calculateCppMemoized() {
     let cache = {};                                                                                                                    //Its a heavy function so we use caching
-    return function(income_reducer, age, birthYear, cacheKey, cppStartAge, ympe) {
-        const incomeArray = Object.values(income_reducer).filter(d => d.contributeToCPP === true)                                            //convert object containing income streams to array filtering out only CPP contributory Income
+    return function(income_reducer, age, birthYear, cacheKey, cppStartAge, ympe, lifeSpan) {
+        const incomeArray = Object.values(income_reducer).filter(d => d.incomeType === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
         console.log(income_reducer); 
         if (incomeArray.length > 0) {
        
@@ -134,7 +134,8 @@ function calculateCppMemoized() {
              category: "CPP Income",
              color: "#F29278",
              fromAge: cppStartAge,
-             toAge: 95,
+             toAge: lifeSpan.rangeBarValue,
+             incomeType: "retirementIncome",
              income: {
                 financialValue: adjustedCppPayment
              }
@@ -145,26 +146,26 @@ function calculateCppMemoized() {
         else return {
             label: "CPP Income",
             category: "CPP Income",
-            contributeToCPP: "retirement",
-             fromAge: cppStartAge,
-             toAge: 95,
+            incomeType: "retirementIncome",
+            color: "#F29278",
+            fromAge: cppStartAge,
+            toAge: lifeSpan.rangeBarValue,
             income: {
                financialValue: 0
             }
         }            
-
 }
 }
 export const calculateCpp = calculateCppMemoized()
 
 
-export const calculateOAS = (age) => ({
+export const calculateOAS = (age, lifespan) => ({
     label: "OASIncome",
     category: "OAS Income",
-    contributeToCPP: "retirement",
-    color: "#81CCAF",
+    incomeType: "retirementIncome",
+    color: "#488487",
     fromAge: age,
-    toAge: 95,
+    toAge: lifespan.rangeBarValue,
     income: {
        financialValue:  adjustCpp(age, age, 7200),
     }

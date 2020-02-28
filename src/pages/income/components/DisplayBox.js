@@ -9,17 +9,21 @@ import DisplayTile from "pages/income/components/DisplayTile"
 import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
 
 
-const DisplayBox = ({income_reducer2, incomeType, instanceArray, contributeToCPP, createNewItem, setCategory, progress_reducer, setProgress_action,setId, employment_selector, business_selector, retirement_selector}) => {                  
-   
-    const fromAge =  incomeType === "retirement" ? 65 : 18                                                                                      //these are the ages for the dual range bar
-    const toAge =  incomeType === "retirement" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
+const DisplayBox = ({ incomeType, instanceArray, createNewItem, setCategory, progress_reducer, setProgress_action,setId, employment_selector, business_selector, retirement_selector}) => {                  
+
+    const fromAge =  incomeType === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
+    const toAge =  incomeType === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = incomeStream_data(" ", fromAge, toAge, 10000, 50, colorArray_data[color], contributeToCPP)                                 //initial State is found in data 
-     
-    const selector =  incomeType === "employment" ? employment_selector : incomeType === "retirement" ? retirement_selector :  business_selector  //the selector has seperated out the different types of income according to if they contribute to CPP
- 
-    const handleClick = () => {                                                                                                                  //Creates a new item 
+    const newState = incomeStream_data(" ", fromAge, toAge, 10000, 50, colorArray_data[color], incomeType)                                 //initial State is found in data 
+    
+    const selector =  incomeType === "employmentIncome" ? employment_selector
+                    : incomeType === "retirementIncome" ? retirement_selector
+                    : incomeType === "businessIncome" ? business_selector
+                    : business_selector 
+
+
+    const addNewCategory = () => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
         setProgress_action("incomeColor", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
     }
@@ -27,7 +31,7 @@ const DisplayBox = ({income_reducer2, incomeType, instanceArray, contributeToCPP
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         
-                <h2>{incomeType}</h2>     
+                <h2>{_.startCase(incomeType)}</h2>     
             </Header>
             
             <Container> 
@@ -37,12 +41,11 @@ return (
                                                          category={d}
                                                          setCategory={setCategory} 
                                                          setId={setId}
-                                                         income_reducer2={income_reducer2}
                                                          instanceArray={instanceArray}
                                                          />)
                 }
     
-          <DarkAdd onClick={() => handleClick()}/>
+          <DarkAdd onClick={() => addNewCategory()}/>
             </Container>
         </Wrapper>
 
@@ -66,9 +69,8 @@ export default connect(mapStateToProps,{ setProgress_action})(DisplayBox )
 
 const Header = styled.div`
     width: 100%;
-    background: grey;
     height: 4rem;
-    color: ${props => props.theme.color.ice};
+    color: ${props => props.theme.color.drab};
     border-bottom:  ${props => props.theme.border.primary};
     display: flex;
     justify-content: space-between;

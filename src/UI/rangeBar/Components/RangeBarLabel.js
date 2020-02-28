@@ -18,7 +18,7 @@ export default RangeBarLabel
 //-----------------------------------------------style-----------------------------------------------//
 
 const LabelAsInput = styled.input`
-        font-size: ${props =>props.theme.fontSize.small};
+        font-size: ${props =>props.theme.fontSize.smallMedium};
         color: ${props => props.theme.color.slate};
         position: absolute;
         width: 85%;
