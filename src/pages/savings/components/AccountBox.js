@@ -10,13 +10,13 @@ import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
 const ControlPanel = ({setCount, display, netWorth_reducer}) => {    
 
-    const [id, setId] = useState()                                                                      //If the user wants to change something this sets the id of the item they want to change
+    const [id, setId] = useState()                                                                              //If the user wants to change something this sets the id of the item they want to change
   
     const [addFormSubCategory, setAddFormSubCategory] = useState()                                              //If wants to add something this sets the category of the item theyd like to add
     const addFormDetails = netWorthWizard_data.find(d => d.subCategory === addFormSubCategory)                  //Provides the add form with the details to render
 
     const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
-    const subCategory = id ? netWorth_reducer[category][id].subCategory : "cashAssets"                  //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
+    const subCategory = id ? netWorth_reducer[category][id].subCategory : "cashAssets"                          //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
     return (
         <Wrapper>   
@@ -43,20 +43,19 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
                     :
                     <>
                     {
-                        netWorthWizard_data.map(d => (                                                       //if neither add or edit forms are clicked then it renders out the item display
-                            d.category === display ? 
-                            <Section  key={d.subCategory}>
+                                                    //if neither add or edit forms are clicked then it renders out the item display
+
+                            <Section  key={netWorthWizard_data[1].subCategory}>
                             <DisplayBox                                                                  //Displays all the assets or liabilities they have added
-                                category={d.category}
-                                item={d}
-                                subCategory={d.subCategory}
+                                category={netWorthWizard_data[1].category}
+                                item={netWorthWizard_data[1]}
+                                subCategory={netWorthWizard_data[1].subCategory}
                                 setCount={setCount}
                                 setId={setId}
                                 setAddFormSubCategory={setAddFormSubCategory}
                                 />
                             </Section> 
-                            : null
-                        ))
+
                     }
                 </>
                  }
@@ -79,11 +78,9 @@ export default connect(mapStateToProps,{removeItem_action})(ControlPanel)
 
 
 const Wrapper = styled.div`
-    grid-area: c;
-    width: 98%;
+    width: 30%;
     border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 1rem;
+    height: 100%;
     position: relative;
 
 `
@@ -94,6 +91,6 @@ const Sections = styled.div`
     justify-content: center;
 `
 const Section = styled.div`
-    width: 30%;
+    width: 100%;
     margin: 1rem;
 `

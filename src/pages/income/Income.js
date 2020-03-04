@@ -5,17 +5,17 @@ import {setProgress_action} from "redux/progress/progress_actions"
 import Header from "pages/income/components/Header"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
-import InvestmentIncome from "pages/income/components/InvestmentIncome"
+import Savings from "pages/savings/Savings"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {addIncome_action} from "redux/income/income_actions"
-import {income_selector} from "redux/income/income_selectors"
+import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action,  income_reducer}) => {
+const Income = ({progress_reducer, setProgress_action, tfsa_selector, income_selector, addIncome_action,  income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                    //Checks if the array has objects in it
-    const [category, setCategory] = useState("TFSA Income")                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
+    const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
    
     const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
                                                      
@@ -33,6 +33,7 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
 
+    console.log(income_selector);
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
 
         return (
@@ -55,12 +56,9 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                           : 
                    category == "TFSA Income"  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
 
-                 <InvestmentIncome  id={id} 
-                                       setCategory={setCategory}
-                                       category={category} 
-                                       setId={setId} 
-                                       instanceArray={instanceArray}
-                                       createNewItem={createNewItem}/>
+                 <Savings
+                      setCategory={setCategory}
+                 />
                           : 
                     category ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
 
@@ -99,6 +97,7 @@ const mapStateToProps = (state) => {
         income_reducer2: state.income_reducer2,
         income_reducer: state.income_reducer,
         income_selector: income_selector(state),
+        tfsa_selector: tfsa_selector(state),
     }
 }
 
@@ -108,11 +107,12 @@ export default connect(mapStateToProps, {addIncome_action})(Income)
 
 const Page = styled.div`
     ${props => props.theme.pageBaseStyles}
-    grid-template-rows: minmax(8rem, 14rem) minmax(18rem, 22rem) minmax(22rem, 24rem);
+    grid-template-rows: 10rem 26rem 26rem 4rem;
     grid-template-areas:
-    'a a a a a a a a a a a a'
-    'b b b b b b b b b b b b'
-    'c c c c c c c c c c c c'
+    'a a a'
+    'b b b'
+    'c c c'
+    'd d d'
 `
 const ChartPlaceHolder = styled.div`
     grid-area: b;

@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import Header from "pages/spending/components/Header"
 import ControlPanel from "pages/spending/components/ControlPanel"
-
+import SpendingBarChart from "charts/spending/SpendingBarChart"
 
 const Spending = () => {
 
@@ -12,6 +12,7 @@ const Spending = () => {
         <Page>
             <Header monthly={monthly} toggleMonthly={toggleMonthly}/>
             <ChartWrapper>
+                <SpendingBarChart/>
             </ChartWrapper>
             <ControlPanel/>
 

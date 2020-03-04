@@ -14,7 +14,7 @@ const LeftNavBar = ({progress_reducer}) => {
         <>
         {
             open || progress_reducer.dashboard === 1 ? 
-            <LeftNavBarWrapper progress_reducer={progress_reducer}>
+            <Wrapper progress_reducer={progress_reducer}>
             <Header>Progress Tracker</Header>
             <Arrow onClick={() => toggleOpen(false)}/>
             <PageSelect to="/NetWorth"> NetWorth</PageSelect>
@@ -42,7 +42,7 @@ const LeftNavBar = ({progress_reducer}) => {
                     complete={0} 
                     totalSteps={3}
                     />
-        </LeftNavBarWrapper>
+        </Wrapper>
         :
           <Nav onClick={() => toggleOpen(true)}/>
         }
@@ -66,7 +66,7 @@ const Header = styled.div`
     text-align: center;
     border-bottom: ${props => props.theme.border.primary}
 `
-const LeftNavBarWrapper = styled.div`
+const Wrapper = styled.div`
     position: absolute;
     top: 7rem;
     height: 54rem;
@@ -75,7 +75,7 @@ const LeftNavBarWrapper = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 3px;
-    z-index: ${props => props.progress_reducer.dashboard === 1 ? 900 : 0}
+    z-index: ${props => props.progress_reducer.dashboard === 1 ? 900 : 600}
 `
 
 export const PageSelect = styled(NavLink)`

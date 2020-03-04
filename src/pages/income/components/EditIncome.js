@@ -79,7 +79,7 @@ const EditIncome = ({category, instanceArray, changeIncome_action, createNewItem
                             setId={setId}
                             id={id}
                             deleteInstance={deleteInstance}
-                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.income.financialValue , item.income.rangeBarValue, item.color ))}
+                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color ))}
                         />
             <Container >                                                                      
      
@@ -91,7 +91,7 @@ const EditIncome = ({category, instanceArray, changeIncome_action, createNewItem
                         handleChange={(e) => changeLabel(e)}                                                                      //sets the state in the local state
                     />
                                     <RangeBar 
-                        rangeBarProps={item.income}                                                                               //Every Add item has a range bar to set its value
+                        rangeBarProps={item.value}                                                                               //Every Add item has a range bar to set its value
                         setValue={setValue}                 
                     /> 
 

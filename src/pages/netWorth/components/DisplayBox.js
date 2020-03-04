@@ -8,14 +8,14 @@ import {removeItem_action} from "redux/netWorth/netWorth_actions"
 
 //displays the items the users have added, such as "car" or "checking account"
 
-const ItemDisplay = ({value, removeItem_action, item, setItemId}) => {                                                                        //Individual item that is added
+const ItemDisplay = ({value, removeItem_action, item, setId}) => {                                                                        //Individual item that is added
  const {label, subCategory, id} = item
     const removeItem = () => {                                                                                                           
         removeItem_action(item)                                                                                                                //This removes the item from the reducer 
     }
     return (
         <Item label={label} subCategory={subCategory}>
-            <Text onClick={() => setItemId(id)}>                                                                                                {/*When the item is clicked the id is set which fills out the edit form with the items details */} 
+            <Text onClick={() => setId(id)}>                                                                                                {/*When the item is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{label}</H2>
                 <H2>{value/1000}K</H2>
             </Text>
@@ -25,7 +25,7 @@ const ItemDisplay = ({value, removeItem_action, item, setItemId}) => {          
 }
 
 
-const ItemDisplayBox = ({category, setAddFormSubCategory, subCategory, netWorth_reducer, removeItem_action,  setItemId}) => {                   //Box wrapping the items being added
+const DisplayBox = ({category, account, setAddFormSubCategory, subCategory, netWorth_reducer, removeItem_action,  setId}) => {                   //Box wrapping the items being added
 
     const arrayOfitems = Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
     const totalValue = arrayOfitems.length > 0 ? arrayOfitems.map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num) : 0     //Sums the value of the category
@@ -33,11 +33,12 @@ const ItemDisplayBox = ({category, setAddFormSubCategory, subCategory, netWorth_
 return (
         <Wrapper>               
           <Header subCategory={subCategory}>                                                                                                      {/*The header passes subCategory to Styled-components so the color can change*/}                                                                    
-                <h2>{_.startCase(subCategory)}</h2> 
+                <h2>{ _.startCase(subCategory)}</h2> 
                 <h2>{totalValue/1000}k</h2>                                                                                                       {/*Shows the total value for that subCategory */}     
             </Header>
-            
+          
             <Container> 
+            {account}
             {
               arrayOfitems.map(item => {  
                      return  <ItemDisplay                                                                                                         //Maps through the items showing each one
@@ -45,7 +46,7 @@ return (
                                        key={item.id}                                                                                               
                                        removeItem_action={removeItem_action}
                                        value={item.currentValue.financialValue}
-                                       setItemId={setItemId}
+                                       setId={setId}
                                       
                             />
               })
@@ -64,7 +65,7 @@ const mapStateToProps = (state) => ({
     netWorth_reducer: state.netWorth_reducer,
 })
 
-export default connect(mapStateToProps,{removeItem_action})(ItemDisplayBox )
+export default connect(mapStateToProps,{removeItem_action})(DisplayBox )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -88,7 +89,7 @@ const Header = styled.div`
 
 const Wrapper = styled.div`
     width: 100%;
-    min-height: 30rem;;
+    min-height: 33rem;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     overflow: hidden;
@@ -99,7 +100,7 @@ const Item = styled.div`
    
     margin: 0.5rem 1rem 0.5rem 1rem;
     padding: .8rem 4.5rem .8rem 4rem;
-    width: 28rem;
+    min-width: 20rem;
     display: flex;
     position: relative;
     height: ${props => props.label.length > 20 ? "7rem" : "4rem"};

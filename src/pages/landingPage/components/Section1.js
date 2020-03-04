@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import logoLight from "assets/svgs/SavvyPlan_logo_final_justlogo.svg"
-import SavingsPlanApp from "pages/savings/Savings"
+
 
 export default function Section1() {
 
@@ -16,8 +16,7 @@ export default function Section1() {
                          Savvy Plan
                     </Title>
                 </Header>
-                <SavingsPlanApp landingPage style={{marginTop: "-55rem"}}/>
-                {/* <img alt ="#"  src={require("asset/gifs/Savings Plan Gif.gif")} style={{height: "25rem", width: "75rem"}}/> */}
+
             </Wrapper>
 
     )

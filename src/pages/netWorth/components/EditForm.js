@@ -12,16 +12,16 @@ import _ from "lodash"
 import {setInvestmentFactor_action} from "redux/assumptions/assumptions_actions"
 
 
-const EditForm = ({category, subCategory, setItemId, itemId, netWorth_reducer, setItemValue_action, setInvestmentFactor_action, assumptions_reducer, changeLabel_action }) => {    
+const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemValue_action, setInvestmentFactor_action, assumptions_reducer, changeLabel_action }) => {    
 
-    const item = netWorth_reducer[category][itemId]                                             //uses the item id provided to go into the reducer and gahter all the users details
+    const item = netWorth_reducer[category][id]                                             //uses the item id provided to go into the reducer and gahter all the users details
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                              //sets the value in the reducer
-        setItemValue_action(logValue, rangeBarValue, category, rangeBarProps, itemId)
+        setItemValue_action(logValue, rangeBarValue, category, rangeBarProps, id)
     }
 
     const changeLabel = (e) => {                                                                //changes the label in the reducer
-        changeLabel_action(e, item, itemId)
+        changeLabel_action(e, item, id)
     }
 
     const setAssumptionValue = (value, value1, rangeBarProps) => {                              //Sets values such as assumed interest return or property appreciation rate
@@ -94,7 +94,7 @@ const EditForm = ({category, subCategory, setItemId, itemId, netWorth_reducer, s
                     <ButtonWrapper>
                             <ButtonLight 
                                 text={"back"}
-                                onClick={() => setItemId(false)}
+                                onClick={() => setId(false)}
                             />
                     </ButtonWrapper>
                 </Right>
@@ -122,8 +122,21 @@ export default connect(mapStateToProps, {setItemValue_action, changeLabel_action
 const Wrapper = styled.div`
     width: 100rem;
     border-radius: 5px;
-    overflow: hidden;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    height: 20rem;
+    width: 94rem;
+    border-radius: 5px;
+    height: 30rem;                                                    
     border: ${props => props.theme.border.primary};
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    background: ${props => props.theme.color.ice}
 `
 const Header = styled.div`
     width: 100%;

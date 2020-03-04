@@ -21,7 +21,7 @@ const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reduc
        const {name} = rangeBarProps
         setPensionAge_action(name, value1)
     }
-    const totalCPP = (lifeSpan.rangeBarValue - pensionStartAges_reducer.cppStartAge.rangeBarValue)  * cpp_selector.income.financialValue
+    const totalCPP = (lifeSpan.rangeBarValue - pensionStartAges_reducer.cppStartAge.rangeBarValue)  * cpp_selector.value.financialValue
  
     return (
         <Wrapper>
@@ -42,7 +42,7 @@ const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reduc
                 </Left>
                 <Right>
                     <TextWrapper>
-                    <LargValue>{cpp_selector.income.financialValue/1000}K</LargValue>
+                    <LargValue>{cpp_selector.value.financialValue/1000}K</LargValue>
                     <h4>Annual CPP Payment</h4>
                     </TextWrapper>
                     <TextWrapper>

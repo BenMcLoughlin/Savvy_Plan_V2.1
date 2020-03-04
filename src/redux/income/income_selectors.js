@@ -2,6 +2,7 @@ import {createSelector} from "reselect"
 import {calculateCpp, calculateOAS} from "services/income/cpp_functions"
 
 const income_reducer = state => state.income_reducer                                                             //this is the reducer, in object form, pulled from state
+const savings_reducer = state => state.savings_reducer                                                             //this is the reducer, in object form, pulled from state
 const thisYear = new Date()
 const birthYear = state => state.user_reducer.birthYear
 const lifeSpan = state => state.user_reducer.lifeSpan
@@ -23,7 +24,7 @@ const convertReducerToArray = (reducer, startAge, lifeSpan) => {                
             const arrayOfIncome = incomeStreams.map(d => d.category === category                                   //for each income category it is collecing all the income reported for that age
                                         && age >= d.fromAge                                                        //Checks if the given age is between the start and end age
                                         && age <= d.toAge ?                                         
-                                        d.income.financialValue : 0                                                //If it is it returns the financial value, giving an array of financial values
+                                        d.value.financialValue : 0                                                //If it is it returns the financial value, giving an array of financial values
             )
             return Math.max(...arrayOfIncome)                                                                      //If the person has inputted more than one income amount for the sane age range this will return the max
 
@@ -60,11 +61,17 @@ export const oas_selector = createSelector(                                     
     (oasStartAge, lifeSpan) => calculateOAS(oasStartAge, lifeSpan)                                             
 )
 
+export const tfsa_selector = createSelector(                                                                      //Determines the OAS payment for the user
+    savings_reducer,
+    (savings_reducer) => Object.values(savings_reducer).filter(d => d.transaction === "withdrawal")[0]                                       
+)
+
 export const income_selector = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
     income_reducer,
     cpp_selector,
     oas_selector,
-    (income_reducer, cpp_selector, oas_selector, oasStartAge) => ({...income_reducer, cpp_selector, oas_selector}) 
+    tfsa_selector,
+    (income_reducer, cpp_selector, oas_selector, tfsa_selector) => ({...income_reducer, cpp_selector, oas_selector, tfsa_selector}) 
 )
 
 export const incomeArray_selector = createSelector(                                                          //Final array with CPP and OAS added
@@ -85,7 +92,6 @@ export const business_selector = createSelector(
 export const retirement_selector = createSelector(
     income_selector,
     (income_selector) => {
-console.log(income_selector)
 return [...new Set((Object.values(income_selector)).filter(d => d.incomeType === "retirementIncome").map(d => d.category))]
 }
 )

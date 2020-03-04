@@ -6,8 +6,8 @@ import {cpp_selector, oas_selector} from "redux/income/income_selectors"
 const Header = ({cpp_selector, oas_selector}) => {
 
 
-    const cppIncome = cpp_selector.income.financialValue
-    const oasIncome = oas_selector.income.financialValue
+    const cppIncome = cpp_selector.value.financialValue
+    const oasIncome = oas_selector.value.financialValue
     const rrsp = 22000
     const tfsa = 22000
 

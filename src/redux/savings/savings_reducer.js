@@ -1,107 +1,54 @@
 
-const determineTotalContributions = (age, name, state, transaction, value)=> {
-    const lastValue = state[age - 1][name]
-    const principlePercentage = lastValue.totalContributions / lastValue.totalValue
-   const contribute = transaction === "contribute" ? value : (-value * principlePercentage)
-   const totalContribution = lastValue.totalContributions + contribute 
-   return totalContribution > 0 ? totalContribution : 0
-   
-   }
-   const determineTotalInterest = (age, name, rate1, rate2, retirementAge, state, transaction, value) => {
-       const lastValue = state[age - 1][name]
-       const rate = age >= retirementAge ? rate2 : rate1
-       const interestPercentage = lastValue.totalInterest / lastValue.totalValue
-       const withdraw = transaction === "withdraw" ? (value * interestPercentage ) : 0
-    
-       const totalInterest = (((lastValue.totalContributions + lastValue.totalInterest) * rate) + lastValue.totalInterest) - withdraw
-       return totalInterest > 0 ? totalInterest : 0
-   }
-   
-   
-   const initialState = () => {
-       const savings = {}
-       for (let age = 17; age <= 96; age++) {
-           savings[Number(age)] = {
-                   rrsp: {
-                       age: age, 
-                       contribute: 0,
-                       financialValue: 0,
-                       label: "RRSP Withdrawals",
-                       maxContribution: 0,
-                       optimizedContribution: 0, 
-                       optimizedWithdrawal: 0, 
-                       name: "rrsp",
-                       rangeBarValue: 0, 
-                       totalContributions: 0, 
-                       totalInterest: 0, 
-                       totalValue: 0, 
-                       withdraw: 0,
-                   },
-                 tfsa: {
-                       age: age, 
-                       contribute: 0, 
-                       financialValue: 0,
-                       label: "Tax Free Savings Account",
-                       name: "tfsa",
-                       maxContribution: 0,
-                       optimizedContribution: 0, 
-                       optimizedWithdrawal: 0, 
-                       rangeBarValue: 0, 
-                       totalContributions: 0, 
-                       totalInterest: 0, 
-                       totalValue: 0, 
-                       withdraw: 0,
-                   },
-                   nonRegistered: {
-                       age: age, 
-                       contribute: 0,
-                       financialValue: 0,
-                       label: "Non Registered",
-                       maxContribution: 0,
-                       name: "nonRegistered",
-                       optimizedContribution: 0, 
-                       optimizedWithdrawal: 0, 
-                       rangeBarValue: 0, 
-                       totalContributions: 0, 
-                       totalInterest: 0, 
-                       totalValue: 0, 
-                       withdraw: 0,
-                   }
-           }}
-   return savings
+import _ from "lodash"
+
+  const initialState = {
+    123: { 
+    registration: "tfsa",
+    label: "contribution",    
+    id: 123,                                                                             //the label is editable by the user and is what is displayed 
+    transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
+    color: "blue",                                                                                 //Some forms of income might not be taxable such as inheritance
+    fromAge: 18,
+    toAge: 64,
+    value: {                                                                                        //The value of the income being added
+        rangeBarValue: 20,
+        financialValue: 7521.89,
+        name: "value",
+        label: "Annual Contribution",
+    }   
+},
+    133: { 
+    registration: "tfsa",
+    label: "Withdrawal",    
+    id: 133,        
+                                                                         //the label is editable by the user and is what is displayed 
+    transaction: "withdrawal",                                                                                        //examples include "employment", "business", "pension"
+    color: "blue",                                                                                 //Some forms of income might not be taxable such as inheritance
+    fromAge: 65,
+    toAge: 95,
+    value: {                                                                                        //The value of the income being added
+        rangeBarValue: 20,
+        financialValue: 20000,
+        name: "value",
+        label: "Annual Withdrawal",
+    }   
+},
    }
    
-    const savings_reducer = (state = initialState(), action) => {
+    const savings_reducer = (state = initialState, action) => {
        switch(action.type) {
-           case "savings_reducer/TRANSACTION": 
-           const totalContributions = determineTotalContributions(action.age, action.name, state, action.transaction, action.value)
-           const totalInterest = determineTotalInterest(action.age, action.name, action.rate1, action.rate2, action.retirementAge, state, action.transaction, action.value)
-           const totalValue = totalContributions + totalInterest
-           return {...state, [action.age]: {
-                                       ...state[action.age], [action.name]: {
-                                           ...state[action.age][action.name], [action.transaction]: totalValue <= 0 ? 0 : action.value,
-                                                                               financialValue: action.value,
-                                                                               rangeBarValue: action.rangeBarValue,
-                                                                               totalContributions,
-                                                                               totalInterest,
-                                                                               totalValue 
-           }}}
-           case "investmentReturns/SET_OPTIMIZED_VALUE": return {...state, [action.age]: {
-                                                                        ...state[action.age], [action.name]: {
-                                                                           ...state[action.age][action.name],
-                                                                                   [action.transaction]: action.value
-                                                                        }
-           }
-   
-           }
-           case "savingsPerYear/SET_MAX_CONTRIBUTION": return {...state, [action.age]: {
-                                                                        ...state[action.age], [action.name]: {
-                                                                           ...state[action.age][action.name],
-                                                                                maxContribution: action.value
-                                                                        }
-           }
-   
-           }
+        case "savings/ADD_INSTANCE": return {...state, [action.payload.id]: action.payload}
+        case "savings/CHANGE_AGE": return {...state, [action.id]: {
+                                                     ...state[action.id], [action.ageType]: action.value
+        }}
+        case "savings/DELETE": return  _.omit(state, [action.id])                  
+        case "savings/CHANGE_VALUE": return {...state, [action.id]: {
+                                                    ...state[action.id], [action.name]: {
+                                                        ...state[action.id][action.name], 
+                                                                    financialValue: action.financialValue,
+                                                                    rangeBarValue: action.rangeBarValue,
+                                                    }
+        }}
            
            default: return state
        }

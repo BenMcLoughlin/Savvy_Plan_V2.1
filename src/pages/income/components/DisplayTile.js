@@ -28,7 +28,7 @@ const DisplayTile = ({delete_action, income_selector, setId, category, setCatego
          
      }
     const color =  Object.values(income_selector).filter(d => d.category === category)[0].color                            //Grabs a new color to assign
-    const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.category === category).map(d => d.income.financialValue))
+    const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.category === category).map(d => d.value.financialValue))
     return (
         <Item label={category} color={color} >
             <Text onClick={() => setCategoryAndId(category)}>                                                              {/*When the category is clicked the id is set which fills out the edit form with the items details */} 

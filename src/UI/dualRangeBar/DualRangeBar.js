@@ -21,7 +21,7 @@ const DualRangeBar = ({bottom, top, setValue}) =>  {
     }
 
  
-    const totalWidth = 300 // width the runner bar
+    const totalWidth = 240 // width the runner bar
     const percentageMin = bottom / 77 //percentage of the runnerbar that is shifting left as the thumb moves
     const percentageMax =  top / 77  //total percentage of the top value
     //to account for the fact that the minimum value is 18 we have to make the rage 77 (95 - 18)
@@ -104,7 +104,7 @@ const InputWrapper = styled.div`
 const Bar = styled.div`
     position: absolute;
     width: ${props => props.fillBarWidth - 3}px;
-    left: ${props => props.leftPosition - 70}px;
+    left: ${props => props.leftPosition - 55}px;
     height: 3px;
     background: ${props => props.theme.color.sandy};
     /* z-index: 11; */

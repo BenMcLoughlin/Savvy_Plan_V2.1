@@ -51,7 +51,8 @@ export const individualItem_data = (category, subCategory, bookValueLabel, curre
     category: category,                                                                                                   //this is the initial state of an item being stored to the reducer. 
     label: "",                                                                                                            //the label is editable by the user and is what is displayed 
     subCategory: subCategory,   
-    registration: "",                                                                                                     //his referes to if the account is a TFSA or RRSP or property
+    registration: "",  
+    color: "blue",                                                                                                   //his referes to if the account is a TFSA or RRSP or property
     interestRate: {                                                                                                       //these are the details passed to the range bar as range bar props
         rangeBarValue: 0,
         name: "interestRate",

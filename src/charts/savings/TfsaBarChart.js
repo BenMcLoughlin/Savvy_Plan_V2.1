@@ -1,28 +1,25 @@
-import React, { Component } from 'react'
+import React, { useRef, useEffect, useState} from 'react'
 import * as d3 from "d3"
-import "./ChartStyles.css"
-import _ from "lodash"
 import styled from "styled-components"
-import {stackedKeysBarChart, stackedBarData, stackedBarData2, } from "redux/savings/savings_selectors"
+import {tfsaBar_selector} from "redux/savings/savings_selectors"
 import {connect} from "react-redux"
-import {createStructuredSelector} from "reselect"
+import _ from "lodash"
 
-const drawChart = (props, width, height) => {
+const drawChart = (data, width, height) => {
 
-    const margin = {top: 20, right: 100, bottom: 50, left: 100}
+    const margin = {top: 20, right: 100, bottom: 20, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color =  ["age", '#3B7B8E', "#3B7B8E", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
+    const color =  ["age", '#3B7B8E', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
 
-    d3.select(".canvasSavingsStackedBarChart > *").remove()
-    d3.select(".tooltip").remove()
-
-    const data = props.stackedBarData2
-
-    const svg = d3.select('.canvasSavingsStackedBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     
-    const stackedKeys = ["age", "rrspContributions", "tfsaContributions", "nonRegisteredContributions", "rrspInterest", "tfsaInterest",  "nonRegisteredInterest"]
+   d3.select(".tfsaBarChart > *").remove()
+   d3.select(".tooltip").remove()
+  
+    const svg = d3.select('.tfsaBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+
+    const stackedKeys = ["age", "contribution", "withdrawal"]
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -42,26 +39,18 @@ const drawChart = (props, width, height) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".canvasSavingsStackedBarChart").append("div")
+        const tooltip = d3.select(".tfsaBarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
    
-       
- graph.append("text")
-                        .attr("y", -4)
-                        .attr("x", 10)
-                        .attr("class", "title")
-                        .text("Contributions & Withdrawals")
-
                           
     const update = data => {
     
 
-        const min = d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + (typeof num === "number" ? num : 0)) ) > -30000 ? -30000 : 
-        d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 4000
+        const min = -60000
 
        const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
@@ -103,7 +92,7 @@ const drawChart = (props, width, height) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = stackedKeys.findIndex(type => type === name)
                                 const thisColor = color[nameIndex]
-                                const thisYearTotalIncome = Object.values(props.stackedBarData2[i]).slice(1).reduce((acc, num) => acc + num)
+                        
                                 d3.select(n[i])
                                     .transition()
                                         .duration(100)
@@ -132,7 +121,7 @@ const drawChart = (props, width, height) => {
                                                 <div class="total">
                                                     <h3 class="title">  Total Income </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${thisYearTotalIncome/1000} 
+                                                        ${100000/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -177,65 +166,30 @@ const drawChart = (props, width, height) => {
     
 }
 
-class StackedBarChartSavings extends Component {
+const TfsaBarChart = ({data}) =>  {
 
-    state = {
-        elementWidth: 0,
-        elementHeight: 0
-    }
+    const inputRef = useRef(null)
 
-    updateSize = () => {
-        this.setState({ 
-            elementWidth: this.divRef.clientWidth, 
-            elementHeight: this.divRef.clientHeight, 
-        });
-        drawChart(this.props, this.state.elementWidth, this.state.elementHeight )
-      }
+    useEffect(()=> {
+       const width = inputRef.current.offsetWidth
+       const height = inputRef.current.offsetHeight
+        drawChart(data, width, height)
+    }, [data])
 
-componentDidMount() {
-    this.setState({ 
-        elementWidth: this.divRef.clientWidth, 
-        elementHeight: this.divRef.clientHeight 
-    });
-    drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
-}
-
-componentDidUpdate() {
-    drawChart(this.props, this.state.elementWidth, this.state.elementHeight)
-}
-
-componentWillUnmount() {
-    window.removeEventListener('resize', this.updateSize);
-   }
-   
-    render() {
-        window.addEventListener('resize', this.updateSize)
         return (
-            <Canvas className="canvasSavingsStackedBarChart" ref={canvasSavingsStackedBarChart => this.divRef = canvasSavingsStackedBarChart}>
-                
+            <Canvas className="tfsaBarChart" ref={inputRef}>
             </Canvas>
         )
-    }
 }
 
-
-const mapStateToProps = createStructuredSelector({
-    stackedKeysBarChart,
-    stackedBarData2,
-    stackedBarData,
-    
+const mapStateToProps = (state) => ({
+    data: tfsaBar_selector(state), 
 })
 
-export default connect(mapStateToProps)(StackedBarChartSavings )
-
+export default connect(mapStateToProps)(TfsaBarChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`
         width: 100%;
         height: 100%;
-        position: absolute;
-        top: 0rem;
-        left: 0rem;
-        z-index: 2;
-
 `

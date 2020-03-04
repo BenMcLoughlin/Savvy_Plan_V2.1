@@ -10,7 +10,7 @@ import AddForm from "pages/netWorth/components/AddForm"
 import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 import Header from "pages/netWorth/components/Header"
 import WelcomePage from "pages/netWorth/components/WelcomePage"
-import ItemDisplayBox from "pages/netWorth/components/ItemDisplayBox"
+import DisplayBox from "pages/netWorth/components/DisplayBox"
 import {setProgress_action} from "redux/progress/progress_actions"
 import { NavLink} from "react-router-dom"
 
@@ -28,7 +28,7 @@ const NetWorth = ({progress_reducer, setProgress_action}) => {
         d.count === count ? 
         <AddPage key={d.subCategory}>
             <DisplayWrapper >                                                                           {/* shows the items the user has assed such as "Cash 100K"*/}  
-                <ItemDisplayBox                
+                <DisplayBox                
                 category={d.category}
                 subCategory={d.subCategory}
                 setItemId={() => null}
@@ -125,7 +125,6 @@ const Page = styled.div`
     ${props => props.theme.pageBaseStyles}
     grid-template-rows: minmax(7rem, 10rem) minmax(21rem, 22rem) minmax(28rem, 40rem);
     width: 100%;
-    position: relative;
     grid-template-areas:
     'a a a a a a a a a a a a'
     'b b b b b b b b b b b b'
@@ -160,7 +159,8 @@ const Buttons = styled.div`
     justify-content: space-between;
 `
 const ButtonsFinal = styled(Buttons)`
-    top: 65rem;
+    top: 90%;
+    left: 10%;
 `
 
 

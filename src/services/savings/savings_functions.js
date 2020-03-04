@@ -111,3 +111,77 @@ export const reccomendedSavingsPerYear = (birthYear, rate, startAge, withdrawal)
    }
    else return `${roundedValue/1000} K`
 }
+
+
+
+/// NEW SAVINGS FUNCTIONS 
+
+export const getTransaction = (savings_reducer, transaction, age, value) => {                                                     //Helper function which will return the income value in the chart
+
+    const transactions = Object.values(savings_reducer)
+  
+    if (transactions.length > 0) {
+        const arrayOfContributions = transactions.map(d => d.transaction === transaction                                       //for each income transaction it is collecing all the income reported for that age
+                                    && age >= d.fromAge                                                                        //Checks if the given age is between the start and end age
+                                    && age <= d.toAge ?                                         
+                                    d.value.financialValue 
+                                    : 0                                                                                        //If it is it returns the financial value, giving an array of financial values
+       )
+    
+       const amount =  Math.max(...arrayOfContributions)                                                                      //If the person has inputted more than one income amount for the sane age range this will return the max
+       return value > amount ? amount : value > 0 ? value : 0
+    }
+   return 0
+    }
+
+
+export const createProjection = (savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance)     => {
+
+        const array = [
+            {
+                contribution: tfsaCurrentBalance,
+                withdrawal: 0,
+                principle: 0,
+                interest: 0,
+                totalInterest: 0,
+                principlePercentage: 0,
+                value: tfsaCurrentBalance,
+                contributionRoom: 0,
+                availableRoom: 0,
+            }
+        ]
+
+        for(let age = userAge; age <= lifeSpan; age++) {
+
+            const last = array[age - userAge]                                                              //this refers to the object before this one in the array
+                                                             
+            const newObject = {age: age}                                                                        //Initialize a new object
+
+            const contribution = getTransaction(savings_reducer, "contribution", age, 1000000) 
+            const withdrawal = getTransaction(savings_reducer, "withdrawal", age, last.value)
+            const contributionRoom = last.contributionRoom + 6000
+            const availableRoom = 6000 - contribution + last.availableRoom
+            const interest = age < 65 ? last.value * rate1 : last.value * rate2
+            const value = last.value + contribution - withdrawal + interest
+
+            const principlePercentage = last.principle / last.value
+            const principle = age === userAge ? last.contribution + contribution : last.principle + contribution - (withdrawal * principlePercentage)
+ 
+            const interestPercentage = last.totalInterest / last.value
+            const totalInterest = age === 18 ? last.interest : last.totalInterest + interest - (withdrawal * interestPercentage)
+
+            const details = {...newObject,
+                 contribution, 
+                 withdrawal, 
+                 availableRoom,
+                 contributionRoom,
+                 principle: principle > 0 ? principle : 0, 
+                 interest, 
+                 totalInterest: totalInterest > 0 ? totalInterest : 0,
+                 value: value > 0 ? value : 0,
+                }
+
+            array.push(details)
+        }
+        return array.slice(1, array.length)
+}

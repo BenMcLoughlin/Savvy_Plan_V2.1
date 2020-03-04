@@ -1,119 +1,62 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-//import calculateMarginalTaxRate from "services/taxCalculationServices/taxCalculator"
-import Tooltip from "UI/toolTip/Tooltip"
 import {connect} from "react-redux"
-import {createStructuredSelector} from "reselect"
-import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"
+import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector} from "redux/savings/savings_selectors"
 
-class Header extends Component {
+const Header = ({tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector}) => {
 
-    
-//GRAB MOUSE COORDINATES FOR TOOLTIP
-    state = { 
-              x: 0,                                                                                                              //These coordinates are set onMouseMove placing the tootip beside the mouse
-              y: 0,                                                                                                              //They are passed as props to the Tooltip componnent 
-            }
-   handleMouseMove(e) {
-                this.setState({ x: e.clientX -120, y: e.clientY -140 })                                                          //Sets the state according to mouse position
-              }                                                                                                                  //They are passed as props to the Tooltip componnent                                                                                             //They are passed as props to the Tooltip componnent 
-
-    render() {
-const {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} = this.props
-
+console.log(tfsaInterest_selector);
 
 
 return (
-            <HeaderValuesWrapper onMouseMove={(e) => this.handleMouseMove(e)}>
-            <Left >
-                                                                                                                 {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
-               {
-                   this.props.landingPage ? null : 
-                   <h1>
-                   Savings and Withdrawal Plan
-                  </h1>
-               }
+            <Wrapper>
+            <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
+                <h1>
+                    TFSA Savings Plan
+                </h1>
             </Left>
             <Right>
-            {
-                   this.props.landingPage ? null : 
-                   <h2>Account Values at Retirement</h2>
-               }
-          
-            <PensionIncomeWrapper onMouseMove={(e) => this.handleMouseMove(e) }>
-                    <RRSPSummary>
-                    {rrspDisplayValue}  
-                        <h4>RRSP</h4>
-                        <Tooltip 
-                            x={this.state.x} 
-                            y={this.state.y} 
-                            text="Earnings in a Registered Retirement Savings Plan are tax-free and amounts paid out to you are taxable.
-                                  Since there is a minimum that you must take out in retirement, our planning goal is to ensure that you aren't forced to withdraw
-                                  so much that you are heavily taxed.
-                            
-                            "
-                            header= "Canada Pension Plan"
-                            className="cppTooltip"
-                        />
-                    </RRSPSummary>
-                    <TFSASummary >
-                    {tfsaDisplayValue}
-                        <h4 >TFSA</h4>
-                        <Tooltip 
-                        x={this.state.x} 
-                        y={this.state.y} 
-                        text=   " Contributions to a Tax Free Savings Account are not deductible for income tax purposes. 
-                        Any amount contributed as well as any income earned in the account (for example, investment income and capital gains) is generally tax-free, even when it is withdrawn. "
-                        header= "Old Age Security"
-                        className="oasTooltip"
-                         />
-                    </TFSASummary>
-
-                   <NRegSummary>
-                   {nonRegisteredDisplayValue}
-                   <h4 >N-Reg</h4>
-                       <Tooltip 
-                       x={this.state.x} 
-                       y={this.state.y} 
-                       text=   "A Registered Retirement Income Fund (nonRegisteredValue) is an account registered with the government that 
-                                pays you income in retirement. Before, you were putting money into your RRSP to accumulate
-                                savings for retirement. Now, you withdraw that money from your nonRegisteredValue as retirement income."
-                       header= "Registered Retirement Income Fund"
-                       className="rrifTooltip"
-                   />
-                   </NRegSummary>
-
- 
-            </PensionIncomeWrapper>
+            <Container >
+                    <Summary>
+                    {`${(tfsaContributions_selector)/1000}k`}  
+                        <h4>Contributions</h4>
+                        <Circle color={"#3B7B8E"}/>
+                    </Summary>
+                    <Vr/>
+                    <Summary>
+                    {`${(tfsaInterest_selector/1000)}k`}
+                    <h4 >Interest</h4>
+                         <Circle color={"#7898a1"}/>
+                    </Summary>
+            </Container>
             <Summary>
-             {totalNestEgg}
-            <h4>Total</h4>
+             {`${(tfsaPeakValue_selector/1000)}k`}
+            <h4>Peak Value</h4>
             </Summary>
             </Right>
             
-            </HeaderValuesWrapper>
+            </Wrapper>
         )
-    }
 }
 
-const mapStateToProps = createStructuredSelector({
-    rrspDisplayValue,
-    tfsaDisplayValue,
-    nonRegisteredDisplayValue,
-    totalNestEgg
+const mapStateToProps = (state) => ({
+    tfsaPeakValue_selector: tfsaPeakValue_selector(state),
+    tfsaContributions_selector: tfsaContributions_selector(state),
+    tfsaInterest_selector: tfsaInterest_selector(state),
 })
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, {})(Header )
 
 //-----------------------------------------------style-----------------------------------------------//
 
 
-const HeaderValuesWrapper = styled.div`
+const Wrapper = styled.div`
     grid-area: a;                                                                                             {/*Grid-area set in Income, "a" positions it at the top */}
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 4rem;
+    margin-top: 3.3rem;
+    margin-left: 3.9rem;
     position: relative;
     color: ${props => props.theme.color.slate};
 `
@@ -128,47 +71,45 @@ const Summary = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    display: inline-block;
     padding: 1rem;
     margin-top: 1rem;
     cursor: pointer;
     font-size: ${props => props.theme.fontSize.medium};
+    align-items: center;
+    justify-content: center;
 
   
 `
-const RRSPSummary = styled(Summary)`
-    &:hover .cppTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
-const TFSASummary = styled(Summary)`
-    &:hover .oasTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
-const NRegSummary = styled(Summary)`
-    &:hover .rrifTooltip {
-        opacity: 1;
-        visibility: visible;
-    }
-`
 
-
+const Vr = styled.div`
+    height: 60%;
+    width: 1%;
+    margin-top: 2rem;
+    flex-basis: 0.1;
+    flex: 1 0.1 1;
+    border-left: ${props => props.theme.border.primary};
+`
 
 const Right = styled.div`
-    width: 30%;
+    width: 45%;
+    margin-top: -4rem;
     display: flex;
     flex-direction: column;
     text-align: center;
     align-items: center;
 `
+const Circle = styled.div`
+   border-radius: 50%;
+   height: 1rem;
+   width: 1rem;
+   margin-top: .5rem;
+   background: ${props => props.color}
+   display: flex;
+   align-items: center;
+`
 
 
-const PensionIncomeWrapper = styled.div`
+const Container = styled.div`
     display: flex;
     width: 60%;
     border-bottom: ${props => props.theme.border.primary};

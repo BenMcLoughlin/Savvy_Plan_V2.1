@@ -1,7 +1,18 @@
 import _ from "lodash"
 
 const initialState = {
-
+11111: {
+    label: "TFSA Income",
+    category: "TFSA Income",
+    incomeType: "retirementIncome",
+    color: "#3B7B8E",
+    fromAge: 65,
+    toAge: 95,
+    value: {
+        financialValue: 0,
+        label: "TFSA"
+    }
+    }
 }
 
  const income_reducer2 = (state = initialState, action) => {

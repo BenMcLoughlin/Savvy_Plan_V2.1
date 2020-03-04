@@ -1,58 +1,15 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import SavingsStackedChart from "charts/savings/SavingsStackedChart"
-import SavingsAreaChart from "charts/savings/SavingsAreaChart"
-import {rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg} from "redux/savings/savings_selectors"
 import { NavLink} from "react-router-dom"
 
-const SavingsPlanTile = ({rrspDisplayValue, tfsaDisplayValue, nonRegisteredDisplayValue, totalNestEgg, progress_reducer}) => {
+const SavingsPlanTile = ({progress_reducer}) => {
 
 
 
         return (
             <Wrapper to="/Savings" count={progress_reducer.dashboard}>
-            <Top>
-                    <Left>
-                    <LargeTotal>
-                    <TitleMain>Savings & Withdrawal Plan</TitleMain>
-                    {/* {`${(cppIncome + oasIncome + rrsp + tfsa + nonRegistered)/1000}k`} */}
-                    </LargeTotal>
-                </Left>
-                <Right>
-                       <PensionIncomeWrapper>
-                            <Summary>
-                            {rrspDisplayValue}  
-                                <h4>RRSP</h4>
-                            </Summary>
-                            <Summary >
-                            {tfsaDisplayValue}
-                                <h4 >TFSA</h4>
-                            </Summary>
-                            {nonRegisteredDisplayValue > 0 ?
-                        <Summary>
-                        {nonRegisteredDisplayValue}
-                        <h4 >N-Reg</h4>
-                        </Summary>
-                        : null
-                            }
-                          </PensionIncomeWrapper>
-                             <Summary>
-                        {totalNestEgg}
-                        <h4>Total</h4>
-                        </Summary>
-                    </Right>
-            
-            </Top>
 
-            <ChartWrapper>
-            <AreaChartPlaceHolder>   
-                    <SavingsAreaChart  />
-                </AreaChartPlaceHolder>  
-                <BarChartPlaceHolder>   
-                    <SavingsStackedChart/>
-                </BarChartPlaceHolder>   
-            </ChartWrapper>
             </Wrapper>
         )
 }
@@ -61,12 +18,7 @@ const SavingsPlanTile = ({rrspDisplayValue, tfsaDisplayValue, nonRegisteredDispl
 const mapStateToProps = (state) => {
 
     return {
-        lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
         income_reducer: state.income_reducer,
-        rrspDisplayValue: rrspDisplayValue(state),
-        tfsaDisplayValue: tfsaDisplayValue(state),
-        nonRegisteredDisplayValue: nonRegisteredDisplayValue(state),
-        totalNestEgg: totalNestEgg(state),
     }
 }
 

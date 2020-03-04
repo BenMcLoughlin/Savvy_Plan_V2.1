@@ -7,7 +7,6 @@ import user_reducer from "./user/user_reducer"
 import netWorth_reducer from "./netWorth/netWorth_reducer"
 import tax_reducer from "./tax/tax_reducer"
 import savings_reducer from "./savings/savings_reducer"
-import savings2_reducer from "redux/savings2/savings2_reducer"
 import assumptions_reducer from "./assumptions/assumptions_reducer"
 import auth_reducer from "./auth/auth_reducer"
 import lifeEvents_reducer from "./lifeEvents/lifeEvents_reducer"
@@ -25,7 +24,7 @@ const persistConfig = {
     "user_reducer",
     "pensionStartAges_reducer",
     "savings_reducer",
-    "savings2_reducer",
+    "assumptions_reducer",
     "lifeEvents_reducer",
     "progress_reducer",
 ]
@@ -39,8 +38,7 @@ const rootReducer = combineReducers({
        income_reducer,
        user_reducer,
        pensionStartAges_reducer,
-       savings_reducer,     
-       savings2_reducer,     
+       savings_reducer,         
        lifeEvents_reducer,
        progress_reducer,
        firebase: firebaseReducer, 
