@@ -31,6 +31,7 @@ const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemVa
 
     return (
         <>
+        < WhiteBox/>
         <Wrapper>
             <Header subCategory={subCategory}>
             <h2>{_.startCase(subCategory)}</h2> 
@@ -91,12 +92,12 @@ const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemVa
                        : null
                         }
                     </MiniRangeBarWrapper>
-                    <ButtonWrapper>
+                    <ButtonLeftWrapper>
                             <ButtonLight 
                                 text={"back"}
                                 onClick={() => setId(false)}
                             />
-                    </ButtonWrapper>
+                    </ButtonLeftWrapper>
                 </Right>
             </Container>
       
@@ -120,24 +121,29 @@ export default connect(mapStateToProps, {setItemValue_action, changeLabel_action
 
 
 const Wrapper = styled.div`
-    width: 100rem;
-    border-radius: 5px;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    height: 20rem;
     width: 94rem;
     border-radius: 5px;
+    overflow: hidden;
     height: 30rem;                                                    
     border: ${props => props.theme.border.primary};
     position: absolute;
     top: 2rem;
-    left: 2rem;
+    left: 11rem;
     display: flex;
     flex-direction: column;
-    z-index: 100;
+    z-index: 800;
     background: ${props => props.theme.color.ice}
 `
+const WhiteBox = styled.div`
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 115rem;
+    height: 32rem;
+    background: white;
+    z-index: 700;
+`
+
 const Header = styled.div`
     width: 100%;
     background: ${props => props.subCategory === "cashAssets" ? props.theme.color.blue : 
@@ -155,10 +161,10 @@ const Left = styled.div`
     height: 100%;
     padding: 2rem;
 `
-const ButtonWrapper = styled.div`
+const ButtonLeftWrapper = styled.div`
     position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 3rem;
+    left: 2rem;
 `
 const MiniRangeBarWrapper = styled.div`
     position: absolute;

@@ -1,5 +1,4 @@
 export const addIncome_action = (id, state) => {
-    console.log(state);
    return ({
     type: "income/ADD_INCOME",
     payload: {
@@ -8,7 +7,7 @@ export const addIncome_action = (id, state) => {
     }
 })}
 
-export const changeIncome_action = (id, financialValue, rangeBarValue, {name}) => ({
+export const incomeValue_action = (id, financialValue, rangeBarValue, {name}) => ({
     type: "income/CHANGE_INCOME",
     id, 
     name,
@@ -24,7 +23,7 @@ export const changeLabel_action = (id, key, event) => ({
 
 
 
-export const changeAge_action = (id, ageType, value) => {
+export const incomeAge_action = (id, ageType, value) => {
     console.log(ageType);
     return ({
     type: "income/CHANGE_AGE",
@@ -33,7 +32,7 @@ export const changeAge_action = (id, ageType, value) => {
     value
 })}
 
-export const delete_action = (id) => ({
+export const deleteIncome_action = (id) => ({
     type: "income/DELETE",
     id,
 })

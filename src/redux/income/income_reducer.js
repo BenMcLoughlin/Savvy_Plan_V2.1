@@ -1,21 +1,25 @@
 import _ from "lodash"
 
 const initialState = {
-11111: {
-    label: "TFSA Income",
-    category: "TFSA Income",
-    incomeType: "retirementIncome",
-    color: "#3B7B8E",
-    fromAge: 65,
-    toAge: 95,
-    value: {
-        financialValue: 0,
-        label: "TFSA"
-    }
+    11111: {
+        label: "TFSA Income",
+        registration: "tfsa",
+        id: 11111,
+        category: "TFSA Income",
+        incomeType: "retirementIncome",
+        color: "#8CB8B7",
+        fromAge: 65,
+        toAge: 95,
+        value: {
+            rangeBarValue: 20,
+            financialValue: 0,
+            name: "value",
+            label: "Annual Withdrawal",
+        },
     }
 }
 
- const income_reducer2 = (state = initialState, action) => {
+ const income_reducer = (state = initialState, action) => {
     switch(action.type) {
         case "income/ADD_INCOME": return {...state, [action.payload.id]: action.payload}
         case "income/CHANGE_AGE": return {...state, [action.id]: {
@@ -40,7 +44,7 @@ const initialState = {
 
 
 
-export default income_reducer2
+export default income_reducer
 
 
 

@@ -13,7 +13,6 @@ const drawChart = (data, width, height) => {
     const color =  ["age", '#3B7B8E', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
 
 
-    
    d3.select(".tfsaBarChart > *").remove()
    d3.select(".tooltip").remove()
   
@@ -50,7 +49,8 @@ const drawChart = (data, width, height) => {
     const update = data => {
     
 
-        const min = -60000
+        const min =  d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) > -10000 ? -15000 : 
+                      d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 5000
 
        const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000

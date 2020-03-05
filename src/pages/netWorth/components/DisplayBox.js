@@ -27,18 +27,20 @@ const ItemDisplay = ({value, removeItem_action, item, setId}) => {              
 
 const DisplayBox = ({category, account, setAddFormSubCategory, subCategory, netWorth_reducer, removeItem_action,  setId}) => {                   //Box wrapping the items being added
 
-    const arrayOfitems = Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
+    const arrayOfitems = account === "tfsa" ?  Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory).filter(d => d.registration === "tfsa") 
+                                             : Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
+    
     const totalValue = arrayOfitems.length > 0 ? arrayOfitems.map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num) : 0     //Sums the value of the category
 
+    const title = account === "tfsa" ? "Current TFSA Holdings"  : (_.startCase(subCategory))
 return (
         <Wrapper>               
           <Header subCategory={subCategory}>                                                                                                      {/*The header passes subCategory to Styled-components so the color can change*/}                                                                    
-                <h2>{ _.startCase(subCategory)}</h2> 
+                <h2>{title}</h2> 
                 <h2>{totalValue/1000}k</h2>                                                                                                       {/*Shows the total value for that subCategory */}     
             </Header>
           
             <Container> 
-            {account}
             {
               arrayOfitems.map(item => {  
                      return  <ItemDisplay                                                                                                         //Maps through the items showing each one
@@ -89,7 +91,7 @@ const Header = styled.div`
 
 const Wrapper = styled.div`
     width: 100%;
-    min-height: 33rem;
+    min-height: 30rem;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     overflow: hidden;
@@ -118,7 +120,7 @@ null};
 
 `
 const Container = styled.div`
-    min-height: 10rem;
+    min-height: 13rem;
     max-height: 50rem;
     display: flex;
     flex-wrap: wrap;
@@ -146,7 +148,7 @@ const Exit = styled(Close)`
     position: absolute;
     top: .2rem;
     right: .2rem;
-    z-index: 500;
+    z-index: 200;
 `
 const Add = styled(PlusIcon)`
     width: 4rem;
@@ -160,6 +162,7 @@ const DarkAdd = styled(Add)`
     width: 4rem;
     color: white;
     display: flex;
+    margin-top: -1rem;
     position: relative;
     color: grey;
     cursor: pointer;

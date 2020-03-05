@@ -1,6 +1,8 @@
 
 export const savingsInstance_data = (transaction, fromAge, toAge, incomeFinancial, incomeRangeBar, color, incomeType) => ({                                              //this is the initial state of income being stored to the reducer. 
     label: transaction,                                                                                 //the label is editable by the user and is what is displayed 
+    incomeType: "retirementIncome",
+    category: "TFSA Income",
     transaction,                                                                                        //examples include "employment", "business", "pension"
     color: '#8CB8B7',                                                                                           //Some forms of income might not be taxable such as inheritance
     incomeType: "retirementIncome",
@@ -13,3 +15,4 @@ export const savingsInstance_data = (transaction, fromAge, toAge, incomeFinancia
         label: `Annual ${transaction}`,
     },
 })
+

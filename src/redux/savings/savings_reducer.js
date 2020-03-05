@@ -7,31 +7,33 @@ import _ from "lodash"
     label: "contribution",    
     id: 123,                                                                             //the label is editable by the user and is what is displayed 
     transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
-    color: "blue",                                                                                 //Some forms of income might not be taxable such as inheritance
+    color: "#8CB8B7",                                                                                 //Some forms of income might not be taxable such as inheritance
     fromAge: 18,
     toAge: 64,
     value: {                                                                                        //The value of the income being added
-        rangeBarValue: 20,
-        financialValue: 7521.89,
+        rangeBarValue: 0,
+        financialValue: 0,
         name: "value",
         label: "Annual Contribution",
     }   
 },
-    133: { 
+11111: {
+    label: "TFSA Withdrawal",
     registration: "tfsa",
-    label: "Withdrawal",    
-    id: 133,        
-                                                                         //the label is editable by the user and is what is displayed 
-    transaction: "withdrawal",                                                                                        //examples include "employment", "business", "pension"
-    color: "blue",                                                                                 //Some forms of income might not be taxable such as inheritance
+    id: 11111,
+    transaction: "withdrawal",
+    category: "TFSA Income",
+    incomeType: "retirementIncome",
+    color: "#8CB8B7",
     fromAge: 65,
     toAge: 95,
-    value: {                                                                                        //The value of the income being added
-        rangeBarValue: 20,
-        financialValue: 20000,
+    value: {
+        rangeBarValue: 0,
+        financialValue: 0,
         name: "value",
         label: "Annual Withdrawal",
-    }   
+    },
+    
 },
    }
    

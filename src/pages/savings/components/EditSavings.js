@@ -5,47 +5,36 @@ import InstanceNav from "pages/savings/components/InstanceNav"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import { changeValue_action, changeAge_action} from "redux/savings/savings_actions"
+import { savingsValue_action, savingsAge_action} from "redux/savings/savings_actions"
+import {incomeValue_action, deleteIncome_action, incomeAge_action} from "redux/income/income_actions"
 import _ from "lodash"
 import {savingsInstance_data} from "pages/savings/data/savings_data"
 import {incomeStream_data} from "pages/income/data/income_data"
 import {tfsaProjection_selector} from "redux/savings/savings_selectors"
-import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
+import {setAge} from "services/income/actionWrapper_functions"
 
-
-const EditIncome = ({transaction, savings_reducer, instanceArray, deleteInstance, changeValue_action, createNewItem, id, setId, assumptions_reducer, changeAge_action}) => {    
+const EditSavings = ({transaction, savings_reducer, instanceArray, incomeValue_action, deleteInstance, incomeAge_action, savingsValue_action, createNewItem, id, setId, savingsAge_action}) => {    
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
-        changeValue_action(id, logValue, rangeBarValue, rangeBarProps)                                                        //setting the income value in the reducer
+        if (transaction === "withdrawal") {incomeValue_action(id, logValue, rangeBarValue, rangeBarProps)}
+        savingsValue_action(id, logValue, rangeBarValue, rangeBarProps)                                                        //setting the income value in the reducer
     }
 
-    const setAge = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
-        const ageType = name === "bottom" ? "fromAge" : "toAge"                                                                //checks what range bar is being changed in the dual range bar
-        changeAge_action(id, ageType, value)
-        if (ageType === "fromAge" ) {                                                                                          //if its "from age" we want to change the age and the "to age " of the instance before it
-            const currentInstanceId = instanceArray.findIndex(d => d.id === id)                                                //we're finding the index of this instance in the instance array
-            if (currentInstanceId !== 0) {                                                                                     //if the position is higher then one we want to change the "to Age" of the instance before
-                const lastInstanceId = instanceArray[currentInstanceId - 1].id                                                 //findst the id of the instance before 
-                changeAge_action(lastInstanceId, "toAge", value)                                                               //changes the "to Age" of the instance before
-            } 
+    const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
+        if (transaction === "withdrawal") setAge(incomeAge_action, id, instanceArray, name, value)
+        setAge(savingsAge_action, id, instanceArray, name, value)
+     
+    }
+
+
+    const transactionFunction = (transaction, barStart, barEnd, financialValue , rangeBarValue, value) => {
+        createNewItem(savingsInstance_data(transaction, barStart, barEnd, financialValue , rangeBarValue, value))
+
         }
-        if (ageType === "toAge" ) {
-            const currentInstanceId = instanceArray.findIndex(d => d.id === id)                                               //same as above but changes the "from age" of the instance after
-            if (currentInstanceId !== instanceArray.length - 1) {
-                const nextInstanceId = instanceArray[currentInstanceId + 1].id
-                changeAge_action(nextInstanceId, "fromAge", value)
-            } 
-        }
-    }
-
-    const transactionFunction = () => {
-            createNewItem(savingsInstance_data(transaction, (+endAge), (+endAge + 5), instance.value.financialValue , instance.value.rangeBarValue, instance.value))
-    }
-
 
 const instance = savings_reducer[id]
-console.log(instance);
-    const endAge = 60//instance.toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
+
+    const endAge = instance.toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
     return (
         <Wrapper>
@@ -53,11 +42,11 @@ console.log(instance);
             <h2>{_.startCase(transaction)}s</h2> 
             </Header>
             <InstanceNav color={instance.color}
-                            itemList={instanceArray}
+                            instanceArray={instanceArray}
                             setId={setId}
                             id={id}
                             deleteInstance={deleteInstance}
-                            addSection={() => transactionFunction()}
+                            addSection={() => transactionFunction(transaction, (+endAge), (+endAge + 5), instance.value.financialValue , instance.value.rangeBarValue, instance.value)}
                         />
             <Container >  
                 < RangeBarWrapper>
@@ -74,7 +63,7 @@ console.log(instance);
                     <DualRangeBar
                         bottom={instance.fromAge}                                                                                     //fromAge sets the from Age, eg. age 18 in 18-45
                         top={instance.toAge}                                                                                          //toAge sets the to Age, eg. age 45 in 18-45
-                        setValue={setAge}                                                                                         //reaches into reducer to set the values
+                        setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
                     />
             </YearsSelectorWrapper>                                                                                                        {/* Choose one is used to select the account type */}
 
@@ -91,14 +80,14 @@ const mapStateToProps = (state) => ({
     tfsaProjection_selector: tfsaProjection_selector(state),
 })
 
-export default connect(mapStateToProps, {changeValue_action, changeAge_action})(EditIncome )
+export default connect(mapStateToProps, {savingsValue_action, savingsAge_action, incomeAge_action, incomeValue_action})(EditSavings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper = styled.div`
     width: 32%;
-    height: 33rem;
+    height: 30rem;
     margin-top: 2rem;
     border-radius: 5px;
     overflow: hidden;

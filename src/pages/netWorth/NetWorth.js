@@ -173,9 +173,10 @@ const DisplayWrapper = styled.div`
 
 const AddFormWrapper = styled.div`
     grid-area: c;
-    width: 80%;
-    margin-left: 10%;
+    width: 90%;
+    margin-left: -2rem;
     border-radius: 5px;
+    position: relative;
     overflow: hidden;
     height: 35rem;
 `

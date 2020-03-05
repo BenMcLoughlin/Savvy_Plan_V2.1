@@ -1,5 +1,4 @@
 import _ from "lodash"
-import {calculateCpp} from  "services/cppFunctions"
 
 const initialState = () => {
     const lifeEvents = {}

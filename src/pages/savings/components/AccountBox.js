@@ -53,6 +53,7 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
                                 setCount={setCount}
                                 setId={setId}
                                 setAddFormSubCategory={setAddFormSubCategory}
+                                account={"tfsa"}
                                 />
                             </Section> 
 
@@ -81,13 +82,11 @@ const Wrapper = styled.div`
     width: 30%;
     border-radius: 5px;
     height: 100%;
-    position: relative;
-
 `
 const Sections = styled.div`
     display: flex;
     padding: 1rem;
-
+    position: relative;
     justify-content: center;
 `
 const Section = styled.div`

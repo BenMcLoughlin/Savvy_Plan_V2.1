@@ -3,11 +3,11 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
-import {delete_action} from "redux/income/income_actions"
+import {deleteIncome_action} from "redux/income/income_actions"
 import {income_selector} from "redux/income/income_selectors"
 
 
-const DisplayTile = ({delete_action, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
+const DisplayTile = ({deleteIncome_action, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
   
     const categoryArray =  Object.values(income_selector)
                                  .filter(d => d.category === category)
@@ -16,7 +16,7 @@ const DisplayTile = ({delete_action, income_selector, setId, category, setCatego
     const removeItem = () => {                                                                                               //enables us to delete the entire income stream
         const categoryIdArray =  categoryArray.map(d => d.id)                                                                //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
         for (let i = 0; i < categoryArray.length; i++) {                                                                     //this mapes through and removes all instances
-        delete_action(categoryIdArray[i])   
+        deleteIncome_action(categoryIdArray[i])   
         }                                                   
                                                                                       
     }
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => ({
     income_selector: income_selector(state),
 })
 
-export default connect(mapStateToProps,{delete_action})(DisplayTile )
+export default connect(mapStateToProps,{deleteIncome_action})(DisplayTile )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

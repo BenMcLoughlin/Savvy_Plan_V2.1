@@ -90,7 +90,7 @@ const Wrapper = styled.div`
 const Sections = styled.div`
     display: flex;
     padding: 1rem;
-
+    position: relative;
     justify-content: center;
 `
 const Section = styled.div`

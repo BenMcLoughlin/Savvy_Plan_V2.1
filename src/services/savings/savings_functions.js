@@ -180,7 +180,7 @@ export const createProjection = (savings_reducer, userAge, lifeSpan, rate1, rate
                  totalInterest: totalInterest > 0 ? totalInterest : 0,
                  value: value > 0 ? value : 0,
                 }
-
+console.log(array);
             array.push(details)
         }
         return array.slice(1, array.length)

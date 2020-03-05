@@ -18,7 +18,7 @@ const drawChart = (data, width, height) => {
    d3.select(".tooltip").remove()
   
     const svg = d3.select('.spendingBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
-
+console.log(data);
     const stackedKeys = ["age", "housingCosts", "transportationCosts", "lifestyleCosts","largeEventsCosts"]
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
@@ -169,7 +169,7 @@ const drawChart = (data, width, height) => {
 const SpendingBarChart = () =>  {
 
     const data  = spendingData()
-     console.log(data);
+
     const inputRef = useRef(null)
 
     useEffect(()=> {

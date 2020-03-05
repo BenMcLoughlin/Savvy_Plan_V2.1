@@ -37,9 +37,6 @@ const InvestmentFactor = ({setInvestmentFactor_action, investmentReturns_selecto
                 }
 
             </MiniRangeBarWrapper>
-            <ButtonLeftWrapper>
-                <ButtonLight text="Back" onClick={() => setVisible(false)}></ButtonLight>
-            </ButtonLeftWrapper>
             </Container>
       
             </Wrapper>
@@ -48,7 +45,6 @@ const InvestmentFactor = ({setInvestmentFactor_action, investmentReturns_selecto
                 <ButtonLight text="Investment Factors" onClick={() => setVisible(true)}></ButtonLight>
             </ButtonRightWrapper>
         }
-            
     </>
        
     )
@@ -68,12 +64,12 @@ export default connect(mapStateToProps, {setInvestmentFactor_action})(Investment
 
 const ButtonLeftWrapper = styled.div`
     position: absolute;
-    bottom: 0rem;
+    bottom: 9rem;
     left: 2rem;
 `
 const ButtonRightWrapper = styled.div`
     position: absolute;
-    bottom: 0rem;
+    bottom: 5rem;
     left: 95rem;
 `
 const MiniRangeBarWrapper = styled.div`

@@ -12,10 +12,10 @@ import {addIncome_action} from "redux/income/income_actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setProgress_action, tfsa_selector, income_selector, addIncome_action,  income_reducer}) => {
+const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action,  income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                    //Checks if the array has objects in it
-    const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
+    const [category, setCategory] = useState("TFSA Income")                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
    
     const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
                                                      
@@ -32,8 +32,8 @@ const Income = ({progress_reducer, setProgress_action, tfsa_selector, income_sel
                 setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
+  //  console.log(income_selector);
 
-    console.log(income_selector);
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
 
         return (

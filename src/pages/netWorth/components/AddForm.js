@@ -53,12 +53,13 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
 
     return (
         <>
+        <WhiteBox/>
             <Container subCategory={subCategory}>                                                                       {/* passing in subCategory is used to change the header color */}
                 <Left>                                                                                                  {/* Choose one is used to select the account type */}
                     <ChooseOne
                             array={subCategory === "securedDebt" ? propertyNames_selector.concat("None of These") : accountTypeArray }  //if it is secored (a mortgage) it has to be linked to the property its secured against
                             setValue={(value) => setState({...state, registration: value.toLowerCase()})}
-                            value ={1}
+                            value ={"TFSA"}
                             subCategory={subCategory}
                         />
                 </Left>
@@ -177,6 +178,15 @@ const Center = styled.div`
     width: 45rem;
     padding: 2rem;
 `
+const WhiteBox = styled.div`
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 115rem;
+    height: 32rem;
+    background: white;
+    z-index: 700;
+`
 const Container = styled.div`
     width: 94rem;
     border-radius: 5px;
@@ -185,9 +195,9 @@ const Container = styled.div`
     border: ${props => props.theme.border.primary};
     position: absolute;
     top: 2rem;
-    left: 2rem;
+    left: 11rem;
     display: flex;
-    z-index: 100;
+    z-index: 800;
     background: ${props => props.theme.color.ice}
 `
 

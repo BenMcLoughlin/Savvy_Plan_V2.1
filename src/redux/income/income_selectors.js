@@ -70,8 +70,8 @@ export const income_selector = createSelector(                                  
     income_reducer,
     cpp_selector,
     oas_selector,
-    tfsa_selector,
-    (income_reducer, cpp_selector, oas_selector, tfsa_selector) => ({...income_reducer, cpp_selector, oas_selector, tfsa_selector}) 
+//    tfsa_selector,
+    (income_reducer, cpp_selector, oas_selector) => ({...income_reducer, cpp_selector, oas_selector}) 
 )
 
 export const incomeArray_selector = createSelector(                                                          //Final array with CPP and OAS added

@@ -6,7 +6,7 @@ export const addInstance_action = (id, state) =>  ({
     }
 })
 
-export const changeValue_action = (id, financialValue, rangeBarValue, {name}) => ({
+export const savingsValue_action = (id, financialValue, rangeBarValue, {name}) => ({
     type: "savings/CHANGE_VALUE",
     id, 
     name,
@@ -15,7 +15,7 @@ export const changeValue_action = (id, financialValue, rangeBarValue, {name}) =>
 })
 
 
-export const changeAge_action = (id, ageType, value) => {
+export const savingsAge_action = (id, ageType, value) => {
     console.log(ageType);
     return ({
     type: "savings/CHANGE_AGE",

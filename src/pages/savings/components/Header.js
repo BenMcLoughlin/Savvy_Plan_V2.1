@@ -5,9 +5,6 @@ import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selecto
 
 const Header = ({tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector}) => {
 
-console.log(tfsaInterest_selector);
-
-
 return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
@@ -55,7 +52,7 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 3.3rem;
+    margin-top: 6.3rem;
     margin-left: 3.9rem;
     position: relative;
     color: ${props => props.theme.color.slate};
