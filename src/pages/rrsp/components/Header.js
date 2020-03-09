@@ -1,64 +1,45 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {cpp_selector, oas_selector} from "redux/income/income_selectors"
+import {rrspPeakValue_selector, rrspContributions_selector, rrspInterest_selector} from "redux/savings/savings_selectors"
 
-const Header = ({cpp_selector, oas_selector}) => {
-
-
-    const cppIncome = cpp_selector.value.financialValue
-    const oasIncome = oas_selector.value.financialValue
-    const rrsp = 22000
-    const tfsa = 22000
-
-
+const Header = ({rrspPeakValue_selector, rrspContributions_selector, rrspInterest_selector}) => {
 
 return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                 <h1>
-                    Lifetime Income Chart
+                    RRSP Savings Plan
                 </h1>
             </Left>
             <Right>
-            <h2>Optimized Retirement Income Plan</h2>
             <Container >
                     <Summary>
-                    {`${(cppIncome)/1000}k`}  
-                        <h4>CPP</h4>
-                        <Circle color={"#F29278"}/>
-                    </Summary>
-                    <Summary >
-                    {`${(oasIncome)/1000}k`}
-                        <h4 >OAS</h4>
-                        <Circle color={"#7DA8B8"}/>
+                    {`${(rrspContributions_selector)/1000}k`}  
+                        <h4>Contributions</h4>
+                        <Circle color={"#3B7B8E"}/>
                     </Summary>
                     <Vr/>
                     <Summary>
-                    {`${(rrsp)/1000}k`}
-                    <h4 >RRSP</h4>
-                         <Circle color={"#B0CFE3"}/>
-                    </Summary>
-                    <Summary>
-                    {`${tfsa/1000}k`}
-                    <h4>TFSA</h4>
-                         <Circle color={"#81CCAF"}/>
+                    {`${(rrspInterest_selector/1000)}k`}
+                    <h4 >Interest</h4>
+                         <Circle color={"#7898a1"}/>
                     </Summary>
             </Container>
             <Summary>
-             {`${(cppIncome + oasIncome + rrsp + tfsa)/1000}k`}
-            <h4>Total</h4>
+             {`${(rrspPeakValue_selector/1000)}k`}
+            <h4>Peak Value</h4>
             </Summary>
             </Right>
             
             </Wrapper>
         )
-
 }
 
 const mapStateToProps = (state) => ({
-    cpp_selector: cpp_selector(state),
-    oas_selector: oas_selector(state),
+    rrspPeakValue_selector: rrspPeakValue_selector(state),
+    rrspContributions_selector: rrspContributions_selector(state),
+    rrspInterest_selector: rrspInterest_selector(state),
 })
 
 export default connect(mapStateToProps, {})(Header )
@@ -71,7 +52,8 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 4rem;
+    margin-top: 6.3rem;
+    margin-left: 3.9rem;
     position: relative;
     color: ${props => props.theme.color.slate};
 `

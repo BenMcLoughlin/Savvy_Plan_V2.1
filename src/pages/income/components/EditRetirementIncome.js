@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
@@ -6,7 +6,8 @@ import {cpp_selector} from "redux/income/income_selectors"
 import {setPensionAge_action} from "redux/pensionStartAges/pensionStartAges_actions"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {setNestedUserDetail_action} from "redux/user/user_actions"
-import _ from "lodash"
+
+
 
 const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reducer, user_reducer, setPensionAge_action, setNestedUserDetail_action}) => {    
 
@@ -26,7 +27,6 @@ const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reduc
     return (
         <Wrapper>
             <Header>
-            <h2></h2> 
             </Header>
             <Container >                                                                      
      
@@ -136,23 +136,6 @@ const Container = styled.div`
     background: ${props => props.theme.color.ice};
 `
 
-
-const YearsSelectorWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-`
-
-
-const SelectorTitleWrapper = styled.div`
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding: .5rem;
-    font-size: ${props =>props.theme.fontSize.small};
-    color: ${props => props.theme.color.slate};
-`
 
 const Header = styled.div`
     width: 100%;

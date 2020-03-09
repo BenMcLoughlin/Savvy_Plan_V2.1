@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
@@ -80,28 +80,7 @@ const Right = styled.div`
     align-content: center;
     align-items: center;
 `
-const LargeTotal = styled.div`
-    font-size: ${props => props.theme.fontSize.large};
-    font-weight: 300;
-    text-align: center;
 
-
-`
-
-const TitleMain = styled.div `
-    font-size: ${props => props.theme.fontSize.medium};
-    text-align: center;
-    color: ${props => props.theme.color.slate};
-    font-weight: 300;
-   
-` 
-const Title = styled.div `
-    font-size: ${props => props.theme.fontSize.smallMedium};
-    text-align: center;
-    color: ${props => props.theme.color.slate};
-    font-weight: 300;
-   
-` 
 const ChartWrapper = styled.div`
     margin-top: -5rem;
     margin-bottom: 1rem;
@@ -110,42 +89,3 @@ const ChartWrapper = styled.div`
     font-size: 1.2rem;
 `
 
-const Summary = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    margin-top: 1rem;
-    cursor: pointer;
-    font-size: ${props => props.theme.fontSize.small};
-    align-items: center;
-    justify-content: center;
-    & h4 {
-        font-size: ${props => props.theme.fontSize.smallest};
-    }
-
-    
-`
-const PensionIncomeWrapper = styled.div`
-    display: flex;
-    width: 60%;
-    border-bottom: ${props => props.theme.border.primary};
-`
-
-const Circle = styled.div`
-   border-radius: 50%;
-   height: .7rem;
-   width: .7rem;
-   margin-top: .5rem;
-   background: ${props => props.color}
-   display: flex;
-   align-items: center;
-`
-const Vr = styled.div`
-    height: 60%;
-    width: 1%;
-    margin-top: 2rem;
-    flex-basis: 0.1;
-    flex: 1 0.1 1;
-    border-left: ${props => props.theme.border.primary};
-`

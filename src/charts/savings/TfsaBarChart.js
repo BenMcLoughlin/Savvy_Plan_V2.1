@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState} from 'react'
+import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
 import {tfsaBar_selector} from "redux/savings/savings_selectors"
@@ -144,14 +144,25 @@ const drawChart = (data, width, height) => {
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
-                           
-                                        
-           var ticks = [20,40, 60, 80, 95];
-           var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
+                        
+           
+           const convertLabels = (array) => {
+            const ticks = []                                                            
+            const labels = []
+            for (let i = 0; i< array.length; i++) {
+                const age = array[i].age
+                if (i % 10 === 0) {
+                    ticks.push(age)
+                    labels.push(`Age ${age}`)
+                }
+            }
+            return [ticks, labels]
+        }
+        const [ticks, labels] = convertLabels(data)
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
-                            .tickFormat(function(d,i){ return tickLabels[i] })
+                            .tickFormat(function(d,i){ return labels[i] })
                            
                                     
             const yAxis = d3.axisLeft(yScale).ticks('1')

@@ -12,7 +12,6 @@ import PropertyApp from "pages/property/PropertyApp"
 import Assumptions from "pages/assumptions/Assumptions"
 import Login from "pages/login/Login"
 import LandingPage from "pages/landingPage/LandingPage"
-import Plan from "pages/plan/Plan"
 import OnboardingProcess from "pages/onboarding/OnboardingProcess"
 import SignUp from "pages/login/SignUp"
 import {ThemeProvider} from "styled-components"
@@ -38,7 +37,6 @@ const Layout = ({auth, state}) => {
 
                 <GridContainer>  
                         <Route path="/Assumptions" component={Assumptions}/>
-                        <Route path="/Plan" component={Plan}/>
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>

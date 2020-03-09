@@ -14,7 +14,7 @@ const drawChart = (data, width, height) => {
     const graphWidth = width - margin.left - margin.right
     const color = ["#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
 
-    console.log(data);
+  
 
     d3.select(".canvasTaxStacked > *").remove()
     d3.select(".tooltipStackedChart").remove()

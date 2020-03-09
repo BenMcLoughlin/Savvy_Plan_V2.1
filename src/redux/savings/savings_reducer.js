@@ -33,6 +33,38 @@ import _ from "lodash"
         name: "value",
         label: "Annual Withdrawal",
     },
+},
+    22222: { 
+    registration: "rrsp",
+    label: "contribution",    
+    id: 22222,                                                                             //the label is editable by the user and is what is displayed 
+    transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
+    color: '#D8BABB',                                                                                 //Some forms of income might not be taxable such as inheritance
+    fromAge: 18,
+    toAge: 64,
+    value: {                                                                                        //The value of the income being added
+        rangeBarValue: 0,
+        financialValue: 0,
+        name: "value",
+        label: "Annual Contribution",
+    }   
+},
+    22224: {
+        label: "RRSP Withdrawal",
+        registration: "rrsp",
+        id: 22224,
+        transaction: "withdrawal",
+        category: "RRSP Income",
+        incomeType: "retirementIncome",
+        color: '#D8BABB',
+        fromAge: 65,
+        toAge: 95,
+        value: {
+            rangeBarValue: 0,
+            financialValue: 0,
+            name: "value",
+            label: "Additional Annual Withdrawal",
+        },
     
 },
    }

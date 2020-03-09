@@ -5,15 +5,11 @@ import {connect} from "react-redux"
 import Header from "pages/assumptions/components/Header"
 import StackedBarChart from "charts/assumptions/StackedBarChart"
 import InvestmentFactors from "pages/savings/components/InvestmentFactors"
-import HorizontalTimeline from "charts/assumptions/HorizontalTimeline"
 import NewEvent from "pages/onboarding/components/NewEvent"
 import LinkButton from "UI/buttons/LinkButton"
-import {Dialogue} from "pages/onboarding/components/FirstName"
+
 
 const Savings = () => {
-
-    const [count, setCount] = useState(12);
-
         return (
             <Page>
                  <Header
@@ -27,10 +23,6 @@ const Savings = () => {
                         <InvestmentFactors count={3} />
                     </Section>
                 </SectionWrapper>
-                <ChartWrapper>
-                        <HorizontalTimeline/>
-                </ChartWrapper>
-
                 <NewEventWrapper >
                       <NewEvent></NewEvent>
                 </NewEventWrapper>
@@ -40,10 +32,7 @@ const Savings = () => {
                     </LinkButton>
                 </LinkButtonWrapper>
 
-                    {/* <BlackoutDiv></BlackoutDiv>
-                    < Description>
-                        <Dialogue>This Chart teaches us alot</Dialogue>
-                    </Description> */}
+
         </Page>
         )
 }
@@ -68,32 +57,7 @@ const Page = styled.div`
     'd d d d e e e e e e e e'
     'd d d d e e e e e e e e'
 `
-const BlackoutDiv = styled.div`
-    position: absolute
-    background: black;
-    opacity: 0.5;
-    height: 300rem;
-    width: 300rem;
-    overflow: hidden;
-    top: 5rem;
-    left: 5rem;
-    z-index: 10;
-`
-const Description = styled.div`
-   position: absolute;
-   top: 20rem;
-   left: 60rem;
-    width: 35rem;
-    height: 18rem;
-    padding: 2rem;
-    text-align: center;
-    color: ${props => props.theme.color.slate}
-    border: .7px solid ${props => props.theme.color.lightGrey};
-    z-index: 100;
-    background: #49A7D8;
-    clip-path: polygon(11% 39%, 11% 0, 100% 0, 100% 100%, 11% 100%, 10% 48%, 0 45%);
 
-`
 const BarChartPlaceHolder = styled.div`
     grid-area: b;
     width: 40rem;

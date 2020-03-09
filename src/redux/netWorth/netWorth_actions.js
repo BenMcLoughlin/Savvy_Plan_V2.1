@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 
 export const setItemValue_action = (logValue, rangeBarValue, category, rangeBarProps, itemId) => {
         console.log(itemId);

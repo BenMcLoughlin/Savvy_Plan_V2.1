@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-
 import Tooltip from "UI/toolTip/Tooltip"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"

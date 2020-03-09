@@ -9,7 +9,6 @@ import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {addItem_action} from "redux/netWorth/netWorth_actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
-import _ from "lodash"
 import {individualItem_data} from "pages/netWorth/data/netWorth_data"
 
 
@@ -39,8 +38,6 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
                                          date: event.target.value
     }})
     }
-
-    const userAge = new Date().getFullYear() - user_reducer.birthYear
 
 
     const addItem = () => {                                                                                                   //Adds the item to the reducer

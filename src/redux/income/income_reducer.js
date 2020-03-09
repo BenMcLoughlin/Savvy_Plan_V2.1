@@ -16,7 +16,24 @@ const initialState = {
             name: "value",
             label: "Annual Withdrawal",
         },
-    }
+    },
+    22224: {
+        label: "RRSP Withdrawal",
+        registration: "rrsp",
+        id: 22224,
+        transaction: "withdrawal",
+        category: "RRSP Income",
+        incomeType: "retirementIncome",
+        color: '#D8BABB',
+        fromAge: 65,
+        toAge: 95,
+        value: {
+            rangeBarValue: 0,
+            financialValue: 0,
+            name: "value",
+            label: "Annual Withdrawal",
+        },
+}
 }
 
  const income_reducer = (state = initialState, action) => {

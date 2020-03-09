@@ -1,15 +1,11 @@
 import React from 'react'
 import styled from "styled-components"
 
-const RangeBarLabel = ({handleChangeLabel, rangeBarProps}) => {
+const RangeBarLabel = ({rangeBarProps}) => {
         return (
-            <div>
-             <LabelAsInput 
-                autoComplete="off"
-                onChange={(e) => handleChangeLabel(e, rangeBarProps)}
-                value={rangeBarProps.label}
-                />         
-            </div>
+             <LabelAsInput>
+            {rangeBarProps.label}  
+            </LabelAsInput>      
         )
 }
 
@@ -17,11 +13,11 @@ export default RangeBarLabel
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const LabelAsInput = styled.input`
+const LabelAsInput = styled.div`
         font-size: ${props =>props.theme.fontSize.smallMedium};
         color: ${props => props.theme.color.slate};
         position: absolute;
-        width: 85%;
+        width: 30rem;
         top: -1.5rem;
         left: 1rem;
         padding: 0.3rem;

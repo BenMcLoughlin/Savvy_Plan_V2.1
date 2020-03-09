@@ -6,20 +6,22 @@ import Header from "pages/income/components/Header"
 import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
 import Savings from "pages/savings/Savings"
+import RRSP from "pages/rrsp/RRSP"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {addIncome_action} from "redux/income/income_actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action,  income_reducer}) => {
+const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action, income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                    //Checks if the array has objects in it
-    const [category, setCategory] = useState("TFSA Income")                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
+    const [category, setCategory] = useState("RRSP Income")                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
    
     const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
                                                      
     const [id, setId] = useState(123)                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
+    const [taxAge, setTaxAge] = useState(123)                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
     
     const setCountAndProgress = (section, number) => {                                                                               //Moves the count forward locally and also stores it in the reducer
         setProgress_action(section, number)                                                                                          //this action enables us to show a progress bar throughout the entire application
@@ -32,7 +34,7 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                 setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
-  //  console.log(income_selector);
+
 
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
 
@@ -57,6 +59,12 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                    category == "TFSA Income"  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
 
                  <Savings
+                      setCategory={setCategory}
+                 />
+                 :
+                   category == "RRSP Income"  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
+
+                 <RRSP
                       setCategory={setCategory}
                  />
                           : 

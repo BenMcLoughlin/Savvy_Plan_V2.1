@@ -1,20 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import { NavLink} from "react-router-dom"
 
 
 
- class ContributionPlanTile extends Component {
+const ContributionPlanTile = () => {
      
-    render() {
-
         return (
             <ContributionPlanTileWrapper to="/SavingsPlan">
          
             </ContributionPlanTileWrapper>
         )
-    }
 }
 
 const mapStateToProps = (state) => {

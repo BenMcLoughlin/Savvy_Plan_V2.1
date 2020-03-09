@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import _ from "lodash"
-import {Close, PlusIcon} from "style/Icons"
+import {Close} from "style/Icons"
 import {deleteIncome_action} from "redux/income/income_actions"
 import {income_selector} from "redux/income/income_selectors"
+import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 
-const DisplayTile = ({deleteIncome_action, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
+const DisplayTile = ({deleteIncome_action, rrspMinWithdrawal_selector, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
   
     const categoryArray =  Object.values(income_selector)
                                  .filter(d => d.category === category)
@@ -20,6 +20,8 @@ const DisplayTile = ({deleteIncome_action, income_selector, setId, category, set
         }                                                   
                                                                                       
     }
+    console.log(category);
+    console.log(rrspMinWithdrawal_selector);
 
     const setCategoryAndId = (category) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that category
         const id = categoryArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that category, instance is the earning time period and category is the income stream
@@ -29,11 +31,12 @@ const DisplayTile = ({deleteIncome_action, income_selector, setId, category, set
      }
     const color =  Object.values(income_selector).filter(d => d.category === category)[0].color                            //Grabs a new color to assign
     const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.category === category).map(d => d.value.financialValue))
+    const income = category === "RRSP Income" ? (maxIncome + rrspMinWithdrawal_selector) : maxIncome
     return (
         <Item label={category} color={color} >
             <Text onClick={() => setCategoryAndId(category)}>                                                              {/*When the category is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{category}</H2>
-                <H2>{maxIncome/1000}K</H2>
+                <H2>{income/1000}K</H2>
             </Text>
             <Exit onClick={() => removeItem()}/>                                                                           {/*  If the x is clicked the category is removed */}
         </Item>
@@ -42,6 +45,7 @@ const DisplayTile = ({deleteIncome_action, income_selector, setId, category, set
 
 const mapStateToProps = (state) => ({
     income_selector: income_selector(state),
+    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
 })
 
 export default connect(mapStateToProps,{deleteIncome_action})(DisplayTile )

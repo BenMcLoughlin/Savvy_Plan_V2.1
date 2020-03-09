@@ -7,19 +7,17 @@ import RangeBar  from "UI/rangeBar/RangeBar"
 import { savingsValue_action, savingsAge_action} from "redux/savings/savings_actions"
 import {incomeValue_action, incomeAge_action} from "redux/income/income_actions"
 import _ from "lodash"
-import {savingsInstance_data} from "pages/savings/data/savings_data"
-import {tfsaProjection_selector} from "redux/savings/savings_selectors"
+import {savingsInstance_data} from "pages/rrsp/data/rrsp_data"
+import {rrspMinWithdrawal_selector } from "redux/savings/savings_selectors"
 import {setAge} from "services/income/actionWrapper_functions"
 
-
-const EditSavings = ({transaction, savings_reducer, instanceArray, incomeValue_action, user_reducer, deleteInstance, incomeAge_action, savingsValue_action, createNewItem, id, setId, savingsAge_action}) => {    
-
+const EditSavings = ({transaction, savings_reducer, user_reducer, instanceArray, incomeValue_action, rrspMinWithdrawal_selector, deleteInstance, incomeAge_action, savingsValue_action, createNewItem, id, setId, savingsAge_action}) => {    
 
     useEffect(()=> {
         const {birthYear} = user_reducer
         const thisYear = new Date().getFullYear()
         const age = thisYear - birthYear
-        if (transaction === "contribution") {setAge(savingsAge_action, 123, instanceArray, "bottom", age)}
+        if (transaction === "contribution") {setAge(savingsAge_action, 22222, instanceArray, "bottom", age)}
      }, [])
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
@@ -30,7 +28,9 @@ const EditSavings = ({transaction, savings_reducer, instanceArray, incomeValue_a
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         if (transaction === "withdrawal") setAge(incomeAge_action, id, instanceArray, name, value)
         setAge(savingsAge_action, id, instanceArray, name, value)
+     
     }
+
 
     const transactionFunction = (transaction, barStart, barEnd, financialValue , rangeBarValue, value) => {
         createNewItem(savingsInstance_data(transaction, barStart, barEnd, financialValue , rangeBarValue, value))
@@ -45,6 +45,8 @@ const instance = savings_reducer[id]
         <Wrapper>
              <Header transaction={transaction}>
             <h2>{_.startCase(transaction)}s</h2> 
+                     {transaction === "withdrawal" ? <h2>Minimum {rrspMinWithdrawal_selector/1000}K</h2> : null
+            }
             </Header>
             <InstanceNav color={instance.color}
                             instanceArray={instanceArray}
@@ -81,9 +83,9 @@ const instance = savings_reducer[id]
 
 const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
-    assumptions_reducer: state.assumptions_reducer,
     user_reducer: state.user_reducer,
-    tfsaProjection_selector: tfsaProjection_selector(state),
+    assumptions_reducer: state.assumptions_reducer,
+    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state),
 })
 
 export default connect(mapStateToProps, {savingsValue_action, savingsAge_action, incomeAge_action, incomeValue_action})(EditSavings )
@@ -136,7 +138,7 @@ const SelectorTitleWrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    background: ${props => props.transaction === "contribution" ? props.theme.color.steelBlue : props.theme.color.green};
+    background: ${props => props.transaction === "contribution" ? props.theme.color.steelBlue : '#D8BABB'};
     height: 4rem;
     color: ${props => props.theme.color.ice};
     border-bottom:  ${props => props.theme.border.primary};

@@ -1,23 +1,23 @@
-import React, {useState} from "react"
+import React, {useState,} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {cpp_selector} from "redux/income/income_selectors"
 import {addInstance_action,  delete_action,} from "redux/savings/savings_actions"
 import ButtonLight from "UI/buttons/ButtonLight"
-import EditSavings from "pages/savings/components/EditSavings"
-import TFSAAreaChart from "charts/savings/tfsaAreaChart"
-import TFSABarChart from "charts/savings/TfsaBarChart"
-import  Header from "pages/savings/components/Header"
-import AccountBox  from "pages/savings/components/AccountBox"
-import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
+import EditSavings from "pages/rrsp/components/EditSavings"
+import TFSAAreaChart from "charts/rrsp/RrspAreaChart"
+import TFSABarChart from "charts/rrsp/RrspBarChart"
+import  Header from "pages/rrsp/components/Header"
+import AccountBox  from "pages/rrsp/components/AccountBox"
+import InvestmentFactor  from "pages/rrsp/components/InvestmentFactors"
 import {addIncome_action} from "redux/income/income_actions"
+import {rrspProjection_selector} from "redux/savings/savings_selectors"
 
-const Savings = ({savings_reducer, setCategory, addInstance_action, addIncome_action, delete_action,}) => {    
+const RRSP = ({savings_reducer, setCategory, addInstance_action, addIncome_action, delete_action,}) => {    
 
     const exists = Object.values(savings_reducer).length > 0     
   
-    const [contributionId, setContributionId] = useState(123)                                                                       // toggles display between asset and liability  
-    const [withdrawalId, setWithdrawalId] = useState(11111)                                                                           // toggles display between asset and liability  
+    const [contributionId, setContributionId] = useState(22222)                                                                       // toggles display between asset and liability  
+    const [withdrawalId, setWithdrawalId] = useState(22224)                                                                           // toggles display between asset and liability  
 
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
@@ -32,17 +32,17 @@ const Savings = ({savings_reducer, setCategory, addInstance_action, addIncome_ac
 
     const deleteInstance = ({id}, instanceArray) => {                                                                                          //deletes the instance
                 delete_action(id)                                                                                     //removes the instance
-                setContributionId(123)
-                setWithdrawalId(133)
+                setContributionId(22222)
+                setWithdrawalId(22224)
     }
 
-    const contributionsArray = exists ?  Object.values(savings_reducer).filter(d => d.transaction === "contribution").filter(d => d.registration === "tfsa").sort((a, b) => a.fromAge - b.fromAge) : ["1"] //here we take the transaction, eg Wal Mart Income, and make an array of all the instances of that incoem
-    const withdrawalsArray = exists ?  Object.values(savings_reducer).filter(d => d.transaction === "withdrawal").filter(d => d.registration === "tfsa").sort((a, b) => a.fromAge - b.fromAge) : ["1"] //here we take the transaction, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const contributionsArray = exists ?  Object.values(savings_reducer).filter(d => d.transaction === "contribution").filter(d => d.registration === "rrsp").sort((a, b) => a.fromAge - b.fromAge) : ["1"] //here we take the transaction, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const withdrawalsArray = exists ?  Object.values(savings_reducer).filter(d => d.transaction === "withdrawal").filter(d => d.registration === "rrsp").sort((a, b) => a.fromAge - b.fromAge) : ["1"] //here we take the transaction, eg Wal Mart Income, and make an array of all the instances of that incoem
 
     return (
         <Wrapper>
              < Header color={"#3B7B8E"} >
-                <h2>TFSA Savings and Withdrawal Plan</h2> 
+                <h2>RRSP Savings and Withdrawal Plan</h2> 
             </Header>
                 <Charts>
                     <ChartPlaceHolder>
@@ -56,7 +56,7 @@ const Savings = ({savings_reducer, setCategory, addInstance_action, addIncome_ac
                 <AccountBox 
                     display={"assets"}
                     subCategory={"investmentAssets"}
-                    account={"tfsa"}
+                    account={"rrsp"}
                 />
                 <EditSavings createNewItem = {createNewItem} 
                             transaction={"contribution"}                                                               
@@ -90,11 +90,11 @@ const Savings = ({savings_reducer, setCategory, addInstance_action, addIncome_ac
 const mapStateToProps = (state) => ({
     pensionStartAges_reducer: state.pensionStartAges_reducer,
     user_reducer: state.user_reducer,
-    cpp_selector: cpp_selector(state),
+    rrspProjection_selector: rrspProjection_selector(state),
     savings_reducer: state.savings_reducer
 })
 
-export default connect(mapStateToProps, {addInstance_action, addIncome_action,  delete_action})(Savings )
+export default connect(mapStateToProps, {addInstance_action, addIncome_action,  delete_action})(RRSP )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

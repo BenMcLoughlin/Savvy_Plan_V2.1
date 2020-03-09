@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
@@ -28,11 +28,12 @@ const ItemDisplay = ({value, removeItem_action, item, setId}) => {              
 const DisplayBox = ({category, account, setAddFormSubCategory, subCategory, netWorth_reducer, removeItem_action,  setId}) => {                   //Box wrapping the items being added
 
     const arrayOfitems = account === "tfsa" ?  Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory).filter(d => d.registration === "tfsa") 
+                                             :  account === "rrsp" ?  Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory).filter(d => d.registration === "rrsp") 
                                              : Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
     
     const totalValue = arrayOfitems.length > 0 ? arrayOfitems.map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num) : 0     //Sums the value of the category
 
-    const title = account === "tfsa" ? "Current TFSA Holdings"  : (_.startCase(subCategory))
+    const title = account === "tfsa" ? "Current TFSA Holdings" : account === "rrsp" ? "Current RRSP Holdings" : (_.startCase(subCategory))
 return (
         <Wrapper>               
           <Header subCategory={subCategory}>                                                                                                      {/*The header passes subCategory to Styled-components so the color can change*/}                                                                    

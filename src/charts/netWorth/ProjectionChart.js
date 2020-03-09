@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import * as d3 from "d3"
 import _ from "lodash"
 import styled from "styled-components"
 import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
-import {createStructuredSelector} from "reselect"
 import {chartProjection_selector} from "redux/netWorth/netWorth_selectors"
 
 

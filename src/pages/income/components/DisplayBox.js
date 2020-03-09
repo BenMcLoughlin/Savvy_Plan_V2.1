@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react"
+import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
-import {Close, PlusIcon} from "style/Icons"
+import {PlusIcon} from "style/Icons"
 import {setProgress_action} from "redux/progress/progress_actions"
 import {employment_selector, business_selector, retirement_selector} from "redux/income/income_selectors"
 import DisplayTile from "pages/income/components/DisplayTile"
@@ -27,7 +27,6 @@ const DisplayBox = ({ incomeType, instanceArray, createNewItem, setCategory, pro
         createNewItem(newState)                                                                                                                  //Passes in the local new state
         setProgress_action("incomeColor", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
     }
-
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         

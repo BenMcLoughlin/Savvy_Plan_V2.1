@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as d3 from "d3"
 import _ from "lodash"
 import styled from "styled-components"
-import {incomeArray_selector, color_selector} from "redux/income/income_selectors"
+import {incomeArrayWithRRIF_selector, color_selector} from "redux/income/income_selectors"
 import {connect} from "react-redux"
 
 const drawChart = (props, width, height) => {
@@ -12,7 +12,7 @@ const drawChart = (props, width, height) => {
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ["#ef7959", "green", "#4BB9D0",'#72929B',  "#B0CFE3", '#FEDE76', '#81CCAF',  '#78b7bb','#D4D4D4','#72929B', "#F29278", '#FEDE76', "#a4d7e1", "#81CCAF", '#F7CDAB', '#D8BABB'];
-    const data = props.incomeArray_selector
+    const data = props.incomeArrayWithRRIF_selector
 
    //VALUE ACCESSORS
 //    const xValue = d => d.age
@@ -20,7 +20,7 @@ const drawChart = (props, width, height) => {
 
     const colors = props.color_selector
    
-    const stackedKeys = Object.keys(data[0])
+    const stackedKeys = Object.keys(data[15])
 
     d3.select(".canvasStackedbarChart > *").remove()
     d3.select(".tooltip").remove()
@@ -88,7 +88,7 @@ const drawChart = (props, width, height) => {
       rects.on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = stackedKeys.findIndex(type => type === name)
-                                const thisColor = color[nameIndex]
+                                const thisColor = colors[d.key]
                                 const thisYearTotalIncome = Object.values(data[i]).slice(1).reduce((acc, num) => acc + num)
                                 d3.select(n[i])
                                     .transition()
@@ -111,14 +111,14 @@ const drawChart = (props, width, height) => {
                                                 <div class="total" style="color: ${thisColor}; ">
                                                     <h3 class="title">  ${_.startCase(name)} </h3>
                                                     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                        ${(d[1] - d[0])/1000} 
+                                                        ${Math.round((d[1] - d[0])/1000)} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
                                                 <div class="total">
                                                     <h3 class="title">  Total Income </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${thisYearTotalIncome/1000} 
+                                                        ${Math.round(thisYearTotalIncome/1000)} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -223,7 +223,7 @@ componentWillUnmount() {
 
 const mapStateToProps = (state) => {
     return {
-        incomeArray_selector: incomeArray_selector(state),
+        incomeArrayWithRRIF_selector: incomeArrayWithRRIF_selector(state),
         color_selector: color_selector(state),
     }
 }

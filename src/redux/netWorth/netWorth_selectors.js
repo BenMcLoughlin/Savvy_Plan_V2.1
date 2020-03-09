@@ -11,7 +11,7 @@ const subCategoryArray = (category, subCategory) => {
 
 const sumSubCategory = (netWorth_reducer, category, subCategory) => {
     const array = Object.values(netWorth_reducer[category]).length > 0 ? Object.values(netWorth_reducer[category]) : [1]
-    const filteredArray = array.filter(d => d.subCategory == subCategory).map(d => d.currentValue.financialValue)
+    const filteredArray = array.filter(d => d.subCategory === subCategory).map(d => d.currentValue.financialValue)
     
     return filteredArray.length > 0 ? filteredArray.reduce((acc, num) => acc + num) : 0
 }

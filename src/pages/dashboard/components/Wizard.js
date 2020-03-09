@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styled from "styled-components"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {wizardText_data} from "pages/dashboard/data/wizardText_data"
@@ -31,9 +31,6 @@ const Wizard = ({count, setCountAndProgress, progress_reducer}) =>  {
         )
 }
 
-const mapStateToProps = (state) => {
-
-}
 
 export default Wizard
 

@@ -6,9 +6,8 @@ import Select from "UI/forms/Select"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
-import {addLifeEventToChart_action} from "redux/lifeEvents/lifeEvents_actions"
 
-const NewEvent = ({user_reducer, addLifeEventToChart_action}) => {
+const NewEvent = ({user_reducer,}) => {
 
     const [name, setName] = useState("")
     const [age, setAge] = useState(25)
@@ -43,12 +42,7 @@ const NewEvent = ({user_reducer, addLifeEventToChart_action}) => {
         event.preventDefault()
         setPosition(!position)
           console.log('handlesubmit');
-        addLifeEventToChart_action({
-            name,
-            age,
-            cost,
-            position
-        })
+
         setName("")
       }
 
@@ -81,7 +75,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
 })
 
-export default connect(mapStateToProps, {addLifeEventToChart_action})(NewEvent)
+export default connect(mapStateToProps, {})(NewEvent)
 
 //-----------------------------------------------style-----------------------------------------------//
 

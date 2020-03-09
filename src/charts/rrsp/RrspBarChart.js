@@ -1,7 +1,7 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {spendingData} from "charts/spending/spending_data"
+import {rrspBar_selector} from "redux/savings/savings_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 
@@ -10,16 +10,15 @@ const drawChart = (data, width, height) => {
     const margin = {top: 20, right: 100, bottom: 20, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color =  ["age", '#3B7B8E', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
+    const color =  ["age", '#3B7B8E', '#D8BABB', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
 
 
-    
-   d3.select(".spendingBarChart > *").remove()
+   d3.select(".tfsaBarChart > *").remove()
    d3.select(".tooltip").remove()
   
-    const svg = d3.select('.spendingBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
-console.log(data);
-    const stackedKeys = ["age", "housingCosts", "transportationCosts", "lifestyleCosts","largeEventsCosts"]
+    const svg = d3.select('.tfsaBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+
+    const stackedKeys = ["age", "contribution", "minWithdrawal", "withdrawal"]
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -39,7 +38,7 @@ console.log(data);
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".spendingBarChart").append("div")
+        const tooltip = d3.select(".tfsaBarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -50,7 +49,8 @@ console.log(data);
     const update = data => {
     
 
-        const min = 0
+        const min =  d3.min(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) > -10000 ? -15000 : 
+                      d3.min(data, d => Object.values(d).reduce((acc,num) => acc + num)) - 5000
 
        const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
@@ -146,15 +146,27 @@ console.log(data);
                         
                            
                                         
-           var ticks = [20,40, 60, 80, 95];
-           var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
+           const convertLabels = (array) => {
+            const ticks = []                                                            
+            const labels = []
+            for (let i = 0; i< array.length; i++) {
+                const age = array[i].age
+                if (i % 10 === 0) {
+                    ticks.push(age)
+                    labels.push(`Age ${age}`)
+                }
+            }
+            return [ticks, labels]
+        }
+        const [ticks, labels] = convertLabels(data)
+
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
-                            .tickFormat(function(d,i){ return tickLabels[i] })
+                            .tickFormat(function(d,i){ return labels[i] })
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('2')
+            const yAxis = d3.axisLeft(yScale).ticks('1')
                             .tickFormat(d => `${d/1000}k`)
 
 
@@ -166,9 +178,7 @@ console.log(data);
     
 }
 
-const SpendingBarChart = () =>  {
-
-    const data  = spendingData()
+const TfsaBarChart = ({data}) =>  {
 
     const inputRef = useRef(null)
 
@@ -179,16 +189,16 @@ const SpendingBarChart = () =>  {
     }, [data])
 
         return (
-            <Canvas className="spendingBarChart" ref={inputRef}>
+            <Canvas className="tfsaBarChart" ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
-
+    data: rrspBar_selector(state), 
 })
 
-export default connect(mapStateToProps)(SpendingBarChart)
+export default connect(mapStateToProps)(TfsaBarChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

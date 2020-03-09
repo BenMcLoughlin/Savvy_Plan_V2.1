@@ -1,6 +1,7 @@
 
 import {presentValue, payment} from "services/general/financial_functions"
 import {inverseLogslider} from "services/general/logorithmic_functions"
+import {RRIFMinimumTable} from "services/savings/savings_tables"
 
     //DATA CONVERSTION FOR STACKED BAR CHART
     export const convertReducerToArrayData = (reducer) => {
@@ -116,9 +117,9 @@ export const reccomendedSavingsPerYear = (birthYear, rate, startAge, withdrawal)
 
 /// NEW SAVINGS FUNCTIONS 
 
-export const getTransaction = (savings_reducer, transaction, age, value) => {                                                     //Helper function which will return the income value in the chart
+const getTransaction = (savings_reducer, transaction, registration,  age,  value) => {                                                     //Helper function which will return the income value in the chart
 
-    const transactions = Object.values(savings_reducer)
+    const transactions = Object.values(savings_reducer).filter( d => d.registration === registration)
   
     if (transactions.length > 0) {
         const arrayOfContributions = transactions.map(d => d.transaction === transaction                                       //for each income transaction it is collecing all the income reported for that age
@@ -134,54 +135,70 @@ export const getTransaction = (savings_reducer, transaction, age, value) => {   
    return 0
     }
 
+export const createProjection = (savings_reducer, userAge, lifeSpan, rate1, rate2, balance, registration, rrifStartAge)   => {
 
-export const createProjection = (savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance)     => {
-
-        const array = [
-            {
-                contribution: tfsaCurrentBalance,
-                withdrawal: 0,
-                principle: 0,
-                interest: 0,
-                totalInterest: 0,
-                principlePercentage: 0,
-                value: tfsaCurrentBalance,
-                contributionRoom: 0,
-                availableRoom: 0,
-            }
-        ]
-
-        for(let age = userAge; age <= lifeSpan; age++) {
-
-            const last = array[age - userAge]                                                              //this refers to the object before this one in the array
-                                                             
-            const newObject = {age: age}                                                                        //Initialize a new object
-
-            const contribution = getTransaction(savings_reducer, "contribution", age, 1000000) 
-            const withdrawal = getTransaction(savings_reducer, "withdrawal", age, last.value)
-            const contributionRoom = last.contributionRoom + 6000
-            const availableRoom = 6000 - contribution + last.availableRoom
-            const interest = age < 65 ? last.value * rate1 : last.value * rate2
-            const value = last.value + contribution - withdrawal + interest
-
-            const principlePercentage = last.principle / last.value
-            const principle = age === userAge ? last.contribution + contribution : last.principle + contribution - (withdrawal * principlePercentage)
- 
-            const interestPercentage = last.totalInterest / last.value
-            const totalInterest = age === 18 ? last.interest : last.totalInterest + interest - (withdrawal * interestPercentage)
-
-            const details = {...newObject,
-                 contribution, 
-                 withdrawal, 
-                 availableRoom,
-                 contributionRoom,
-                 principle: principle > 0 ? principle : 0, 
-                 interest, 
-                 totalInterest: totalInterest > 0 ? totalInterest : 0,
-                 value: value > 0 ? value : 0,
-                }
-console.log(array);
-            array.push(details)
+    const array = [
+        {
+            contribution: balance,
+            withdrawal: 0,
+            principle: 0,
+            interest: 0,
+            totalInterest: 0,
+            principlePercentage: 0,
+            value: balance,
+            contributionRoom: 0,
+            availableRoom: 0,
+            minWithdrawal: 0, 
         }
-        return array.slice(1, array.length)
+    ]
+
+    for(let age = userAge; age <= lifeSpan; age++) {
+
+        const last = array[age - userAge]                                                              //this refers to the object before this one in the array
+                                                         
+        const newObject = {age: age}                                                                        //Initialize a new object
+
+        const contribution = getTransaction(savings_reducer, "contribution", registration, age, 1000000) 
+        const withdrawal = getTransaction(savings_reducer, "withdrawal", registration, age, last.value)
+        const contributionRoom = last.contributionRoom + 6000
+        const availableRoom = 6000 - contribution + last.availableRoom
+        const interest = age < 65 ? last.value * rate1 : last.value * rate2
+        const minWithdrawal = age > rrifStartAge ? RRIFMinimumTable[age] * last.value : 0
+        const value = last.value + contribution - withdrawal - minWithdrawal + interest
+
+        const principlePercentage = last.principle / last.value
+  
+        const principle = age === userAge ? last.contribution + contribution : last.principle + contribution - (withdrawal * principlePercentage) - (minWithdrawal * principlePercentage)
+
+        const interestPercentage = last.totalInterest / last.value
+        const totalInterest = age === 18 ? last.interest : last.totalInterest + interest - (withdrawal * interestPercentage)- (minWithdrawal * interestPercentage)
+ 
+
+        const details = {...newObject,
+             contribution, 
+             withdrawal, 
+             availableRoom,
+             contributionRoom,
+             principle: principle > 0 ? principle : 0, 
+             interest, 
+             totalInterest: totalInterest > 0 ? totalInterest : 0,
+             value: value > 0 ? value : 0,
+             minWithdrawal, 
+            }
+
+        array.push(details)
+    }
+    return array.slice(1, array.length)
 }
+
+
+
+export const addMinWithdrawalsToIncome = (income, rrif) => {
+    const rrifObject = {}                                                                                        //When we do the map below we don't want to filter the array each time, so we convert the array to an object
+     for (let i = 0; i <= rrif.length -1; i++) {                                                                 //we loop through the rrif
+         const age = rrif[i].age                                                                                 //determine the age for each i and assign the minimum Withdrawal to it
+         rrifObject[age] = rrif[i].minWithdrawal
+         }
+   return  income.map(d => ({...d, "RRSP Income": (rrifObject[d.age] ? rrifObject[d.age] : 0)}))                 //now we map through income and create a new array with the same objects, if the rrifObject age exists then we add the minWithdrawal
+ }
+ 

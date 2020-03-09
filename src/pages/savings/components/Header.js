@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector} from "redux/savings/savings_selectors"

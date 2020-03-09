@@ -1,7 +1,6 @@
-import React, {useState} from "react"
+import React from "react"
 import styled from "styled-components"
-import ControlPanel from "pages/netWorth/components/ControlPanel"
-import Header from "pages/netWorth/components/Header"
+
 import {connect} from "react-redux"
 
 const Welcome = () => {    
