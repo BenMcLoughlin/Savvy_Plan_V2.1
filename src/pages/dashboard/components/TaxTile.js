@@ -10,46 +10,46 @@ const TaxTile = ({tax_reducer, progress_reducer}) => {
 
 
     
-  const incomeArray = Object.values(tax_reducer.income).map(d => d.financialValue)                                    //Convert the regularIncome values into an array
-  const [EI,  SEI,  II , EDI,  NEDI , CG ] =  incomeArray                                                                      //naming all income types, EI = employmentIncome, SEI = selfEmploymentIncome, II = interestIncome,
+  // const incomeArray = Object.values(tax_reducer.income).map(d => d.financialValue)                                    //Convert the regularIncome values into an array
+  // const [EI,  SEI,  II , EDI,  NEDI , CG ] =  incomeArray                                                                      //naming all income types, EI = employmentIncome, SEI = selfEmploymentIncome, II = interestIncome,
                                                   
-  const creditsRangeBarValues = Object.values( tax_reducer.credits)
+  // const creditsRangeBarValues = Object.values( tax_reducer.credits)
 
-  const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
+  // const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
 
-  const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 
-  const taxData = taxStackedData[4]                                                                                           //The top bracket contains the sum of all the brackets below enabling us to access the essential data from it
-  const federalTaxPayable = taxData.totalFederalTax - taxData.federalTaxCredits             
-  const provincialTaxPayable = taxData.totalProvincialTax - taxData.provincialTaxCredits
-  const totalCppAndEI = taxData.totalCppAndEI
-  const totalCredits = taxData.provincialTaxCredits + taxData.federalTaxCredits
-  const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + totalCppAndEI 
-  const afterTaxIncome = beforeTaxIncome - totalTaxLiability - totalCredits
+  // const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 
+  // const taxData = taxStackedData[4]                                                                                           //The top bracket contains the sum of all the brackets below enabling us to access the essential data from it
+  // const federalTaxPayable = taxData.totalFederalTax - taxData.federalTaxCredits             
+  // const provincialTaxPayable = taxData.totalProvincialTax - taxData.provincialTaxCredits
+  // const totalCppAndEI = taxData.totalCppAndEI
+  // const totalCredits = taxData.provincialTaxCredits + taxData.federalTaxCredits
+  // const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + totalCppAndEI 
+  // const afterTaxIncome = beforeTaxIncome - totalTaxLiability - totalCredits
 
-  const taxDonutChartData = [
-    {name: "afterTaxIncome", 
-    value: afterTaxIncome
-    },
-    {name: "taxCredit", 
-    value: totalCredits
-    },
-    {name: "federalTaxPayable", 
-    value: federalTaxPayable
-    },
-    {name: "provincialTaxPayable", 
-    value: provincialTaxPayable
-    },
-    {name: "CPPandEI", 
-    value: totalCppAndEI
-    }
-  ]
+  // const taxDonutChartData = [
+  //   {name: "afterTaxIncome", 
+  //   value: afterTaxIncome
+  //   },
+  //   {name: "taxCredit", 
+  //   value: totalCredits
+  //   },
+  //   {name: "federalTaxPayable", 
+  //   value: federalTaxPayable
+  //   },
+  //   {name: "provincialTaxPayable", 
+  //   value: provincialTaxPayable
+  //   },
+  //   {name: "CPPandEI", 
+  //   value: totalCppAndEI
+  //   }
+  // ]
 
     return (
         <TaxTileTileWrapper to="/Tax" count={progress_reducer.dashboard}>
             <StackedBarChartPlaceHolder>
-            <TaxDonutChartTile
+            {/* <TaxDonutChartTile
                 taxDonutChartData={taxDonutChartData}
-            />
+            /> */}
             </StackedBarChartPlaceHolder>
         </TaxTileTileWrapper>
     )
