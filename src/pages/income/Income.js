@@ -3,8 +3,9 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {setProgress_action} from "redux/progress/progress_actions"
 import Header from "pages/income/components/Header"
-import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
+import IncomeBarChart from "charts/income/IncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
+import Tax from "pages/tax/Tax"
 import Savings from "pages/savings/Savings"
 import RRSP from "pages/rrsp/RRSP"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
@@ -13,16 +14,15 @@ import {addIncome_action} from "redux/income/income_actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action, income_reducer}) => {
+const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action, user_reducer, income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                    //Checks if the array has objects in it
-    const [category, setCategory] = useState("RRSP Income")                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
+    const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
    
     const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
                                                      
     const [id, setId] = useState(123)                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
-    const [taxAge, setTaxAge] = useState(123)                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
-    
+ 
     const setCountAndProgress = (section, number) => {                                                                               //Moves the count forward locally and also stores it in the reducer
         setProgress_action(section, number)                                                                                          //this action enables us to show a progress bar throughout the entire application
         setCount(number)                                                                                                             //sets the count locally
@@ -34,6 +34,8 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                 setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
+    console.log(income_reducer);
+
 
 
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
@@ -44,7 +46,7 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                      income_reducer={income_reducer}
                 />
                 <ChartPlaceHolder>
-                   <LifetimeIncomeBarChart/>
+                   <IncomeBarChart/>
                 </ChartPlaceHolder>    
                 {
                    category == "CPP Income" || category === "OAS Income" ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
@@ -67,6 +69,9 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                  <RRSP
                       setCategory={setCategory}
                  />
+                 :
+                 user_reducer.taxAge  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
+                 <Tax/>
                           : 
                     category ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
 
@@ -102,10 +107,10 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
 const mapStateToProps = (state) => {
     return {
         progress_reducer: state.progress_reducer,
-        income_reducer2: state.income_reducer2,
         income_reducer: state.income_reducer,
         income_selector: income_selector(state),
         tfsa_selector: tfsa_selector(state),
+        user_reducer: state.user_reducer,
     }
 }
 

@@ -6,7 +6,7 @@ export const savingsInstance_data = (transaction, fromAge, toAge, incomeFinancia
     registration: "rrsp",                                                                                        //examples include "employment", "business", "pension"
     transaction,                                                                                        //examples include "employment", "business", "pension"
     color: '#8CB8B7',                                                                                           //Some forms of income might not be taxable such as inheritance
-    incomeType: "retirementIncome",
+    incomeType: "rrspIncome",
     fromAge,
     toAge,
     value: {                                                                                        //The value of the income being added

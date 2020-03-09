@@ -1,7 +1,7 @@
 
 import React from 'react'
 import styled from "styled-components"
-import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
+
 import RangeBar from "UI/rangeBar/RangeBar"
 import DualRangeBar from "UI//dualRangeBar/DualRangeBar"
 
@@ -42,7 +42,7 @@ export default function Section2() {
             </PensionIncomeWrapper>
                <ChartPlaceHolder>
                    Lifetime Income Chart
-                <LifetimeIncomeBarChart/>
+     
                 </ChartPlaceHolder>    
 
                 <YearsSelectorWrapper>

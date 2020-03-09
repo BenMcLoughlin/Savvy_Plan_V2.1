@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import LifetimeIncomeBarChart from "charts/income/LifetimeIncomeBarChart"
+
 import { NavLink} from "react-router-dom"
 
 const LifetimeIncomeTile = ({progress_reducer}) => {
@@ -23,7 +23,7 @@ const LifetimeIncomeTile = ({progress_reducer}) => {
             </Top>
 
             <ChartWrapper>
-                    <LifetimeIncomeBarChart/>
+
             </ChartWrapper>
             </LifetimeIncomeTileWrapper>
         )

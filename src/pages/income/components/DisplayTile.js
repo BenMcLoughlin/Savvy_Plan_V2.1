@@ -20,8 +20,6 @@ const DisplayTile = ({deleteIncome_action, rrspMinWithdrawal_selector, income_se
         }                                                   
                                                                                       
     }
-    console.log(category);
-    console.log(rrspMinWithdrawal_selector);
 
     const setCategoryAndId = (category) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that category
         const id = categoryArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that category, instance is the earning time period and category is the income stream

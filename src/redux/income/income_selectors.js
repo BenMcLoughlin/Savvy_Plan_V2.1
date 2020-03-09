@@ -6,6 +6,7 @@ import {rrspProjection_selector} from "redux/savings/savings_selectors"
 
 const income_reducer = state => state.income_reducer                                                             //this is the reducer, in object form, pulled from state
 const savings_reducer = state => state.savings_reducer                                                             //this is the reducer, in object form, pulled from state
+const taxAge = state => state.user_reducer.taxAge                                                           //this is the reducer, in object form, pulled from state
 const thisYear = new Date()
 const birthYear = state => state.user_reducer.birthYear
 const lifeSpan = state => state.user_reducer.lifeSpan

@@ -149,7 +149,7 @@ const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, donation, tuiti
 }
 
 
-export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI, credits) => {
+export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, TFSA, OAS}, credits)  => {
 
     const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
 
@@ -207,6 +207,31 @@ export const calculateTaxesByBracket = (EI, SEI, CG, EDI, NEDI, credits) => {
       })
     }
     return data
+}
+
+
+export const incomeBreakdown = (income_selector, taxAge) => {
+  console.log(income_selector);
+    const income = Object.values(income_selector).filter(d => d.fromAge <= taxAge).filter(d => d.toAge >= taxAge)                           //filter out only the income streams earned during the age provided
+
+        const sumIncome = (incomeArray, incomeType) =>  {                                                                                    //sums the income for the requested income stream
+            const incomeByType = incomeArray.filter(d => d.incomeType === incomeType) 
+            const exists = incomeByType.length > 0
+            return exists ? incomeByType.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
+        }
+
+return {
+    EI: sumIncome(income, "employmentIncome"),
+    SEI: sumIncome(income, "selfEmploymentIncome"),
+    CG: sumIncome(income, "capitalGains"),
+    NEDI: sumIncome(income, "nonEligibleDividends"),
+    EDI: sumIncome(income, "eligibleDividends"),
+    RI: sumIncome(income, "rrspIncome"),
+    OAS: sumIncome(income, "oasIncome"),
+    TFSA: sumIncome(income, "tfsaIncome"),
+}
+
+
 }
 
 

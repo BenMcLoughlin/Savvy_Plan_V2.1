@@ -6,6 +6,7 @@ import pensionStartAges_reducer from "./pensionStartAges/pensionStartAges_reduce
 import user_reducer from "./user/user_reducer"
 import netWorth_reducer from "./netWorth/netWorth_reducer"
 import tax_reducer from "./tax/tax_reducer"
+import taxCredits_reducer from "./taxCredits/taxCredits_reducer"
 import savings_reducer from "./savings/savings_reducer"
 import assumptions_reducer from "./assumptions/assumptions_reducer"
 import auth_reducer from "./auth/auth_reducer"
@@ -19,6 +20,7 @@ const persistConfig = {
     storage, 
     whitelist: ["netWorth_reducer", 
     "tax_reducer",
+    "taxCredits_reducer",
     "income_reducer",
     "user_reducer",
     "pensionStartAges_reducer",
@@ -33,6 +35,7 @@ const rootReducer = combineReducers({
        assumptions_reducer, 
        netWorth_reducer,
        tax_reducer,
+       taxCredits_reducer,
        income_reducer,
        user_reducer,
        pensionStartAges_reducer,

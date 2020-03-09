@@ -161,7 +161,7 @@ export const calculateCpp = calculateCppMemoized()
 export const calculateOAS = (age, lifespan) => ({
     label: "OASIncome",
     category: "OAS Income",
-    incomeType: "retirementIncome",
+    incomeType: "oasIncome",
     color: "#488487",
     fromAge: age,
     toAge: lifespan.rangeBarValue,
