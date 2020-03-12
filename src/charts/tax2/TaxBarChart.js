@@ -7,8 +7,8 @@ import {connect} from "react-redux"
 import _ from "lodash"
 
 const drawChart = (data, width, height, colors) => {
-console.log(data);
-    const margin = {top: 20, right: 100, bottom: 20, left: 100}
+//console.log(data);
+    const margin = {top: 20, right: 0, bottom: 20, left: 40}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color = ['#88adbf',"#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
@@ -31,7 +31,6 @@ console.log(data);
                             
     const yAxisGroup = graph.append("g")
                         .attr("class", "axis")
-                        .attr("transform", `translate(-6, 0)`)
     
        const stack = d3.stack()
                         .keys(stackedKeys)
@@ -48,14 +47,14 @@ console.log(data);
                           
     const update = data => {
     
-       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
-                   d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+        const max = d3.max(data, d =>  d.incomeAfterTax ) < 70000 ? 70000 : 
+                      d3.max(data, d => d.incomeAfterTax ) + 10000
 
         const series = stack(data);
    
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, max])
-        const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.7)
-        .domain(data.map(item => item.bracket))
+        const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.4).paddingOuter(0.3)
+        .domain(data.map(d => d.marginalIncome > 0 ? d.bracket : null) )// d.marginalIncome > 0 ? d.bracket : null))
 
 
     const rects = graph.append("g")
@@ -80,7 +79,7 @@ console.log(data);
             .enter().append("rect")
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
-                .attr("x", d => xScale(d.data.age))
+                .attr("x", d => xScale(d.data.bracket))
                 .attr("width", xScale.bandwidth())
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
@@ -140,19 +139,37 @@ console.log(data);
                         
           
             rects.enter().append("text")
-                                            .attr("x", d => xScale(d.bracket)- 6)
-                                            .attr("y", d => yScale(d[1]+ 60) )
+                                            .attr("x", (d,i) => xScale(i+1) + (xScale.bandwidth()/2))
+                                            .attr("y", (d,i )=> yScale(d[i].data.marginalIncome) - 4)
+                                            .attr("text-anchor", "middle")
                                             .attr("width", xScale.bandwidth())
-                                            .attr("fill","turquoise")
-                                            .text("banana")
-                                            .style('stroke', 'lightGrey')
-                                        
-            var ticks = [1,2,3,4,5,6];
-            var tickLabels = [' 0- 47K','47-96K','96-147K','147-210K','210K + ']
+                                            .attr("opacity", (d, i) => d[i].data.marginalIncome > 0 ? 1 : 0)
+                                            .attr("fill","grey")
+                                            .attr("font-size","1.8rem")
+                                            .text((d,i) => `${((d[i].data.marginalTaxBracket)*100).toFixed()}%`)
+   
+           
+                const convertLabels = (array) => {
+                    const ticks = []                                                            
+                    const labels = []
+                    const tickLabels = [' 0- 47k','47-96k','96-147k','147-210k','210k + ']
+                    for (let i = 0; i< array.length; i++) {
+                       const {marginalIncome} = array[i]
+                       if (marginalIncome > 0) {
+                        ticks.push(i + 1)
+                        labels.push(tickLabels[i])
+                       }
+                    }
+                    return [ticks, labels]
+                }
+
+                const [ticks, labels] = convertLabels(data)
+
+
                                                 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
-                            .tickFormat(function(d,i){ return tickLabels[i] })
+                            .tickFormat(function(d,i){ return labels[i] })
                            
                                     
             const yAxis = d3.axisLeft(yScale).ticks('2')

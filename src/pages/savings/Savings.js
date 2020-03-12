@@ -29,7 +29,7 @@ const Savings = ({savings_reducer, setCategory, addInstance_action, addIncome_ac
                 setWithdrawalId(newId)   
                   }                                                                                        // determines which income instance to show within the edit box
     }
-
+    console.log(savings_reducer);
     const deleteInstance = ({id}, instanceArray) => {                                                                                          //deletes the instance
                 delete_action(id)                                                                                     //removes the instance
                 setContributionId(123)

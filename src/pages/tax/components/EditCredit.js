@@ -18,20 +18,6 @@ const EditIncome = ({category, instanceArray, incomeValue_action, createNewItem,
         incomeValue_action(id, logValue, rangeBarValue, rangeBarProps)                                                        //setting the income value in the reducer
     }
 
-                                                     
-    const changeLabel = (e) => {                                                                                               //enables the user to change the label which changes all income stream labels of that category
-        const {value} = e.target                                                                                               //destructure out the value from the target event
-        if(value.length === 0) return                                                                                          //when the text is 0 we don't want it to change the categoruy because the box will close as its seen as a false value
-        for (let i = 0; i < instanceArray.length; i++) {                                                                       //we loop through and change the label for every income stream in the category
-            changeLabel_action(instanceArray[i].id, "label", e)                                                                //changes the label
-            if(value.length > 0) {                                                                                             // if the lenth is greater then 0 it changes the category, the category is determining what is visible
-                changeLabel_action(instanceArray[i].id, "category", e)
-            }
-           }
-            setCategory(e.target.value)                                                                                        //sets the category
-
-    }
-
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         setAge(incomeAge_action, id, instanceArray, name, value)
     }
@@ -66,15 +52,9 @@ console.log(item);
                             addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color ))}
                         />
             <Container >                                                                      
-     
+    
                 <Left>                                                                                                         {/* Choose one is used to select the account type */}
-                <FormInput
-                        label="Income name"
-                        value={item.label}                                                                                        //because the category also set if the item is shown we need this ternary to prevent it from exiting when the text is empty
-                        type={"text"}  
-                        handleChange={(e) => changeLabel(e)}                                                                      //sets the state in the local state
-                    />
-                                    <RangeBar 
+                        <RangeBar 
                         rangeBarProps={item.value}                                                                               //Every Add item has a range bar to set its value
                         setValue={setValue}                 
                     /> 
@@ -84,7 +64,7 @@ console.log(item);
                 <Right>
                 <YearsSelectorWrapper> 
                     <Label>
-                    Earning Years Selector
+                    Years Credit is Claimed
                     </Label>
                     <SelectorTitleWrapper>
                         <div>From Age</div>    

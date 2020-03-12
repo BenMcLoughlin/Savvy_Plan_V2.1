@@ -1,167 +1,87 @@
-const fTR = { // Federal Tax Rates and Factors
-    factors: {
-        basicPersonal: 12069,
-        employmentAmount: 1222,
-        eligibleDividendGrossUp: 1.38, 
-        eligibleDividendTaxCredit: 0.1502, 
-        nonEligibleDividendGrossUp: 1.15, 
-        nonEligibleDividendTaxCredit: 0.1052
+import {factors, FTR, PTR} from "services/tax/tax_rates"
 
-    },
-    1:{
-        top: 47630,
-        rate: .15,
-        constant: 0,
-    },
-    2: {
-        top: 95259,
-        rate: .205,
-        constant: 2620,
-    },
-    3: {
-        top: 147667,
-        rate: .26,
-        constant: 7859,
-    },
-    4: {
-        top: 210371,
-        rate: .29,
-        constant: 12289
-    },
-    5: {
-        top: 1000000000,
-        rate: .33,
-        constant: 20704,
-    }
-}
-
-const pTR = { // Provincial Tax Rates and factors
-    factors: {
-        basicPersonal: 10682,
-        eligibleDividendGrossUp: 1.38, 
-        eligibleDividendTaxCredit: 0.10, 
-        nonEligibleDividendGrossUp: 1.16, 
-        nonEligibleDividendTaxCredit: 0.0196, 
-    },
-    1:{
-        top: 40707,
-        rate: .0506,
-        constant: 0,
-    },
-    2:{
-        top: 81416,
-        rate: .077,
-        constant: 1075,
-    },
-    3: {
-        top: 93476,
-        rate: .105,
-        constant: 3354,
-    },
-    4: {
-        top: 113506,
-        rate: .1229,
-        constant: 5028,
-    },
-    5: {
-        top: 153900,
-        rate: .147,
-        constant: 7763,
-    },
-    6: {
-        top: 100000000,
-        rate: .168,
-        constant: 10995,
-    },
-}
-
-const factors = {
-    ympe: 57400, //maximum pensionable Earnings
-    cppSelfTotalContributionRate: 0.102, 
-    cppMaximumPremium: 5497.80,
-    ymie: 53100, //years maximum insurable earnings,
-    eiContributionRate: 0.0162, 
-    eiMaximumPremium: 860.22,
-}
-
-
-export const calculateCPPandEI = (EI, SEI) => {
-    const totalIncome = EI + SEI
-    const employedPercentage = EI / totalIncome
+//DETERMINE CPP AND EI PAYMENT
+export const calculateCPPandEI = (EI, SEI) => {                                                                                //Determines the CPP and EI contributions made by the user, if the user is self employed they must also make employer contribution
+    const totalIncome = EI + SEI                                                                                               //get total Income
+    const employedPercentage = EI / totalIncome                                                                                //determine percentages of employed and self employed income
     const selfEmployedPercentage = SEI / totalIncome
 
-    const CPPContribution = totalIncome > (factors.ympe - 3500) ? factors.cppMaximumPremium : 
-    (totalIncome - 3500) * factors.cppSelfTotalContributionRate
+    const CPPContribution = totalIncome > factors.ympe  ? factors.cppMaximumPremium :                                          // compares income to the years maximum pensionable earnings, if its over ympe then gives the max, 
+    (totalIncome - 3500) * factors.cppSelfTotalContributionRate                                                                //otherwise it calculates it
 
     const EIContribution = EI > factors.ymie ? factors.eiMaximumPremium : 
     EI  * factors.eiContributionRate
 
-    const employedCPPContribution = (CPPContribution * employedPercentage) / 2
+    const employedCPPContribution = (CPPContribution * employedPercentage) / 2                                                      
     const selfEmployedCPPContribution = CPPContribution * selfEmployedPercentage
     const total = employedCPPContribution + selfEmployedCPPContribution +  EIContribution 
     return total > 0 ? total : 0
 }
 
 
+//DETERMINE FEDERAL TAXES PAYABLE
  export const calculateFederalTaxes = (income) => {
 
-    const taxes = income <= fTR[1].top ? income * fTR[1].rate : 
-                     income > fTR[1].top && income <= fTR[2].top ? (income * fTR[2].rate) - fTR[2].constant : 
-                     income > fTR[2].top && income <= fTR[3].top ? (income * fTR[3].rate) - fTR[3].constant : 
-                     income > fTR[3].top && income <= fTR[4].top ? (income * fTR[4].rate) - fTR[4].constant :
-                     income * fTR[5].rate - fTR[5].constant
+    const taxes = income <= FTR[1].top ? income * FTR[1].rate : 
+                     income > FTR[1].top && income <= FTR[2].top ? (income * FTR[2].rate) - FTR[2].constant : 
+                     income > FTR[2].top && income <= FTR[3].top ? (income * FTR[3].rate) - FTR[3].constant : 
+                     income > FTR[3].top && income <= FTR[4].top ? (income * FTR[4].rate) - FTR[4].constant :
+                     income * FTR[5].rate - FTR[5].constant
 
     return taxes > 0 ? taxes : 0
 
     }
 
+//DETERMINE PROVINCIAL TAXES PAYABLE
  export const calculateProvincialTaxes = (income) => {
 
-    const taxes = income <= pTR[1].top ? income * pTR[1].rate : 
-                     income > pTR[1].top && income <= pTR[2].top ? (income * pTR[2].rate) - pTR[2].constant : 
-                     income > pTR[2].top && income <= pTR[3].top ? (income * pTR[3].rate) - pTR[3].constant : 
-                     income > pTR[3].top && income <= pTR[4].top ? (income * pTR[4].rate) - pTR[4].constant :
-                     income > pTR[4].top && income <= pTR[5].top ? (income * pTR[5].rate) - pTR[5].constant :
-                     income * pTR[6].rate -pTR[6].constant
+    const taxes = income <= PTR[1].top ? income * PTR[1].rate : 
+                     income > PTR[1].top && income <= PTR[2].top ? (income * PTR[2].rate) - PTR[2].constant : 
+                     income > PTR[2].top && income <= PTR[3].top ? (income * PTR[3].rate) - PTR[3].constant : 
+                     income > PTR[3].top && income <= PTR[4].top ? (income * PTR[4].rate) - PTR[4].constant :
+                     income > PTR[4].top && income <= PTR[5].top ? (income * PTR[5].rate) - PTR[5].constant :
+                     income * PTR[6].rate -PTR[6].constant
 
     return taxes > 0 ? taxes : 0
     }
 
  
-
+//DETERMINE FEDERAL TAX CREDITS
 const calculateFederalCredits = (income, CppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest ) => {
-  const totalValue = fTR.factors.basicPersonal + fTR.factors.employmentAmount + CppAndEI + tuition + medical + homeBuyer + firefighter + interest
-  const nonRefundableBasicCredits = income < 5000 ? 0 : totalValue * fTR[1].rate
+  const totalValue = FTR.factors.basicPersonal + FTR.factors.employmentAmount + CppAndEI + tuition + medical + homeBuyer + firefighter + interest
+  const nonRefundableBasicCredits = income < 5000 ? 0 : totalValue * FTR[1].rate
   const donationCredit =  donation <= 200 ? donation * .15 : ((donation - 200) * .29) + 30
-  const eligibleDividendCredit = (EDI * fTR.factors.eligibleDividendGrossUp) * fTR.factors.eligibleDividendTaxCredit
-  const nonEligibleDividendCredit = (NEDI * fTR.factors.eligibleDividendGrossUp) * fTR.factors.nonEligibleDividendTaxCredit
+  const eligibleDividendCredit = (EDI * FTR.factors.eligibleDividendGrossUp) * FTR.factors.eligibleDividendTaxCredit
+  const nonEligibleDividendCredit = (NEDI * FTR.factors.eligibleDividendGrossUp) * FTR.factors.nonEligibleDividendTaxCredit
 
   return nonRefundableBasicCredits + eligibleDividendCredit + nonEligibleDividendCredit + donationCredit 
  
 }
+
+//DETERMINE FEDERAL PROVINCIAL CREDITS
 const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest ) => {
-  const totalValue = pTR.factors.basicPersonal + CppAndEI + donation + tuition + medical + homeBuyer + firefighter + interest
-  const nonRefundableCredits = income < 5000 ? 0 : totalValue * pTR[1].rate
-  const eligibleDividendCredit = (EDI * pTR.factors.eligibleDividendGrossUp) * pTR.factors.eligibleDividendTaxCredit
-  const nonEligibleDividendCredit = (NEDI * pTR.factors.eligibleDividendGrossUp) * pTR.factors.nonEligibleDividendTaxCredit
+  const totalValue = PTR.factors.basicPersonal + CppAndEI + donation + tuition + medical + homeBuyer + firefighter + interest
+  const nonRefundableCredits = income < 5000 ? 0 : totalValue * PTR[1].rate
+  const eligibleDividendCredit = (EDI * PTR.factors.eligibleDividendGrossUp) * PTR.factors.eligibleDividendTaxCredit
+  const nonEligibleDividendCredit = (NEDI * PTR.factors.eligibleDividendGrossUp) * PTR.factors.nonEligibleDividendTaxCredit
 
   return nonRefundableCredits + eligibleDividendCredit + nonEligibleDividendCredit
 }
 
-
-export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, TFSA, OAS}, credits)  => {
+//DETERMINE TAXES PAYABLE BY BRACKET
+export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, TFSA}, credits)  => {
 
     const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
 
 //     const [donation, tuition, medical, homeBuyer, firefighter, interest] = [0,0,0,0,0,0]
 // console.log(credits);
-    const taxableIncome =  EI + SEI + (CG/2) + (EDI * fTR.factors.eligibleDividendGrossUp) + (NEDI * fTR.factors.nonEligibleDividendGrossUp)
+    const taxableIncome =  EI + SEI + (CG/2) + (EDI * FTR.factors.eligibleDividendGrossUp) + (NEDI * FTR.factors.nonEligibleDividendGrossUp) + RI + TFSA + OAS + CPP
     const EIPercentage = EI/(EI + SEI) 
     const SEIPercentage = SEI / (EI + SEI) 
 
     const data = []
     for(let i = 1; i <= 5; i++) {
-        const income = taxableIncome > fTR[i].top ? fTR[i].top : taxableIncome
+        const income = taxableIncome > FTR[i].top ? FTR[i].top : taxableIncome
         const marginalIncome =  i > 1 ? income - data[i-2].income : income
         const totalCppAndEI = calculateCPPandEI((EIPercentage * income),( SEIPercentage * income))
         const cppAndEI = i > 1 ? totalCppAndEI - data[i-2].totalCppAndEI : totalCppAndEI
@@ -201,11 +121,13 @@ export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, TFSA, OAS},
         provincialTaxCredits, 
         marginalProvincialTaxCredits,
         provincialTax,
+        marginalTaxBracket: (marginalFederalTax + marginalProvincialTax )/ marginalIncome,
         taxCredits: marginalFederalTaxCredits + marginalProvincialTaxCredits,
         incomeAfterTax: i > 1 ? marginalAfterTaxAndCreditIncome : marginalAfterTaxAndCreditIncome + (CG/2)
 
       })
     }
+    console.log(data);
     return data
 }
 
@@ -228,6 +150,7 @@ return {
     EDI: sumIncome(income, "eligibleDividends"),
     RI: sumIncome(income, "rrspIncome"),
     OAS: sumIncome(income, "oasIncome"),
+    CPP: sumIncome(income, "cppIncome"),
     TFSA: sumIncome(income, "tfsaIncome"),
 }
 
@@ -238,3 +161,43 @@ return {
 
 
 
+export const convertTaxesToSunburstChart_function = (taxData) => {
+
+    const federalTaxPayable = taxData.totalFederalTax - taxData.federalTaxCredits             
+    const provincialTaxPayable = taxData.totalProvincialTax - taxData.provincialTaxCredits
+    const totalCppAndEI = taxData.totalCppAndEI
+    const totalCredits = taxData.provincialTaxCredits + taxData.federalTaxCredits
+    const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + totalCppAndEI 
+    const afterTaxIncome = taxData.income - totalTaxLiability - totalCredits
+  
+       return  ({
+        "name": "Taxes", "children": [{
+            "name": "tax",
+            "children": [
+                {
+                name: "federalTax", 
+                value: federalTaxPayable
+                },
+                {
+                name: "provincialTax", 
+                value: provincialTaxPayable
+                },
+                {
+                name: "cppAndEI", 
+                value: totalCppAndEI
+                },
+            ]
+        }, {
+            "name": "income",
+            "children": [
+                {
+                name: "afterTaxIncome", 
+                value: afterTaxIncome
+                },
+                {
+                name: "totalCredits", 
+                value: totalCredits
+                },
+            ]
+        }]
+    })}  

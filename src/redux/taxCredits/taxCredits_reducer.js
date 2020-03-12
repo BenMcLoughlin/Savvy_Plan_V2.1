@@ -15,9 +15,36 @@ const initialState = {
             name: "value",
             label: "Annual Contribution",
         } 
+     },
+    22223: { 
+        registration: "rrsp",
+        label: "Charitable Contribution",    
+        category: "credit",    
+        id: 22223,                                                                                                                                                          
+        fromAge: 18,
+        toAge: 64,
+        value: {                                                                                    
+            rangeBarValue: 0,
+            financialValue: 0,
+            name: "value",
+            label: "Charitable Contribution",
+        } 
+     },
+    22224: { 
+        registration: "rrsp",
+        label: "Medical Expense",    
+        category: "credit",    
+        id: 22224,                                                                                                                                                          
+        fromAge: 18,
+        toAge: 64,
+        value: {                                                                                    
+            rangeBarValue: 0,
+            financialValue: 0,
+            name: "value",
+            label: "Medical Expense",
+        } 
      }
 }
-
 
  const taxCredits_reducer = (state = initialState, action) => {
     switch(action.type) {

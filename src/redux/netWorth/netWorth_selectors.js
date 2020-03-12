@@ -130,8 +130,7 @@ export const chartAssets_selector = createSelector(
             "name": "propertyAssets",
             "children": linkMortgageToPropery(Object.values(netWorth_reducer.assets).filter(d => d.subCategory === "propertyAssets"), Object.values(netWorth_reducer.liabilities).filter(d => d.subCategory === "securedDebt"))
         }]
-    })}
-                                                                               
+    })}                                                                  
 )
 
 export const chartLiabilities_selector = createSelector(

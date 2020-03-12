@@ -1,48 +1,91 @@
 // Data Obtained from https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032bc/t4032bc-january-general-information.html
 // QUEBEC IS WRONG, Couldnt find rates
 
-let FederalTaxRates2019 = [
-    {
-        bracket: 1,
-        bottom: 0,
-        top: 47630,
-        taxRate: .15,
-        constant: 0,
+export const factors = {
+    ympe: 58700, //maximum pensionable Earnings - updated 11 March 2020
+    cppSelfTotalContributionRate: 0.102, 
+    cppMaximumPremium: 5796.80,
+    ymie: 54200, //years maximum insurable earnings,
+    eiContributionRate: 0.0158, 
+    eiMaximumPremium: 856.36,
+}
+
+export const FTR = { // Federal Tax Rates and Factors - updated 11 March 2020
+    factors: {
         basicPersonal: 12069,
-        eligibleDividendGrossUp: 0.38, 
+        employmentAmount: 1222,
+        eligibleDividendGrossUp: 1.38, 
         eligibleDividendTaxCredit: 0.1502, 
-        nonEligibleDividendGrossUp: 0.15, 
-        nonEligibleDividendTaxCredit: 0.0903, 
+        nonEligibleDividendGrossUp: 1.15, 
+        nonEligibleDividendTaxCredit: 0.1052
+
     },
-    {
-        bracket: 2,
-        bottom: 47630,
-        top: 95259,
-        taxRate: .205,
+    1:{
+        top: 48535,
+        rate: .15,
+        constant: 0,
+    },
+    2: {
+        top: 97069,
+        rate: .205,
         constant: 2620,
     },
-    {
-        bracket: 3,
-        bottom: 95259,
-        top: 147667,
-        taxRate: .26,
+    3: {
+        top: 150473,
+        rate: .26,
         constant: 7859,
     },
-    {
-        bracket: 4,
-        bottom: 147667,
-        top: 210371,
-        taxRate: .29,
-        constant: 12289,
+    4: {
+        top: 214368,
+        rate: .29,
+        constant: 12289
     },
-    {
-        bracket: 5,
-        bottom: 210371,
-        top: 100000000,
-        taxRate: .33,
+    5: {
+        top: 1000000000,
+        rate: .33,
         constant: 20704,
     }
-]
+}
+
+export const PTR = { // Provincial Tax Rates and factors - updated 11 March 2020
+    factors: {
+        basicPersonal: 10682,
+        eligibleDividendGrossUp: 1.38, 
+        eligibleDividendTaxCredit: 0.10, 
+        nonEligibleDividendGrossUp: 1.16, 
+        nonEligibleDividendTaxCredit: 0.0196, 
+    },
+    1:{
+        top: 41725,
+        rate: .0506,
+        constant: 0,
+    },
+    2:{
+        top: 83451,
+        rate: .077,
+        constant: 1075,
+    },
+    3: {
+        top: 95812,
+        rate: .105,
+        constant: 3354,
+    },
+    4: {
+        top: 116344,
+        rate: .1229,
+        constant: 5028,
+    },
+    5: {
+        top: 157748,
+        rate: .147,
+        constant: 7763,
+    },
+    6: {
+        top: 100000000,
+        rate: .168,
+        constant: 10995,
+    },
+}
 
 const FederalTaxCredits2019 = {
     basicPersonal: 12069,
@@ -600,5 +643,3 @@ const ProvinceList = [
     {acronym: "NU", fullName: "Nunavut"},
     {acronym: "YT", fullName: "Yukon"},
 ]
-
-export { OutputItems, FederalTaxRates2019, DeductionRanges, CRAFactors2019, IncomeRanges, ProvinceList, ProvincialTaxRates}

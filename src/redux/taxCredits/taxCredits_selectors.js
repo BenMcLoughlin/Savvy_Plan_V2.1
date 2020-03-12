@@ -1,9 +1,10 @@
 
 import {createSelector} from "reselect"
-import {incomeBreakdown, calculateTaxesByBracket} from "services/tax/taxCalculations"
+import {incomeBreakdown, calculateTaxesByBracket, convertTaxesToSunburstChart_function} from "services/tax/tax_functions"
+import {income_selector} from "redux/income/income_selectors"
 
 export const taxCredits_selector = state => Object.values(state.taxCredits_reducer)
-const income_reducer = state => state.income_reducer   
+
 const taxAge = state => state.user_reducer.taxAge   
 
 
@@ -63,15 +64,20 @@ const credits = () => [
         max: 5000,
     },
 ]
+
 export const deduction_selector = createSelector(
     taxCredits_selector,
     (taxCredits_selector) => taxCredits_selector.filter(d => d.category === "deduction")
 )
+export const credit_selector = createSelector(
+    taxCredits_selector,
+    (taxCredits_selector) => taxCredits_selector.filter(d => d.category === "credit")
+)
 
 export const incomeBySource_selector = createSelector(
-    income_reducer,
+    income_selector,
     taxAge,
-    (income_reducer,  taxAge) => incomeBreakdown(income_reducer, taxAge)
+    (income_selector,  taxAge) => incomeBreakdown(income_selector, taxAge)
 ) 
 
 export const taxBrackets_selector = createSelector(
@@ -79,3 +85,15 @@ export const taxBrackets_selector = createSelector(
     credits,
     (incomeBySource_selector, credits) => calculateTaxesByBracket(incomeBySource_selector, credits)
 )
+
+export const finalTaxPosition_selector = createSelector(
+    taxBrackets_selector,
+    (taxBrackets_selector) => taxBrackets_selector[4]
+)
+
+export const taxBracketsSunburstData_selector = createSelector(
+    taxBrackets_selector,
+    (taxBrackets_selector) => convertTaxesToSunburstChart_function(taxBrackets_selector[4])
+)
+
+

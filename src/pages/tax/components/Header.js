@@ -2,20 +2,20 @@ import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 
-const Header = () => {
+const Header = ({user_reducer}) => {
 
-
+const {taxAge} = user_reducer
 
 
 return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                 <h1>
-                    Lifetime Income Chart
+                   Age {taxAge}: Estimated Tax Position
                 </h1>
             </Left>
             <Right>
-            <h2>Optimized Retirement Income Plan</h2>
+            {/* <h2>Optimized Retirement Income Plan</h2>
             <Container >
                     <Summary>
                     {111}  
@@ -42,7 +42,7 @@ return (
             <Summary>
              {`$3k`}
             <h4>Total</h4>
-            </Summary>
+            </Summary> */}
             </Right>
             
             </Wrapper>
@@ -51,7 +51,7 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-
+    user_reducer: state.user_reducer,
 })
 
 export default connect(mapStateToProps, {})(Header )

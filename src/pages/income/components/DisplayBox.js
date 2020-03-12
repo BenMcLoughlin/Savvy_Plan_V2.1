@@ -16,14 +16,13 @@ const DisplayBox = ({ incomeType, instanceArray, createNewItem, setCategory, pro
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
     const newState = incomeStream_data(" ", fromAge, toAge, 10000, 50, colorArray_data[color], incomeType)                                 //initial State is found in data 
-    
+ 
     const selector =  incomeType === "employmentIncome" ? employment_selector
                     : incomeType === "retirementIncome" ? retirement_selector
                     : incomeType === "businessIncome" ? business_selector
                     : business_selector 
 
-
-    const addNewCategory = () => {                                                                                                                  //Creates a new item 
+    const addNewCategory = (incomeType) => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
         setProgress_action("incomeColor", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
     }

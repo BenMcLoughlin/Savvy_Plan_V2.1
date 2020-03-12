@@ -18,6 +18,7 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
     const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
     const subCategory = id ? netWorth_reducer[category][id].subCategory : "cashAssets"                          //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
+    console.log(netWorth_reducer);
     return (
         <Wrapper>   
             <Sections>

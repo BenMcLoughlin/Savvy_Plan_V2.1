@@ -9,8 +9,10 @@ import {setUserDetail_action} from "redux/user/user_actions"
 import {taxCredit_data} from "pages/tax/data/tax_data"
 import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
 import TaxBarChart from "charts/tax2/TaxBarChart"
+import TaxPreSunburstChart from "charts/tax2/TaxPreSunBurstChart"
+import TaxPostSunburstChart from "charts/tax2/TaxPostSunBurstChart"
 
-const Tax = ({setUserDetail_action, taxCredits_selector, taxBrackets_selector}) => {    
+const Tax = ({setUserDetail_action, taxCredits_selector,}) => {    
 
     const exists = Object.values(taxCredits_selector).length > 0   
     const [category, setCategory] = useState()                                                                                       //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
@@ -18,7 +20,6 @@ const Tax = ({setUserDetail_action, taxCredits_selector, taxBrackets_selector}) 
  
     const createNewItem = () => null
     const instanceArray = exists ?  taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
-    console.log(taxBrackets_selector);
 
     return (
         <Wrapper>
@@ -29,13 +30,14 @@ const Tax = ({setUserDetail_action, taxCredits_selector, taxBrackets_selector}) 
                 <BarChartPlaceHolder>
                     <TaxBarChart/>
                 </BarChartPlaceHolder>
-            </Charts>
+                <ChartPlaceHolder >
+                    <TaxPreSunburstChart/>
+                </ChartPlaceHolder>
+                <ChartPlaceHolder >
+                    <TaxPostSunburstChart/>
+                </ChartPlaceHolder>
 
-            <ButtonLeftWrapper>
-                    <ButtonLight 
-                                onClick={() =>  setUserDetail_action("taxAge", false)}
-                                text={"Back"}
-                            />
+            </Charts>
                             {
                                 category ? 
                                         <EditCredit
@@ -63,7 +65,15 @@ const Tax = ({setUserDetail_action, taxCredits_selector, taxBrackets_selector}) 
             
                                   
                             }
-                    </ButtonLeftWrapper>
+                            <Bottom>
+                                <ButtonLeftWrapper>
+                                <ButtonLight 
+                                            onClick={() =>  setUserDetail_action("taxAge", false)}
+                                            text={"Back"}
+                                        />
+                                </ButtonLeftWrapper>
+                            </Bottom>
+
         </Wrapper>
     )
 }
@@ -90,7 +100,7 @@ const Wrapper = styled.div`
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     display: grid;
-    grid-template-rows: 10rem 22rem 40rem 4rem;
+    grid-template-rows: 10rem 26rem 26rem 4rem;
     grid-template-areas:
     'a a a'
     'b b b'
@@ -120,16 +130,16 @@ const Bottom = styled.div`
 
 const Charts = styled.div`
     grid-area: b;
-    width: 90%;
-    margin-left: 4%;
     height: 100%;
+    width:  100rem;
+    display: flex;
 `
 const ChartPlaceHolder = styled.div`
-    margin-left: 4%;
-    height: 60%;
+    height: 23rem;
+    width: 30rem;
 `
 const BarChartPlaceHolder = styled.div`
-    height: 20rem;
-    width: 60rem;
+    height: 26rem;
+    width: 40%;
 `
 

@@ -63,7 +63,7 @@ const EditIncome = ({category, instanceArray, incomeValue_action, createNewItem,
                             setId={setId}
                             id={id}
                             deleteInstance={deleteInstance}
-                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color ))}
+                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color, item.incomeType ))}
                         />
             <Container >                                                                      
      

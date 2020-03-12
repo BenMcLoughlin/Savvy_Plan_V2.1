@@ -1,17 +1,14 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {cpp_selector, oas_selector} from "redux/income/income_selectors"
+import {income_selector} from "redux/income/income_selectors"
+import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
-const Header = ({cpp_selector, oas_selector}) => {
+const Header = ({income_selector, rrspMinWithdrawal_selector}) => {
 
-
-    const cppIncome = cpp_selector.value.financialValue
-    const oasIncome = oas_selector.value.financialValue
-    const rrsp = 22000
-    const tfsa = 22000
-
-
+    const cppIncome = income_selector.cpp_selector.value.financialValue
+    const oasIncome =  income_selector.oas_selector.value.financialValue
+    const tfsaIncome = income_selector[11111].value.financialValue
 
 return (
             <Wrapper>
@@ -26,27 +23,23 @@ return (
                     <Summary>
                     {`${(cppIncome)/1000}k`}  
                         <h4>CPP</h4>
-                        <Circle color={"#F29278"}/>
                     </Summary>
                     <Summary >
                     {`${(oasIncome)/1000}k`}
                         <h4 >OAS</h4>
-                        <Circle color={"#7DA8B8"}/>
                     </Summary>
                     <Vr/>
                     <Summary>
-                    {`${(rrsp)/1000}k`}
+                    {`${(rrspMinWithdrawal_selector)/1000}k`}
                     <h4 >RRSP</h4>
-                         <Circle color={"#B0CFE3"}/>
                     </Summary>
                     <Summary>
-                    {`${tfsa/1000}k`}
+                    {`${tfsaIncome/1000}k`}
                     <h4>TFSA</h4>
-                         <Circle color={"#81CCAF"}/>
                     </Summary>
             </Container>
             <Summary>
-             {`${(cppIncome + oasIncome + rrsp + tfsa)/1000}k`}
+             {`${(cppIncome + oasIncome + rrspMinWithdrawal_selector + tfsaIncome)/1000}k`}
             <h4>Total</h4>
             </Summary>
             </Right>
@@ -57,8 +50,8 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    cpp_selector: cpp_selector(state),
-    oas_selector: oas_selector(state),
+    income_selector: income_selector(state),
+    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
 })
 
 export default connect(mapStateToProps, {})(Header )

@@ -4,20 +4,20 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
 import {setProgress_action} from "redux/progress/progress_actions"
-import {deduction_selector} from "redux/taxCredits/taxCredits_selectors"
+import {deduction_selector, credit_selector} from "redux/taxCredits/taxCredits_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
 import {newTaxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
 
 
-const DisplayBox = ({ creditType, instanceArray, createNewItem, setCategory, progress_reducer, setProgress_action,setId, deduction_selector}) => {                  
+const DisplayBox = ({ creditType, instanceArray, createNewItem, setCategory, progress_reducer, setProgress_action,setId, deduction_selector, credit_selector}) => {                  
 
-    const fromAge =  creditType === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
+    const fromAge =  creditType === "retirementIncome" ? 65 : 18                                                                                      //Credit type refers to "taxDeductions", "ageCredits"
     const toAge =  creditType === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
     const newState = newTaxCredit_data(" ", fromAge, toAge, 10000, 50, colorArray_data[color], creditType)                                 //initial State is found in data 
     
-    const selector =  creditType === "deductions" ? deduction_selector : deduction_selector
+    const selector =  creditType === "deductions" ? deduction_selector : credit_selector
 
     const addNewCategory = () => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
@@ -31,14 +31,14 @@ return (
             
             <Container> 
             {
-                    deduction_selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
+                    selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
                                                          key={d.id}
                                                          credit={d}
                                                          category={d.category}
                                                          setCategory={setCategory} 
                                                          setId={setId}
                                                          instanceArray={instanceArray}
-                                                         color={"red"}
+                                                         color={"grey"}
                                                          />)
                 }
     
@@ -55,6 +55,7 @@ const mapStateToProps = (state) => ({
     income_reducer2: state.income_reducer2,
     progress_reducer: state.progress_reducer,
     deduction_selector: deduction_selector(state),
+    credit_selector: credit_selector(state),
 })
 
 export default connect(mapStateToProps,{ setProgress_action})(DisplayBox )

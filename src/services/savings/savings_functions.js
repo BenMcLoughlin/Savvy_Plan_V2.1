@@ -163,7 +163,7 @@ export const createProjection = (savings_reducer, userAge, lifeSpan, rate1, rate
         const contributionRoom = last.contributionRoom + 6000
         const availableRoom = 6000 - contribution + last.availableRoom
         const interest = age < 65 ? last.value * rate1 : last.value * rate2
-        const minWithdrawal = age > rrifStartAge ? RRIFMinimumTable[age] * last.value : 0
+        const minWithdrawal = age >= rrifStartAge ? RRIFMinimumTable[age] * last.value : 0
         const value = last.value + contribution - withdrawal - minWithdrawal + interest
 
         const principlePercentage = last.principle / last.value

@@ -11,10 +11,9 @@ const drawChart = (data, width, height, colors, setUserDetail_action) => {
     const margin = {top: 20, right: 100, bottom: 20, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    console.log(data);
    d3.select(".incomeBarChart > *").remove()
    d3.select(".tooltip").remove()
-  
+
     const svg = d3.select('.incomeBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     const stackedKeys = Object.keys(data[15])
@@ -46,7 +45,7 @@ const drawChart = (data, width, height, colors, setUserDetail_action) => {
                           
     const update = data => {
     
-       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 10000 ? 10000 : 
+       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 60000 ? 60000 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);

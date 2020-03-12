@@ -59,6 +59,11 @@ export const tfsaInterest_selector = createSelector(                            
     (tfsaProjection_selector) =>  Math.round(tfsaProjection_selector.map(d => d.interest).reduce((acc, num) => acc + num)/1000)*1000                                 
 )
 
+export const tfsaPayment_selector = createSelector(                                                                      //Determines the CPP payment for the user
+    tfsaProjection_selector,
+    (tfsaProjection_selector) =>  Math.round(Math.max(...tfsaProjection_selector.map(d => d.withdrawal)))                            
+)
+
 export const tfsaArea_selector = createSelector(                                                                      //Determines the CPP payment for the user
     tfsaProjection_selector,
     (tfsaProjection_selector) => tfsaProjection_selector.map(d => ({
