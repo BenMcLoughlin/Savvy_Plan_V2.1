@@ -1,7 +1,7 @@
 
-export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, incomeRangeBar, color, incomeType) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, incomeRangeBar, color, type) => ({                                              //this is the initial state of value being stored to the reducer. 
     label: category,                                                                                 //the label is editable by the user and is what is displayed 
-    incomeType, 
+    type, 
     category,                                                                                        //examples include "employment", "business", "pension"
     color, 
     taxable: true,                                                                                  //Some forms of value might not be taxable such as inheritance
@@ -17,24 +17,24 @@ export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, inc
 
 export const displayBox_data = [
     {
-        incomeType: "employmentIncome",
+        type: "employmentIncome",
     },
     {
-        incomeType: "businessIncome",
+        type: "businessIncome",
     },
     {
-        incomeType: "retirementIncome",
+        type: "retirementIncome",
     }
 ]
 export const retirementIncome_data = [
     {
-        incomeType: "employmentIncome",
+        type: "employmentIncome",
     },
     {
-        incomeType: "businessIncome",
+        type: "businessIncome",
     },
     {
-        incomeType: "retirementIncome",
+        type: "retirementIncome",
     }
 ]
 

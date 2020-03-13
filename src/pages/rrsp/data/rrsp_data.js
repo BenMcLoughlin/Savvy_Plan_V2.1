@@ -1,12 +1,12 @@
 
-export const savingsInstance_data = (transaction, fromAge, toAge, incomeFinancial, incomeRangeBar, color, incomeType) => ({                                              //this is the initial state of income being stored to the reducer. 
+export const savingsInstance_data = (transaction, fromAge, toAge, incomeFinancial, incomeRangeBar, color, type) => ({                                              //this is the initial state of income being stored to the reducer. 
     label: transaction,                                                                                 //the label is editable by the user and is what is displayed 
-    incomeType: "retirementIncome",
+    type: "retirementIncome",
     category: "RRSP Income",
     registration: "rrsp",                                                                                        //examples include "employment", "business", "pension"
     transaction,                                                                                        //examples include "employment", "business", "pension"
     color: '#8CB8B7',                                                                                           //Some forms of income might not be taxable such as inheritance
-    incomeType: "rrspIncome",
+    type: "rrspIncome",
     fromAge,
     toAge,
     value: {                                                                                        //The value of the income being added

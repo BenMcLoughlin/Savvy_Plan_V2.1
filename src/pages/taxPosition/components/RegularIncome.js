@@ -6,9 +6,9 @@ export default class RegularIncomeInput extends Component {
 
 
     renderRangeBars = (incomeTypeArray) => {
-       return incomeTypeArray.map(incomeType => <RangeBar id={incomeType.name}
-                                                                 key={incomeType.name}
-                                                                 rangeBarProps={incomeType}
+       return incomeTypeArray.map(type => <RangeBar id={type.name}
+                                                                 key={type.name}
+                                                                 rangeBarProps={type}
                                                                  setValue={this.props.setIncome}
                                                                  handleChangeLabel = {this.props.handleChangeLabel}
                                                                  handleRemoveItem={this.props.handleRemoveItem}

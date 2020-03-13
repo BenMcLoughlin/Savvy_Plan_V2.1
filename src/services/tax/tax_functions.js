@@ -127,17 +127,15 @@ export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, T
 
       })
     }
-    console.log(data);
     return data
 }
 
 
 export const incomeBreakdown = (income_selector, taxAge) => {
-  console.log(income_selector);
     const income = Object.values(income_selector).filter(d => d.fromAge <= taxAge).filter(d => d.toAge >= taxAge)                           //filter out only the income streams earned during the age provided
 
-        const sumIncome = (incomeArray, incomeType) =>  {                                                                                    //sums the income for the requested income stream
-            const incomeByType = incomeArray.filter(d => d.incomeType === incomeType) 
+        const sumIncome = (incomeArray, type) =>  {                                                                                    //sums the income for the requested income stream
+            const incomeByType = incomeArray.filter(d => d.type === type) 
             const exists = incomeByType.length > 0
             return exists ? incomeByType.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
         }

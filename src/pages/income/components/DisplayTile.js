@@ -2,12 +2,12 @@ import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
-import {deleteIncome_action} from "redux/income/income_actions"
+import {delete_action} from "redux/global_actions"
 import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 
-const DisplayTile = ({deleteIncome_action, rrspMinWithdrawal_selector, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
+const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
   
     const categoryArray =  Object.values(income_selector)
                                  .filter(d => d.category === category)
@@ -16,7 +16,7 @@ const DisplayTile = ({deleteIncome_action, rrspMinWithdrawal_selector, income_se
     const removeItem = () => {                                                                                               //enables us to delete the entire income stream
         const categoryIdArray =  categoryArray.map(d => d.id)                                                                //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
         for (let i = 0; i < categoryArray.length; i++) {                                                                     //this mapes through and removes all instances
-        deleteIncome_action(categoryIdArray[i])   
+        delete_action(categoryIdArray[i], "income_reducer")   
         }                                                   
                                                                                       
     }
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => ({
     rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
 })
 
-export default connect(mapStateToProps,{deleteIncome_action})(DisplayTile )
+export default connect(mapStateToProps,{delete_action})(DisplayTile )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

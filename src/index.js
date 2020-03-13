@@ -7,7 +7,7 @@ import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
 import { createFirestoreInstance, reduxFirestore, getFirestore } from 'redux-firestore';
 import thunk from 'redux-thunk';
 import rootReducer from "./redux/rootReducer"
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {persistStore} from "redux-persist"
 import {PersistGate} from "redux-persist/integration/react"
 import firebase from "firebase/firebaseUtils"
@@ -17,10 +17,9 @@ import firebase from "firebase/firebaseUtils"
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer,
-    composeEnhancers(
+  composeWithDevTools(
       applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
       reduxFirestore(firebase), // still need this line to get access to firestore via getFirestore function (in projectActions, for example),
-      devToolsEnhancer()
     ));
 
 

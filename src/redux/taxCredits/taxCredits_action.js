@@ -1,6 +1,6 @@
 export const addTaxCredit_action = (id, state) => {
     return ({
-     type: "taxCredits/ADD_INCOME",
+     type: "tax_reducer/ADD",
      payload: {
          id,
          ...state,

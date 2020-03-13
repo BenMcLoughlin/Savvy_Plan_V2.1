@@ -103,10 +103,10 @@ const Item = styled.div`
    
     margin: 0.5rem 1rem 0.5rem 1rem;
     padding: .8rem 4.5rem .8rem 4rem;
-    min-width: 20rem;
+    width: 29rem;
     display: flex;
     position: relative;
-    height: ${props => props.label.length > 20 ? "7rem" : "4rem"};
+    height: ${props => props.label.length > 24 ? "7rem" : "4rem"};
     background:${props => props.subCategory === "cashAssets" ? props.theme.color.blue : 
     props => props.subCategory === "investmentAssets" ? props.theme.color.steelBlue : 
     props => props.subCategory === "propertyAssets" ? props.theme.color.green : 

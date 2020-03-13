@@ -6,18 +6,19 @@ import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {changeLabel_action, incomeValue_action, deleteIncome_action, incomeAge_action} from "redux/income/income_actions"
+import {changeLabel_action} from "redux/income/income_actions"
 import _ from "lodash"
 import {incomeStream_data} from "pages/income/data/income_data"
 import {cpp_selector} from "redux/income/income_selectors"
 import {setAge} from "services/income/actionWrapper_functions"
+import {setValue_action,  setAge_action, delete_action} from "redux/global_actions"
 
-const EditIncome = ({category, instanceArray, incomeValue_action, createNewItem, id, setId, changeLabel_action, incomeAge_action, setCategory, deleteIncome_action}) => {    
+const EditIncome = ({category, instanceArray, setValue_action, createNewItem, id, setId, changeLabel_action,  setAge_action, setCategory, delete_action}) => {    
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
-        incomeValue_action(id, logValue, rangeBarValue, rangeBarProps)                                                        //setting the income value in the reducer
+        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")                                          //setting the income value in the reducer
     }
-
+console.log(instanceArray[0]);
                                                      
     const changeLabel = (e) => {                                                                                               //enables the user to change the label which changes all income stream labels of that category
         const {value} = e.target                                                                                               //destructure out the value from the target event
@@ -32,21 +33,22 @@ const EditIncome = ({category, instanceArray, incomeValue_action, createNewItem,
 
     }
 
-    const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
-        setAge(incomeAge_action, id, instanceArray, name, value)
+    const setDualRangeBar = (name, value) => {                                                                                 //sets the age, as well as the surrounding ages in the array of instances
+        setAge(id, instanceArray, name, setAge_action, "income_reducer", value)
     }
+    
 
     const deleteInstance = (instance) => {                                                                                     //deletes the instance
         if (instance.id === id) {                                                                                              //checks if the instance being deleted and the one currently being displayed are the same
             if (instanceArray.length > 0) {                                                                                    // if the array is greater then one it wil delete the instance and change the id of the instance being displayed
                 setId(instanceArray[0].id)                                                                                     // sets the id to the first id in the instance array, this prevents errors, otherwise it wants to display an instance that no longer exists
-                deleteIncome_action(instance.id)                                                                                     //removes the instance
+                delete_action(instance.id, "income_reducer")                                                                   //removes the instance
             }
             setCategory()                                                                                                      //if its the last item in the array it brings the user back to the main page by setting category and id to false
             setId()
         }
         else {
-            deleteIncome_action(instance.id)                                                                                         //if they click to delete an instance that isn't the one being display it won't cause an issue and can just be deleted
+            delete_action(instance.id, "income_reducer")                                                                                        //if they click to delete an instance that isn't the one being display it won't cause an issue and can just be deleted
         }
     }
 
@@ -63,7 +65,7 @@ const EditIncome = ({category, instanceArray, incomeValue_action, createNewItem,
                             setId={setId}
                             id={id}
                             deleteInstance={deleteInstance}
-                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color, item.incomeType ))}
+                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color, item.type ))}
                         />
             <Container >                                                                      
      
@@ -123,7 +125,7 @@ const mapStateToProps = (state) => ({
     cpp_selector: cpp_selector(state),
 })
 
-export default connect(mapStateToProps, {changeLabel_action, incomeValue_action, deleteIncome_action, incomeAge_action})(EditIncome )
+export default connect(mapStateToProps, {changeLabel_action, setValue_action, delete_action,  setAge_action})(EditIncome )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

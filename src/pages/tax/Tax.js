@@ -4,23 +4,37 @@ import {connect} from "react-redux"
 import ButtonLight from "UI/buttons/ButtonLight"
 import  Header from "pages/tax/components/Header"
 import EditCredit from "pages/tax/components/EditCredit"
+import NewCredit from "pages/tax/components/NewCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"
 import {setUserDetail_action} from "redux/user/user_actions"
-import {taxCredit_data} from "pages/tax/data/tax_data"
+import {creditTypes_data} from "pages/tax/data/tax_data"
 import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
 import TaxBarChart from "charts/tax2/TaxBarChart"
 import TaxPreSunburstChart from "charts/tax2/TaxPreSunBurstChart"
 import TaxPostSunburstChart from "charts/tax2/TaxPostSunBurstChart"
+import {add_action} from "redux/global_actions"
+import {addTaxCredit_action} from "redux/taxCredits/taxCredits_action"
 
-const Tax = ({setUserDetail_action, taxCredits_selector,}) => {    
+const Tax = ({setUserDetail_action, taxCredits_selector, add_action, taxCredits_reducer, addTaxCredit_action}) => {    
 
     const exists = Object.values(taxCredits_selector).length > 0   
     const [category, setCategory] = useState()                                                                                       //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
     const [id, setId] = useState()                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
+    const [type, setCreditType] = useState("regularCredit")                                                                          // We're using three types, "regularCredit", "deduction", and "ageCredit"
  
-    const createNewItem = () => null
-    const instanceArray = exists ?  taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
+        const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
+                add_action(newId, {...state}, "tax_reducer")                                                                         //This action fires and sets the state in the reducer, 
+                setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
+                setId(newId)                                                                                                         // determines which income instance to show within the edit box
+    }
 
+
+// console.log("category:", category);
+// console.log("id", id);
+// console.log("taxCredits_reducer:", taxCredits_reducer);
+    const instanceArray = exists ? taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
+console.log(instanceArray);
     return (
         <Wrapper>
              < Header color={"#3B7B8E"} >
@@ -40,24 +54,25 @@ const Tax = ({setUserDetail_action, taxCredits_selector,}) => {
             </Charts>
                             {
                                 category ? 
-                                        <EditCredit
-                                                id={id} 
-                                                setCategory={setCategory}
-                                                category={category} 
-                                                setId={setId} 
-                                                instanceArray={instanceArray}
-                                                createNewItem={createNewItem}/>
+                            
+                                       <EditCredit  
+                                                type={type}                                                                          //eg. "regularCredit", "deduction", and "ageCredit" 
+                                                id={id}                                                                              //eg. "123987" set in state above, or false
+                                                setCategory={setCategory}                                                            //eg. set "medicalExpense" function to set category, which is the name of the credit 
+                                                category={category}                                                                  //eg. "medicalExpense"
+                                                setId={setId}                                                                        //eg. set "123987"
+                                                instanceArray={instanceArray}                                                        //eg. [{category: "medicalExpense" etc. }, {category: "medicalExpense" etc. }]
+                                                createNewItem={createNewItem}/>                                                      //function to add a new item to the reducer
                                 : 
                             
                                     <ControlPanel>
-                                        {taxCredit_data.map(d => <DisplayBox setCategory={setCategory}                                              //This is the box showing the names of all the tax credits
+                                        {creditTypes_data.map(d => <DisplayBox setCategory={setCategory}                                              //This is the box showing the names of all the tax credits
                                                                                 setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
                                                                                 id={id}
-                                                                                creditType={d.creditType}
+                                                                                type={d.type}
                                                                                 category={category}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
                                                                                 createNewItem={createNewItem} 
                                                                                 instanceArray={instanceArray}
-                                                                        
                                                                                 />
                                         )}
                                     </ControlPanel>
@@ -80,10 +95,11 @@ const Tax = ({setUserDetail_action, taxCredits_selector,}) => {
 
 const mapStateToProps = (state) => ({
     taxCredits_selector: taxCredits_selector(state),
+    taxCredits_reducer: state.taxCredits_reducer,
     taxBrackets_selector: taxBrackets_selector(state)
 })
 
-export default connect(mapStateToProps, {setUserDetail_action})(Tax )
+export default connect(mapStateToProps, {setUserDetail_action, add_action, addTaxCredit_action})(Tax )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

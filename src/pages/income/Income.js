@@ -10,18 +10,18 @@ import Savings from "pages/savings/Savings"
 import RRSP from "pages/rrsp/RRSP"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
-import {addIncome_action} from "redux/income/income_actions"
+import {add_action} from "redux/global_actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setProgress_action, income_selector, addIncome_action, user_reducer, income_reducer}) => {
+const Income = ({progress_reducer, setProgress_action, income_selector, add_action, user_reducer, income_reducer}) => {
   
-    const exists = Object.values(income_selector).length > 0                                                                    //Checks if the array has objects in it
+    const exists = Object.values(income_selector).length > 0                                                                         //Checks if the array has objects in it
     const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
    
     const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
                                                      
-    const [id, setId] = useState(123)                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
+    const [id, setId] = useState(123)                                                                                                // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
  
     const setCountAndProgress = (section, number) => {                                                                               //Moves the count forward locally and also stores it in the reducer
         setProgress_action(section, number)                                                                                          //this action enables us to show a progress bar throughout the entire application
@@ -30,7 +30,7 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
 
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
-                addIncome_action(newId, {...state})                                                                                  //This action fires and sets the state in the reducer, 
+                add_action(newId, {...state}, "income_reducer")                                                                      //This action fires and sets the state in the reducer, 
                 setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
@@ -84,7 +84,7 @@ const Income = ({progress_reducer, setProgress_action, income_selector, addIncom
                     {
                         displayBox_data.map(d => <DisplayBox setCategory={setCategory}                                              //This is the box showing the names of all the streams
                                                                 id={id}                                                             //This mapping will provide 3 boxes, one for employment income, one for business income and one for retirement income
-                                                                incomeType={d.incomeType}                                           //the income types are seperated according to if they make contributions to CPP
+                                                                type={d.type}                                           //the income types are seperated according to if they make contributions to CPP
                                                                 setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
                                                                 category={category}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
                                                                 createNewItem={createNewItem} 
@@ -111,7 +111,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {addIncome_action})(Income)
+export default connect(mapStateToProps, {add_action})(Income)
 
 //-----------------------------------------------style-----------------------------------------------//
 

@@ -4,21 +4,19 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
 import {setProgress_action} from "redux/progress/progress_actions"
-import {deduction_selector, credit_selector} from "redux/taxCredits/taxCredits_selectors"
+import {deduction_selector, credit_selector, ageCredit_selector} from "redux/taxCredits/taxCredits_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
-import {newTaxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
+import {taxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
 
 
-const DisplayBox = ({ creditType, instanceArray, createNewItem, setCategory, progress_reducer, setProgress_action,setId, deduction_selector, credit_selector}) => {                  
-
-    const fromAge =  creditType === "retirementIncome" ? 65 : 18                                                                                      //Credit type refers to "taxDeductions", "ageCredits"
-    const toAge =  creditType === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
+const DisplayBox = ({instanceArray, createNewItem, setCategory, progress_reducer, setProgress_action,setId, deduction_selector, credit_selector, ageCredit_selector, type}) => {                  
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = newTaxCredit_data(" ", fromAge, toAge, 10000, 50, colorArray_data[color], creditType)                                 //initial State is found in data 
-    
-    const selector =  creditType === "deductions" ? deduction_selector : credit_selector
+    const newState = taxCredit_data(" ", 18, 24, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
 
+    //addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color ))}
+    const selector =  type === "deduction" ? deduction_selector : type === "credit" ? credit_selector : ageCredit_selector 
+console.log(ageCredit_selector);
     const addNewCategory = () => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
         setProgress_action("incomeColor", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
@@ -26,7 +24,7 @@ const DisplayBox = ({ creditType, instanceArray, createNewItem, setCategory, pro
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         
-                <h2>{_.startCase(creditType)}</h2>     
+                <h2>{_.startCase(type)}</h2>     
             </Header>
             
             <Container> 
@@ -52,7 +50,7 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    income_reducer2: state.income_reducer2,
+    ageCredit_selector: ageCredit_selector(state),
     progress_reducer: state.progress_reducer,
     deduction_selector: deduction_selector(state),
     credit_selector: credit_selector(state),

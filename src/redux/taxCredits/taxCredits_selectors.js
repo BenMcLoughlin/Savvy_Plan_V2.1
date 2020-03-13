@@ -67,11 +67,15 @@ const credits = () => [
 
 export const deduction_selector = createSelector(
     taxCredits_selector,
-    (taxCredits_selector) => taxCredits_selector.filter(d => d.category === "deduction")
+    (taxCredits_selector) => taxCredits_selector.filter(d => d.type === "deduction")
 )
 export const credit_selector = createSelector(
     taxCredits_selector,
-    (taxCredits_selector) => taxCredits_selector.filter(d => d.category === "credit")
+    (taxCredits_selector) => taxCredits_selector.filter(d => d.type === "credit")
+)
+export const ageCredit_selector = createSelector(
+    taxCredits_selector,
+    (taxCredits_selector) => taxCredits_selector.filter(d => d.type === "ageCredit")
 )
 
 export const incomeBySource_selector = createSelector(

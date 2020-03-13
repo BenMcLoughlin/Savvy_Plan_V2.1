@@ -2,12 +2,12 @@ import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
-import {deleteIncome_action} from "redux/income/income_actions"
+import { delete_action} from "redux/global_actions"
 import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 
-const DisplayTile = ({deleteIncome_action, credit, color, setId, category, setCategory}) => {                                    //Individual category that is added
+const DisplayTile = ({ delete_action, credit, color, setId, category, setCategory}) => {                                    //Individual category that is added
   
 
     const setCategoryAndId = (category) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that category
@@ -22,7 +22,7 @@ const DisplayTile = ({deleteIncome_action, credit, color, setId, category, setCa
                 <H2>{credit.label}</H2>
                 <H2>{100}K</H2>
             </Text>
-            <Exit onClick={() => null}/>                                                                           {/*  If the x is clicked the category is removed */}
+            <Delete onClick={() => delete_action(credit.id, "tax_reducer")}/>                                                                           {/*  If the x is clicked the category is removed */}
         </Item>
     )
 }
@@ -32,7 +32,7 @@ const mapStateToProps = (state) => ({
     rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
 })
 
-export default connect(mapStateToProps,{deleteIncome_action})(DisplayTile )
+export default connect(mapStateToProps,{ delete_action})(DisplayTile )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -43,10 +43,10 @@ const Item = styled.div`
    
     margin: 0.5rem 1rem 0.5rem 1rem;
     padding: .8rem 4.5rem .8rem 4rem;
-    width: 28rem;
+    width: 30rem;
     display: flex;
     position: relative;
-    height: ${props => props.label.length > 20 ? "7rem" : "4rem"};
+    height: ${props => props.label.length > 24 ? "7rem" : "4rem"};
     background:${props =>  props.color};
     border-radius: 5px;
     color: white
@@ -69,7 +69,7 @@ const Text = styled.div`
 `
 
 
-const Exit = styled(Close)`
+const Delete = styled(Close)`
     width: 1.3rem;
     height: 1.3rem;
     color: white;

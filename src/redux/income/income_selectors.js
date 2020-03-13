@@ -56,16 +56,16 @@ export const incomeArrayWithRRIF_selector = createSelector(                     
 
 export const employment_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.incomeType === "employmentIncome").map(d => d.category))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "employmentIncome").map(d => d.category))]
 )
 export const business_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.incomeType === "businessIncome").map(d => d.category))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "businessIncome").map(d => d.category))]
 )
 export const retirement_selector = createSelector(
     income_selector,
     (income_selector) => {
-return [...new Set((Object.values(income_selector)).filter(d => d.incomeType === "retirementIncome").map(d => d.category))]
+return [...new Set((Object.values(income_selector)).filter(d => d.type === "retirementIncome").map(d => d.category))]
 }
 )
 

@@ -105,7 +105,7 @@ const adjustCpp = adjustCppMemoized()
 function calculateCppMemoized() {
     let cache = {};                                                                                                                    //Its a heavy function so we use caching
     return function(income_reducer, age, birthYear, cacheKey, cppStartAge, ympe, lifeSpan) {
-        const incomeArray = Object.values(income_reducer).filter(d => d.incomeType === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
+        const incomeArray = Object.values(income_reducer).filter(d => d.type === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
         if (incomeArray.length > 0) {
        
             const array = []                                                                                                               // create our array into which income will be pushed
@@ -134,7 +134,7 @@ function calculateCppMemoized() {
              color: "#F29278",
              fromAge: cppStartAge,
              toAge: lifeSpan.rangeBarValue,
-             incomeType: "retirementIncome",
+             type: "retirementIncome",
              value: {
                 financialValue: adjustedCppPayment
              }
@@ -145,7 +145,7 @@ function calculateCppMemoized() {
         else return {
             label: "CPP Income",
             category: "CPP Income",
-            incomeType: "retirementIncome",
+            type: "retirementIncome",
             color: "#F29278",
             fromAge: cppStartAge,
             toAge: lifeSpan.rangeBarValue,
@@ -161,7 +161,7 @@ export const calculateCpp = calculateCppMemoized()
 export const calculateOAS = (age, lifespan) => ({
     label: "OASIncome",
     category: "OAS Income",
-    incomeType: "retirementIncome",
+    type: "retirementIncome",
     color: "#488487",
     fromAge: age,
     toAge: lifespan.rangeBarValue,

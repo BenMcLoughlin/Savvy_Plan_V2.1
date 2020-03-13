@@ -6,7 +6,7 @@ const initialState = {
         registration: "tfsa",
         id: 11111,
         category: "TFSA Income",
-        incomeType: "retirementIncome",
+        type: "retirementIncome",
         color: "#8CB8B7",
         fromAge: 65,
         toAge: 95,
@@ -23,7 +23,7 @@ const initialState = {
         id: 22224,
         transaction: "withdrawal",
         category: "RRSP Income",
-        incomeType: "retirementIncome",
+        type: "retirementIncome",
         color: '#D8BABB',
         fromAge: 65,
         toAge: 95,
@@ -38,15 +38,15 @@ const initialState = {
 
  const income_reducer = (state = initialState, action) => {
     switch(action.type) {
-        case "income/ADD_INCOME": return {...state, [action.payload.id]: action.payload}
-        case "income/CHANGE_AGE": return {...state, [action.id]: {
+        case "income_reducer/ADD": return {...state, [action.payload.id]: action.payload}
+        case "income_reducer/SET_AGE": return {...state, [action.id]: {
                                                      ...state[action.id], [action.ageType]: action.value
         }}
-        case "income/DELETE": return  _.omit(state, [action.id])                  
+        case "income_reducer/DELETE": return  _.omit(state, [action.id])                  
         case "income/CHANGE_LABEL": return {...state, [action.id]: {
                                                         ...state[action.id], [action.key]: action.event.target.value
         }}
-        case "income/CHANGE_INCOME": return {...state, [action.id]: {
+        case "income_reducer/SET_VALUE": return {...state, [action.id]: {
                                                     ...state[action.id], [action.name]: {
                                                         ...state[action.id][action.name], 
                                                                     financialValue: action.financialValue,

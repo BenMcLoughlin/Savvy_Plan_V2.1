@@ -13,7 +13,7 @@ const initialState = () => {
                 },
               groceries: {
                     age: i, 
-                    incomeType: true,
+                    type: true,
                     financialValue: 0, 
                     label: "Groceries",
                     name: "groceries",

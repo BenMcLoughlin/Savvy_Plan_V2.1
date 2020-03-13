@@ -15,36 +15,24 @@ return (
                 </h1>
             </Left>
             <Right>
-            {/* <h2>Optimized Retirement Income Plan</h2>
+            <h2>Estimated Income</h2>
             <Container >
                     <Summary>
                     {111}  
-                        <h4>12</h4>
+                        <h4>Before Tax</h4>
                         <Circle color={"#F29278"}/>
                     </Summary>
                     <Summary >
                     {`${222}k`}
-                        <h4 >OAS</h4>
+                        <h4 >Taxes</h4>
                         <Circle color={"#7DA8B8"}/>
-                    </Summary>
-                    <Vr/>
-                    <Summary>
-                    {`${222}k`}
-                    <h4 >RRSP</h4>
-                         <Circle color={"#B0CFE3"}/>
-                    </Summary>
-                    <Summary>
-                    {`${100}k`}
-                    <h4>TFSA</h4>
-                         <Circle color={"#81CCAF"}/>
                     </Summary>
             </Container>
             <Summary>
              {`$3k`}
-            <h4>Total</h4>
-            </Summary> */}
+            <h4>After Tax</h4>
+            </Summary>
             </Right>
-            
             </Wrapper>
         )
 
@@ -79,14 +67,12 @@ const Summary = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    margin-top: 1rem;
-    cursor: pointer;
+    padding: .3rem;
+    margin-top: .3rem;
     font-size: ${props => props.theme.fontSize.medium};
     align-items: center;
     justify-content: center;
 
-  
 `
 
 const Vr = styled.div`
@@ -119,7 +105,9 @@ const Circle = styled.div`
 
 const Container = styled.div`
     display: flex;
-    width: 60%;
+    flex-direction: column;
+    height: 20rem;
+    width: 12rem;
     border-bottom: ${props => props.theme.border.primary};
 `
 
