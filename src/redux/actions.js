@@ -1,14 +1,12 @@
-export const add_action = (id, state, reducer) => {
-  console.log('add_action fired', reducer);
-    return ({                                   //this is a global action, it can add an object to any reducer
+export const add_action = (id, state, reducer) => ({                                   //this is a global action, it can add an object to any reducer
      type: `${reducer}/ADD`,                                                           //the reducer name is provided by the action telling it which reducer to add too
      payload: {
          id,
          ...state,
      }
- })}
+ })
 
- export const delete_action = (id, reducer) => ({               //deletes an unnested object from a reducer using the id
+ export const delete_action = (id, reducer) => ({                                      //deletes an unnested object from a reducer using the id
     type: `${reducer}/DELETE`,
     id,
 })
@@ -32,7 +30,7 @@ export const add_action = (id, state, reducer) => {
 
 
 
- export const setKeyValue_action = (key, reducer, value) => ({       //this sets simple key value pair, for instance if I just want to change birthYear which is a simple object I would use this
+ export const setKeyValue_action = (key, reducer, value) => ({                          //this sets simple key value pair, for instance if I just want to change birthYear which is a simple object I would use this
      type: `${reducer}/SET_KEY_VALUE`,
      key,
      value

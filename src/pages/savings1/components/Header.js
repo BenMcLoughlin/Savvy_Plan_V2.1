@@ -1,57 +1,51 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {income_selector} from "redux/income/income_selectors"
-import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
+import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspContributions_selector, rrspinterest_selector, rrspInterest_selector, rrspPeakValue_selector} from "redux/savings/savings_selectors"
 
-const Header = ({income_selector, rrspMinWithdrawal_selector}) => {
+const Header = ({registration, tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspInterest_selector, rrspPeakValue_selector}) => {
 
-    const cppIncome = income_selector.cpp_selector.value.financialValue
-    const oasIncome =  income_selector.oas_selector.value.financialValue
-    const tfsaIncome = income_selector["TFSAwithdrawal"].value.financialValue
-
+     const contributions_selector = registration === "TSFA" ? tfsaContributions_selector : rrspContributions_selector
+     const interest_selector = registration === "TSFA" ? tfsaInterest_selector : rrspInterest_selector
+     const peakValue_selector = registration === "TSFA" ? tfsaPeakValue_selector : rrspPeakValue_selector
 return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                 <h1>
-                    Lifetime Income Chart
+                    {`${registration} Savings & Income Plan`}
                 </h1>
             </Left>
             <Right>
-            <h2>Optimized Retirement Income Plan</h2>
             <Container >
                     <Summary>
-                    {`${(cppIncome)/1000}k`}  
-                        <h4>CPP</h4>
-                    </Summary>
-                    <Summary >
-                    {`${(oasIncome)/1000}k`}
-                        <h4 >OAS</h4>
+                    {`${(contributions_selector)/1000}k`}  
+                        <h4>Contributions</h4>
+                        <Circle color={"#3B7B8E"}/>
                     </Summary>
                     <Vr/>
                     <Summary>
-                    {`${(rrspMinWithdrawal_selector)/1000}k`}
-                    <h4 >RRSP</h4>
-                    </Summary>
-                    <Summary>
-                    {`${tfsaIncome/1000}k`}
-                    <h4>TFSA</h4>
+                    {`${(interest_selector)}k`}
+                    <h4 >Interest</h4>
+                         <Circle color={"#7898a1"}/>
                     </Summary>
             </Container>
             <Summary>
-             {`${(cppIncome + oasIncome + rrspMinWithdrawal_selector + tfsaIncome)/1000}k`}
-            <h4>Total</h4>
+             {`${(peakValue_selector/1000)}k`}
+            <h4>Peak Value</h4>
             </Summary>
             </Right>
             
             </Wrapper>
         )
-
 }
 
 const mapStateToProps = (state) => ({
-    income_selector: income_selector(state),
-    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
+    tfsaPeakValue_selector: tfsaPeakValue_selector(state),
+    tfsaContributions_selector: tfsaContributions_selector(state),
+    tfsaInterest_selector: tfsaInterest_selector(state),
+    rrspContributions_selector: rrspContributions_selector(state),
+    rrspinterest_selector: rrspInterest_selector(state),
+    rrspPeakValue_selector: rrspPeakValue_selector(state),
 })
 
 export default connect(mapStateToProps, {})(Header )
@@ -64,7 +58,8 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 4rem;
+    margin-top: 6.3rem;
+    margin-left: 3.9rem;
     position: relative;
     color: ${props => props.theme.color.slate};
 `

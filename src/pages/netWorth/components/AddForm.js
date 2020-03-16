@@ -16,10 +16,11 @@ import {individualItem_data} from "pages/netWorth/data/netWorth_data"
 
 const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector}) => {    
 
-    const initialState = individualItem_data(category,subCategory, bookValueLabel, currentValueLabel, interestRateLabel )      //initial State is found in data 
+
+    const initialState = individualItem_data(bookValueLabel, category, currentValueLabel, interestRateLabel, accountTypeArray[0], subCategory)     //initial State is found in data 
 
     const [state, setState] = useState({...initialState})
-
+ 
     useEffect(() => {                                                                                                         //ensures state is updated on every page change
         setState({...initialState, subCategory: subCategory})
     }, [subCategory])
@@ -55,7 +56,7 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
                 <Left>                                                                                                  {/* Choose one is used to select the account type */}
                     <ChooseOne
                             array={subCategory === "securedDebt" ? propertyNames_selector.concat("None of These") : accountTypeArray }  //if it is secored (a mortgage) it has to be linked to the property its secured against
-                            setValue={(value) => setState({...state, registration: value.toLowerCase()})}
+                            setValue={(value) => setState({...initialState, registration: value})}
                             value ={"TFSA"}
                             subCategory={subCategory}
                         />

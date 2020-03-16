@@ -10,18 +10,18 @@ const lifeSpan = state => state.user_reducer.lifeSpan.rangeBarValue
 const rrifStartAge = state => state.pensionStartAges_reducer.rrspStartAge.rangeBarValue
 const retirementAge = state => state.user_reducer.retirementAge.rangeBarValue
 const userAge = state => thisYear.getFullYear() - state.user_reducer.birthYear
-const netWorthAssets = state => state.netWorth_reducer.assets
+const netWorth_reducer = state => state.netWorth_reducer
 
 export const returns = state => state.assumptions_reducer
 
 export const tfsaAccounts_selector = createSelector(
-    [netWorthAssets],
-    (netWorthAssets) =>  Object.values(netWorthAssets).length > 0 ? Object.values(netWorthAssets).filter(d => d.registration === "tfsa") : 0
+    [netWorth_reducer],
+    (netWorth_reducer) =>  Object.values(netWorth_reducer).length > 0 ? Object.values(netWorth_reducer).filter(d => d.registration === "TFSA") : 0
 )
 
 export const tfsaCurrentBalance = createSelector(
-    [netWorthAssets],
-    (netWorthAssets) =>  Object.values(netWorthAssets).filter(d => d.registration === "tfsa").length > 0 ? Object.values(netWorthAssets).filter(d => d.registration === "tfsa").map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num) : 0
+    [netWorth_reducer],
+    (netWorth_reducer) =>  Object.values(netWorth_reducer).filter(d => d.registration === "TFSA").length > 0 ? Object.values(netWorth_reducer).filter(d => d.registration === "TFSA").map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
 )
 
 export const rate1 = createSelector(
@@ -41,7 +41,7 @@ export const tfsaProjection_selector = createSelector(                          
     rate1,
     rate2,
     tfsaCurrentBalance,
-    (savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance) => createProjection(savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance, "tfsa")                                       
+    (savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance) => createProjection(savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance, "TFSA")                                       
 )
 
 export const tfsaPeakValue_selector = createSelector(                                                                      //Determines the CPP payment for the user
@@ -58,6 +58,7 @@ export const tfsaInterest_selector = createSelector(                            
     tfsaProjection_selector,
     (tfsaProjection_selector) =>  Math.round(tfsaProjection_selector.map(d => d.interest).reduce((acc, num) => acc + num)/1000)*1000                                 
 )
+
 
 export const tfsaPayment_selector = createSelector(                                                                      //Determines the CPP payment for the user
     tfsaProjection_selector,
@@ -84,8 +85,8 @@ export const tfsaBar_selector = createSelector(                                 
 )
 
 export const rrspCurrentBalance = createSelector(
-    [netWorthAssets],
-    (netWorthAssets) =>  Object.values(netWorthAssets).filter(d => d.registration === "rrsp").length > 0 ? Object.values(netWorthAssets).filter(d => d.registration === "rrsp").map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num) : 0
+    [netWorth_reducer],
+    (netWorth_reducer) =>  Object.values(netWorth_reducer).filter(d => d.registration === "RRSP").length > 0 ? Object.values(netWorth_reducer).filter(d => d.registration === "RRSP").map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
 )
 
 export const rrspProjection_selector = createSelector(                                                                     
@@ -96,7 +97,7 @@ export const rrspProjection_selector = createSelector(
     rate2,
     rrspCurrentBalance,
     rrifStartAge,
-    (savings_reducer, userAge, lifeSpan, rate1, rate2, rrspCurrentBalance, rrifStartAge ) => createProjection(savings_reducer, userAge, lifeSpan, rate1, rate2, rrspCurrentBalance, "rrsp",rrifStartAge )                                       
+    (savings_reducer, userAge, lifeSpan, rate1, rate2, rrspCurrentBalance, rrifStartAge ) => createProjection(savings_reducer, userAge, lifeSpan, rate1, rate2, rrspCurrentBalance, "RRSP",rrifStartAge )                                       
 )
 
 export const rrspMinWithdrawal_selector = createSelector(                                                                      

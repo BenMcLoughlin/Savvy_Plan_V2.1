@@ -152,7 +152,7 @@ const Buttons = styled.div`
     position: absolute;
     width: 123rem;
     top: 30rem;
-    left: 18rem;
+    left: 14rem;
     z-index: 100;
     display: flex;
     justify-content: space-between;

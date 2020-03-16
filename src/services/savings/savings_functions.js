@@ -202,3 +202,10 @@ export const addMinWithdrawalsToIncome = (income, rrif) => {
    return  income.map(d => ({...d, "RRSP Income": (rrifObject[d.age] ? rrifObject[d.age] : 0)}))                 //now we map through income and create a new array with the same objects, if the rrifObject age exists then we add the minWithdrawal
  }
  
+
+ export const instanceArray_function = (savings_reducer, transaction, registration) => {
+    return Object.values(savings_reducer)  
+                 .filter(d => d.transaction === transaction)
+                 .filter(d => d.registration === registration)
+                 .sort((a, b) => a.fromAge - b.fromAge)        //here we take the instance, eg TFSA contributions, and make an array of all the instances of that income
+ }

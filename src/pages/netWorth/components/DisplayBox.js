@@ -6,7 +6,7 @@ import {Close, PlusIcon} from "style/Icons"
 import {delete_action} from "redux/actions"
 
 
-//displays the items the users have added, such as "car" or "checking account"
+//displays the items the users have added, such as "car" or "checking registration"
 
 const ItemDisplay = ({value, delete_action, item, setId}) => {                                                                             //Individual item that is added
  const {label, subCategory, id} = item
@@ -22,15 +22,15 @@ const ItemDisplay = ({value, delete_action, item, setId}) => {                  
 }
 
 
-const DisplayBox = ({category, account, setAddFormSubCategory, subCategory, netWorth_reducer, delete_action,  setId}) => {                   //Box wrapping the items being added
+const DisplayBox = ({category, registration, setAddFormSubCategory, subCategory, netWorth_reducer, delete_action,  setId}) => {                   //Box wrapping the items being added
 
-    const arrayOfitems = account === "tfsa" ?  Object.values(netWorth_reducer).filter(d => d.registration === "tfsa") 
-                                             :  account === "rrsp" ?  Object.values(netWorth_reducer).filter(d => d.registration === "rrsp") 
+    const arrayOfitems = registration === "TFSA" ?  Object.values(netWorth_reducer).filter(d => d.registration === "TFSA") 
+                                             :  registration === "RRSP" ?  Object.values(netWorth_reducer).filter(d => d.registration === "RRSP") 
                                              : Object.values(netWorth_reducer).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
     
     const totalValue = arrayOfitems.length > 0 ? arrayOfitems.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0     //Sums the value of the category
 
-    const title = account === "tfsa" ? "Current TFSA Holdings" : account === "rrsp" ? "Current RRSP Holdings" : (_.startCase(subCategory))
+    const title = registration ? `Current ${registration.toUpperCase()} Holdings` : (_.startCase(subCategory))
 return (
         <Wrapper>               
           <Header subCategory={subCategory}>                                                                                                      {/*The header passes subCategory to Styled-components so the color can change*/}                                                                    

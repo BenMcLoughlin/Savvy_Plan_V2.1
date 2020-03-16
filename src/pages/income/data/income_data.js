@@ -1,5 +1,5 @@
 
-export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, incomeRangeBar, color, type) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const incomeStream_data = (category, fromAge, toAge,  financialValue, rangeBarValue,color, type) => ({                                              //this is the initial state of value being stored to the reducer. 
     label: category,                                                                                 //the label is editable by the user and is what is displayed 
     type, 
     category,                                                                                        //examples include "employment", "business", "pension"
@@ -8,8 +8,8 @@ export const incomeStream_data = (category, fromAge, toAge, incomeFinancial, inc
     fromAge,
     toAge,
     value: {                                                                                        //The value of the value being added
-        rangeBarValue: incomeRangeBar,
-        financialValue: incomeFinancial,
+        rangeBarValue,
+        financialValue,
         name: "value",
         label: "Income Amount",
     },

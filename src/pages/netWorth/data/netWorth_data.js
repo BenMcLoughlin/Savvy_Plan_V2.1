@@ -47,11 +47,11 @@ export const netWorthWizard_data = [                                            
 ]
 
 
-export const individualItem_data = (category, subCategory, bookValueLabel, currentValueLabel, interestRateLabel ) => ({
+export const individualItem_data = ( bookValueLabel, category, currentValueLabel, interestRateLabel, registration, subCategory) => ({
     category: category,                                                                                                   //this is the initial state of an item being stored to the reducer. 
     label: "",                                                                                                            //the label is editable by the user and is what is displayed 
     subCategory: subCategory,   
-    registration: "",  
+    registration: registration,  
     color: "blue",                                                                                                        //this referes to if the account is a TFSA or RRSP or property
     interestRate: {                                                                                                       //these are the details passed to the range bar as range bar props
         rangeBarValue: 0,

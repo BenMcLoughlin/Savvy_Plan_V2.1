@@ -6,7 +6,7 @@ import Header from "pages/income/components/Header"
 import IncomeBarChart from "charts/income/IncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
 import Tax from "pages/tax/Tax"
-import Savings from "pages/savings/Savings"
+import Savings from "pages/savings1/Savings"
 import RRSP from "pages/rrsp/RRSP"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
@@ -17,8 +17,7 @@ import {displayBox_data} from "pages/income/data/income_data"
 const Income = ({progress_reducer, setKeyValue_action, income_selector, add_action, user_reducer, income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                         //Checks if the array has objects in it
-    const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
-   
+    const [category, setCategory] = useState("TFSA Income")                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
     const [count, setCount] = useState(progress_reducer.netWorth)                                                                    // Controls Count for wizard display
                                                      
     const [id, setId] = useState(123)                                                                                                // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
@@ -55,16 +54,11 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, add_acti
                                        instanceArray={instanceArray}
                                        createNewItem={createNewItem}/>
                           : 
-                   category == "TFSA Income"  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
+                   category == "TFSA Income" || category === "RRSP Income"  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
 
                  <Savings
                       setCategory={setCategory}
-                 />
-                 :
-                   category == "RRSP Income"  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up
-
-                 <RRSP
-                      setCategory={setCategory}
+                      category={category} 
                  />
                  :
                  user_reducer.taxAge  ?                                                                                                      //category is the income stream, if its clicked and set the edit box will pop up

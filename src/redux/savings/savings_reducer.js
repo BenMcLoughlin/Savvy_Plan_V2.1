@@ -2,10 +2,10 @@
 import _ from "lodash"
 
   const initialState = {
-    123: { 
-    registration: "tfsa",
+    TFSAcontribution: { 
+    registration: "TFSA",
     label: "contribution",    
-    id: 123,                                                                             //the label is editable by the user and is what is displayed 
+    id: "TFSAcontribution",                                                                             //the label is editable by the user and is what is displayed 
     transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
     color: "#8CB8B7",                                                                                 //Some forms of income might not be taxable such as inheritance
     fromAge: 18,
@@ -17,10 +17,10 @@ import _ from "lodash"
         label: "Annual Contribution",
     }   
 },
-11111: {
+TFSAwithdrawal: {
     label: "TFSA Withdrawal",
-    registration: "tfsa",
-    id: 11111,
+    registration: "TFSA",
+    id: "TFSAwithdrawal",
     transaction: "withdrawal",
     category: "TFSA Income",
     type: "retirementIncome",
@@ -34,10 +34,10 @@ import _ from "lodash"
         label: "Annual Withdrawal",
     },
 },
-    22222: { 
-    registration: "rrsp",
+    RRSPcontribution: { 
+    registration: "RRSP",
     label: "contribution",    
-    id: 22222,                                                                             //the label is editable by the user and is what is displayed 
+    id: "RRSPcontribution",                                                                             //the label is editable by the user and is what is displayed 
     transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
     color: '#D8BABB',                                                                                 //Some forms of income might not be taxable such as inheritance
     fromAge: 18,
@@ -49,10 +49,10 @@ import _ from "lodash"
         label: "Annual Contribution",
     }   
 },
-    22224: {
+    RRSPwithdrawal: {
         label: "RRSP Withdrawal",
-        registration: "rrsp",
-        id: 22224,
+        registration: "RRSP",
+        id: "RRSPwithdrawal",
         transaction: "withdrawal",
         category: "RRSP Income",
         type: "retirementIncome",
@@ -73,7 +73,7 @@ import _ from "lodash"
        switch(action.type) {
         case "savings_reducer/ADD": return {...state, [action.payload.id]: action.payload}
         case "savings_reducer/DELETE": return  _.omit(state, [action.id])                  
-        case "savings_reducer/SET_VALUE": console.log('hi');return {...state, [action.id]: {                             //creates a copy of state and enters the object with the correct id
+        case "savings_reducer/SET_VALUE": return {...state, [action.id]: {                                              //creates a copy of state and enters the object with the correct id
                                                             ...state[action.id], value: {                               //creates a copy of the object with that id and enters the value object
                                                                     ...state[action.id].value,                          //creates a copy of the value object
                                                                     financialValue: action.financialValue,              //sets the financialValue with the new value
