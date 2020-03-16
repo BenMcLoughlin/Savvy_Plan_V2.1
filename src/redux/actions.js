@@ -8,6 +8,10 @@ export const add_action = (id, state, reducer) => {
      }
  })}
 
+ export const delete_action = (id, reducer) => ({               //deletes an unnested object from a reducer using the id
+    type: `${reducer}/DELETE`,
+    id,
+})
  
  export const setValue_action = (id, financialValue, rangeBarValue, {name}, reducer) =>  ({
      type: `${reducer}/SET_VALUE`,
@@ -26,10 +30,7 @@ export const add_action = (id, state, reducer) => {
  
  
 
- export const delete_action = (id, reducer) => ({
-     type: `${reducer}/DELETE`,
-     id,
- })
+
 
  export const setKeyValue_action = (key, reducer, value) => ({       //this sets simple key value pair, for instance if I just want to change birthYear which is a simple object I would use this
      type: `${reducer}/SET_KEY_VALUE`,

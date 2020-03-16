@@ -6,21 +6,21 @@ import DateInput from "UI/forms/DateInput"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {setItemValue_action, changeLabel_action} from "redux/netWorth/netWorth_actions"
+import {setValue_action, setNestedKeyValue_action} from "redux/actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
 import _ from "lodash"
-import {setNestedKeyValue_action} from "redux/actions"
 
-const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemValue_action, setNestedKeyValue_action, assumptions_reducer, changeLabel_action }) => {    
 
-    const item = netWorth_reducer[category][id]                                             //uses the item id provided to go into the reducer and gahter all the users details
+const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setValue_action, assumptions_reducer, setNestedKeyValue_action }) => {    
 
+    const item = netWorth_reducer[id]                                                          //uses the item id provided to go into the reducer and gahter all the users details
+console.log(item);
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                              //sets the value in the reducer
-        setItemValue_action(logValue, rangeBarValue, category, rangeBarProps, id)
-    }
+        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "netWorth_reducer" )
+    }        
 
     const changeLabel = (e) => {                                                                //changes the label in the reducer
-        changeLabel_action(e, item, id)
+        setNestedKeyValue_action("label", id, "netWorth_reducer", e.target.value)
     }
 
     const setAssumptionValue = (value, value1, rangeBarProps) => {                              //Sets values such as assumed interest return or property appreciation rate
@@ -48,8 +48,8 @@ const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemVa
                     {subCategory === "securedDebt" ? 
                             <DateInput 
                             label={"Mortgage Start Date"}
-                            value={"hi"}
-                            handleChange={() => "hi"}
+                            value={item.startDate}
+                            handleChange={(e) => setNestedKeyValue_action("startDate", id, "netWorth_reducer", e.target.value)}
                         />
                         : null
                     }
@@ -61,7 +61,7 @@ const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemVa
                     /> : null
                     }
                 <RangeBar 
-                        rangeBarProps={item.currentValue}
+                        rangeBarProps={item.value}
                         setValue={setValue}                 
                     /> 
 
@@ -108,12 +108,12 @@ const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemVa
 }
 
 const mapStateToProps = (state) => ({
-    netWorth_reducer: state.netWorth_reducer,
+    netWorth_reducer: state.netWorth_reducer1,
     propertyNames_selector: propertyNames_selector(state),
     assumptions_reducer: state.assumptions_reducer
 })
 
-export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, setNestedKeyValue_action})(EditForm )
+export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action, setNestedKeyValue_action})(EditForm )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

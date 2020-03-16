@@ -2,7 +2,6 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
-import {removeItem_action} from "redux/netWorth/netWorth_actions"
 import DisplayBox from "pages/netWorth/components/DisplayBox"
 import EditForm from "pages/netWorth/components/EditForm"
 import AddForm from "pages/netWorth/components/AddForm"
@@ -10,13 +9,13 @@ import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
 const ControlPanel = ({setCount, display, netWorth_reducer}) => {    
 
-    const [id, setId] = useState()                                                                      //If the user wants to change something this sets the id of the item they want to change
+    const [id, setId] = useState()                                                                              //If the user wants to change something this sets the id of the item they want to change
   
     const [addFormSubCategory, setAddFormSubCategory] = useState()                                              //If wants to add something this sets the category of the item theyd like to add
     const addFormDetails = netWorthWizard_data.find(d => d.subCategory === addFormSubCategory)                  //Provides the add form with the details to render
 
     const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
-    const subCategory = id ? netWorth_reducer[category][id].subCategory : "cashAssets"                  //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
+    const subCategory = id ? netWorth_reducer[id].subCategory : "cashAssets"                                    //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
     return (
         <Wrapper>   
@@ -24,7 +23,7 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
            { 
                     id ? 
                     <EditForm
-                        id={id}                                                                        //Clicking add takes the id of the item being added and sets it in the local state
+                        id={id}                                                                                //Clicking add takes the id of the item being added and sets it in the local state
                         category={category}
                         subCategory={subCategory}
                         setId={setId}
@@ -69,10 +68,10 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
 }
 
 const mapStateToProps = (state) => ({
-    netWorth_reducer: state.netWorth_reducer,
+    netWorth_reducer: state.netWorth_reducer1,
 })
 
-export default connect(mapStateToProps,{removeItem_action})(ControlPanel)
+export default connect(mapStateToProps,{})(ControlPanel)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

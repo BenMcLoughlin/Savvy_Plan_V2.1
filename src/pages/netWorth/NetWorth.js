@@ -11,15 +11,15 @@ import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 import Header from "pages/netWorth/components/Header"
 import WelcomePage from "pages/netWorth/components/WelcomePage"
 import DisplayBox from "pages/netWorth/components/DisplayBox"
-import {setProgress_action} from "redux/progress/progress_actions"
+import {setKeyValue_action} from "redux/actions"
 import { NavLink} from "react-router-dom"
 
-const NetWorth = ({progress_reducer, setProgress_action}) => {    
+const NetWorth = ({progress_reducer, setKeyValue_action}) => {    
     const [count, setCount] = useState(progress_reducer.netWorth)                                       // Controls Count for wizard display
     const [display, setDisplay] = useState("assets")                                                    // toggles display between asset and liability  
 
     const setCountAndProgress = (section, number) => {
-        setProgress_action(section, number)
+        setKeyValue_action(section, "progress_reducer", number)
         setCount(number)
     }
 
@@ -49,7 +49,6 @@ const NetWorth = ({progress_reducer, setProgress_action}) => {
       : null
       )
     }
-    console.log("in networth", progress_reducer.netWorth);
 
     return (
 
@@ -115,7 +114,7 @@ const mapStateToProps = (state) => ({
     progress_reducer: state.progress_reducer
 })
 
-export default connect(mapStateToProps, {setProgress_action})(NetWorth )
+export default connect(mapStateToProps, {setKeyValue_action})(NetWorth )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -153,7 +152,7 @@ const Buttons = styled.div`
     position: absolute;
     width: 123rem;
     top: 30rem;
-    left: -1rem;
+    left: 18rem;
     z-index: 100;
     display: flex;
     justify-content: space-between;

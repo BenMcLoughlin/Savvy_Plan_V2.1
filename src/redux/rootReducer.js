@@ -5,6 +5,7 @@ import income_reducer from "./income/income_reducer"
 import pensionStartAges_reducer from "./pensionStartAges/pensionStartAges_reducer"
 import user_reducer from "./user/user_reducer"
 import netWorth_reducer from "./netWorth/netWorth_reducer"
+import netWorth_reducer1 from "./netWorth1/netWorth_reducer"
 import tax_reducer from "./tax/tax_reducer"
 import taxCredits_reducer from "./taxCredits/taxCredits_reducer"
 import savings_reducer from "./savings/savings_reducer"
@@ -18,7 +19,8 @@ import { firestoreReducer } from 'redux-firestore'
 const persistConfig = {
     key: "root",
     storage, 
-    whitelist: ["netWorth_reducer", 
+    whitelist: [
+    "netWorth_reducer", 
     "tax_reducer",
     "taxCredits_reducer",
     "income_reducer",
@@ -27,6 +29,7 @@ const persistConfig = {
     "savings_reducer",
     "assumptions_reducer",
     "progress_reducer",
+    "netWorth_reducer1",
 ]
 }
 
@@ -41,6 +44,7 @@ const rootReducer = combineReducers({
        pensionStartAges_reducer,
        savings_reducer,         
        progress_reducer,
+       netWorth_reducer1,
        firebase: firebaseReducer, 
        firestore: firestoreReducer
    })

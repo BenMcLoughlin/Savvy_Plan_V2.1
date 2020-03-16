@@ -9,13 +9,13 @@ import TaxTile from "./components/TaxTile"
 import HomePurchaseTile from "./components/HomePurchaseTile"
 import ContributionPlanTile from "./components/ContributionPlanTile"
 import Wizard from "./components/Wizard"
-import {setProgress_action} from "redux/progress/progress_actions"
+import {setKeyValue_action} from "redux/actions"
 
-const Dashboard = ({progress_reducer, setProgress_action}) =>  {
+const Dashboard = ({progress_reducer, setKeyValue_action}) =>  {
     const [count, setCount] = useState(progress_reducer.dashboard)
 console.log(progress_reducer.dashboard);
     const setCountAndProgress = (section, number) => {
-        setProgress_action(section, number)
+        setKeyValue_action(section, "progress_reducer", number)
         setCount(number)
     }
 
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => ({
     progress_reducer: state. progress_reducer
 })
 
-export default connect(mapStateToProps, {setProgress_action})(Dashboard)
+export default connect(mapStateToProps, {setKeyValue_action})(Dashboard)
 
 //-----------------style--------------------------------------------------//
 

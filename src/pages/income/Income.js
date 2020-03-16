@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {setProgress_action} from "redux/progress/progress_actions"
+import {setKeyValue_action} from "redux/actions"
 import Header from "pages/income/components/Header"
 import IncomeBarChart from "charts/income/IncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
@@ -14,7 +14,7 @@ import {add_action} from "redux/actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setProgress_action, income_selector, add_action, user_reducer, income_reducer}) => {
+const Income = ({progress_reducer, setKeyValue_action, income_selector, add_action, user_reducer, income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                         //Checks if the array has objects in it
     const [category, setCategory] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
@@ -24,7 +24,7 @@ const Income = ({progress_reducer, setProgress_action, income_selector, add_acti
     const [id, setId] = useState(123)                                                                                                // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
  
     const setCountAndProgress = (section, number) => {                                                                               //Moves the count forward locally and also stores it in the reducer
-        setProgress_action(section, number)                                                                                          //this action enables us to show a progress bar throughout the entire application
+        setKeyValue_action(section, "progress_reducer", number)                                                                                          //this action enables us to show a progress bar throughout the entire application
         setCount(number)                                                                                                             //sets the count locally
     }
 

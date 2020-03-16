@@ -3,35 +3,32 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
-import {removeItem_action} from "redux/netWorth/netWorth_actions"
+import {delete_action} from "redux/actions"
 
 
 //displays the items the users have added, such as "car" or "checking account"
 
-const ItemDisplay = ({value, removeItem_action, item, setId}) => {                                                                        //Individual item that is added
+const ItemDisplay = ({value, delete_action, item, setId}) => {                                                                             //Individual item that is added
  const {label, subCategory, id} = item
-    const removeItem = () => {                                                                                                           
-        removeItem_action(item)                                                                                                                //This removes the item from the reducer 
-    }
     return (
         <Item label={label} subCategory={subCategory}>
             <Text onClick={() => setId(id)}>                                                                                                {/*When the item is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{label}</H2>
                 <H2>{value/1000}K</H2>
             </Text>
-            <Exit onClick={() => removeItem()}/>                                                                                                {/*If the x is clicked the item is removed */}
+            <Exit onClick={() => delete_action(id, "netWorth_reducer")}/>                                                                                                {/*If the x is clicked the item is removed */}
         </Item>
     )
 }
 
 
-const DisplayBox = ({category, account, setAddFormSubCategory, subCategory, netWorth_reducer, removeItem_action,  setId}) => {                   //Box wrapping the items being added
+const DisplayBox = ({category, account, setAddFormSubCategory, subCategory, netWorth_reducer, delete_action,  setId}) => {                   //Box wrapping the items being added
 
-    const arrayOfitems = account === "tfsa" ?  Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory).filter(d => d.registration === "tfsa") 
-                                             :  account === "rrsp" ?  Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory).filter(d => d.registration === "rrsp") 
-                                             : Object.values(netWorth_reducer[category]).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
+    const arrayOfitems = account === "tfsa" ?  Object.values(netWorth_reducer).filter(d => d.registration === "tfsa") 
+                                             :  account === "rrsp" ?  Object.values(netWorth_reducer).filter(d => d.registration === "rrsp") 
+                                             : Object.values(netWorth_reducer).filter(d => d.subCategory === subCategory)                                   //Pulls out all the items added and turns them into an array
     
-    const totalValue = arrayOfitems.length > 0 ? arrayOfitems.map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num) : 0     //Sums the value of the category
+    const totalValue = arrayOfitems.length > 0 ? arrayOfitems.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0     //Sums the value of the category
 
     const title = account === "tfsa" ? "Current TFSA Holdings" : account === "rrsp" ? "Current RRSP Holdings" : (_.startCase(subCategory))
 return (
@@ -47,8 +44,8 @@ return (
                      return  <ItemDisplay                                                                                                         //Maps through the items showing each one
                                        item={item}                                                                                                //Passes all props it has recived as "item" which is used to remove it or set the id when clicked
                                        key={item.id}                                                                                               
-                                       removeItem_action={removeItem_action}
-                                       value={item.currentValue.financialValue}
+                                       delete_action={delete_action}
+                                       value={item.value.financialValue}
                                        setId={setId}
                                       
                             />
@@ -65,10 +62,10 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    netWorth_reducer: state.netWorth_reducer,
+    netWorth_reducer: state.netWorth_reducer1,
 })
 
-export default connect(mapStateToProps,{removeItem_action})(DisplayBox )
+export default connect(mapStateToProps,{delete_action})(DisplayBox )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -97,6 +94,7 @@ const Wrapper = styled.div`
     border: ${props => props.theme.border.primary};
     overflow: hidden;
     margin-bottom: 1rem;
+    margin-left: -3rem;
     background: ${props => props.theme.color.ice};
 `
 const Item = styled.div`

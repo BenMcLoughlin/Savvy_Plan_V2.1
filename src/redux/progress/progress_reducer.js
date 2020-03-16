@@ -12,7 +12,7 @@ const initialState = {
 
  const progress_reducer = (state = initialState, action) => {
     switch(action.type) {
-        case "progress/SET_POSITION": return {...state, [action.section]: action.value}
+        case "progress_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}                                 //sets a simple key value pair within the reducer object
         default: return state
     }
 }

@@ -52,7 +52,7 @@ export const individualItem_data = (category, subCategory, bookValueLabel, curre
     label: "",                                                                                                            //the label is editable by the user and is what is displayed 
     subCategory: subCategory,   
     registration: "",  
-    color: "blue",                                                                                                   //his referes to if the account is a TFSA or RRSP or property
+    color: "blue",                                                                                                        //this referes to if the account is a TFSA or RRSP or property
     interestRate: {                                                                                                       //these are the details passed to the range bar as range bar props
         rangeBarValue: 0,
         name: "interestRate",
@@ -62,10 +62,10 @@ export const individualItem_data = (category, subCategory, bookValueLabel, curre
         label: interestRateLabel,                                                                                           //The label is different for different types of categories
         numberType: "percentage"
     },
-    currentValue: {                                                                                                         //The current value of the assets
+    value: {                                                                                                                 //The current value of the assets
         rangeBarValue: 0,
         financialValue: 0,
-        name: "currentValue",
+        name: "value",
         label: currentValueLabel,
     },
     bookValue: {                                                                                                             //The purchse price of the asset or starting debt value of a debt
@@ -82,12 +82,7 @@ export const individualItem_data = (category, subCategory, bookValueLabel, curre
         min: 0,
         step: 1,
     },
-    startDate: {
-        rangeBarValue: 0,
-        name: "startDate",
-        label: "Start Date",
-        date: "",
-    },
+    startDate: "",
     payment: {
         rangeBarValue: 0,
         financialValue: 0,

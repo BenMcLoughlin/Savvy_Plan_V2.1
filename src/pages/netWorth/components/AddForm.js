@@ -7,14 +7,14 @@ import DateInput from "UI/forms/DateInput"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {addItem_action} from "redux/netWorth/netWorth_actions"
+import {add_action} from "redux/actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
 import {individualItem_data} from "pages/netWorth/data/netWorth_data"
 
 
 //THe add form is used to add individual items to the users net worth.
 
-const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, addItem_action, propertyNames_selector}) => {    
+const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector}) => {    
 
     const initialState = individualItem_data(category,subCategory, bookValueLabel, currentValueLabel, interestRateLabel )      //initial State is found in data 
 
@@ -43,7 +43,7 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
     const addItem = () => {                                                                                                   //Adds the item to the reducer
         setAddFormSubCategory(false)
         const id = (Math.random() * 10000000000).toFixed()                                                                    // Creates a unique id
-        addItem_action(id, state)                                                                                             // Sets item in reducer
+        add_action(id, state, "netWorth_reducer")                                                                             // Sets item in reducer
         setState({...initialState})     
     }
 
@@ -83,7 +83,7 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
                     /> : null
                     }
                 <RangeBar 
-                        rangeBarProps={state.currentValue}                                                                      //Every Add item has a range bar to set its value
+                        rangeBarProps={state.value}                                                                      //Every Add item has a range bar to set its value
                         setValue={setValue}                 
                     /> 
 
@@ -141,7 +141,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
 })
 
-export default connect(mapStateToProps, {addItem_action})(AddForm )
+export default connect(mapStateToProps, {add_action})(AddForm )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

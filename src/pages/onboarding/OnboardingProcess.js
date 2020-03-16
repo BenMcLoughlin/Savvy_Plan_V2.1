@@ -13,16 +13,16 @@ import RetirementAge from "pages/onboarding/components/RetirementAge"
 import LifeSpan from "pages/onboarding/components/LifeSpan"
 import LifeEvents from "pages/onboarding/components/LifeEvents"
 import { Redirect} from "react-router-dom"
-import {setProgress_action} from "redux/progress/progress_actions"
+import {setKeyValue_action} from "redux/actions"
 
-function OnboardingProcess({setProgress_action}) {
+function OnboardingProcess({setKeyValue_action}) {
 
     const [count, setCount] = useState(0);
 
     if (count > 12) return <Redirect to="/"/>
 
     const setCountAndProgress = (section, number) => {
-        setProgress_action(section, number)
+        setKeyValue_action(section, "progress_reducer", number)
         setCount(number)
     }
         return (
@@ -76,7 +76,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer
 })   
 
-export default connect(mapStateToProps, {setProgress_action})(OnboardingProcess)
+export default connect(mapStateToProps, {setKeyValue_action})(OnboardingProcess)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`

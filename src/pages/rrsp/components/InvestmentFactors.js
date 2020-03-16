@@ -5,18 +5,17 @@ import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
 import {setNestedKeyValue_action} from "redux/actions"
-import {setPensionAge_action} from "redux/pensionStartAges/pensionStartAges_actions"
 
 
 
-const InvestmentFactor = ({setNestedKeyValue_action, pensionStartAges_reducer, investmentReturns_selector, setPensionAge_action}) => {    
+const InvestmentFactor = ({pensionStartAges_reducer, investmentReturns_selector, setNestedKeyValue_action}) => {    
 
     const setInvestmentFactor = (value, nothing, {name}) => {
         setNestedKeyValue_action("rangeBarValue", name, "assumptions_reducer", value) 
 
     }
     const setRrifStartAge = (value, nothing, {name}) => {
-        setPensionAge_action(name, value) 
+        setNestedKeyValue_action("rangeBarValue", name, "pensionStartAges_reducer", value)
     }
 
         const [visible, setVisible] = useState(false)
@@ -65,7 +64,7 @@ const mapStateToProps = (state) => ({
     pensionStartAges_reducer: state.pensionStartAges_reducer,
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action, setPensionAge_action})(InvestmentFactor )
+export default connect(mapStateToProps, {setNestedKeyValue_action, setNestedKeyValue_action})(InvestmentFactor )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

@@ -3,13 +3,13 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
-import {setProgress_action} from "redux/progress/progress_actions"
+import {setKeyValue_action} from "redux/actions"
 import {deduction_selector, credit_selector, ageCredit_selector} from "redux/taxCredits/taxCredits_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
 import {taxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
 
 
-const DisplayBox = ({instanceArray, createNewItem, setCategory, progress_reducer, setProgress_action, setId, deduction_selector, credit_selector, ageCredit_selector, type}) => {                  
+const DisplayBox = ({instanceArray, createNewItem, setCategory, progress_reducer, setKeyValue_action, setId, deduction_selector, credit_selector, ageCredit_selector, type}) => {                  
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
     const newState = taxCredit_data(" ", 18, 24, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
@@ -19,7 +19,7 @@ const DisplayBox = ({instanceArray, createNewItem, setCategory, progress_reducer
 
     const addNewCategory = () => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
-        setProgress_action("incomeColor", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
+        setKeyValue_action("incomeColor", "progress_reducer", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
     }
 return (
         <Wrapper>               
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => ({
     credit_selector: credit_selector(state),
 })
 
-export default connect(mapStateToProps,{ setProgress_action})(DisplayBox )
+export default connect(mapStateToProps,{ setKeyValue_action})(DisplayBox )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

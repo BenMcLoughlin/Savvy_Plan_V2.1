@@ -71,7 +71,7 @@ const initialState = {
     switch(action.type) {
         case "tax_reducer/ADD": return {...state, [action.payload.id]: action.payload}
         case "tax_reducer/DELETE": return _.omit(state, [action.id])
-        case "tax_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}
+        case "tax_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}                                 //sets a simple key value pair within the reducer object
         case "tax_reducer/SET_VALUE": return {...state, [action.id]: {                                                  //creates a copy of state and enters the object with the correct id
                                                             ...state[action.id], value: {                               //creates a copy of the object with that id and enters the value object
                                                                     ...state[action.id].value,                          //creates a copy of the value object

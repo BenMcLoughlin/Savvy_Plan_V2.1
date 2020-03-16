@@ -45,10 +45,10 @@ const initialState = {
 
 const pensionStartAges_reducer = (state = initialState, action) => {
 switch(action.type) {
-    case "SET_PENSION_START_AGE": return {...state, [action.name]: {
-                                            ...state[action.name],  rangeBarValue: action.value,
-                                        }
-    } 
+    case "pensionStartAges_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {
+                                                                                        ...state[action.parentKey], 
+                                                                                        [action.childKey]: action.value
+}}  
     default: return state
 }     
 }
