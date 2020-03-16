@@ -1,54 +1,8 @@
 import _ from "lodash"
 
-// 30000: {
-//     label: "Basic Personal Amount",
-//     type: "credit",
-//     line: 30000,
-//     maxClaimable: 12069,
-//     maxIncome: 10000,
-// },
-// 30100: {
-//     label: "Age Amount",
-//     type: "ageCredit",
-//     line: 30100,
-//     maxClaimable: 7494,
-//     maxIncome: 87750,
-// },
-// 31260: {
-//     label: "Employment Amount",
-//     type: "credit",
-//     line: 31260,
-//     maxClaimable: 1222,
-//     maxIncome: 87750,
-// },
-
-// 34900: {
-//     label: "Donations",
-//     type: "credit",
-//     line: 34900,
-//     maxClaimable: 10000,
-//     maxIncome: 100000,
-// },
 
 const initialState = { 
-    30000: {
-            label: "Basic Personal Amount",
-            type: "credit",
-            id: 30000,
-            maxClaimable: 12069,
-            maxIncome: 10000,
-            category: "basicPersonalAmount",    
-            type: "credit",
-            color: '#D8BABB',                                                                                 //Some forms of income might not be taxable such as inheritance
-            fromAge: 18,
-            toAge: 64,
-            value: {                                                                                        //The value of the income being added
-                rangeBarValue: 0,
-                financialValue: 0,
-                name: "value",
-                label: "Annual Contribution",
-            } 
-    },
+    selectedCredit: "medicalExpense",
     20800: { 
         registration: "rrsp",
         label: "RRSP Contribution",    
@@ -87,18 +41,18 @@ const initialState = {
         type: "ageCredit",
         id: 30100,      
         color: '#D8BABB',                                                                                                                                                      
-        fromAge: 18,
-        toAge: 64,
+        fromAge: 65,
+        toAge: 95,
         value: {                                                                                    
             rangeBarValue: 0,
-            financialValue: 0,
+            financialValue: 7494,
             name: "value",
             label: "Age Amount",
         } 
      },
      33099: { 
         label: "Medical Expense",    
-        category: "medicalexpense",    
+        category: "medicalExpense",    
         type: "credit",
         id: 33099,      
         color: '#D8BABB',                                                                                                                                                      
@@ -117,6 +71,7 @@ const initialState = {
     switch(action.type) {
         case "tax_reducer/ADD": return {...state, [action.payload.id]: action.payload}
         case "tax_reducer/DELETE": return _.omit(state, [action.id])
+        case "tax_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}
         case "tax_reducer/SET_VALUE": return {...state, [action.id]: {                                                  //creates a copy of state and enters the object with the correct id
                                                             ...state[action.id], value: {                               //creates a copy of the object with that id and enters the value object
                                                                     ...state[action.id].value,                          //creates a copy of the value object
@@ -124,9 +79,10 @@ const initialState = {
                                                                     rangeBarValue: action.rangeBarValue,                //sets the rangeBar value             
                                                             }
         }}
-        case "tax_reducer/SET_AGE": return {...state, [action.id]: {
-                                                           ...state[action.id], [action.ageType]: action.value
-}}
+        case "tax_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {
+                                                                        ...state[action.parentKey], 
+                                                                        [action.childKey]: action.value
+}}    
         default: return state
     }
 }

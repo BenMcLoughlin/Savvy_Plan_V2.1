@@ -1,15 +1,15 @@
 import React from "react"
-import {setNestedUserDetail_action} from "redux/user/user_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 import SelectOptionCard from "UI/forms/SelectOptionCard"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {Title} from "pages/onboarding/components/FirstName"
 
-const Priorities = ({user_reducer, setNestedUserDetail_action}) => {
+const Priorities = ({user_reducer, setNestedKeyValue_action}) => {
 
     const setValue = (name, value) => {
 
-        setNestedUserDetail_action("priorities", name, value)
+        setNestedKeyValue_action("priorities", name, "user_reducer", value)
       };
       const {priorities} = user_reducer
 
@@ -31,7 +31,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer
 })
 
-export default connect(mapStateToProps, {setNestedUserDetail_action})(Priorities)
+export default connect(mapStateToProps, {setNestedKeyValue_action})(Priorities)
 
 //-----------------------------------------------style-----------------------------------------------//
 

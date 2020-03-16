@@ -10,7 +10,7 @@ import Savings from "pages/savings/Savings"
 import RRSP from "pages/rrsp/RRSP"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
-import {add_action} from "redux/global_actions"
+import {add_action} from "redux/actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 

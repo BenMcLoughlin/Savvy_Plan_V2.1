@@ -2,19 +2,17 @@ import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
-import { delete_action} from "redux/global_actions"
+import { delete_action, setKeyValue_action} from "redux/actions"
 import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
-
-const DisplayTile = ({ delete_action, credit, color, setId, category, setCategory}) => {                                    //Individual category that is added
-  
+const DisplayTile = ({ delete_action, credit, color, setId, category, setCategory, setKeyValue_action}) => {                                    //Individual category that is added
 
     const setCategoryAndId = (category) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that category
         const id = credit.id                                                                                                //we're just grabbing the first random instance id in the array from that category, instance is the earning time period and category is the income stream
          setCategory(category)  
          setId(id)
-         
+         setKeyValue_action("selectedCredit", "tax_reducer", category)                                                  //this sets the selectedCredit, eg "medicalExpense" which then fills out the chart for that credit in the display box
      }
     return (
         <Item label={credit.label} color={color} >
@@ -32,7 +30,7 @@ const mapStateToProps = (state) => ({
     rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
 })
 
-export default connect(mapStateToProps,{ delete_action})(DisplayTile )
+export default connect(mapStateToProps,{ delete_action, setKeyValue_action})(DisplayTile )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

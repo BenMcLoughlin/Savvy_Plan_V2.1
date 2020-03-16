@@ -18,7 +18,7 @@ const initialState = {
         },
     },
     22224: {
-        label: "RRSP Withdrawal",
+        label: "RRSP Income",
         registration: "rrsp",
         id: 22224,
         transaction: "withdrawal",
@@ -43,9 +43,9 @@ const initialState = {
                                                      ...state[action.id], [action.ageType]: action.value
         }}
         case "income_reducer/DELETE": return  _.omit(state, [action.id])                  
-        case "income/CHANGE_LABEL": return {...state, [action.id]: {
-                                                        ...state[action.id], [action.key]: action.event.target.value
-        }}
+        case "income_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {                           //make a copy of state, enter object, here parentKey is the id
+                                                    ...state[action.parentKey], [action.childKey]: action.value       //make a copy of object, change the key
+          }}
         case "income_reducer/SET_VALUE": return {...state, [action.id]: {
                                                     ...state[action.id], [action.name]: {
                                                         ...state[action.id][action.name], 

@@ -49,10 +49,9 @@ const initialState = {
 
 const assumptions_reducer = (state = initialState, action) => {
 switch(action.type) {
-    case "assumptions/SET_VALUE": return {...state, [action.name]: {
-                                            ...state[action.name],  rangeBarValue: action.value,
-                                        }
-    } 
+    case "assumptions_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {                           //make a copy of state, enter object, here parentKey is the id
+                                             ...state[action.parentKey], [action.childKey]: action.value       //make a copy of object, change the key
+}}
     default: return state
 }     
 }

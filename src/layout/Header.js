@@ -5,7 +5,6 @@ import logoLight from "assets/svgs/SavvyPlan_logo_final_grey.svg"
 import {auth} from "firebase/firebaseUtils"
 import LinkButton from "UI/buttons/LinkButton"
 import {connect} from "react-redux"
-import {setUserDetails_action} from "redux/user/user_actions"
 import {signOut_action} from "redux/auth/auth_actions"
 
  function Header({auth, signOut_action}) {
@@ -54,7 +53,7 @@ import {signOut_action} from "redux/auth/auth_actions"
 }
 
 
-export default connect(null, {setUserDetails_action, signOut_action})(Header)
+export default connect(null, {signOut_action})(Header)
 
 //--------HEADER GRID LAYOUT---------------------------------------------------------------//
 

@@ -1,8 +1,6 @@
 import React, {useState} from "react"
-import {setUserDetail_action} from "redux/user/user_actions"
 import Input from "UI/forms/Input"
 import  ButtonLight from "UI/buttons/ButtonLight"
-import Select from "UI/forms/Select"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"

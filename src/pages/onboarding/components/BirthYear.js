@@ -1,19 +1,19 @@
 import React from "react"
-import {setUserDetail_action} from "redux/user/user_actions"
+import {setKeyValue_action} from "redux/actions"
 import Select from "UI/forms/Select"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {Title, Dialogue} from "pages/onboarding/components/FirstName"
 
-const FirstName = ({user_reducer, setUserDetail_action}) => {
+const BirthYear = ({user_reducer, setKeyValue_action}) => {
 
     const handleChange = event => {
         const { value, name } = event.target;
-        setUserDetail_action(name, value)
+        setKeyValue_action(name, "user_reducer", value)
       };
 
       const setValue = (name, value) => {
-        setUserDetail_action(name, value)
+        setKeyValue_action(name, "user_reducer", value)
       };
 
 return (
@@ -30,7 +30,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer
 })
 
-export default connect(mapStateToProps, {setUserDetail_action})(FirstName)
+export default connect(mapStateToProps, {setKeyValue_action})(BirthYear)
 
 //-----------------------------------------------style-----------------------------------------------//
 

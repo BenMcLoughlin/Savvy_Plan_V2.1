@@ -199,3 +199,35 @@ export const convertTaxesToSunburstChart_function = (taxData) => {
             ]
         }]
     })}  
+    
+
+//CONVERTS REDUCER TO ARRAY FOR CHART 
+export const convertReducerToArray = (category, lifeSpan, userAge, reducer) => {                                         //Converts reducer to an array of objects                                                          
+    console.log('category', category); 
+    console.log('lifeSpan', lifeSpan); 
+    console.log('userAge', userAge); 
+    console.log('reducer', reducer); 
+    const creditClaimed = Object.values(reducer).filter(d => d.category === category)                               //filter through to get the credit we're looking for, eg. "medicalExpense"
+      
+          //RETURNS Credit VALUE FOR THE GIVEN Credit INSTANCE    
+            const creditValue = (creditClaimed, category, age) => {                                                     //Helper function which will return the Credit value in the chart
+      
+              if (creditClaimed.length > 0) {
+                  const arrayOfCredit = creditClaimed.map(d => d.category === category                                   //it is collecing all the credit values of that type reported for that age
+                                              && age >= d.fromAge                                                        //Checks if the given age is between the start and end age
+                                              && age <= d.toAge ?                                         
+                                              d.value.financialValue : 0                                                //If it is it returns the financial value, giving an array of financial values
+                  )
+                  return Math.max(...arrayOfCredit)                                                                      //If the person has inputted more than one Credit amount for the sane age range this will return the max
+              }
+             return 0
+              }
+                                            
+           const array = []                                                                                             //Initialize and empty array to push into
+           for (let age = userAge; age <= lifeSpan; age++) {                                                            //For loop showing their Credit till age 95
+               const itemObject = {age: age}                                                                            //The age is used as the x axis
+               const details = {...itemObject, credit: creditValue(creditClaimed, category, age)}
+               array.push(details)                                                                                      //Pushes the object to the array
+           }
+           return array
+       }

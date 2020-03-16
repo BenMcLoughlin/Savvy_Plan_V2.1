@@ -1,20 +1,19 @@
 import React from "react"
-import {setUserDetail_action} from "redux/user/user_actions"
 import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {rate1, rate2, investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
-import {setNestedUserDetail_action} from "redux/user/user_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 import {Title, Dialogue} from "pages/onboarding/components/FirstName"
 
-const RetirementAge = ({count, user_reducer, setNestedUserDetail_action}) => {
+const RetirementAge = ({count, user_reducer, setNestedKeyValue_action}) => {
 
     const {retirementAge} = user_reducer
 
     const handleChange = (value, nothing, {name}) => {
         console.log(name);
-        setNestedUserDetail_action(name, "rangeBarValue", value)
+        setNestedKeyValue_action("rangeBarValue", name, "user_reducer", value)
       };
 
 return (
@@ -40,7 +39,7 @@ const mapStateToProps = (state) => ({
     investmentReturns_selector: investmentReturns_selector(state),
 })
 
-export default connect(mapStateToProps, {setNestedUserDetail_action })(RetirementAge)
+export default connect(mapStateToProps, {setNestedKeyValue_action })(RetirementAge)
 
 //-----------------------------------------------style-----------------------------------------------//
 

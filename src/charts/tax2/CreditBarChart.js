@@ -1,22 +1,24 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {incomeArrayWithRRIF_selector, color_selector} from "redux/income/income_selectors"
-import {setKeyValue_action} from "redux/actions"
+import {taxCreditBarChartData_selector} from "redux/taxCredits/taxCredits_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart = (data, width, height, colors, setKeyValue_action) => {
+const drawChart = (data, width, height) => {
 
-    const margin = {top: 20, right: 100, bottom: 20, left: 100}
+    const margin = {top: 20, right: 50, bottom: 20, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-   d3.select(".incomeBarChart > *").remove()
+    const color =  ["age", '#3B7B8E', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
+
+console.log(data);
+   d3.select(".creditBarChart > *").remove()
    d3.select(".tooltip").remove()
 
-    const svg = d3.select('.incomeBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select('.creditBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-    const stackedKeys = Object.keys(data[15])
+    const stackedKeys = ["credit"]
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -35,7 +37,7 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".incomeBarChart").append("div")
+        const tooltip = d3.select(".creditBarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -45,7 +47,7 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                           
     const update = data => {
     
-       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 60000 ? 60000 : 
+       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 600 ? 600 : 
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
@@ -71,7 +73,7 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
 
     
         rects.enter().append("g")
-            .attr("fill", (d,i) => colors[d.key])
+            .attr("fill", "#8CB8B7")
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
             .data(d => d)
@@ -80,11 +82,10 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                 .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
-                .on("click", d => setKeyValue_action("taxAge", "user_reducer", d.data.age))
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
 
-                                const thisColor = colors[d.key]
+                                const thisColor = color[2]
                         
                                 d3.select(n[i])
                                     .transition()
@@ -139,15 +140,26 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                         
                            
                                         
-           var ticks = [20,40, 60, 80, 95];
-           var tickLabels = ['Age 20','Age 40','Age 60','Age 80','Age 95']
+           const convertLabels = (array) => {
+            const ticks = []                                                            
+            const labels = []
+            for (let i = 0; i< array.length; i++) {
+                const age = array[i].age
+                if (i % 10 === 0) {
+                    ticks.push(age)
+                    labels.push(`Age ${age}`)
+                }
+            }
+            return [ticks, labels]
+        }
+        const [ticks, labels] = convertLabels(data)
 
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
-                            .tickFormat(function(d,i){ return tickLabels[i] })
+                            .tickFormat(function(d,i){ return labels[i] })
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('2')
+            const yAxis = d3.axisLeft(yScale).ticks('1')
                             .tickFormat(d => `${d/1000}k`)
 
 
@@ -159,28 +171,28 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
     
 }
 
-const SpendingBarChart = ({data, color_selector, setKeyValue_action}) =>  {
+const SpendingBarChart = ({data}) =>  {
 
     const inputRef = useRef(null)
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height, color_selector, setKeyValue_action)
+        drawChart(data, width, height)
     }, [data])
 
         return (
-            <Canvas className="incomeBarChart" ref={inputRef}>
+            <Canvas className="creditBarChart" ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
-    data: incomeArrayWithRRIF_selector(state),
-    color_selector: color_selector(state)
+    data: taxCreditBarChartData_selector(state),
+
 })
 
-export default connect(mapStateToProps, {setKeyValue_action})(SpendingBarChart)
+export default connect(mapStateToProps, {})(SpendingBarChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

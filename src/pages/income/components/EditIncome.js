@@ -6,51 +6,34 @@ import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {changeLabel_action} from "redux/income/income_actions"
 import _ from "lodash"
 import {incomeStream_data} from "pages/income/data/income_data"
 import {cpp_selector} from "redux/income/income_selectors"
-import {setAge} from "services/income/actionWrapper_functions"
-import {setValue_action,  setAge_action, delete_action} from "redux/global_actions"
+import {setAge, setNestedKeyValue_action, setValue_action, delete_action, deleteInstance} from "redux/actions"
 
-const EditIncome = ({category, instanceArray, setValue_action, createNewItem, id, setId, changeLabel_action,  setAge_action, setCategory, delete_action}) => {    
+const EditIncome = ({category, instanceArray, setValue_action, createNewItem, id, setId, setNestedKeyValue_action, setCategory}) => {    
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
         setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")                                          //setting the income value in the reducer
     }
-console.log(instanceArray[0]);
-                                                     
+                                                   
     const changeLabel = (e) => {                                                                                               //enables the user to change the label which changes all income stream labels of that category
         const {value} = e.target                                                                                               //destructure out the value from the target event
         if(value.length === 0) return                                                                                          //when the text is 0 we don't want it to change the categoruy because the box will close as its seen as a false value
         for (let i = 0; i < instanceArray.length; i++) {                                                                       //we loop through and change the label for every income stream in the category
-            changeLabel_action(instanceArray[i].id, "label", e)                                                                //changes the label
-            if(value.length > 0) {                                                                                             // if the lenth is greater then 0 it changes the category, the category is determining what is visible
-                changeLabel_action(instanceArray[i].id, "category", e)
+            setNestedKeyValue_action("label", instanceArray[i].id, "income_reducer", value)                                                              //changes the label
+            if(value.length > 0) {                                     //(childKey, parentKey, reducer, value)                                                         // if the lenth is greater then 0 it changes the category, the category is determining what is visible
+                setNestedKeyValue_action("category", instanceArray[i].id, "income_reducer", value)
             }
            }
             setCategory(e.target.value)                                                                                        //sets the category
-
     }
 
     const setDualRangeBar = (name, value) => {                                                                                 //sets the age, as well as the surrounding ages in the array of instances
-        setAge(id, instanceArray, name, setAge_action, "income_reducer", value)
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value)
     }
     
 
-    const deleteInstance = (instance) => {                                                                                     //deletes the instance
-        if (instance.id === id) {                                                                                              //checks if the instance being deleted and the one currently being displayed are the same
-            if (instanceArray.length > 0) {                                                                                    // if the array is greater then one it wil delete the instance and change the id of the instance being displayed
-                setId(instanceArray[0].id)                                                                                     // sets the id to the first id in the instance array, this prevents errors, otherwise it wants to display an instance that no longer exists
-                delete_action(instance.id, "income_reducer")                                                                   //removes the instance
-            }
-            setCategory()                                                                                                      //if its the last item in the array it brings the user back to the main page by setting category and id to false
-            setId()
-        }
-        else {
-            delete_action(instance.id, "income_reducer")                                                                                        //if they click to delete an instance that isn't the one being display it won't cause an issue and can just be deleted
-        }
-    }
 
     const item = instanceArray.find(d => d.id === id)                                                                          //we're only provided with the id, not the entire instance, this grabs the entire instance details
     const endAge = instanceArray[instanceArray.length -1].toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
@@ -64,7 +47,7 @@ console.log(instanceArray[0]);
                             itemList={instanceArray}
                             setId={setId}
                             id={id}
-                            deleteInstance={deleteInstance}
+                            onClick={() => deleteInstance(id, item, instanceArray, "income_reducer", setCategory, setId)}
                             addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color, item.type ))}
                         />
             <Container >                                                                      
@@ -125,7 +108,7 @@ const mapStateToProps = (state) => ({
     cpp_selector: cpp_selector(state),
 })
 
-export default connect(mapStateToProps, {changeLabel_action, setValue_action, delete_action,  setAge_action})(EditIncome )
+export default connect(mapStateToProps, {setNestedKeyValue_action, setValue_action, delete_action})(EditIncome )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

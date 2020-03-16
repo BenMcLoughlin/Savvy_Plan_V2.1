@@ -3,7 +3,7 @@ import styled from "styled-components"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
 
-const PhaseSelector = ({itemList, id, setId, deleteInstance, color, addSection}) => {
+const PhaseSelector = ({itemList, id, onClick, setId, color, addSection}) => {
 
     const [selected, select] = useState(id)
     const handleSelect = (value) => {
@@ -32,7 +32,7 @@ const PhaseSelector = ({itemList, id, setId, deleteInstance, color, addSection})
                                 </TextAndValueWrapper>
 
                  
-                        <Exit onClick={() =>  deleteInstance(d)}/>
+                        <Delete onClick={onClick}/>
                      </SelectValue>)
                 }
                 <Add
@@ -101,7 +101,7 @@ const SelectValue = styled.div`
     text-align: center;
 `
 
-const Exit = styled(Close)`
+const Delete = styled(Close)`
     width: 1.3rem;
     height: 4.3rem;
     color: ${props => props.theme.color.grey};

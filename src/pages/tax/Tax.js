@@ -4,18 +4,15 @@ import {connect} from "react-redux"
 import ButtonLight from "UI/buttons/ButtonLight"
 import  Header from "pages/tax/components/Header"
 import EditCredit from "pages/tax/components/EditCredit"
-import NewCredit from "pages/tax/components/NewCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"
-import {setUserDetail_action} from "redux/user/user_actions"
 import {creditTypes_data} from "pages/tax/data/tax_data"
 import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
 import TaxBarChart from "charts/tax2/TaxBarChart"
-import TaxPreSunburstChart from "charts/tax2/TaxPreSunBurstChart"
-import TaxPostSunburstChart from "charts/tax2/TaxPostSunBurstChart"
-import {add_action} from "redux/global_actions"
-import {addTaxCredit_action} from "redux/taxCredits/taxCredits_action"
+import TaxSunBurstChart from "charts/tax2/TaxSunburstChart"
+import {add_action, setKeyValue_action} from "redux/actions"
+import {taxBracketsSunburstData_selector, finalTaxPosition_selector} from "redux/taxCredits/taxCredits_selectors"
 
-const Tax = ({setUserDetail_action, taxCredits_selector, add_action, taxCredits_reducer, addTaxCredit_action}) => {    
+const Tax = ({setKeyValue_action, taxCredits_selector,  add_action, taxBracketsSunburstData_selector}) => {    
 
     const exists = Object.values(taxCredits_selector).length > 0   
     const [category, setCategory] = useState()                                                                                       //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
@@ -29,12 +26,8 @@ const Tax = ({setUserDetail_action, taxCredits_selector, add_action, taxCredits_
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
 
-
-// console.log("category:", category);
-// console.log("id", id);
-// console.log("taxCredits_reducer:", taxCredits_reducer);
     const instanceArray = exists ? taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
-console.log(instanceArray);
+
     return (
         <Wrapper>
              < Header color={"#3B7B8E"} >
@@ -45,10 +38,13 @@ console.log(instanceArray);
                     <TaxBarChart/>
                 </BarChartPlaceHolder>
                 <ChartPlaceHolder >
-                    <TaxPreSunburstChart/>
+                  <TaxSunBurstChart
+                    data={taxBracketsSunburstData_selector}
+                    className="preTaxSunburst"
+                  />
                 </ChartPlaceHolder>
                 <ChartPlaceHolder >
-                    <TaxPostSunburstChart/>
+
                 </ChartPlaceHolder>
 
             </Charts>
@@ -83,7 +79,7 @@ console.log(instanceArray);
                             <Bottom>
                                 <ButtonLeftWrapper>
                                 <ButtonLight 
-                                            onClick={() =>  setUserDetail_action("taxAge", false)}
+                                            onClick={() =>  setKeyValue_action("taxAge", "user_reducer", false)}
                                             text={"Back"}
                                         />
                                 </ButtonLeftWrapper>
@@ -96,10 +92,11 @@ console.log(instanceArray);
 const mapStateToProps = (state) => ({
     taxCredits_selector: taxCredits_selector(state),
     taxCredits_reducer: state.taxCredits_reducer,
-    taxBrackets_selector: taxBrackets_selector(state)
+    taxBrackets_selector: taxBrackets_selector(state),
+    taxBracketsSunburstData_selector: taxBracketsSunburstData_selector(state)
 })
 
-export default connect(mapStateToProps, {setUserDetail_action, add_action, addTaxCredit_action})(Tax )
+export default connect(mapStateToProps, {setKeyValue_action, add_action, add_action})(Tax )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

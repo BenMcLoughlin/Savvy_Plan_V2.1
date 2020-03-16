@@ -71,19 +71,18 @@ import _ from "lodash"
    
     const savings_reducer = (state = initialState, action) => {
        switch(action.type) {
-        case "savings/ADD_INSTANCE": return {...state, [action.payload.id]: action.payload}
-        case "savings/CHANGE_AGE": return {...state, [action.id]: {
-                                                     ...state[action.id], [action.ageType]: action.value
-        }}
-        case "savings/DELETE": return  _.omit(state, [action.id])                  
-        case "savings/CHANGE_VALUE": return {...state, [action.id]: {
-                                                    ...state[action.id], [action.name]: {
-                                                        ...state[action.id][action.name], 
-                                                                    financialValue: action.financialValue,
-                                                                    rangeBarValue: action.rangeBarValue,
-                                                    }
-        }}
-           
+        case "savings_reducer/ADD": return {...state, [action.payload.id]: action.payload}
+        case "savings_reducer/DELETE": return  _.omit(state, [action.id])                  
+        case "savings_reducer/SET_VALUE": console.log('hi');return {...state, [action.id]: {                             //creates a copy of state and enters the object with the correct id
+                                                            ...state[action.id], value: {                               //creates a copy of the object with that id and enters the value object
+                                                                    ...state[action.id].value,                          //creates a copy of the value object
+                                                                    financialValue: action.financialValue,              //sets the financialValue with the new value
+                                                                    rangeBarValue: action.rangeBarValue,                //sets the rangeBar value             
+            }
+}}
+        case "savings_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {
+                                                             ...state[action.parentKey], [action.childKey]: action.value
+}}    
            default: return state
        }
    }

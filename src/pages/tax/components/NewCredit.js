@@ -6,14 +6,13 @@ import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {taxCreditsValue_action, taxCreditsAge_action, deleteTaxCredits_action} from "redux/taxCredits/taxCredits_action"
-import {setValue_action, setAge_action} from "redux/global_actions"
+import {setValue_action} from "redux/actions
 import _ from "lodash"
 import {incomeStream_data} from "pages/income/data/income_data"
 import {cpp_selector} from "redux/income/income_selectors"
 import {setAge} from "services/income/actionWrapper_functions"
 
-const NewCredit = ({category, instanceArray, setAge_action, createNewItem, id, setId, setValue_action, setCategory,  delete_action}) => {    
+const NewCredit = ({category, instanceArray, createNewItem, id, setId, setValue_action, setCategory}) => {    
 console.log(instanceArray.find(d => d.id === id));
     return (
         <Wrapper>

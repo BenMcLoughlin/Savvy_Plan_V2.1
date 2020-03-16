@@ -15,8 +15,8 @@ const drawChart = (data, width, height, total, className) => {
     const graphWidth = width - margin.left - margin.right
     const colors = ['#72929B', "#F29278",  "#55869d"]
 
-        const radius = Math.min(width, height) / 2.2;
-        const color = d3.scaleOrdinal(colors);
+    const radius = Math.min(width, height) / 2.2;
+    const color = d3.scaleOrdinal(colors);
 
         const update = data => {
 
@@ -125,9 +125,9 @@ const drawChart = (data, width, height, total, className) => {
         }
 
 
-const LifeEventsTimeline = ({data, finalTaxPosition_selector}) =>  {
+const AfterTaxCreditDonutChart = ({data, finalTaxPosition_selector}) =>  {
 
-    const className="preTaxSunburstChart"
+    const className="afterTaxCreditSunburstChart"
     const total = finalTaxPosition_selector.income
     const inputRef = useRef(null)
 
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => ({
     finalTaxPosition_selector: finalTaxPosition_selector(state)
 })
 
-export default connect(mapStateToProps)(LifeEventsTimeline)
+export default connect(mapStateToProps)(AfterTaxCreditDonutChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

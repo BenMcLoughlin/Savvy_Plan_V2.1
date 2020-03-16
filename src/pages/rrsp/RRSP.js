@@ -1,7 +1,7 @@
-import React, {useState,} from "react"
+import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {addInstance_action,  delete_action,} from "redux/savings/savings_actions"
+import {delete_action, add_action} from "redux/actions"
 import ButtonLight from "UI/buttons/ButtonLight"
 import EditSavings from "pages/rrsp/components/EditSavings"
 import TFSAAreaChart from "charts/rrsp/RrspAreaChart"
@@ -9,10 +9,9 @@ import TFSABarChart from "charts/rrsp/RrspBarChart"
 import  Header from "pages/rrsp/components/Header"
 import AccountBox  from "pages/rrsp/components/AccountBox"
 import InvestmentFactor  from "pages/rrsp/components/InvestmentFactors"
-import {addIncome_action} from "redux/income/income_actions"
 import {rrspProjection_selector} from "redux/savings/savings_selectors"
 
-const RRSP = ({savings_reducer, setCategory, addInstance_action, addIncome_action, delete_action,}) => {    
+const RRSP = ({savings_reducer, setCategory, add_action, delete_action,}) => {    
 
     const exists = Object.values(savings_reducer).length > 0     
   
@@ -21,17 +20,17 @@ const RRSP = ({savings_reducer, setCategory, addInstance_action, addIncome_actio
 
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
-                addInstance_action(newId, {...state})                                                                                //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
+                add_action(newId, {...state}, "savings_reducer")                                                                                //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
                   
               if(state.transaction === "contribution")  { setContributionId(newId)     }                                                                                        // determines which income instance to show within the edit box
               if(state.transaction === "withdrawal")  { 
-                addIncome_action(newId, {...state})  
+                add_action(newId, {...state}, "savings_reducer")  
                 setWithdrawalId(newId)   
                   }                                                                                        // determines which income instance to show within the edit box
     }
 
     const deleteInstance = ({id}, instanceArray) => {                                                                                          //deletes the instance
-                delete_action(id)                                                                                     //removes the instance
+                delete_action(id, "savings_reducer")                                                                                      //removes the instance
                 setContributionId(22222)
                 setWithdrawalId(22224)
     }
@@ -94,7 +93,7 @@ const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer
 })
 
-export default connect(mapStateToProps, {addInstance_action, addIncome_action,  delete_action})(RRSP )
+export default connect(mapStateToProps, {add_action, add_action,  delete_action})(RRSP )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

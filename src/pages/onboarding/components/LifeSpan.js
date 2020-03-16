@@ -1,20 +1,18 @@
 import React from "react"
-import {setUserDetail_action} from "redux/user/user_actions"
-import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
-import {setNestedUserDetail_action} from "redux/user/user_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 import {Title, Dialogue} from "pages/onboarding/components/FirstName"
 
-const LifeSpan = ({count, user_reducer, setNestedUserDetail_action}) => {
+const LifeSpan = ({user_reducer, setNestedKeyValue_action}) => {
 
     const {lifeSpan} = user_reducer
 
     const handleChange = (value, nothing, {name}) => {
-        console.log(name);
-        setNestedUserDetail_action(name, "rangeBarValue", value)
-      };
+     console.log(value);
+        setNestedKeyValue_action("rangeBarValue", name, "user_reducer", value)
+      }
 
 return (
     <>
@@ -39,7 +37,7 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
 })
 
-export default connect(mapStateToProps, {setNestedUserDetail_action })(LifeSpan)
+export default connect(mapStateToProps, {setNestedKeyValue_action })(LifeSpan)
 
 //-----------------------------------------------style-----------------------------------------------//
 

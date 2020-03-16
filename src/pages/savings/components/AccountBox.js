@@ -2,7 +2,6 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
-import {removeItem_action} from "redux/netWorth/netWorth_actions"
 import DisplayBox from "pages/netWorth/components/DisplayBox"
 import EditForm from "pages/netWorth/components/EditForm"
 import AddForm from "pages/netWorth/components/AddForm"
@@ -73,7 +72,7 @@ const mapStateToProps = (state) => ({
     netWorth_reducer: state.netWorth_reducer,
 })
 
-export default connect(mapStateToProps,{removeItem_action})(ControlPanel)
+export default connect(mapStateToProps,{})(ControlPanel)
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

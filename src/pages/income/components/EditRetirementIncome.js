@@ -5,17 +5,17 @@ import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
 import {cpp_selector} from "redux/income/income_selectors"
 import {setPensionAge_action} from "redux/pensionStartAges/pensionStartAges_actions"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {setNestedUserDetail_action} from "redux/user/user_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 
 
 
-const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reducer, user_reducer, setPensionAge_action, setNestedUserDetail_action}) => {    
+const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reducer, user_reducer, setPensionAge_action, setNestedKeyValue_action}) => {    
 
     const {lifeSpan} = user_reducer
 
     const handleChange = (value, nothing, {name}) => {
-        console.log(name);
-        setNestedUserDetail_action(name, "rangeBarValue", value)
+        console.log(name); 
+        setNestedKeyValue_action("rangeBarValue", name, "user_reducer", value)
       };
 
     const setPensionAge = (value1, value2, rangeBarProps) => {
@@ -78,7 +78,7 @@ const mapStateToProps = (state) => ({
     cpp_selector: cpp_selector(state),
 })
 
-export default connect(mapStateToProps, {setPensionAge_action, setNestedUserDetail_action})(EditRetirementIncome )
+export default connect(mapStateToProps, {setPensionAge_action, setNestedKeyValue_action})(EditRetirementIncome )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

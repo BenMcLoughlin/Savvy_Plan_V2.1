@@ -4,33 +4,27 @@ import {connect} from "react-redux"
 import InstanceNav from "pages/savings/components/InstanceNav"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar/RangeBar"
-import { savingsValue_action, savingsAge_action} from "redux/savings/savings_actions"
-import {incomeValue_action, incomeAge_action} from "redux/income/income_actions"
 import _ from "lodash"
 import {savingsInstance_data} from "pages/savings/data/savings_data"
 import {tfsaProjection_selector} from "redux/savings/savings_selectors"
-import {setAge} from "services/income/actionWrapper_functions"
+import {setAge, setNestedKeyValue_action, setValue_action} from "redux/actions"
 
 
-const EditSavings = ({transaction, savings_reducer, instanceArray, incomeValue_action, user_reducer, deleteInstance, incomeAge_action, savingsValue_action, createNewItem, id, setId, savingsAge_action}) => {    
+const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, instanceArray, user_reducer, deleteInstance, setValue_action, createNewItem, id, setId}) => {    
 
-
-    useEffect(()=> {
-        const {birthYear} = user_reducer
-        const thisYear = new Date().getFullYear()
-        const age = thisYear - birthYear
-        if (transaction === "contribution") {setAge(savingsAge_action, 123, instanceArray, "bottom", age)}
-     }, [])
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
-        if (transaction === "withdrawal") {incomeValue_action(id, logValue, rangeBarValue, rangeBarProps)}
-        savingsValue_action(id, logValue, rangeBarValue, rangeBarProps)                                                        //setting the income value in the reducer
+                                                           //(id, financialValue, rangeBarValue, {name}, reducer)
+        if (transaction === "withdrawal") {setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")}
+        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "savings_reducer")                                                        //setting the income value in the reducer
     }
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
-        if (transaction === "withdrawal") setAge(incomeAge_action, id, instanceArray, name, value)
-        setAge(savingsAge_action, id, instanceArray, name, value)
+        if (transaction === "withdrawal"){
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
     }
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
+}
 
     const transactionFunction = (transaction, barStart, barEnd, financialValue , rangeBarValue, value) => {
         createNewItem(savingsInstance_data(transaction, barStart, barEnd, financialValue , rangeBarValue, value))
@@ -86,7 +80,7 @@ const mapStateToProps = (state) => ({
     tfsaProjection_selector: tfsaProjection_selector(state),
 })
 
-export default connect(mapStateToProps, {savingsValue_action, savingsAge_action, incomeAge_action, incomeValue_action})(EditSavings )
+export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action})(EditSavings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

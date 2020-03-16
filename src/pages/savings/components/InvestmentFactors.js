@@ -4,15 +4,14 @@ import {connect} from "react-redux"
 import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
-import {setInvestmentFactor_action} from "redux/assumptions/assumptions_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 
 
 
-const InvestmentFactor = ({setInvestmentFactor_action, investmentReturns_selector, assumptions_reducer}) => {    
+const InvestmentFactor = ({setNestedKeyValue_action, investmentReturns_selector, assumptions_reducer}) => {    
 
     const setInvestmentFactor = (value, nothing, {name}) => {
-        setInvestmentFactor_action(name, value) 
-
+        setNestedKeyValue_action("rangeBarValue", name, "assumptions_reducer", value) 
     }
 
         const [visible, setVisible] = useState(false)
@@ -56,7 +55,7 @@ const mapStateToProps = (state) => ({
     assumptions_reducer: state.assumptions_reducer,
 })
 
-export default connect(mapStateToProps, {setInvestmentFactor_action})(InvestmentFactor )
+export default connect(mapStateToProps, {setNestedKeyValue_action})(InvestmentFactor )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

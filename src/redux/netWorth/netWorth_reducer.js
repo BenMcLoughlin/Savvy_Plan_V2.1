@@ -24,6 +24,7 @@ switch(action.type) {
     }
  
        }
+       
     case "netWorth_reducer/CHANGE_LABEL": return {...state, [action.category]:{
                                                             ...state[action.category], [action.id]: {
                                                                 ...state[action.category][action.id], 

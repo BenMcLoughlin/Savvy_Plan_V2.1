@@ -1,21 +1,18 @@
 import React from "react"
-import {setUserDetail_action} from "redux/user/user_actions"
 import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {rate1, rate2, investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
 import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
-import {transaction_action, setOpitmizedValues_action} from "redux/savings/savings_actions"
-import {setInvestmentFactor_action} from "redux/assumptions/assumptions_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 import {Title, Dialogue} from "pages/onboarding/components/FirstName"
 
-const PreRetirementRate = ({count, user_reducer, setInvestmentFactor_action, investmentReturns_selector}) => {
+const PreRetirementRate = ({count, user_reducer, setNestedKeyValue_action, investmentReturns_selector}) => {
 
     const setInvestmentFactor = (value, nothing, {name}) => {
-        setInvestmentFactor_action(name, value) 
-
+        setNestedKeyValue_action("rangeBarValue", name, "assumptions_reducer", value) 
     }
-    console.log(investmentReturns_selector);
+
     const position = count - 6
 return (
     <>
@@ -84,7 +81,7 @@ const mapStateToProps = (state) => ({
     investmentReturns_selector: investmentReturns_selector(state),
 })
 
-export default connect(mapStateToProps, {setInvestmentFactor_action, })(PreRetirementRate)
+export default connect(mapStateToProps, {setNestedKeyValue_action, })(PreRetirementRate)
 
 //-----------------------------------------------style-----------------------------------------------//
 

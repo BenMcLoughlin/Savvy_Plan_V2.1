@@ -6,7 +6,6 @@ import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
 import {taxBracketsSunburstData_selector, finalTaxPosition_selector} from "redux/taxCredits/taxCredits_selectors"
 
-
 const drawChart = (data, width, height, total, className) => {
     
     const margin = {top: 10, right: 50, bottom: 40, left: 80}
@@ -14,8 +13,8 @@ const drawChart = (data, width, height, total, className) => {
     const graphWidth = width - margin.left - margin.right
     const colors = ['#72929B', "#F29278",  "#55869d"]
 
-        const radius = Math.min(width, height) / 2.2;
-        const color = d3.scaleOrdinal(colors);
+    const radius = Math.min(width, height) / 3;
+    const color = d3.scaleOrdinal(colors);
 
         const update = data => {
 
@@ -31,7 +30,7 @@ const drawChart = (data, width, height, total, className) => {
         const graph = svg.append("g")
                         .attr("height", graphHeight)
                         .attr("width", graphWidth)
-                        .attr("transform", `translate(${graphWidth + 10}, ${graphHeight/1.5})`)
+                        .attr("transform", `translate(${graphWidth/1.2}, ${graphHeight/1.5})`)
 
       
                         const tooltip = d3.select(`.${className}`).append("div")
@@ -60,7 +59,7 @@ const drawChart = (data, width, height, total, className) => {
                         .innerRadius(d => d.y0)
                         .outerRadius(d => d.y1);
 
-        const rects = graph.selectAll('path')
+        const paths = graph.selectAll('path')
                         .data(root.descendants())
                         .enter().append('path')
                         .attr("display", d => d.depth ? null : "none")
@@ -124,12 +123,10 @@ const drawChart = (data, width, height, total, className) => {
         }
 
 
-const LifeEventsTimeline = ({data, finalTaxPosition_selector}) =>  {
+const TaxSunBurstChart = ({data, className, finalTaxPosition_selector}) =>  {
 
-    const className="postTaxSunburstChart"
     const total = finalTaxPosition_selector.income
     const inputRef = useRef(null)
-
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
@@ -145,11 +142,10 @@ const LifeEventsTimeline = ({data, finalTaxPosition_selector}) =>  {
 
 
 const mapStateToProps = (state) => ({
-    data: taxBracketsSunburstData_selector(state),
     finalTaxPosition_selector: finalTaxPosition_selector(state)
 })
 
-export default connect(mapStateToProps)(LifeEventsTimeline)
+export default connect(mapStateToProps)(TaxSunBurstChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

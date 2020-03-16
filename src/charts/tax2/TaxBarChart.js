@@ -2,7 +2,6 @@ import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
 import {taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
-import {setUserDetail_action} from "redux/user/user_actions"
 import {connect} from "react-redux"
 import _ from "lodash"
 
@@ -73,6 +72,7 @@ const drawChart = (data, width, height, colors) => {
     
         rects.enter().append("g")
             .attr("fill", (d,i) => color[i])
+            .attr("backgroundColor", (d,i) => color[i])
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
             .data(d => d)
@@ -203,7 +203,7 @@ const mapStateToProps = (state) => ({
     data: taxBrackets_selector(state),
 })
 
-export default connect(mapStateToProps, {setUserDetail_action})(TaxBarChart)
+export default connect(mapStateToProps)(TaxBarChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

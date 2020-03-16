@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
-import {delete_action} from "redux/global_actions"
+import {delete_action} from "redux/actions"
 import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 

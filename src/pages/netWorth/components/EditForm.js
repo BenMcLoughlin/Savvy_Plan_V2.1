@@ -9,10 +9,9 @@ import ButtonLight from "UI/buttons/ButtonLight"
 import {setItemValue_action, changeLabel_action} from "redux/netWorth/netWorth_actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
 import _ from "lodash"
-import {setInvestmentFactor_action} from "redux/assumptions/assumptions_actions"
+import {setNestedKeyValue_action} from "redux/actions"
 
-
-const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemValue_action, setInvestmentFactor_action, assumptions_reducer, changeLabel_action }) => {    
+const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemValue_action, setNestedKeyValue_action, assumptions_reducer, changeLabel_action }) => {    
 
     const item = netWorth_reducer[category][id]                                             //uses the item id provided to go into the reducer and gahter all the users details
 
@@ -26,7 +25,7 @@ const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setItemVa
 
     const setAssumptionValue = (value, value1, rangeBarProps) => {                              //Sets values such as assumed interest return or property appreciation rate
         const {name} = rangeBarProps
-        setInvestmentFactor_action(name, value) 
+        setNestedKeyValue_action("rangeBarValue", name, value, "assumptions_reducer") 
     }
 
     return (
@@ -114,7 +113,7 @@ const mapStateToProps = (state) => ({
     assumptions_reducer: state.assumptions_reducer
 })
 
-export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, setInvestmentFactor_action})(EditForm )
+export default connect(mapStateToProps, {setItemValue_action, changeLabel_action, setNestedKeyValue_action})(EditForm )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

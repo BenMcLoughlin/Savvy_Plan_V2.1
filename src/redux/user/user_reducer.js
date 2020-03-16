@@ -48,32 +48,12 @@ const initialState = {
 }
 
 const user_reducer = (state = initialState, action) => {
-    switch(action.type) {
-        case "SET_KEY_VARIABLE": 
-        return {...state, [action.name]: action.value}        
-        case "user_reducer/SET_RETIREMENT_INCOME": 
-        return {...state, retirementIncome: {
-            ...state.retirementIncome, 
-                                        financialValue: action.financialValue, 
-                                        rangeBarValue: action.rangeBarValue
-
-        }  }
-        case "user_reducer/SET_USER_DETAILS": 
-        return {...state, 
-                                       id: action.userId,
-                                       email: action.useremail,
-                                       displayName: action.displayName,
-         }
-        case "user_reducer/SET_USER_DETAIL": 
-        return {...state, 
-                                    [action.name]: action.value
-         }
-        case "user_reducer/SET_NESTED_USER_DETAIL": 
-        return {...state, [action.identifier]: {
-            ...state[action.identifier], [action.name]: action.value
-        }
-         }
-
+    switch(action.type) {  
+        case "user_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}        
+        case "user_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {
+                                                                            ...state[action.parentKey], 
+                                                                            [action.childKey]: action.value
+        }}        
         default: return state
     }
 }
