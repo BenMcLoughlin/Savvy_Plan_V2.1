@@ -4,7 +4,7 @@ import _ from "lodash"
 import styled from "styled-components"
 import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
-import {chartProjection_selector} from "redux/netWorth1/netWorth_selectors"
+import {chartProjection_selector} from "redux/netWorth/netWorth_selectors"
 
 
 const drawChart = (data, width, height, className) => {

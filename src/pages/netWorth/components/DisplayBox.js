@@ -62,7 +62,7 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    netWorth_reducer: state.netWorth_reducer1,
+    netWorth_reducer: state.netWorth_reducer,
 })
 
 export default connect(mapStateToProps,{delete_action})(DisplayBox )

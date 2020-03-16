@@ -10,8 +10,8 @@ const subCategoryArray = (category, subCategory) => {
 }
 
 const sumSubCategory = (netWorth_reducer, category, subCategory) => {
-    const array = Object.values(netWorth_reducer[category]).length > 0 ? Object.values(netWorth_reducer[category]) : [1]
-    const filteredArray = array.filter(d => d.subCategory === subCategory).map(d => d.currentValue.financialValue)
+    const array = Object.values(netWorth_reducer).length > 0 ? Object.values(netWorth_reducer) : [1]
+    const filteredArray = array.filter(d => d.subCategory === subCategory).map(d => d.value.financialValue)
     
     return filteredArray.length > 0 ? filteredArray.reduce((acc, num) => acc + num) : 0
 }
@@ -29,50 +29,50 @@ const userAge = state => thisYear.getFullYear() - state.user_reducer.birthYear
 //ASSET SELECTORS
 export const property_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) => subCategoryArray('netWorth_reducer.assets', "propertyAssets")                                                               
+    (netWorth_reducer) => subCategoryArray('netWorth_reducer', "propertyAssets")                                                               
 )
 
 export const cash_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) => subCategoryArray('netWorth_reducer.assets', "cashAssets")  
+    (netWorth_reducer) => subCategoryArray('netWorth_reducer', "cashAssets")  
                                                                                                                  
 )
 
 export const investments_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) => subCategoryArray('netWorth_reducer.assets', "investmentAssets")                                                            
+    (netWorth_reducer) => subCategoryArray('netWorth_reducer', "investmentAssets")                                                            
 )
 
 export const totalAssets_selector = createSelector(
     [netWorth_reducer],
     (netWorth_reducer) =>  {
-        const array =  Object.values(netWorth_reducer.assets) 
-        return array.length > 0 ? Math.round(array.map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num)/1000)*1000 : 0
+        const array =  Object.values(netWorth_reducer).filter(d => d.category === "assets") 
+        return array.length > 0 ? Math.round(array.map(d => d.value.financialValue).reduce((acc, num) => acc + num)/1000)*1000 : 0
            }                                                               
 )
 
 export const propertyNames_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) =>  Object.values(netWorth_reducer.assets).filter(d => d.subCategory === "propertyAssets").map(d => d.label)                                                                                                      //creates a an array of each of the income subCategory names, which is used in the stacked Income chart
+    (netWorth_reducer) =>  Object.values(netWorth_reducer).filter(d => d.subCategory === "propertyAssets").map(d => d.label)                                                                                                      //creates a an array of each of the income subCategory names, which is used in the stacked Income chart
 )
 
 
 //LIABILITY SELECTORS
 export const mortgage_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) => Object.values(netWorth_reducer.liabilities).filter(d => d.subCategory === "securedDebt")                                                             //creates a an array of each of the income subCategory names, which is used in the stacked Income chart
+    (netWorth_reducer) => Object.values(netWorth_reducer).filter(d => d.subCategory === "securedDebt")                                                             //creates a an array of each of the income subCategory names, which is used in the stacked Income chart
 )
 
 export const unsecuredDebt_selector = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) => Object.values(netWorth_reducer.liabilities).filter(d => d.subCategory === "unsecuredDebt")                                                                       //creates a an array of each of the income subCategory names, which is used in the stacked Income chart
+    (netWorth_reducer) => Object.values(netWorth_reducer).filter(d => d.subCategory === "unsecuredDebt")                                                                       //creates a an array of each of the income subCategory names, which is used in the stacked Income chart
 )
 
 export const totalLiabilities_selector = createSelector(
     [netWorth_reducer],
     (netWorth_reducer) =>   {
-        const array =  Object.values(netWorth_reducer.liabilities) 
-        return array.length > 0 ? Math.round(array.map(d => d.currentValue.financialValue).reduce((acc, num) => acc + num)/1000)*1000 : 0
+        const array =  Object.values(netWorth_reducer).filter(d => d.category === "liabilities") 
+        return array.length > 0 ? Math.round(array.map(d => d.value.financialValue).reduce((acc, num) => acc + num)/1000)*1000 : 0
            }                                                               
 )
 
@@ -96,7 +96,7 @@ export const unsecuredSchedule_selector = createSelector(
     unsecuredDebt_selector,
     birthYear,
     (unsecuredDebt_selector, birthYear) =>  unsecuredDebt_selector.map(d => {
-        const balance = d.currentValue.financialValue
+        const balance = d.value.financialValue
         const interestRate = d.interestRate.rangeBarValue * 100
         const payment =  d.bookValue.financialValue
         const newbalance = calculateCreditCardBalance(balance, interestRate,  payment )
@@ -115,20 +115,20 @@ export const chartAssets_selector = createSelector(
                 const secured = mortgages.find(d => d.registration === propertyAssets.label)
                     return ({
                         name: propertyAssets.label,
-                        value: propertyAssets.currentValue.financialValue - (secured ? secured.currentValue.financialValue : 0)
+                        value: propertyAssets.value.financialValue - (secured ? secured.value.financialValue : 0)
                     })
             })
         }
        return  ({
         "name": "Assets", "children": [{
             "name": "cashAssets",
-            "children": Object.values(netWorth_reducer.assets).filter(d => d.subCategory === "cashAssets").map(d => ({name: d.label, value: d.currentValue.financialValue}))
+            "children": Object.values(netWorth_reducer).filter(d => d.subCategory === "cashAssets").map(d => ({name: d.label, value: d.value.financialValue}))
         }, {
             "name": "investmentAssets",
-            "children": Object.values(netWorth_reducer.assets).filter(d => d.subCategory === "investmentAssets").map(d => ({name: d.label, value: d.currentValue.financialValue}))
+            "children": Object.values(netWorth_reducer).filter(d => d.subCategory === "investmentAssets").map(d => ({name: d.label, value: d.value.financialValue}))
         }, {
             "name": "propertyAssets",
-            "children": linkMortgageToPropery(Object.values(netWorth_reducer.assets).filter(d => d.subCategory === "propertyAssets"), Object.values(netWorth_reducer.liabilities).filter(d => d.subCategory === "securedDebt"))
+            "children": linkMortgageToPropery(Object.values(netWorth_reducer).filter(d => d.subCategory === "propertyAssets"), Object.values(netWorth_reducer).filter(d => d.subCategory === "securedDebt"))
         }]
     })}                                                                  
 )
@@ -139,10 +139,10 @@ export const chartLiabilities_selector = createSelector(
        return  ({
         "name": "Assets", "children": [{
             "name": "cashAssets",
-            "children": Object.values(netWorth_reducer.liabilities).filter(d => d.subCategory === "unSecured").map(d => ({name: d.label, value: d.financialValue}))
+            "children": Object.values(netWorth_reducer).filter(d => d.subCategory === "unSecured").map(d => ({name: d.label, value: d.financialValue}))
         }, {
             "name": "investmentAssets",
-            "children": Object.values(netWorth_reducer.liabilities).filter(d => d.subCategory === "secured").map(d => ({name: d.label, value: d.financialValue}))
+            "children": Object.values(netWorth_reducer).filter(d => d.subCategory === "secured").map(d => ({name: d.label, value: d.financialValue}))
         }, ]
     })}
                                                                                

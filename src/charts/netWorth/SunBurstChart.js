@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
 import {createStructuredSelector} from "reselect"
-import {chartAssets_selector, totalAssets_selector, chartLiabilities_selector, totalLiabilities_selector} from "redux/netWorth1/netWorth_selectors"
+import {chartAssets_selector, totalAssets_selector, chartLiabilities_selector, totalLiabilities_selector} from "redux/netWorth/netWorth_selectors"
 
 
 

@@ -108,7 +108,7 @@ console.log(item);
 }
 
 const mapStateToProps = (state) => ({
-    netWorth_reducer: state.netWorth_reducer1,
+    netWorth_reducer: state.netWorth_reducer,
     propertyNames_selector: propertyNames_selector(state),
     assumptions_reducer: state.assumptions_reducer
 })
