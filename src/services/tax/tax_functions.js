@@ -71,7 +71,7 @@ const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, donation, tuiti
 //DETERMINE TAXES PAYABLE BY BRACKET
 export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, TFSA}, credits)  => {
 
-    const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
+    //const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
 
 //     const [donation, tuition, medical, homeBuyer, firefighter, interest] = [0,0,0,0,0,0]
 // console.log(credits);
@@ -87,13 +87,13 @@ export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, T
         const cppAndEI = i > 1 ? totalCppAndEI - data[i-2].totalCppAndEI : totalCppAndEI
         const totalFederalTax = calculateFederalTaxes(income)
         const marginalFederalTax =  i > 1 ? totalFederalTax - data[i-2].totalFederalTax : totalFederalTax    
-        const totalFederalTaxCredits = calculateFederalCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest)
+        const totalFederalTaxCredits = 100 //calculateFederalCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest)
         const federalTaxCredits = totalFederalTaxCredits >= totalFederalTax ? totalFederalTax : totalFederalTaxCredits 
         const marginalFederalTaxCredits = i > 1 ? federalTaxCredits - data[i-2].federalTaxCredits : federalTaxCredits 
         const federalTax = marginalFederalTax - marginalFederalTaxCredits
         const totalProvincialTax = calculateProvincialTaxes(income)
         const marginalProvincialTax = i > 1 ? totalProvincialTax - data[i-2].totalProvincialTax : totalProvincialTax
-        const totalProvincialTaxCredits = calculateProvincialCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest )
+        const totalProvincialTaxCredits = 100 //calculateProvincialCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest )
         const provincialTaxCredits = totalProvincialTaxCredits >= totalProvincialTax ? totalProvincialTax : totalProvincialTaxCredits 
         const marginalProvincialTaxCredits = i > 1 ? provincialTaxCredits - data[i-2].provincialTaxCredits : provincialTaxCredits 
         const provincialTax = marginalProvincialTax - marginalProvincialTaxCredits
@@ -159,12 +159,12 @@ return {
 
 
 
-export const convertTaxesToSunburstChart_function = (taxData) => {
+export const convertTaxesToSunburstChart_function = (taxData, showCredits) => {
 
-    const federalTaxPayable = taxData.totalFederalTax - taxData.federalTaxCredits             
-    const provincialTaxPayable = taxData.totalProvincialTax - taxData.provincialTaxCredits
+    const federalTaxPayable = showCredits ? (taxData.totalFederalTax - taxData.federalTaxCredits) : taxData.totalFederalTax
+    const provincialTaxPayable =  showCredits ? (taxData.totalProvincialTax - taxData.provincialTaxCredits) : taxData.totalProvincialTax
     const totalCppAndEI = taxData.totalCppAndEI
-    const totalCredits = taxData.provincialTaxCredits + taxData.federalTaxCredits
+    const totalCredits = showCredits ? taxData.provincialTaxCredits + taxData.federalTaxCredits : 0
     const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + totalCppAndEI 
     const afterTaxIncome = taxData.income - totalTaxLiability - totalCredits
   

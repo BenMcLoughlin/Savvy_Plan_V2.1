@@ -187,7 +187,7 @@ const SavingsBarChart = ({registration, tfsaBar_selector, rrspBar_selector}) => 
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
         drawChart(data, width, height, className)
-    }, [data])
+    }, [data, className])
 
         return (
             <Canvas className={className} ref={inputRef}>

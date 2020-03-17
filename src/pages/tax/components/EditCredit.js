@@ -158,7 +158,7 @@ const SelectorTitleWrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    background: "#55869d";
+    background: #55869d;
     height: 4rem;
     display: flex;
     justify-content: center;

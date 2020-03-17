@@ -7,7 +7,7 @@ import EditForm from "pages/netWorth/components/EditForm"
 import AddForm from "pages/netWorth/components/AddForm"
 import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
-const ControlPanel = ({setCount, display, netWorth_reducer}) => {    
+const ControlPanel = ({setCount, display, netWorth_reducer, registration}) => {    
 
     const [id, setId] = useState()                                                                              //If the user wants to change something this sets the id of the item they want to change
   
@@ -15,9 +15,8 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
     const addFormDetails = netWorthWizard_data.find(d => d.subCategory === addFormSubCategory)                  //Provides the add form with the details to render
 
     const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
-    const subCategory = id ? netWorth_reducer[category][id].subCategory : "cashAssets"                          //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
+    const subCategory = id ? netWorth_reducer[id].subCategory : "cashAssets"                          //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
-    console.log(netWorth_reducer);
     return (
         <Wrapper>   
             <Sections>
@@ -53,7 +52,7 @@ const ControlPanel = ({setCount, display, netWorth_reducer}) => {
                                 setCount={setCount}
                                 setId={setId}
                                 setAddFormSubCategory={setAddFormSubCategory}
-                                account={"tfsa"}
+                                registration={registration}
                                 />
                             </Section> 
 
@@ -86,6 +85,7 @@ const Wrapper = styled.div`
 const Sections = styled.div`
     display: flex;
     padding: 1rem;
+    width: 37rem;
     position: relative;
     justify-content: center;
 `

@@ -10,11 +10,9 @@ import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCre
 import TaxBarChart from "charts/tax2/TaxBarChart"
 import TaxSunBurstChart from "charts/tax2/TaxSunburstChart"
 import {add_action, setKeyValue_action} from "redux/actions"
-import {taxBracketsSunburstData_selector, finalTaxPosition_selector} from "redux/taxCredits/taxCredits_selectors"
 
-const Tax = ({setKeyValue_action, taxCredits_selector,  add_action, taxBracketsSunburstData_selector}) => {    
+const Tax = ({setKeyValue_action, taxCredits_selector,  add_action}) => {    
 
-    const exists = Object.values(taxCredits_selector).length > 0   
     const [category, setCategory] = useState()                                                                                       //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
     const [id, setId] = useState()                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
     const [type, setCreditType] = useState("regularCredit")                                                                          // We're using three types, "regularCredit", "deduction", and "ageCredit"
@@ -26,7 +24,7 @@ const Tax = ({setKeyValue_action, taxCredits_selector,  add_action, taxBracketsS
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
 
-    const instanceArray = exists ? taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const instanceArray =  taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) 
 
     return (
         <Wrapper>
@@ -39,12 +37,13 @@ const Tax = ({setKeyValue_action, taxCredits_selector,  add_action, taxBracketsS
                 </BarChartPlaceHolder>
                 <ChartPlaceHolder >
                   <TaxSunBurstChart
-                    data={taxBracketsSunburstData_selector}
-                    className="preTaxSunburst"
+                    className="preTax"
                   />
                 </ChartPlaceHolder>
                 <ChartPlaceHolder >
-
+                <TaxSunBurstChart
+                    className="postTax"
+                  />
                 </ChartPlaceHolder>
 
             </Charts>
@@ -93,10 +92,9 @@ const mapStateToProps = (state) => ({
     taxCredits_selector: taxCredits_selector(state),
     taxCredits_reducer: state.taxCredits_reducer,
     taxBrackets_selector: taxBrackets_selector(state),
-    taxBracketsSunburstData_selector: taxBracketsSunburstData_selector(state)
 })
 
-export default connect(mapStateToProps, {setKeyValue_action, add_action, add_action})(Tax )
+export default connect(mapStateToProps, {setKeyValue_action, add_action})(Tax )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -144,7 +142,7 @@ const Bottom = styled.div`
 const Charts = styled.div`
     grid-area: b;
     height: 100%;
-    width:  100rem;
+    width:  75rem;
     display: flex;
 `
 const ChartPlaceHolder = styled.div`

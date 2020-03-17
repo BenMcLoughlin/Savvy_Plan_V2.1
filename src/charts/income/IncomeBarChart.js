@@ -167,7 +167,7 @@ const SpendingBarChart = ({data, color_selector, setKeyValue_action}) =>  {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
         drawChart(data, width, height, color_selector, setKeyValue_action)
-    }, [data])
+    }, [data, color_selector, setKeyValue_action])
 
         return (
             <Canvas className="incomeBarChart" ref={inputRef}>

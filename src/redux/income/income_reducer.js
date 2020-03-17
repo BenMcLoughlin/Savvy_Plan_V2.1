@@ -3,7 +3,7 @@ import _ from "lodash"
 const initialState = {
     TFSAwithdrawal: {
         label: "TFSA Income",
-        registration: "tfsa",
+        registration: "TFSA",
         id: "TFSAwithdrawal",
         category: "TFSA Income",
         type: "retirementIncome",
@@ -19,7 +19,7 @@ const initialState = {
     },
     RRSPwithdrawal: {
         label: "RRSP Income",
-        registration: "rrsp",
+        registration: "RRSP",
         id: "RRSPwithdrawal",
         transaction: "withdrawal",
         category: "RRSP Income",

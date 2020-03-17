@@ -113,7 +113,7 @@ const mapStateToProps = (state) => ({
     assumptions_reducer: state.assumptions_reducer
 })
 
-export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action, setNestedKeyValue_action})(EditForm )
+export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action})(EditForm )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

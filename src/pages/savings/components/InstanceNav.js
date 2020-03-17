@@ -32,7 +32,7 @@ const PhaseSelector = ({instanceArray, id, setId, deleteInstance, color, addSect
                                 </TextAndValueWrapper>
 
                  
-                        {i > 0 ? <Exit onClick={() =>  deleteInstance(d, instanceArray)}/> : null}
+                        {i > 0 ? <Delete onClick={() =>  deleteInstance(d, instanceArray)}/> : null}
                      </SelectValue>)
                 }
                 <Add
@@ -101,7 +101,7 @@ const SelectValue = styled.div`
     text-align: center;
 `
 
-const Exit = styled(Close)`
+const Delete = styled(Close)`
     width: 1.3rem;
     height: 4.3rem;
     color: ${props => props.theme.color.grey};

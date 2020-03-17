@@ -12,9 +12,6 @@ import {persistStore} from "redux-persist"
 import {PersistGate} from "redux-persist/integration/react"
 import firebase from "firebase/firebaseUtils"
 
-// We enhance compose in order to use Redux DevTools extension
-// https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer,
   composeWithDevTools(

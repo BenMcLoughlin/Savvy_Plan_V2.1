@@ -1,33 +1,37 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector} from "redux/savings/savings_selectors"
+import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspContributions_selector, rrspinterest_selector, rrspInterest_selector, rrspPeakValue_selector} from "redux/savings/savings_selectors"
 
-const Header = ({tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector}) => {
+const Header = ({registration, tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspInterest_selector, rrspPeakValue_selector, rrspContributions_selector}) => {
 
+    console.log(registration);
+     const contributions_selector = registration === "TFSA" ? tfsaContributions_selector : rrspContributions_selector
+     const interest_selector = registration === "TFSA" ? tfsaInterest_selector : rrspInterest_selector
+     const peakValue_selector = registration === "TFSA" ? tfsaPeakValue_selector : rrspPeakValue_selector
 return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
-                <h1>
-                    TFSA Savings Plan
-                </h1>
+                <h2>
+                    {`${registration} Savings & Income Plan`}
+                </h2>
             </Left>
             <Right>
             <Container >
                     <Summary>
-                    {`${(tfsaContributions_selector)/1000}k`}  
+                    {`${(contributions_selector)/1000}k`}  
                         <h4>Contributions</h4>
                         <Circle color={"#3B7B8E"}/>
                     </Summary>
                     <Vr/>
                     <Summary>
-                    {`${(tfsaInterest_selector/1000)}k`}
+                    {`${(interest_selector)/1000}k`}
                     <h4 >Interest</h4>
                          <Circle color={"#7898a1"}/>
                     </Summary>
             </Container>
             <Summary>
-             {`${(tfsaPeakValue_selector/1000)}k`}
+             {`${(peakValue_selector/1000)}k`}
             <h4>Peak Value</h4>
             </Summary>
             </Right>
@@ -40,6 +44,9 @@ const mapStateToProps = (state) => ({
     tfsaPeakValue_selector: tfsaPeakValue_selector(state),
     tfsaContributions_selector: tfsaContributions_selector(state),
     tfsaInterest_selector: tfsaInterest_selector(state),
+    rrspContributions_selector: rrspContributions_selector(state),
+    rrspInterest_selector: rrspInterest_selector(state),
+    rrspPeakValue_selector: rrspPeakValue_selector(state),
 })
 
 export default connect(mapStateToProps, {})(Header )
@@ -62,6 +69,7 @@ const Left = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
+    margin-top: -3rem;
 `
 
 const Summary = styled.div`

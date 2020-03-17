@@ -1,23 +1,23 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {rrspArea_selector} from "redux/savings/savings_selectors"
+import {tfsaArea_selector, rrspArea_selector} from "redux/savings/savings_selectors"
 import {connect} from "react-redux"
 
 
-const drawChart = (data, width, height) => {
+const drawChart = (data, width, height, className) => {
 
     const margin = {top: 20, right: 100, bottom: 10, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color =  ["age", '#3B7B8E', "#7898a1", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
     
-    d3.select(".tfsaAreaChart > *").remove()
-    d3.select(".tooltip").remove()
-
+    d3.select(`.${className} > *`).remove()
+    console.log(className);
+    
     const stackedKeys = ["age", "principle", "interest",]
 
-    const svg = d3.select('.tfsaAreaChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
 
     const graph = svg.append("g").attr("height", graphHeight > 100 ? graphHeight : 100)
@@ -29,18 +29,6 @@ const drawChart = (data, width, height) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-
-    const tooltip = d3.select(".tfsaAreaChart").append("div")
-                        .attr("class", "tooltip")
-                        .style("opacity", 0)
-                        .style("position", "absolute")
-                        .style("top", 0)
-                        .style("left", 0)
-
-                        const uselessFunctionToClearUnusedNames = () => {
-                            return tooltip
-                         }
-                         uselessFunctionToClearUnusedNames()
 
     const update = data => {
     
@@ -105,27 +93,30 @@ const drawChart = (data, width, height) => {
     
 }
 
-const TfsaAareaChart = ({data}) =>  {
+const SavingsAreaChart = ({registration, tfsaArea_selector, rrspArea_selector}) =>  {
 
+    const data = registration === "TFSA" ? tfsaArea_selector : rrspArea_selector
     const inputRef = useRef(null)
+    const className = `${registration}areaChart`
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height)
-    }, [data])
+        drawChart(data, width, height, className)
+    }, [data, className])
 
         return (
-            <Canvas className="tfsaAreaChart" ref={inputRef}>
+            <Canvas className={className} ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
-    data: rrspArea_selector(state), 
+    tfsaArea_selector: tfsaArea_selector(state), 
+    rrspArea_selector: rrspArea_selector(state), 
 })
 
-export default connect(mapStateToProps)(TfsaAareaChart)
+export default connect(mapStateToProps)(SavingsAreaChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

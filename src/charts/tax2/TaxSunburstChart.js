@@ -4,7 +4,7 @@ import _ from "lodash"
 import styled from "styled-components"
 import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
-import {taxBracketsSunburstData_selector, finalTaxPosition_selector} from "redux/taxCredits/taxCredits_selectors"
+import {preCreditSunburstData_selector, postCreditSunburstData_selector, finalTaxPosition_selector} from "redux/taxCredits/taxCredits_selectors"
 
 const drawChart = (data, width, height, total, className) => {
     
@@ -123,10 +123,11 @@ const drawChart = (data, width, height, total, className) => {
         }
 
 
-const TaxSunBurstChart = ({data, className, finalTaxPosition_selector}) =>  {
+const TaxSunBurstChart = ({className, finalTaxPosition_selector, postCreditSunburstData_selector, preCreditSunburstData_selector}) =>  {
 
     const total = finalTaxPosition_selector.income
     const inputRef = useRef(null)
+    const data = className === "preTax" ? preCreditSunburstData_selector : postCreditSunburstData_selector
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
@@ -142,7 +143,9 @@ const TaxSunBurstChart = ({data, className, finalTaxPosition_selector}) =>  {
 
 
 const mapStateToProps = (state) => ({
-    finalTaxPosition_selector: finalTaxPosition_selector(state)
+    finalTaxPosition_selector: finalTaxPosition_selector(state),
+    preCreditSunburstData_selector: preCreditSunburstData_selector(state),
+    postCreditSunburstData_selector: postCreditSunburstData_selector(state),
 })
 
 export default connect(mapStateToProps)(TaxSunBurstChart)

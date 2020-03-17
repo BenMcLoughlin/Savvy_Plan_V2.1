@@ -5,71 +5,71 @@ import {cpp_selector} from "redux/income/income_selectors"
 import { delete_action, add_action} from "redux/actions"
 import ButtonLight from "UI/buttons/ButtonLight"
 import EditSavings from "pages/savings/components/EditSavings"
-import TFSAAreaChart from "charts/savings/tfsaAreaChart"
-import TFSABarChart from "charts/savings/TfsaBarChart"
-import  Header from "pages/savings/components/Header"
+import SavingsAreaChart from "charts/savings/SavingsAreaChart"
+import SavingsBarChart from "charts/savings/SavingsBarChart"
+import Header from "pages/savings/components/Header"
 import AccountBox  from "pages/savings/components/AccountBox"
 import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
 
 
-const Savings = ({savings_reducer, setCategory, add_action, delete_action}) => {    
+const Savings = ({add_action, delete_action, category, savings_reducer, setCategory}) => {    
 
-    const exists = Object.values(savings_reducer).length > 0     
-  
-    const [contributionId, setContributionId] = useState(123)                                                                       // toggles display between asset and liability  
-    const [withdrawalId, setWithdrawalId] = useState(11111)                                                                           // toggles display between asset and liability  
+    const registration = category.split("").slice(0,4).join("")                                                                       //creates a value called registration that is either "TFSA", "RRSP", or "NReg"
+    const [contributionId, setContributionId] = useState(`${registration}contribution`)                                               //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
+    const [withdrawalId, setWithdrawalId] =  useState(`${registration}withdrawal`)                                                    // the ids for the hard coded contributions and withdrawals look like "TFSAcontribution", and "TFSAwithdrawal"
 
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
-                add_action(newId, {...state}, "savings_reducer")                                                                                //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
-                  
+                add_action(newId, {...state}, "savings_reducer")                                                                     //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
               if(state.transaction === "contribution")  { setContributionId(newId)     }                                                                                        // determines which income instance to show within the edit box
               if(state.transaction === "withdrawal")  { 
-                add_action(newId, {...state}, "savings_reducer")  
+                add_action(newId, {...state}, "income_reducer")  
                 setWithdrawalId(newId)   
                   }                                                                                        // determines which income instance to show within the edit box
     }
-    console.log(savings_reducer);
-    const deleteInstance = ({id}, instanceArray) => {                                                                                          //deletes the instance
+
+    const deleteInstance = ({id}) => {                                                                                                   //deletes the instance
                 delete_action(id, "savings_reducer")                                                                                     //removes the instance
-                setContributionId(123)
-                setWithdrawalId(133)
+                setContributionId(`${registration}contribution`)                                                                         //sets the object being viewed to the first one
+                setWithdrawalId(`${registration}withdrawal`)                                                                              //sets the object being viewed to the first one
     }
 
-    const contributionsArray = exists ?  Object.values(savings_reducer).filter(d => d.transaction === "contribution").filter(d => d.registration === "tfsa").sort((a, b) => a.fromAge - b.fromAge) : ["1"] //here we take the transaction, eg Wal Mart Income, and make an array of all the instances of that incoem
-    const withdrawalsArray = exists ?  Object.values(savings_reducer).filter(d => d.transaction === "withdrawal").filter(d => d.registration === "tfsa").sort((a, b) => a.fromAge - b.fromAge) : ["1"] //here we take the transaction, eg Wal Mart Income, and make an array of all the instances of that incoem
 
     return (
         <Wrapper>
-             < Header color={"#3B7B8E"} >
-                <h2>TFSA Savings and Withdrawal Plan</h2> 
+             <Header 
+                registration={registration}>
             </Header>
                 <Charts>
                     <ChartPlaceHolder>
-                        <TFSAAreaChart/>
+                        <SavingsAreaChart
+                        registration={registration}
+                        />
                     </ChartPlaceHolder>
                     <BarChartPlaceHolder>
-                        <TFSABarChart/>
+                        <SavingsBarChart
+                        registration={registration}
+                        />
                     </BarChartPlaceHolder>
                 </Charts>
                 <ControlPanel>
                 <AccountBox 
                     display={"assets"}
                     subCategory={"investmentAssets"}
-                    account={"tfsa"}
+                    registration={registration}
                 />
                 <EditSavings createNewItem = {createNewItem} 
                             transaction={"contribution"}                                                               
                             id={contributionId} 
+                            registration={registration}
                             setId={setContributionId}
-                            instanceArray={contributionsArray}
                             deleteInstance={deleteInstance}
                 />
                 <EditSavings createNewItem = {createNewItem} 
-                            transaction={"withdrawal"}                                                               
+                            transaction={"withdrawal"}   
+                            registration={registration}                                                            
                             id={withdrawalId} 
                             setId={setWithdrawalId}
-                            instanceArray={withdrawalsArray}
                             deleteInstance={deleteInstance}
                 />
                 </ControlPanel>

@@ -36,8 +36,10 @@ const InvestmentFactor = ({setNestedKeyValue_action, investmentReturns_selector,
                 }
 
             </MiniRangeBarWrapper>
+            <ButtonLeftWrapper>
+                <ButtonLight text="Back" onClick={() => setVisible(false)}></ButtonLight>
+            </ButtonLeftWrapper>
             </Container>
-      
             </Wrapper>
             :
             <ButtonRightWrapper>
@@ -63,8 +65,8 @@ export default connect(mapStateToProps, {setNestedKeyValue_action})(InvestmentFa
 
 const ButtonLeftWrapper = styled.div`
     position: absolute;
-    bottom: 9rem;
-    left: 2rem;
+    bottom: 2rem;
+    left: -14rem;
 `
 const ButtonRightWrapper = styled.div`
     position: absolute;
@@ -85,7 +87,7 @@ const Wrapper = styled.div`
     border: ${props => props.theme.border.primary};
     position: absolute;
     top: 36rem;
-    left: 40rem;
+    left: 37rem;
     display: flex;
     z-index: 700;
     background: ${props => props.theme.color.ice};
@@ -104,4 +106,5 @@ const Header = styled.div`
 const Container = styled.div`
     display: flex;
     align-content: center;
+    position: relative;
 `

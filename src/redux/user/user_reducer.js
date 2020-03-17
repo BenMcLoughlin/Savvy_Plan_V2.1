@@ -6,7 +6,7 @@ const initialState = {
     firstName: "",
     province: "",
     spouse: false,
-    taxAge: false,
+    taxAge: 44,
     birthYear: 1978,
     rrifWithdrawalAge: 65,
     retirementPensionIncome: 0,

@@ -34,7 +34,7 @@ export const rate2 = createSelector(
 )
 
 
-export const tfsaProjection_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const tfsaProjection_selector = createSelector(                                                                      
     savings_reducer,
     userAge,
     lifeSpan,
@@ -44,28 +44,28 @@ export const tfsaProjection_selector = createSelector(                          
     (savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance) => createProjection(savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance, "TFSA")                                       
 )
 
-export const tfsaPeakValue_selector = createSelector(                                                                      //Determines the CPP payment for the user
-    tfsaProjection_selector,
+export const tfsaPeakValue_selector = createSelector(                                                                                           //determines the maximum value of the TFSA account  
+    tfsaProjection_selector,                                    
     (tfsaProjection_selector) => Math.round(Math.max(...tfsaProjection_selector.map(d => d.value))/1000)*1000                                 
 )
 
-export const tfsaContributions_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const tfsaContributions_selector = createSelector(                                                                      
     tfsaProjection_selector,
     (tfsaProjection_selector) =>   Math.round(tfsaProjection_selector.map(d => d.contribution).reduce((acc, num) => acc + num)/1000)*1000                                 
 )
 
-export const tfsaInterest_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const tfsaInterest_selector = createSelector(                                                                      
     tfsaProjection_selector,
     (tfsaProjection_selector) =>  Math.round(tfsaProjection_selector.map(d => d.interest).reduce((acc, num) => acc + num)/1000)*1000                                 
 )
 
 
-export const tfsaPayment_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const tfsaPayment_selector = createSelector(                                                                      
     tfsaProjection_selector,
     (tfsaProjection_selector) =>  Math.round(Math.max(...tfsaProjection_selector.map(d => d.withdrawal)))                            
 )
 
-export const tfsaArea_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const tfsaArea_selector = createSelector(                                                                      
     tfsaProjection_selector,
     (tfsaProjection_selector) => tfsaProjection_selector.map(d => ({
         age: d.age,
@@ -74,7 +74,7 @@ export const tfsaArea_selector = createSelector(                                
     })                                     
 )
 )
-export const tfsaBar_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const tfsaBar_selector = createSelector(                                                                      
     tfsaProjection_selector,
     (tfsaProjection_selector) => tfsaProjection_selector.map(d => ({
         age: d.age,
@@ -125,17 +125,17 @@ export const rrspBar_selector = createSelector(
 )
 )
 
-export const rrspPeakValue_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const rrspPeakValue_selector = createSelector(                                                                      
     rrspProjection_selector,
     (rrspProjection_selector) => Math.round(Math.max(...rrspProjection_selector.map(d => d.value))/1000)*1000                                 
 )
 
-export const rrspContributions_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const rrspContributions_selector = createSelector(                                                                      
     rrspProjection_selector,
     (rrspProjection_selector) =>   Math.round(rrspProjection_selector.map(d => d.contribution).reduce((acc, num) => acc + num)/1000)*1000                                 
 )
 
-export const rrspInterest_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const rrspInterest_selector = createSelector(                                                                      
     rrspProjection_selector,
     (rrspProjection_selector) =>  Math.round(rrspProjection_selector.map(d => d.interest).reduce((acc, num) => acc + num)/1000)*1000                                 
 )

@@ -8,15 +8,15 @@ import _ from "lodash"
 import {savingsInstance_data} from "pages/savings/data/savings_data"
 import {tfsaProjection_selector} from "redux/savings/savings_selectors"
 import {setAge, setNestedKeyValue_action, setValue_action} from "redux/actions"
+import {instanceArray_function} from "services/savings/savings_functions"
 
+const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, setValue_action, createNewItem, id, registration, setId}) => {    
 
-const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, instanceArray, user_reducer, deleteInstance, setValue_action, createNewItem, id, setId}) => {    
-
-
-    const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
-                                                           //(id, financialValue, rangeBarValue, {name}, reducer)
-        if (transaction === "withdrawal") {setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")}
-        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "savings_reducer")                                                        //setting the income value in the reducer
+console.log(id);
+    const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                                      //receives numbers from range bar and sets them in state
+        if (transaction === "withdrawal") 
+        {setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")}
+        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "savings_reducer")                                                  //setting the income value in the reducer
     }
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
@@ -25,17 +25,14 @@ const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, in
     }
         setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
 }
+     const instance = savings_reducer[id]
+     const endAge = instance.toAge       
 
-    const transactionFunction = (transaction, barStart, barEnd, financialValue , rangeBarValue, value) => {
-        createNewItem(savingsInstance_data(transaction, barStart, barEnd, financialValue , rangeBarValue, value))
+     const newItem = savingsInstance_data(instance.value.financialValue, (+endAge), instance.value.rangeBarValue,  (+endAge + 5), registration, transaction)                                         //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
-        }
-
-const instance = savings_reducer[id]
-
-    const endAge = instance.toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
-
-    return (
+     const instanceArray = instanceArray_function(savings_reducer, transaction, registration)
+   
+     return (
         <Wrapper>
              <Header transaction={transaction}>
             <h2>{_.startCase(transaction)}s</h2> 
@@ -45,7 +42,7 @@ const instance = savings_reducer[id]
                             setId={setId}
                             id={id}
                             deleteInstance={deleteInstance}
-                            addSection={() => transactionFunction(transaction, (+endAge), (+endAge + 5), instance.value.financialValue , instance.value.rangeBarValue, instance.value)}
+                            addSection={() => createNewItem(newItem)}
                         />
             <Container >  
                 < RangeBarWrapper>

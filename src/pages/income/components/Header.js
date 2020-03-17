@@ -106,17 +106,6 @@ const Right = styled.div`
     text-align: center;
     align-items: center;
 `
-const Circle = styled.div`
-   border-radius: 50%;
-   height: 1rem;
-   width: 1rem;
-   margin-top: .5rem;
-   background: ${props => props.color}
-   display: flex;
-   align-items: center;
-`
-
-
 const Container = styled.div`
     display: flex;
     width: 60%;
