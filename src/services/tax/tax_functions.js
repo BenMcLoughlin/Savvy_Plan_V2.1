@@ -203,10 +203,7 @@ export const convertTaxesToSunburstChart_function = (taxData, showCredits) => {
 
 //CONVERTS REDUCER TO ARRAY FOR CHART 
 export const convertReducerToArray = (category, lifeSpan, userAge, reducer) => {                                         //Converts reducer to an array of objects                                                          
-    console.log('category', category); 
-    console.log('lifeSpan', lifeSpan); 
-    console.log('userAge', userAge); 
-    console.log('reducer', reducer); 
+
     const creditClaimed = Object.values(reducer).filter(d => d.category === category)                               //filter through to get the credit we're looking for, eg. "medicalExpense"
       
           //RETURNS Credit VALUE FOR THE GIVEN Credit INSTANCE    
@@ -231,3 +228,48 @@ export const convertReducerToArray = (category, lifeSpan, userAge, reducer) => {
            }
            return array
        }
+
+       export const convertForBracketsChart = (taxBrackets_selector) => {
+           console.log(taxBrackets_selector);
+           const array = []
+           for (let i = 0; i < taxBrackets_selector.length; i++) {
+               const bracketDetails = taxBrackets_selector[i]
+               array.push({
+                   backet: bracketDetails.bracket, 
+                   bracketIncome: bracketDetails.marginalIncome,
+                   totalIncome: bracketDetails.income,
+                   label: i === 0 ? "47k  -" : i === 1 ? "97k  -" : i === 2 ? "107k  -" : 0, 
+                   federalTaxes: bracketDetails.marginalFederalTax / bracketDetails.marginalIncome,
+                   provincialTaxes: bracketDetails.marginalProvincialTax / bracketDetails.marginalIncome,
+                   cppAndEI: bracketDetails.cppAndEI / bracketDetails.marginalIncome,
+                   keep: bracketDetails.incomeAfterTax / bracketDetails.marginalIncome
+               })
+           }
+           return array
+       }
+//   bracket: 1, 
+//             bracketIncome: 30000, 
+//             totalIncome: 30000,
+//             federalTaxes: .1, 
+//             label: "47k  -", 
+//             provincialTaxes: .1, 
+//             keep: 0.8,
+
+//        bracket: 1
+// income: 48535
+// marginalIncome: 48535
+// totalCppAndEI: 3063.638
+// cppAndEI: 3063.638
+// totalFederalTax: 7280.25
+// marginalFederalTax: 7280.25
+// federalTaxCredits: 100
+// marginalFederalTaxCredits: 100
+// federalTax: 7180.25
+// totalProvincialTax: 2662.195
+// marginalProvincialTax: 2662.195
+// provincialTaxCredits: 100
+// marginalProvincialTaxCredits: 100
+// provincialTax: 2562.195
+// marginalTaxBracket: 0.204851035335325
+// taxCredits: 200
+// incomeAfterTax: 35528.917
