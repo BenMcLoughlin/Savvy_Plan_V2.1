@@ -6,6 +6,54 @@ import {connect} from "react-redux"
 import _ from "lodash"
 
 const drawChart = (data, width, height, colors) => {
+console.log(data);
+    const data1 = [
+        {
+            bracketIncome: 5000,
+            totalIncome: 5000,
+            type: "deduction", 
+            federalTaxes: .1,
+            provincialTaxes: .1,
+            cppAndEI: .05,
+            keep: .75,
+        },
+        {
+            bracketIncome: 20000,
+            totalIncome: 25000,
+            federalTaxes: .1,
+            type: "",
+            provincialTaxes: .1,
+            cppAndEI: .05,
+            keep: .75,
+        },
+        {
+            bracketIncome: 20000,
+            totalIncome: 45000,
+            federalTaxes: .15,
+            type: "", 
+            provincialTaxes: .15,
+            cppAndEI: .05,
+            keep: .65,
+        },
+        {
+            bracketIncome: 30000,
+            totalIncome: 75000,
+            federalTaxes: .25,
+            type: "", 
+            provincialTaxes: .15,
+            cppAndEI: .05,
+            keep: .55,
+        },
+        {
+            bracketIncome: 10000,
+            totalIncome: 85000,
+            type: "deduction", 
+            federalTaxes: .25,
+            provincialTaxes: .15,
+            cppAndEI: .05,
+            keep: .55,
+        },
+    ]
 
     const margin = {top: 20, right: 15, bottom: 20, left: 70}
     const graphHeight = height - margin.top - margin.bottom
@@ -64,7 +112,6 @@ const drawChart = (data, width, height, colors) => {
             .data(d => d)
             .enter()
             .append("rect")
-            .attr("y", d => yScale(d.data.bracket))
             .attr("x", d => xScale(d[0]))
             .merge(rects)
 
@@ -77,9 +124,15 @@ const drawChart = (data, width, height, colors) => {
             .data(d => d)
             .enter().append("rect")
                 .attr("x", d => xScale(d[0]))
+                .attr("fill", (d,i) => d.data.type === "deduction" && d[0] > 0 ? "#8CB8B7" : null)
+    
                 .attr("width", d => xScale(d[1]) - xScale(d[0]))
-                .attr("y", d =>  yScale(d.data.totalIncome)) 
-                .attr("height", d => graphHeight - yScale(d.data.bracketIncome) - 2) //.attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
+                .attr("y", (d,i) =>   d.data.type === "deduction" && i === 0 ?  yScale(d.data.totalIncome) - 2 : yScale(d.data.totalIncome)) 
+                .attr("height", (d,i) => {
+                   return d.data.type === "deduction" && i > 0 ? graphHeight - yScale(d.data.bracketIncome) : 
+                   d.data.type === "deduction" && i === 0 ? graphHeight - yScale(d.data.bracketIncome) + 2 : 
+                            (graphHeight - yScale(d.data.bracketIncome) - 2) }
+                    ) 
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
                                 const nameIndex = stackedKeys.findIndex(type => type === name)

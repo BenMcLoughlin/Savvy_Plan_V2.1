@@ -1,5 +1,28 @@
 import {factors, FTR, PTR} from "services/tax/tax_rates"
 
+//DETERMINE INCOME FOR THE YEAR REQUESTED
+export const incomeBreakdown = (income_selector, taxAge) => {
+    const income = Object.values(income_selector).filter(d => d.fromAge <= taxAge).filter(d => d.toAge >= taxAge)                           //filter out only the income streams earned during the age provided
+
+        const sumIncome = (incomeArray, type) =>  {                                                                                          //sums the income for the requested income stream
+            const incomeByType = incomeArray.filter(d => d.type === type) 
+            const exists = incomeByType.length > 0
+            return exists ? incomeByType.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
+        }
+
+return {
+    EI: sumIncome(income, "employmentIncome"),
+    SEI: sumIncome(income, "selfEmploymentIncome"),
+    CG: sumIncome(income, "capitalGains"),
+    NEDI: sumIncome(income, "nonEligibleDividends"),
+    EDI: sumIncome(income, "eligibleDividends"),
+    RI: sumIncome(income, "rrspIncome"),
+    OAS: sumIncome(income, "oasIncome"),
+    CPP: sumIncome(income, "cppIncome"),
+    TFSA: sumIncome(income, "tfsaIncome"),
+    }
+}
+
 //DETERMINE CPP AND EI PAYMENT
 export const calculateCPPandEI = (EI, SEI) => {                                                                                //Determines the CPP and EI contributions made by the user, if the user is self employed they must also make employer contribution
     const totalIncome = EI + SEI                                                                                               //get total Income
@@ -69,8 +92,8 @@ const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, donation, tuiti
 }
 
 //DETERMINE TAXES PAYABLE BY BRACKET
-export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, TFSA}, credits)  => {
-
+export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, TFSA}, taxCredits_reducer)  => {
+console.log(taxCredits_reducer);
     //const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
 
 //     const [donation, tuition, medical, homeBuyer, firefighter, interest] = [0,0,0,0,0,0]
@@ -87,13 +110,13 @@ export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, T
         const cppAndEI = i > 1 ? totalCppAndEI - data[i-2].totalCppAndEI : totalCppAndEI
         const totalFederalTax = calculateFederalTaxes(income)
         const marginalFederalTax =  i > 1 ? totalFederalTax - data[i-2].totalFederalTax : totalFederalTax    
-        const totalFederalTaxCredits = 100 //calculateFederalCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest)
+        const totalFederalTaxCredits = 1500 //calculateFederalCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest)
         const federalTaxCredits = totalFederalTaxCredits >= totalFederalTax ? totalFederalTax : totalFederalTaxCredits 
         const marginalFederalTaxCredits = i > 1 ? federalTaxCredits - data[i-2].federalTaxCredits : federalTaxCredits 
         const federalTax = marginalFederalTax - marginalFederalTaxCredits
         const totalProvincialTax = calculateProvincialTaxes(income)
         const marginalProvincialTax = i > 1 ? totalProvincialTax - data[i-2].totalProvincialTax : totalProvincialTax
-        const totalProvincialTaxCredits = 100 //calculateProvincialCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest )
+        const totalProvincialTaxCredits = 1500 //calculateProvincialCredits(taxableIncome, totalCppAndEI, EDI, NEDI, donation, tuition, medical, homeBuyer, firefighter, interest )
         const provincialTaxCredits = totalProvincialTaxCredits >= totalProvincialTax ? totalProvincialTax : totalProvincialTaxCredits 
         const marginalProvincialTaxCredits = i > 1 ? provincialTaxCredits - data[i-2].provincialTaxCredits : provincialTaxCredits 
         const provincialTax = marginalProvincialTax - marginalProvincialTaxCredits
@@ -106,6 +129,7 @@ export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, T
 
       data.push({
         bracket: i,
+        deduction: 5000,
         income,
         marginalIncome,
         totalCppAndEI,
@@ -131,29 +155,7 @@ export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, T
 }
 
 
-export const incomeBreakdown = (income_selector, taxAge) => {
-    const income = Object.values(income_selector).filter(d => d.fromAge <= taxAge).filter(d => d.toAge >= taxAge)                           //filter out only the income streams earned during the age provided
 
-        const sumIncome = (incomeArray, type) =>  {                                                                                    //sums the income for the requested income stream
-            const incomeByType = incomeArray.filter(d => d.type === type) 
-            const exists = incomeByType.length > 0
-            return exists ? incomeByType.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
-        }
-
-return {
-    EI: sumIncome(income, "employmentIncome"),
-    SEI: sumIncome(income, "selfEmploymentIncome"),
-    CG: sumIncome(income, "capitalGains"),
-    NEDI: sumIncome(income, "nonEligibleDividends"),
-    EDI: sumIncome(income, "eligibleDividends"),
-    RI: sumIncome(income, "rrspIncome"),
-    OAS: sumIncome(income, "oasIncome"),
-    CPP: sumIncome(income, "cppIncome"),
-    TFSA: sumIncome(income, "tfsaIncome"),
-}
-
-
-}
 
 
 
@@ -229,47 +231,64 @@ export const convertReducerToArray = (category, lifeSpan, userAge, reducer) => {
            return array
        }
 
-       export const convertForBracketsChart = (taxBrackets_selector) => {
-           console.log(taxBrackets_selector);
-           const array = []
-           for (let i = 0; i < taxBrackets_selector.length; i++) {
-               const bracketDetails = taxBrackets_selector[i]
-               array.push({
-                   backet: bracketDetails.bracket, 
-                   bracketIncome: bracketDetails.marginalIncome,
-                   totalIncome: bracketDetails.income,
-                   label: i === 0 ? "47k  -" : i === 1 ? "97k  -" : i === 2 ? "107k  -" : 0, 
-                   federalTaxes: bracketDetails.marginalFederalTax / bracketDetails.marginalIncome,
-                   provincialTaxes: bracketDetails.marginalProvincialTax / bracketDetails.marginalIncome,
-                   cppAndEI: bracketDetails.cppAndEI / bracketDetails.marginalIncome,
-                   keep: bracketDetails.incomeAfterTax / bracketDetails.marginalIncome
-               })
-           }
-           return array
-       }
-//   bracket: 1, 
-//             bracketIncome: 30000, 
-//             totalIncome: 30000,
-//             federalTaxes: .1, 
-//             label: "47k  -", 
-//             provincialTaxes: .1, 
-//             keep: 0.8,
 
-//        bracket: 1
-// income: 48535
-// marginalIncome: 48535
-// totalCppAndEI: 3063.638
-// cppAndEI: 3063.638
-// totalFederalTax: 7280.25
-// marginalFederalTax: 7280.25
-// federalTaxCredits: 100
-// marginalFederalTaxCredits: 100
-// federalTax: 7180.25
-// totalProvincialTax: 2662.195
-// marginalProvincialTax: 2662.195
-// provincialTaxCredits: 100
-// marginalProvincialTaxCredits: 100
-// provincialTax: 2562.195
-// marginalTaxBracket: 0.204851035335325
-// taxCredits: 200
-// incomeAfterTax: 35528.917
+  export const convertForBracketsChart = (taxBrackets_selector) => {
+ 
+        const bracketDetails = taxBrackets_selector.filter(d => d.marginalIncome > 0)
+    
+        const array = [
+            {
+                bracketIncome: taxBrackets_selector[0].taxCredits,
+                totalIncome: taxBrackets_selector[0].taxCredits,
+                type: "deduction", 
+                federalTaxes: taxBrackets_selector[0].marginalFederalTax / taxBrackets_selector[0].marginalIncome,
+                provincialTaxes: taxBrackets_selector[0].marginalProvincialTax / taxBrackets_selector[0].marginalIncome,
+                cppAndEI: taxBrackets_selector[0].cppAndEI / taxBrackets_selector[0].marginalIncome,
+                keep: taxBrackets_selector[0].incomeAfterTax / taxBrackets_selector[0].marginalIncome
+            }
+        ]
+        for (let i = 0; i < bracketDetails.length; i++) {
+    
+            const details = bracketDetails[i]
+            i === 0 ? array.push( {
+                bracketIncome: details.marginalIncome - details.taxCredits,
+                totalIncome: details.income,
+                type: "regular", 
+                federalTaxes: details.marginalFederalTax / details.marginalIncome,
+                provincialTaxes: details.marginalProvincialTax / details.marginalIncome,
+                cppAndEI: details.cppAndEI / details.marginalIncome,
+                keep: details.incomeAfterTax / details.marginalIncome
+            })
+            :
+            i === bracketDetails.length - 1? array.push( {
+                bracketIncome: details.marginalIncome - details.deduction,
+                totalIncome: details.income  - details.deduction,
+                type:  "regular", 
+                federalTaxes: details.marginalFederalTax / details.marginalIncome,
+                provincialTaxes: details.marginalProvincialTax / details.marginalIncome,
+                cppAndEI: details.cppAndEI / details.marginalIncome,
+                keep: details.incomeAfterTax / details.marginalIncome
+            })
+            : 
+            array.push({
+                bracketIncome: details.marginalIncome - details.taxCredits,
+                totalIncome: details.income,
+                type: "regular", 
+                federalTaxes: details.marginalFederalTax / details.marginalIncome,
+                provincialTaxes: details.marginalProvincialTax / details.marginalIncome,
+                cppAndEI: details.cppAndEI / details.marginalIncome,
+                keep: details.incomeAfterTax / details.marginalIncome
+            })
+        }
+        array.push({
+            bracketIncome: bracketDetails[bracketDetails.length - 1].deduction,
+            totalIncome: bracketDetails[bracketDetails.length - 1].income,
+            type: "deduction", 
+            federalTaxes: bracketDetails[bracketDetails.length - 1].marginalFederalTax / bracketDetails[bracketDetails.length - 1].marginalIncome,
+            provincialTaxes: bracketDetails[bracketDetails.length - 1].marginalProvincialTax / bracketDetails[bracketDetails.length - 1].marginalIncome,
+            cppAndEI: bracketDetails[bracketDetails.length - 1].cppAndEI / bracketDetails[bracketDetails.length - 1].marginalIncome,
+            keep: bracketDetails[bracketDetails.length - 1].incomeAfterTax / bracketDetails[bracketDetails.length - 1].marginalIncome
+        })
+        return array
+    }
+    

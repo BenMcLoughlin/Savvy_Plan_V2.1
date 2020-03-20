@@ -146,7 +146,7 @@ const ChartPlaceHolder = styled.div`
     width: 10%rem;
 `
 const BarChartPlaceHolder = styled.div`
-    height: 26rem;
-    width: 70rem;
+    height: 20rem;
+    width: 50rem;
 `
 

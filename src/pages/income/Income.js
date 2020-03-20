@@ -33,6 +33,8 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, add_acti
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
 
+    console.log(income_reducer);
+
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
 
         return (
