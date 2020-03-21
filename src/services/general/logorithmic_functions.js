@@ -9,7 +9,11 @@ export const logslider = (value, max) => {
     // calculate adjustment factor
     var scale = (maxv-minv) / (maxp-minp);
   
-    return Math.exp(minv + scale*(value-minp));
+    const finalValue = Math.exp(minv + scale*(value-minp));
+    return finalValue < 100 ? finalValue.toFixed() :
+           finalValue < 1000 && finalValue > 100 ? Math.round(finalValue/10)*10 :
+           finalValue < 10000 && finalValue > 1000 ? Math.round(finalValue/100)*100 : 
+           Math.round(finalValue/1000)*1000 
   }
 
   

@@ -21,8 +21,8 @@ export const cpp_selector = createSelector(                                     
     birthYear,
     cppStartAge,
     lifeSpan,
-    (income_reducer, birthYear, cppStartAge, lifeSpan) => calculateCpp(income_reducer, 18, birthYear, "banana", cppStartAge, 57400, lifeSpan)                                       
-)
+    (income_reducer, birthYear, cppStartAge, lifeSpan) => calculateCpp(birthYear, "banana", cppStartAge, lifeSpan, income_reducer, 57400)                                       
+)                                                                     
 
 export const oas_selector = createSelector(                                                                      //Determines the OAS payment for the user
     oasStartAge,
@@ -45,7 +45,7 @@ export const income_selector = createSelector(                                  
 export const incomeArray_selector = createSelector(                                                          //Final array with CPP and OAS added
     income_selector,
     lifeSpan,
-    (income_selector, lifeSpan) => convertReducerToArray(income_selector, 18, lifeSpan) 
+    (income_selector, lifeSpan) => convertReducerToArray(income_selector, lifeSpan) 
 )
 export const incomeArrayWithRRIF_selector = createSelector(                                                          //Final array with CPP and OAS added
     incomeArray_selector,
@@ -56,16 +56,16 @@ export const incomeArrayWithRRIF_selector = createSelector(                     
 
 export const employment_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "employmentIncome").map(d => d.category))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.reg === "employmentIncome").map(d => d.stream))]
 )
 export const business_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "businessIncome").map(d => d.category))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.reg === "businessIncome").map(d => d.stream))]
 )
 export const retirement_selector = createSelector(
     income_selector,
     (income_selector) => {
-return [...new Set((Object.values(income_selector)).filter(d => d.type === "retirementIncome").map(d => d.category))]
+return [...new Set((Object.values(income_selector)).filter(d => d.reg !== "businessIncome").filter(d => d.reg !== "employmentIncome").map(d => d.stream))]
 }
 )
 
@@ -73,7 +73,7 @@ export const color_selector = createSelector(
     income_selector,
     (income_selector) => {
         const object = {}
-        Object.assign(object, ...(Object.values(income_selector)).map(d => ({[d.category]: d.color})))
+        Object.assign(object, ...(Object.values(income_selector)).map(d => ({[d.stream]: d.color})))
         return object
     }
 )

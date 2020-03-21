@@ -6,9 +6,9 @@ import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 const Header = ({income_selector, rrspMinWithdrawal_selector}) => {
 
-    const cppIncome = income_selector.cpp_selector.value.financialValue
-    const oasIncome =  income_selector.oas_selector.value.financialValue
-    const tfsaIncome = income_selector["TFSAwithdrawal"].value.financialValue
+    const cppIncome = income_selector.cpp_selector.value
+    const oasIncome =  income_selector.oas_selector.value
+    const tfsaIncome = income_selector["TFSAwithdrawal"].value
 
 return (
             <Wrapper>

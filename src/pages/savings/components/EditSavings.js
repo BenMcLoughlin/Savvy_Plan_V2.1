@@ -3,21 +3,16 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import InstanceNav from "pages/savings/components/InstanceNav"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
-import RangeBar  from "UI/rangeBar/RangeBar"
+import RangeBar  from "UI/rangeBar1/RangeBar"
 import _ from "lodash"
 import {savingsInstance_data} from "pages/savings/data/savings_data"
 import {tfsaProjection_selector} from "redux/savings/savings_selectors"
-import {setAge, setNestedKeyValue_action, setValue_action} from "redux/actions"
+import {setNestedKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
+import {setAge} from "services/ui/ui_functions"
 
-const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, setValue_action, createNewItem, id, registration, setId}) => {    
+const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, createNewItem, id, reg, setId}) => {    
 
-console.log(id);
-    const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                                      //receives numbers from range bar and sets them in state
-        if (transaction === "withdrawal") 
-        {setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")}
-        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "savings_reducer")                                                  //setting the income value in the reducer
-    }
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         if (transaction === "withdrawal"){
@@ -26,11 +21,11 @@ console.log(id);
         setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
 }
      const instance = savings_reducer[id]
+     console.log(instance.toAge);
      const endAge = instance.toAge       
+     const newItem = savingsInstance_data((+endAge), id, reg, instance.stream, (+endAge + 5), transaction, instance.value)                                         //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
-     const newItem = savingsInstance_data(instance.value.financialValue, (+endAge), instance.value.rangeBarValue,  (+endAge + 5), registration, transaction)                                         //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
-
-     const instanceArray = instanceArray_function(savings_reducer, transaction, registration)
+     const instanceArray = instanceArray_function(savings_reducer, transaction, reg)
    
      return (
         <Wrapper>
@@ -47,9 +42,11 @@ console.log(id);
             <Container >  
                 < RangeBarWrapper>
                 <RangeBar 
-                        rangeBarProps={instance.value}                                                                               //Every Add instance has a range bar to set its value
-                        setValue={setValue}                 
-                    />  
+                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value
+                            reducer="savings_reducer"
+                            label={`Annual ${transaction}`}
+                            instance={instance}       
+                        /> 
                 </RangeBarWrapper>                                   
                 <YearsSelectorWrapper> 
                     <SelectorTitleWrapper>
@@ -77,7 +74,7 @@ const mapStateToProps = (state) => ({
     tfsaProjection_selector: tfsaProjection_selector(state),
 })
 
-export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action})(EditSavings )
+export default connect(mapStateToProps, {setNestedKeyValue_action})(EditSavings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

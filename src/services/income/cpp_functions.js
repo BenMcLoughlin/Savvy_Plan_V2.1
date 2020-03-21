@@ -103,9 +103,9 @@ export const adjustOas = adjustOasMemoized()
 const adjustCpp = adjustCppMemoized()
 
 function calculateCppMemoized() {
-    let cache = {};                                                                                                                    //Its a heavy function so we use caching
-    return function(income_reducer, age, birthYear, cacheKey, cppStartAge, ympe, lifeSpan) {
-        const incomeArray = Object.values(income_reducer).filter(d => d.type === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
+    let cache = {};                                                                                                         //Its a heavy function so we use caching
+    return function(birthYear, cacheKey, cppStartAge, lifeSpan, income_reducer, ympe) {
+        const incomeArray = Object.values(income_reducer).filter(d => d.reg === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
         if (incomeArray.length > 0) {
        
             const array = []                                                                                                               // create our array into which income will be pushed
@@ -113,8 +113,8 @@ function calculateCppMemoized() {
              const year = birthYear + age                                                                                                  //determine the year for which we are adjusting earnings
              const unadjustedPensionableEarnings = incomeArray.map(d => age >= d.fromAge                                                   //map through the income streams to see if there was income in this year
                                                          && age <= d.toAge ? 
-                                                         d.value.financialValue : 0                                                       //If there was pensionable income, give the financial value
-                                                                  ).reduce((acc, num) => acc + num)                                        //Sum all financial values of pensionable income earned
+                                                         d.value : 0                                                                       //If there was pensionable income, give the financial value
+                                                         ).reduce((acc, num) => acc + num)                                                 //Sum all financial values of pensionable income earned
          
              const adjustedEarningsPercentage = year < 2019 && age <= 70 ?                                                                 //if income was earned before 2020, we need to adjusted it using the history YMPE, if not its the same as the pensionable income above
                                        unadjustedPensionableEarnings / historicYmpe[year] < 1 ?                                            //Next we want to check if the percentage is less than one, if so we want to use it, if not we just want 100%
@@ -129,45 +129,36 @@ function calculateCppMemoized() {
          const annualCppPayment = averagePensionableEarnings * .25                                                                          //Multiplied by 25%
          const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/1000)*1000
          const cppIncome = {
-             label: "CPP Income",
-             category: "CPP Income",
-             color: "#F29278",
-             fromAge: cppStartAge,
-             toAge: lifeSpan.rangeBarValue,
-             type: "retirementIncome",
-             value: {
-                financialValue: adjustedCppPayment
-             }
+             color: "#F29278", 
+             fromAge: cppStartAge, 
+             reg: "retirementIncome", 
+             stream: "CPP Income", 
+             toAge: lifeSpan.rangeBarValue, 
+             value: adjustedCppPayment,
          }
          cache[cacheKey] = cppIncome                                                                                              //cache's the answer for later
          return cache[cacheKey] 
         }
         else return {
-            label: "CPP Income",
-            category: "CPP Income",
-            type: "retirementIncome",
-            color: "#F29278",
-            fromAge: cppStartAge,
-            toAge: lifeSpan.rangeBarValue,
-            value: {
-               financialValue: 0
-            }
+            color: "#F29278", 
+            fromAge: cppStartAge, 
+            reg: "retirementIncome", 
+            stream: "CPP Income", 
+            toAge: lifeSpan.rangeBarValue, 
+            value: 0
         }            
 }
 }
 export const calculateCpp = calculateCppMemoized()
 
 
-export const calculateOAS = (age, lifespan) => ({
-    label: "OASIncome",
-    category: "OAS Income",
-    type: "retirementIncome",
-    color: "#488487",
-    fromAge: age,
-    toAge: lifespan.rangeBarValue,
-    value: {
-       financialValue:  adjustCpp(age, age, 7200),
-    }
+export const calculateOAS = (age, lifeSpan) => ({
+    color: "#488487", 
+    fromAge: age, 
+    reg: "retirementIncome", 
+    stream: "OAS Income", 
+    toAge: lifeSpan.rangeBarValue, 
+    value: adjustCpp(age, age, 7200)
 })
 
 //DETERMINE CPP AND OAS PAYMENT AFTER AGE CHANGES

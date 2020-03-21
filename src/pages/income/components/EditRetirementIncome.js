@@ -7,7 +7,7 @@ import ButtonLight from "UI/buttons/ButtonLight"
 import {setNestedKeyValue_action} from "redux/actions"
 
 
-const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reducer, user_reducer, setNestedKeyValue_action}) => {    
+const EditRetirementIncome = ({setStream, cpp_selector, pensionStartAges_reducer, user_reducer, setNestedKeyValue_action}) => {    
 
     const {lifeSpan} = user_reducer
 
@@ -58,7 +58,7 @@ const EditRetirementIncome = ({setCategory, cpp_selector, pensionStartAges_reduc
                     <ButtonLeftWrapper>
                             <ButtonLight 
                                 text={"Back"}
-                                onClick={() => setCategory(false)}
+                                onClick={() => setStream(false)}
                             />
                     </ButtonLeftWrapper>
                 </Right>

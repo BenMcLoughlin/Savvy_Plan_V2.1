@@ -177,11 +177,11 @@ const drawChart = (data, width, height, className) => {
     update(data)
     
 }
-const SavingsBarChart = ({registration, tfsaBar_selector, rrspBar_selector}) =>  {
+const SavingsBarChart = ({reg, tfsaBar_selector, rrspBar_selector}) =>  {
 
-    const data = registration === "TFSA" ? tfsaBar_selector : rrspBar_selector
+    const data = reg === "TFSA" ? tfsaBar_selector : rrspBar_selector
     const inputRef = useRef(null)
-    const className = `${registration}barChart`
+    const className = `${reg}barChart`
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth

@@ -13,7 +13,6 @@ const drawChart = (data, width, height, className) => {
     const color =  ["age", '#3B7B8E', "#7898a1", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
     
     d3.select(`.${className} > *`).remove()
-    console.log(className);
     
     const stackedKeys = ["age", "principle", "interest",]
 
@@ -93,11 +92,11 @@ const drawChart = (data, width, height, className) => {
     
 }
 
-const SavingsAreaChart = ({registration, tfsaArea_selector, rrspArea_selector}) =>  {
+const SavingsAreaChart = ({reg, tfsaArea_selector, rrspArea_selector}) =>  {
 
-    const data = registration === "TFSA" ? tfsaArea_selector : rrspArea_selector
+    const data = reg === "TFSA" ? tfsaArea_selector : rrspArea_selector
     const inputRef = useRef(null)
-    const className = `${registration}areaChart`
+    const className = `${reg}areaChart`
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth

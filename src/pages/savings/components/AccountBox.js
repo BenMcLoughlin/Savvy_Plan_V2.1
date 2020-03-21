@@ -7,7 +7,7 @@ import EditForm from "pages/netWorth/components/EditForm"
 import AddForm from "pages/netWorth/components/AddForm"
 import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
-const ControlPanel = ({setCount, display, netWorth_reducer, registration}) => {    
+const ControlPanel = ({setCount, display, netWorth_reducer, reg}) => {    
 
     const [id, setId] = useState()                                                                              //If the user wants to change something this sets the id of the item they want to change
   
@@ -52,7 +52,7 @@ const ControlPanel = ({setCount, display, netWorth_reducer, registration}) => {
                                 setCount={setCount}
                                 setId={setId}
                                 setAddFormSubCategory={setAddFormSubCategory}
-                                registration={registration}
+                                reg={reg}
                                 />
                             </Section> 
 

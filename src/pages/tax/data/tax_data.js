@@ -1,15 +1,10 @@
-export const taxCredit_data = (category, fromAge, toAge, incomeFinancial, incomeRangeBar, color, type) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const taxCredit_data = (category, fromAge, toAge, value, color, type) => ({                                              //this is the initial state of value being stored to the reducer. 
     label: "New Credit",    
     type,
     category: "New Credit",                                                                                                                                                       
     fromAge: 18,
     toAge: 64,
-    value: {                                                                                    
-        rangeBarValue: 0,
-        financialValue: 0,
-        name: "value",
-        label: "New Credit",
-    } 
+    value
  })
 
 export const creditTypes_data = [

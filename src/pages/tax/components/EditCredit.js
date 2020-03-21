@@ -4,26 +4,24 @@ import {connect} from "react-redux"
 import InstanceNav from "pages/income/components/InstanceNav"
 import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
-import RangeBar  from "UI/rangeBar/RangeBar"
+import RangeBar  from "UI/rangeBar1/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import CreditSelector from "pages/tax/components/CreditSelector"
-import {setValue_action,  setNestedKeyValue_action, deleteInstance, setAge} from "redux/actions"
+import {setValue_action, setNestedKeyValue_action, deleteInstance} from "redux/actions"
 import _ from "lodash"
 import {taxCredit_data} from "pages/tax/data/tax_data"
 import {cpp_selector} from "redux/income/income_selectors"
 import CreditBarChart from "charts/tax2/CreditBarChart"
+import {setAge} from "services/ui/ui_functions"
 
 const EditCredit = ({category, instanceArray, setNestedKeyValue_action, createNewItem, id, setId, setValue_action, setCategory}) => {    
 
-    const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
-        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "tax_reducer")                                             //setting the income value in the reducer
-    }
 
     const setDualRangeBar = (name, value) => {                                                                                 //sets the age, as well as the surrounding ages in the array of instances
         setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
     }
 
-    const addSection = () => createNewItem(taxCredit_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color ))
+    const addSection = () => createNewItem(taxCredit_data(category, (+endAge), (+endAge + 5), item.value, item.color ))
     
     const item = instanceArray.find(d => d.id === id)                                                                         //we're only provided with the id, not the entire instance, this grabs the entire instance details
     const endAge = 23 //instanceArray[instanceArray.length -1].toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
@@ -49,8 +47,9 @@ const EditCredit = ({category, instanceArray, setNestedKeyValue_action, createNe
                 <Container >                                                                      
                     <Left>                                                                                                         {/* Choose one is used to select the account type */}
                             <RangeBar 
-                            rangeBarProps={item.value}                                                                               //Every Add item has a range bar to set its value
-                            setValue={setValue}                 
+                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add item has a range bar to set its value
+                            reducer="tax_reducer"
+                            item={item}       
                         /> 
                     </Left>
                     <Right>

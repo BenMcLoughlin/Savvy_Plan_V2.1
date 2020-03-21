@@ -3,7 +3,7 @@ import styled from "styled-components"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
 
-const PhaseSelector = ({itemList, id, onClick, setId, color, addSection}) => {
+const PhaseSelector = ({instanceArray, id, onClick, setId, color, addSection}) => {
 
     const [selected, select] = useState(id)
     const handleSelect = (value) => {
@@ -19,7 +19,7 @@ const PhaseSelector = ({itemList, id, onClick, setId, color, addSection}) => {
         <Container>
             <SelectWrapper>
                 {
-                    itemList.map(d =>  <SelectValue 
+                    instanceArray.map(d =>  <SelectValue 
                         color={color}
                             key={d.id}
                             selected={selected === d.id} 

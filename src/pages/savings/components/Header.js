@@ -3,17 +3,17 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspContributions_selector, rrspinterest_selector, rrspInterest_selector, rrspPeakValue_selector} from "redux/savings/savings_selectors"
 
-const Header = ({registration, tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspInterest_selector, rrspPeakValue_selector, rrspContributions_selector}) => {
+const Header = ({reg, tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspInterest_selector, rrspPeakValue_selector, rrspContributions_selector}) => {
 
-    console.log(registration);
-     const contributions_selector = registration === "TFSA" ? tfsaContributions_selector : rrspContributions_selector
-     const interest_selector = registration === "TFSA" ? tfsaInterest_selector : rrspInterest_selector
-     const peakValue_selector = registration === "TFSA" ? tfsaPeakValue_selector : rrspPeakValue_selector
+    console.log(reg);
+     const contributions_selector = reg === "TFSA" ? tfsaContributions_selector : rrspContributions_selector
+     const interest_selector = reg === "TFSA" ? tfsaInterest_selector : rrspInterest_selector
+     const peakValue_selector = reg === "TFSA" ? tfsaPeakValue_selector : rrspPeakValue_selector
 return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                 <h2>
-                    {`${registration} Savings & Income Plan`}
+                    {`${reg} Savings & Income Plan`}
                 </h2>
             </Left>
             <Right>

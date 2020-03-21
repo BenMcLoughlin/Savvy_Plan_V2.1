@@ -4,30 +4,30 @@ import {payment}from "services/general/financial_functions"
 
 
 //CONVERTS REDUCER TO ARRAY FOR CHART 
-export const convertReducerToArray = (reducer, startAge, lifeSpan) => {                                                                       //takes the reducer, an object of objects, and the userAge
+export const convertReducerToArray = (reducer, lifeSpan) => {                                                                       //takes the reducer, an object of objects, and the userAge
     const incomeStreams = Object.values(reducer)                                                                   //Converts reducer to an array of objects
 
     //RETURNS INCOME VALUE FOR THE GIVEN INCOME INSTANCE    
-      const returnIncome = (incomeStreams, category, age) => {                                                     //Helper function which will return the income value in the chart
+      const returnIncome = (incomeStreams, stream, age) => {                                                     //Helper function which will return the income value in the chart
 
         if (incomeStreams.length > 0) {
-            const arrayOfIncome = incomeStreams.map(d => d.category === category                                   //for each income category it is collecing all the income reported for that age
+            const arrayOfIncome = incomeStreams.map(d => d.stream === stream                                   //for each income stream it is collecing all the income reported for that age
                                         && age >= d.fromAge                                                        //Checks if the given age is between the start and end age
                                         && age <= d.toAge ?                                         
-                                        d.value.financialValue : 0                                                //If it is it returns the financial value, giving an array of financial values
+                                        d.value : 0                                                //If it is it returns the financial value, giving an array of financial values
             )
             return Math.max(...arrayOfIncome)                                                                      //If the person has inputted more than one income amount for the sane age range this will return the max
         }
        return 0
         }
 
-     let arrayOfLabels = [...new Set(incomeStreams.map(d => d.category))]                                         //Map through the array returning categories, if theres more then one we only want one category name. Set filters it down to one name each.          
+     let arrayOfLabels = [...new Set(incomeStreams.map(d => d.stream))]                                         //Map through the array returning categories, if theres more then one we only want one stream name. Set filters it down to one name each.          
  
      const array = []                                                                                             //Initialize and empty array to push into
      for (let age = 18; age <= lifeSpan.rangeBarValue; age++) {                                                                        //For loop showing their income till age 95
          const itemObject = {age: age}                                                                            //The age is used as the x axis
-         const details = Object.assign(itemObject,  ...arrayOfLabels.map(category => (                            //We need an object for each income stream, we map and assign the category to the object
-                             {[category]: returnIncome(incomeStreams, category, age)}                             //Checks to see if income has been input for this age, if so the financial value is returned
+         const details = Object.assign(itemObject,  ...arrayOfLabels.map(stream => (                            //We need an object for each income stream, we map and assign the stream to the object
+                             {[stream]: returnIncome(incomeStreams, stream, age)}                             //Checks to see if income has been input for this age, if so the financial value is returned
                              )))
          array.push(details)                                                                                      //Pushes the object to the array
      }

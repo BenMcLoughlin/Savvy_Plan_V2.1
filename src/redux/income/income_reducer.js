@@ -2,57 +2,33 @@ import _ from "lodash"
 
 const initialState = {
     TFSAwithdrawal: {
-        label: "TFSA Income",
-        registration: "TFSA",
-        id: "TFSAwithdrawal",
-        category: "TFSA Income",
-        type: "tfsaIncome",
         color: "#8CB8B7",
         fromAge: 65,
+        reg: "TFSA",
+        stream: "TFSA Income",
         toAge: 95,
-        value: {
-            rangeBarValue: 20,
-            financialValue: 0,
-            name: "value",
-            label: "Annual Withdrawal",
-        },
+        id: "TFSAwithdrawal",
+        value: 0,
     },
     RRSPwithdrawal: {
-        label: "RRSP Income",
-        registration: "RRSP",
-        id: "RRSPwithdrawal",
-        transaction: "withdrawal",
-        category: "RRSP Income",
-        type: "rrspIncome",
         color: '#D8BABB',
         fromAge: 65,
+        reg: "RRSP",
+        stream: "RRSP Income",
         toAge: 95,
-        value: {
-            rangeBarValue: 0,
-            financialValue: 0,
-            name: "value",
-            label: "Annual Withdrawal",
-        },
+        id: "RRSPwithdrawal",
+        value: 0,
 }
 }
 
  const income_reducer = (state = initialState, action) => {
     switch(action.type) {
-        case "income_reducer/ADD": return {...state, [action.payload.id]: action.payload}
-        case "income_reducer/SET_AGE": return {...state, [action.id]: {
-                                                     ...state[action.id], [action.ageType]: action.value
-        }}
         case "income_reducer/DELETE": return  _.omit(state, [action.id])                  
         case "income_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {                           //make a copy of state, enter object, here parentKey is the id
                                                     ...state[action.parentKey], [action.childKey]: action.value       //make a copy of object, change the key
           }}
-        case "income_reducer/SET_VALUE": return {...state, [action.id]: {
-                                                    ...state[action.id], [action.name]: {
-                                                        ...state[action.id][action.name], 
-                                                                    financialValue: action.financialValue,
-                                                                    rangeBarValue: action.rangeBarValue,
-                                                    }
-        }}
+        case "income_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}                            //sets a simple key value pair within the reducer object
+
 
         default: return state
     }

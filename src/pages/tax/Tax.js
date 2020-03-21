@@ -7,8 +7,7 @@ import EditCredit from "pages/tax/components/EditCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"
 import {creditTypes_data} from "pages/tax/data/tax_data"
 import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
-import TaxBarChart from "charts/tax2/TaxBracketsBar"
-import TaxSunBurstChart from "charts/tax2/TaxSunburstChart"
+
 import {add_action, setKeyValue_action} from "redux/actions"
 
 const Tax = ({setKeyValue_action, taxCredits_selector,  add_action}) => {    
@@ -33,7 +32,7 @@ const Tax = ({setKeyValue_action, taxCredits_selector,  add_action}) => {
             </Header>
             <Charts >
                 <BarChartPlaceHolder>
-                    <TaxBarChart/>
+  
                 </BarChartPlaceHolder>
                 <ChartPlaceHolder >
 

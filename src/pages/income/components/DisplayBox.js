@@ -9,35 +9,35 @@ import DisplayTile from "pages/income/components/DisplayTile"
 import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
 
 
-const DisplayBox = ({ type, instanceArray, createNewItem, setCategory, progress_reducer, setKeyValue_action,setId, employment_selector, business_selector, retirement_selector}) => {                  
+const DisplayBox = ({ reg, instanceArray, createNewItem, setStream, progress_reducer, setKeyValue_action,setId, employment_selector, business_selector, retirement_selector}) => {                  
 
-    const fromAge =  type === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
-    const toAge =  type === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
+    const fromAge =  reg === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
+    const toAge =  reg === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = incomeStream_data(" ", fromAge, toAge, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
- 
-    const selector =  type === "employmentIncome" ? employment_selector
-                    : type === "retirementIncome" ? retirement_selector
-                    : type === "businessIncome" ? business_selector
-                    : business_selector 
+    const newState = incomeStream_data(colorArray_data[color], fromAge, reg, " ", toAge, 1)                                 //initial State is found in data 
+                                    
+    const selector =  reg === "employmentIncome" ? employment_selector
+                    : reg === "businessIncome" ? business_selector
+                    : retirement_selector 
 
-    const addNewCategory = (type) => {                                                                                                                  //Creates a new item 
+
+    const addNewCategory = (reg) => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
         setKeyValue_action("incomeColor", "progress_reducer", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
     }
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         
-                <h2>{_.startCase(type)}</h2>     
+                <h2>{_.startCase(reg)}</h2>     
             </Header>
             
             <Container> 
                 {
                     selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
                                                          key={d}
-                                                         category={d}
-                                                         setCategory={setCategory} 
+                                                         stream={d}
+                                                         setStream={setStream} 
                                                          setId={setId}
                                                          instanceArray={instanceArray}
                                                          />)

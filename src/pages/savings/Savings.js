@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {cpp_selector} from "redux/income/income_selectors"
-import { delete_action, add_action} from "redux/actions"
+import { delete_action, setKeyValue_action} from "redux/actions"
 import ButtonLight from "UI/buttons/ButtonLight"
 import EditSavings from "pages/savings/components/EditSavings"
 import SavingsAreaChart from "charts/savings/SavingsAreaChart"
@@ -12,62 +12,62 @@ import AccountBox  from "pages/savings/components/AccountBox"
 import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
 
 
-const Savings = ({add_action, delete_action, category, savings_reducer, setCategory}) => {    
+const Savings = ({setKeyValue_action, delete_action, stream, savings_reducer, setStream}) => {    
 
-    const registration = category.split("").slice(0,4).join("")                                                                       //creates a value called registration that is either "TFSA", "RRSP", or "NReg"
-    const [contributionId, setContributionId] = useState(`${registration}contribution`)                                               //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
-    const [withdrawalId, setWithdrawalId] =  useState(`${registration}withdrawal`)                                                    // the ids for the hard coded contributions and withdrawals look like "TFSAcontribution", and "TFSAwithdrawal"
+    const reg = stream.split("").slice(0,4).join("")                                                                       //creates a value called reg that is either "TFSA", "RRSP", or "NReg"
+    const [contributionId, setContributionId] = useState(`${reg}contribution`)                                               //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
+    const [withdrawalId, setWithdrawalId] =  useState(`${reg}withdrawal`)                                                    // the ids for the hard coded contributions and withdrawals look like "TFSAcontribution", and "TFSAwithdrawal"
 
-    const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
-        const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
-                add_action(newId, {...state}, "savings_reducer")                                                                     //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
-              if(state.transaction === "contribution")  { setContributionId(newId)     }                                                                                        // determines which income instance to show within the edit box
+    const createNewItem = (state) => {                                                                                               //This creates a new Savings Instance, such as from ages 18-22
+        const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
+                setKeyValue_action(id, "savings_reducer",  {...state, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
+              if(state.transaction === "contribution")  { setContributionId(id)     }                                                // determines which income instance to show within the edit box
               if(state.transaction === "withdrawal")  { 
-                add_action(newId, {...state}, "income_reducer")  
-                setWithdrawalId(newId)   
-                  }                                                                                        // determines which income instance to show within the edit box
+                setKeyValue_action(id, "income_reducer",  {...state, id})  
+                setWithdrawalId(id)   
+                  }                                                                                                                 // determines which income instance to show within the edit box
     }
 
     const deleteInstance = ({id}) => {                                                                                                   //deletes the instance
                 delete_action(id, "savings_reducer")                                                                                     //removes the instance
-                setContributionId(`${registration}contribution`)                                                                         //sets the object being viewed to the first one
-                setWithdrawalId(`${registration}withdrawal`)                                                                              //sets the object being viewed to the first one
+                setContributionId(`${reg}contribution`)                                                                         //sets the object being viewed to the first one
+                setWithdrawalId(`${reg}withdrawal`)                                                                              //sets the object being viewed to the first one
     }
 
 
     return (
         <Wrapper>
              <Header 
-                registration={registration}>
+                reg={reg}>
             </Header>
                 <Charts>
                     <ChartPlaceHolder>
                         <SavingsAreaChart
-                        registration={registration}
+                        reg={reg}
                         />
                     </ChartPlaceHolder>
-                    <BarChartPlaceHolder>
+                    <BarChartPlaceHolder >
                         <SavingsBarChart
-                        registration={registration}
-                        />
+                        reg={reg}
+                       />
                     </BarChartPlaceHolder>
                 </Charts>
                 <ControlPanel>
                 <AccountBox 
                     display={"assets"}
                     subCategory={"investmentAssets"}
-                    registration={registration}
+                    reg={reg}
                 />
                 <EditSavings createNewItem = {createNewItem} 
                             transaction={"contribution"}                                                               
                             id={contributionId} 
-                            registration={registration}
+                            reg={reg}
                             setId={setContributionId}
                             deleteInstance={deleteInstance}
                 />
                 <EditSavings createNewItem = {createNewItem} 
                             transaction={"withdrawal"}   
-                            registration={registration}                                                            
+                            reg={reg}                                                            
                             id={withdrawalId} 
                             setId={setWithdrawalId}
                             deleteInstance={deleteInstance}
@@ -77,7 +77,7 @@ const Savings = ({add_action, delete_action, category, savings_reducer, setCateg
                     <InvestmentFactor/>
                     <ButtonLeftWrapper>
                     <ButtonLight 
-                                onClick={() =>  setCategory(false)}
+                                onClick={() =>  setStream(false)}
                                 text={"Back"}
                             />
                     </ButtonLeftWrapper>
@@ -94,7 +94,7 @@ const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer
 })
 
-export default connect(mapStateToProps, {add_action, add_action,  delete_action})(Savings )
+export default connect(mapStateToProps, {setKeyValue_action, setKeyValue_action,  delete_action})(Savings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

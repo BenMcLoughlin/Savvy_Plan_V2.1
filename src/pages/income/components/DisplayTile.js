@@ -7,11 +7,11 @@ import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 
-const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, category, setCategory}) => {                                    //Individual category that is added
+const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, stream, setStream}) => {                                    //Individual stream that is added
   
     const categoryArray =  Object.values(income_selector)
-                                 .filter(d => d.category === category)
-                                 .sort((a,b) => a.startAge - b.startAge)                                                    //here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
+                                 .filter(d => d.stream === stream)
+                                 .sort((a,b) => a.startAge - b.startAge)                                                    //here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
 
     const removeItem = () => {                                                                                               //enables us to delete the entire income stream
         const categoryIdArray =  categoryArray.map(d => d.id)                                                                //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
@@ -21,22 +21,22 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
                                                                                       
     }
 
-    const setCategoryAndId = (category) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that category
-        const id = categoryArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that category, instance is the earning time period and category is the income stream
-         setCategory(category)  
+    const setCategoryAndId = (stream) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that stream
+        const id = categoryArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that stream, instance is the earning time period and stream is the income stream
+         setStream(stream)  
          setId(id)
          
      }
-    const color =  Object.values(income_selector).filter(d => d.category === category)[0].color                            //Grabs a new color to assign
-    const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.category === category).map(d => d.value.financialValue))
-    const income = category === "RRSP Income" ? (maxIncome + rrspMinWithdrawal_selector) : maxIncome
+    const color =  Object.values(income_selector).filter(d => d.stream === stream)[0].color                            //Grabs a new color to assign
+    const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.stream === stream).map(d => d.value))
+    const income = stream === "RRSP Income" ? (maxIncome + rrspMinWithdrawal_selector) : maxIncome
     return (
-        <Item label={category} color={color} >
-            <Text onClick={() => setCategoryAndId(category)}>                                                              {/*When the category is clicked the id is set which fills out the edit form with the items details */} 
-                <H2>{category}</H2>
+        <Item label={stream} color={color} >
+            <Text onClick={() => setCategoryAndId(stream)}>                                                              {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
+                <H2>{stream}</H2>
                 <H2>{income/1000}K</H2>
             </Text>
-            <Exit onClick={() => removeItem()}/>                                                                           {/*  If the x is clicked the category is removed */}
+            <Exit onClick={() => removeItem()}/>                                                                           {/*  If the x is clicked the stream is removed */}
         </Item>
     )
 }
@@ -52,21 +52,18 @@ export default connect(mapStateToProps,{delete_action})(DisplayTile )
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 
-
 const Item = styled.div`
-   
     margin: 0.5rem 1rem 0.5rem 1rem;
     padding: .8rem 4.5rem .8rem 4rem;
     width: 28rem;
     display: flex;
     position: relative;
-    height: ${props => props.label.length > 20 ? "7rem" : "4rem"};
+    height: 4rem;
     background:${props =>  props.color};
     border-radius: 5px;
     color: white
     border: ${props => props.theme.border.primary};
     cursor: pointer;
-
 
 `
 

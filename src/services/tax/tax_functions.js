@@ -7,7 +7,7 @@ export const incomeBreakdown = (income_selector, taxAge) => {
         const sumIncome = (incomeArray, type) =>  {                                                                                          //sums the income for the requested income stream
             const incomeByType = incomeArray.filter(d => d.type === type) 
             const exists = incomeByType.length > 0
-            return exists ? incomeByType.map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
+            return exists ? incomeByType.map(d => d.value).reduce((acc, num) => acc + num) : 0
         }
 
 return {
@@ -94,7 +94,7 @@ const calculateProvincialCredits = (income, CppAndEI, EDI, NEDI, donation, tuiti
 //DETERMINE TAXES PAYABLE BY BRACKET
 export const calculateTaxesByBracket = ({EI, SEI, CG, EDI, NEDI, RI, CPP, OAS, TFSA}, taxCredits_reducer)  => {
 console.log(taxCredits_reducer);
-    //const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d.financialValue)
+    //const [donation, tuition, medical, homeBuyer, firefighter, interest] = credits.map(d => d)
 
 //     const [donation, tuition, medical, homeBuyer, firefighter, interest] = [0,0,0,0,0,0]
 // console.log(credits);
@@ -215,7 +215,7 @@ export const convertReducerToArray = (category, lifeSpan, userAge, reducer) => {
                   const arrayOfCredit = creditClaimed.map(d => d.category === category                                   //it is collecing all the credit values of that type reported for that age
                                               && age >= d.fromAge                                                        //Checks if the given age is between the start and end age
                                               && age <= d.toAge ?                                         
-                                              d.value.financialValue : 0                                                //If it is it returns the financial value, giving an array of financial values
+                                              d.value : 0                                                //If it is it returns the financial value, giving an array of financial values
                   )
                   return Math.max(...arrayOfCredit)                                                                      //If the person has inputted more than one Credit amount for the sane age range this will return the max
               }
@@ -233,7 +233,7 @@ export const convertReducerToArray = (category, lifeSpan, userAge, reducer) => {
 
 
   export const convertForBracketsChart = (taxBrackets_selector) => {
- 
+         console.log(taxBrackets_selector)
         const bracketDetails = taxBrackets_selector.filter(d => d.marginalIncome > 0)
     
         const array = [

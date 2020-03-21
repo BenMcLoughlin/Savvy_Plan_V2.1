@@ -4,65 +4,53 @@ import {connect} from "react-redux"
 import InstanceNav from "pages/income/components/InstanceNav"
 import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
-import RangeBar  from "UI/rangeBar/RangeBar"
+import RangeBar  from "UI/rangeBar1/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import _ from "lodash"
 import {incomeStream_data} from "pages/income/data/income_data"
 import {cpp_selector} from "redux/income/income_selectors"
-import {setAge, setNestedKeyValue_action, setValue_action, delete_action, deleteInstance} from "redux/actions"
+import { setNestedKeyValue_action, delete_action, deleteInstance} from "redux/actions"
+import {editStreamName, setAge} from "services/ui/ui_functions"
 
-const EditIncome = ({category, instanceArray, setValue_action, createNewItem, id, setId, setNestedKeyValue_action, setCategory}) => {    
+const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setNestedKeyValue_action, setStream}) => {    
 
-    const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
-        setValue_action(id, logValue, rangeBarValue, rangeBarProps, "income_reducer")                                          //setting the income value in the reducer
-    }
                                                    
-    const changeLabel = (e) => {                                                                                               //enables the user to change the label which changes all income stream labels of that category
-        const {value} = e.target                                                                                               //destructure out the value from the target event
-        if(value.length === 0) return                                                                                          //when the text is 0 we don't want it to change the categoruy because the box will close as its seen as a false value
-        for (let i = 0; i < instanceArray.length; i++) {                                                                       //we loop through and change the label for every income stream in the category
-            setNestedKeyValue_action("label", instanceArray[i].id, "income_reducer", value)                                                              //changes the label
-            if(value.length > 0) {                                     //(childKey, parentKey, reducer, value)                                                         // if the lenth is greater then 0 it changes the category, the category is determining what is visible
-                setNestedKeyValue_action("category", instanceArray[i].id, "income_reducer", value)
-            }
-           }
-            setCategory(e.target.value)                                                                                        //sets the category
-    }
-
     const setDualRangeBar = (name, value) => {                                                                                 //sets the age, as well as the surrounding ages in the array of instances
         setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value)
     }
-    
 
 
-    const item = instanceArray.find(d => d.id === id)                                                                          //we're only provided with the id, not the entire instance, this grabs the entire instance details
+    const instance = instanceArray.find(d => d.id === id)                                                                          //we're only provided with the id, not the entire instance, this grabs the entire instance details
+
     const endAge = instanceArray[instanceArray.length -1].toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
     return (
         <Wrapper>
-            <Header color={item.color}>
-            <h2>{_.startCase(category)}</h2> 
+            <Header color={instance.color}>
+            <h2>{_.startCase(stream)}</h2> 
             </Header>
-            <InstanceNav color={item.color}
-                            itemList={instanceArray}
+            <InstanceNav color={instance.color}
+                            instanceArray={instanceArray}
                             setId={setId}
                             id={id}
-                            onClick={() => deleteInstance(id, item, instanceArray, "income_reducer", setCategory, setId)}
-                            addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color, item.type ))}
-                        />
+                            onClick={() => deleteInstance(id, instance, instanceArray, "income_reducer", setStream, setId)}
+                            addSection={() => createNewItem(incomeStream_data(instance.color, (+endAge), instance.reg, instance.stream, (+endAge + 5), instance.value))}
+                        />                                                  
             <Container >                                                                      
      
                 <Left>                                                                                                         {/* Choose one is used to select the account type */}
                 <FormInput
                         label="Income name"
-                        value={item.label}                                                                                        //because the category also set if the item is shown we need this ternary to prevent it from exiting when the text is empty
+                        value={instance.stream}                                                                                        //because the stream also set if the instance is shown we need this ternary to prevent it from exiting when the text is empty
                         type={"text"}  
-                        handleChange={(e) => changeLabel(e)}                                                                      //sets the state in the local state
-                    />
-                                    <RangeBar 
-                        rangeBarProps={item.value}                                                                               //Every Add item has a range bar to set its value
-                        setValue={setValue}                 
-                    /> 
+                        handleChange={(e) => editStreamName(e, id, instanceArray, setNestedKeyValue_action, setStream, "income_reducer")}                                                                      //sets the state in the local state
+                    />                                    
+                        <RangeBar 
+                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value
+                            reducer="income_reducer"
+                            label={"Annual Income"}
+                            instance={instance}       
+                        /> 
 
                 </Left>
 
@@ -76,8 +64,8 @@ const EditIncome = ({category, instanceArray, setValue_action, createNewItem, id
                         <div>To Age</div>    
                     </SelectorTitleWrapper>
                     <DualRangeBar
-                        bottom={item.fromAge}                                                                                     //fromAge sets the from Age, eg. age 18 in 18-45
-                        top={item.toAge}                                                                                          //toAge sets the to Age, eg. age 45 in 18-45
+                        bottom={instance.fromAge}                                                                                     //fromAge sets the from Age, eg. age 18 in 18-45
+                        top={instance.toAge}                                                                                          //toAge sets the to Age, eg. age 45 in 18-45
                         setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
                     />
             </YearsSelectorWrapper> 
@@ -86,13 +74,13 @@ const EditIncome = ({category, instanceArray, setValue_action, createNewItem, id
                     <ButtonWrapper>
                             <ButtonLight 
                                 text={"Add"}
-                                onClick={() => setCategory(false)}
+                                onClick={() => setStream(false)}
                             />
                     </ButtonWrapper>
                     <ButtonLeftWrapper>
                             <ButtonLight 
                                 text={"Back"}
-                                onClick={() => setCategory(false)}
+                                onClick={() => setStream(false)}
                             />
                     </ButtonLeftWrapper>
                 </Right>
@@ -108,7 +96,7 @@ const mapStateToProps = (state) => ({
     cpp_selector: cpp_selector(state),
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action, setValue_action, delete_action})(EditIncome )
+export default connect(mapStateToProps, {setNestedKeyValue_action, delete_action})(EditIncome )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

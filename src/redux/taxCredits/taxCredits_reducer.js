@@ -13,12 +13,7 @@ const initialState = {
         color: '#D8BABB',                                                                                 //Some forms of income might not be taxable such as inheritance
         fromAge: 18,
         toAge: 64,
-        value: {                                                                                        //The value of the income being added
-            rangeBarValue: 0,
-            financialValue: 0,
-            name: "value",
-            label: "Annual Contribution",
-        } 
+        value: 1000
      },
      34900: { 
         label: "Charitable Contribution",    
@@ -28,12 +23,7 @@ const initialState = {
         color: '#D8BABB',                                                                                                                                                      
         fromAge: 18,
         toAge: 64,
-        value: {                                                                                    
-            rangeBarValue: 0,
-            financialValue: 0,
-            name: "value",
-            label: "Charitable Contribution",
-        } 
+        value: 1
      },
      30100: { 
         label: "Age Amount",    
@@ -43,12 +33,7 @@ const initialState = {
         color: '#D8BABB',                                                                                                                                                      
         fromAge: 65,
         toAge: 95,
-        value: {                                                                                    
-            rangeBarValue: 0,
-            financialValue: 7494,
-            name: "value",
-            label: "Age Amount",
-        } 
+        value:  1
      },
      33099: { 
         label: "Medical Expense",    
@@ -58,12 +43,7 @@ const initialState = {
         color: '#D8BABB',                                                                                                                                                      
         fromAge: 18,
         toAge: 64,
-        value: {                                                                                    
-            rangeBarValue: 0,
-            financialValue: 0,
-            name: "value",
-            label: "Medical Expense Amount",
-        } 
+        value:   1,
      },
 }
 
