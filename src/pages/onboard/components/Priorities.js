@@ -3,7 +3,7 @@ import {setNestedKeyValue_action} from "redux/actions"
 import SelectOptionCard from "UI/forms/SelectOptionCard"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {Title} from "pages/onboarding/components/FirstName"
+import {Title} from "pages/onboard/components/FirstName"
 
 const Priorities = ({user_reducer, setNestedKeyValue_action}) => {
 

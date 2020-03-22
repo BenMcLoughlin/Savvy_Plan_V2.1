@@ -2,15 +2,13 @@ import React from "react"
 import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {rate1, rate2, investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
 import MiniRangeBar from "UI/miniRangeBar1/MiniRangeBar"
 import {setKeyValue_action} from "redux/actions"
-import {Title, Dialogue} from "pages/onboarding/components/FirstName"
+import {Title, Dialogue} from "pages/onboard/components/FirstName"
 
 const RetirementAge = ({count, user_reducer, setKeyValue_action}) => {
 
     const {retirementAge} = user_reducer
-
 
 return (
     <>
@@ -36,7 +34,6 @@ return (
 
 const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
-    investmentReturns_selector: investmentReturns_selector(state),
 })
 
 export default connect(mapStateToProps, {setKeyValue_action })(RetirementAge)

@@ -2,21 +2,21 @@ import React, {useState} from 'react'
 import styled from "styled-components"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {connect} from "react-redux"
-import FirstName from "pages/onboarding/components/FirstName"
-import BirthYear from "pages/onboarding/components/BirthYear"
-import Province from "pages/onboarding/components/Province"
-import Spouse from "pages/onboarding/components/Spouse"
-import Children from "pages/onboarding/components/Children"
-import RatesOfReturn from "pages/onboarding/components/RatesOfReturn"
-import RetirementAge from "pages/onboarding/components/RetirementAge"
-import LifeSpan from "pages/onboarding/components/LifeSpan"
-import LifeEvents from "pages/onboarding/components/LifeEvents"
+import FirstName from "pages/onboard/components/FirstName"
+import BirthYear from "pages/onboard/components/BirthYear"
+import Province from "pages/onboard/components/Province"
+import Spouse from "pages/onboard/components/Spouse"
+import Children from "pages/onboard/components/Children"
+import RatesOfReturn from "pages/onboard/components/RatesOfReturn"
+import RetirementAge from "pages/onboard/components/RetirementAge"
+import LifeSpan from "pages/onboard/components/LifeSpan"
+import LifeEvents from "pages/onboard/components/LifeEvents"
 import { Redirect} from "react-router-dom"
 import {setKeyValue_action} from "redux/actions"
 
 function OnboardingProcess({setKeyValue_action}) {
 
-    const [count, setCount] = useState(12);
+    const [count, setCount] = useState(6);
 
     if (count > 12) return <Redirect to="/"/>
 
@@ -61,8 +61,8 @@ function OnboardingProcess({setKeyValue_action}) {
                         }
                     </Form>
                    <Buttons>
-                                < ButtonLight backward onClick={() => setCountAndProgress("onboarding", (count > 0 ? count - 1 : 0))}/>
-                                < ButtonLight forward onClick={() => setCountAndProgress("onboarding", ( count < 14 ? count + 1 : 14))}/>      
+                                < ButtonLight backward onClick={() => setCountAndProgress("onboard", (count > 0 ? count - 1 : 0))}/>
+                                < ButtonLight forward onClick={() => setCountAndProgress("onboard", ( count < 14 ? count + 1 : 14))}/>      
                     </Buttons>
                 </Wrapper>
         )

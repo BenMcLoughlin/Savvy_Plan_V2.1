@@ -5,7 +5,7 @@ import MiniRangeBarValue from "UI/miniRangeBar/Components/MiniRangeBarValue"
 import MiniRangeBarSlider from "UI/miniRangeBar/Components/MiniRangeBarSlider"
 
 
-const MiniRangeBar = ({name, label, max, min, reducer, setKeyValue_action, step, value}) =>  {
+const MiniRangeBar = ({name, label, numberType, max, min, reducer, setKeyValue_action, step, value}) =>  {
 console.log((value-min)/(max-min));
         return (
             < RangeBarWrapper>
@@ -22,7 +22,7 @@ console.log((value-min)/(max-min));
                      <ValueWrapper>
                         <Value
                         type="text"
-                        value={value.toLocaleString()}
+                        value={numberType === "percentage" ? `${(value*100).toFixed(1)} %` : value.toLocaleString()}
                         autoComplete="off"
                         onChange={(e) => null}
                         />   

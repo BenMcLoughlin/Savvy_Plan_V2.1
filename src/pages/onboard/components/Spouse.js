@@ -3,7 +3,7 @@ import {setKeyValue_action} from "redux/actions"
 import CheckBox from "UI/forms/CheckBox"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {Title, Dialogue} from "pages/onboarding/components/FirstName"
+import {Title, Dialogue} from "pages/onboard/components/FirstName"
 
 const FirstName = ({user_reducer, setKeyValue_action}) => {
 

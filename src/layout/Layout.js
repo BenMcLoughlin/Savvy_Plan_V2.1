@@ -11,7 +11,7 @@ import PropertyApp from "pages/property/PropertyApp"
 import Assumptions from "pages/assumptions/Assumptions"
 import Login from "pages/login/Login"
 import LandingPage from "pages/landingPage/LandingPage"
-import OnboardingProcess from "pages/onboarding/OnboardingProcess"
+import OnboardProcess from "pages/onboard/OnboardProcess"
 import SignUp from "pages/login/SignUp"
 import {ThemeProvider} from "styled-components"
 import { lightTheme} from "style/Themes"
@@ -34,7 +34,7 @@ const Layout = ({auth, state}) => {
 
                 <GridContainer>  
                         <Route path="/Assumptions" component={Assumptions}/>
-                        <Route path="/Onboarding" component={OnboardingProcess}/>
+                        <Route path="/Onboarding" component={OnboardProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/income" component={Income}/>  

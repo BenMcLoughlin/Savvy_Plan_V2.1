@@ -70,7 +70,6 @@ const EditSavings = ({transaction, setNestedKeyValue_action, setKeyValue_action,
 const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
     user_reducer: state.user_reducer,
-    assumptions_reducer: state.assumptions_reducer,
     user_reducer: state.user_reducer,
     tfsaProjection_selector: tfsaProjection_selector(state),
 })

@@ -5,7 +5,7 @@ import {connect} from "react-redux"
 import Header from "pages/assumptions/components/Header"
 import StackedBarChart from "charts/assumptions/StackedBarChart"
 import InvestmentFactors from "pages/savings/components/InvestmentFactors"
-import NewEvent from "pages/onboarding/components/NewEvent"
+import NewEvent from "pages/onboard/components/NewEvent"
 import LinkButton from "UI/buttons/LinkButton"
 
 

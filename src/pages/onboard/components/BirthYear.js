@@ -3,7 +3,7 @@ import {setKeyValue_action, setNestedKeyValue_action} from "redux/actions"
 import Select from "UI/forms/Select"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {Title, Dialogue} from "pages/onboarding/components/FirstName"
+import {Title, Dialogue} from "pages/onboard/components/FirstName"
 
 const BirthYear = ({user_reducer, setKeyValue_action, setNestedKeyValue_action}) => {
 

@@ -6,7 +6,7 @@ import styled from "styled-components"
 import Input from "UI/forms/Input"
 import Select from "UI/forms/Select"
 import _ from "lodash"
-import {Title, Dialogue} from "pages/onboarding/components/FirstName"
+import {Title, Dialogue} from "pages/onboard/components/FirstName"
 
 const FirstName = ({user_reducer, setKeyValue_action}) => {
 

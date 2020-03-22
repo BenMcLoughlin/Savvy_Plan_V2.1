@@ -2,27 +2,30 @@ import React from "react"
 import Input from "UI/forms/Input"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {rate1, rate2, investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
-import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
-import {setNestedKeyValue_action} from "redux/actions"
-import {Title, Dialogue} from "pages/onboarding/components/FirstName"
+import {rates_data} from "pages/onboard/data/onboard_data"
+import MiniRangeBar from "UI/miniRangeBar1/MiniRangeBar"
+import {setKeyValue_action} from "redux/actions"
+import {Title, Dialogue} from "pages/onboard/components/FirstName"
 
-const PreRetirementRate = ({count, user_reducer, setNestedKeyValue_action, investmentReturns_selector}) => {
+const RatesOfReturn = ({count, user_reducer, setKeyValue_action}) => {
 
-    const setInvestmentFactor = (value, nothing, {name}) => {
-        setNestedKeyValue_action("rangeBarValue", name, "assumptions_reducer", value) 
-    }
-
-    const position = count - 6
-return (
+    const position = count - 6                                                                                                              //data is stored in an array, this takes the count number and converts it into an array position
+console.log(user_reducer);
+console.log(user_reducer[rates_data[position].name]);
+    return (                                                                                                                                //as count increases the array object changes displaying a new rangebar with new data
     <>
         <Title>We need to make some assumptions.</Title>
                     {
             <MiniRangeBar
-                                                        id={investmentReturns_selector[position].name}
-                                                        key={investmentReturns_selector[position].name}
-                                                        setValue={setInvestmentFactor}                                                        //Function Defined Above, sets the age in the reducer
-                                                        rangeBarProps={investmentReturns_selector[position]}                                                                            //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
+                        label={rates_data[position].label}
+                        name={rates_data[position].name}
+                        reducer={"user_reducer"}
+                        setKeyValue_action={setKeyValue_action}                                                                      
+                        step={rates_data[position].step}
+                        value={user_reducer[rates_data[position].name]}
+                        min={rates_data[position].min}
+                        max={rates_data[position].max}
+                        numberType={rates_data[position].numberType}
                                 />
                         }
                             {
@@ -78,10 +81,9 @@ return (
 
 const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
-    investmentReturns_selector: investmentReturns_selector(state),
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action, })(PreRetirementRate)
+export default connect(mapStateToProps, {setKeyValue_action})(RatesOfReturn)
 
 //-----------------------------------------------style-----------------------------------------------//
 

@@ -19,6 +19,11 @@ const initialState = {
     oasStartAge: 65,
     rrspStartAge: 65,
     tfsaStartAge: 65, 
+    rate1: 0.06,
+    rate2: 0.045,
+    inflationRate: 0.02,
+    MER: 0.02,
+    propertyAppreciation: 0.03,
 }
 
 const user_reducer = (state = initialState, action) => {

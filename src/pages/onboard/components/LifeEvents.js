@@ -1,8 +1,8 @@
 import React from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import NewEvent from "pages/onboarding/components/NewEvent"
-import {Title} from "pages/onboarding/components/FirstName"
+import NewEvent from "pages/onboard/components/NewEvent"
+import {Title} from "pages/onboard/components/FirstName"
 
 const LifeEvents = ( ) => {
 

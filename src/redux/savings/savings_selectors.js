@@ -12,7 +12,7 @@ const retirementAge = state => state.user_reducer.retirementAge
 const userAge = state => thisYear.getFullYear() - state.user_reducer.birthYear
 const netWorth_reducer = state => state.netWorth_reducer
 
-export const returns = state => state.assumptions_reducer
+export const user_reducer = state => state.user_reducer
 
 export const tfsaAccounts_selector = createSelector(
     [netWorth_reducer],
@@ -25,12 +25,12 @@ export const tfsaCurrentBalance = createSelector(
 )
 
 export const rate1 = createSelector(
-    [returns],
-    (returns) =>  returns.beforeRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue > 0 ? returns.beforeRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue : 0
+    [user_reducer],
+    (user_reducer) =>  user_reducer.rate1 - user_reducer.MER - user_reducer.inflationRate > 0 ? user_reducer.rate1 - user_reducer.MER - user_reducer.inflationRate : 0
 )
 export const rate2 = createSelector(
-    [returns],
-    (returns) => returns.afterRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue > 0 ? returns.afterRetirementReturn.rangeBarValue - returns.managementFee.rangeBarValue - returns.inflationRate.rangeBarValue : 0
+    [user_reducer],
+    (user_reducer) =>  user_reducer.rate2 - user_reducer.MER - user_reducer.inflationRate > 0 ? user_reducer.rate2 - user_reducer.MER - user_reducer.inflationRate : 0
 )
 
 

@@ -1,18 +1,13 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
+import MiniRangeBar  from "UI/miniRangeBar1/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {investmentReturns_selector} from "redux/assumptions/assumptions_selectors"
-import {setNestedKeyValue_action} from "redux/actions"
+import {rates_data} from "pages/onboard/data/onboard_data"
+import {setKeyValue_action} from "redux/actions"
 
+const InvestmentFactor = ({setKeyValue_action,  user_reducer}) => {    
 
-
-const InvestmentFactor = ({setNestedKeyValue_action, investmentReturns_selector, assumptions_reducer}) => {    
-
-    const setInvestmentFactor = (value, nothing, {name}) => {
-        setNestedKeyValue_action("rangeBarValue", name, "assumptions_reducer", value) 
-    }
 
         const [visible, setVisible] = useState(false)
     return (
@@ -27,10 +22,16 @@ const InvestmentFactor = ({setNestedKeyValue_action, investmentReturns_selector,
             <Container> 
             <MiniRangeBarWrapper>
                 {
-                    investmentReturns_selector.slice(0,4).map(d =>   <MiniRangeBar 
-                                key={d.name}
-                                setValue={setInvestmentFactor}                                                      
-                                rangeBarProps={d}   
+                    rates_data.slice(0,4).map(d =>  <MiniRangeBar
+                                                                            label={d.label}
+                                                                            name={d.name}
+                                                                            reducer={"user_reducer"}
+                                                                            setKeyValue_action={setKeyValue_action}                                                                      
+                                                                            step={d.step}
+                                                                            value={user_reducer[d.name]}
+                                                                            min={d.min}
+                                                                            max={d.max}
+                                                                            numberType={d.numberType}
                         />
                 )
                 }
@@ -53,11 +54,10 @@ const InvestmentFactor = ({setNestedKeyValue_action, investmentReturns_selector,
 }
 
 const mapStateToProps = (state) => ({
-    investmentReturns_selector: investmentReturns_selector(state),
-    assumptions_reducer: state.assumptions_reducer,
+    user_reducer: state.user_reducer,
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action})(InvestmentFactor )
+export default connect(mapStateToProps, {setKeyValue_action})(InvestmentFactor )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
