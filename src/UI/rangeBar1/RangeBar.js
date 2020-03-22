@@ -2,14 +2,17 @@ import React from 'react'
 import styled from "styled-components"
 import {logslider, inverseLogslider} from "services/general/logorithmic_functions"
 
- const RangeBar = ({instance, label, reducer, setNestedKeyValue_action}) => {
+ const RangeBar = ({instance, label, reducer, setNestedKeyValue_action, second_reducer}) => {
 
         return (
             < RangeBarWrapper>
                      <Label>{label}</Label>
                      <Slider 
                        type="range"
-                       onChange={(e) =>  setNestedKeyValue_action("value",  instance.id, reducer, logslider(e.target.value))}
+                       onChange={(e) =>  {
+                           if (second_reducer) {setNestedKeyValue_action("value",  instance.id, second_reducer, logslider(e.target.value))}     //sometimes we want the rangebar to be changing two values in two different reducers, eg withdrawals also changes income
+                            setNestedKeyValue_action("value",  instance.id, reducer, logslider(e.target.value))
+                        }}
                        value={inverseLogslider(instance.value)}
                        max={100}
                        step={0.1}
@@ -17,7 +20,6 @@ import {logslider, inverseLogslider} from "services/general/logorithmic_function
                      />
                      <Value
                        type="text"
-                       data-a-dec=","
                        autoComplete="off"
                        onChange={(e) => {
                         const value = e.target.value.replace(",","" )                                                                       //showing the number with commas, eg. 1,234 requires it to be a string but messes it up when its sent as a string

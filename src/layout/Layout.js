@@ -3,7 +3,6 @@ import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "pages/dashboard/Dashboard"
-import TaxApp from "pages/taxPosition/TaxApp"
 import NetWorth from "pages/netWorth/NetWorth"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
@@ -24,9 +23,7 @@ import {connect} from "react-redux"
 import Spending from "pages/spending/Spending"
 
 const DashboardWithSpinner = WithSpinner(Dashboard);
-const TaxAppWithSpinner = WithSpinner(TaxApp);
-// const SavingsWithSpinner = WithSpinner(Savings);
-// const IncomeWithSpinner = WithSpinner(Income);
+
 
 const Layout = ({auth, state}) => {
         return (
@@ -40,7 +37,6 @@ const Layout = ({auth, state}) => {
                         <Route path="/Onboarding" component={OnboardingProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>
-                        <Route path="/Tax" render={props => (<TaxAppWithSpinner isLoading={auth} {...props}/>)}/>
                         <Route path="/income" component={Income}/>  
                         <Route path="/Savings" component={Savings}/>              
                         <Route path="/CreditScore" component={CreditScoreApp}/>              

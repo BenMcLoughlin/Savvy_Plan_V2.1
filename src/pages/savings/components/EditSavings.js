@@ -7,12 +7,11 @@ import RangeBar  from "UI/rangeBar1/RangeBar"
 import _ from "lodash"
 import {savingsInstance_data} from "pages/savings/data/savings_data"
 import {tfsaProjection_selector} from "redux/savings/savings_selectors"
-import {setNestedKeyValue_action} from "redux/actions"
+import {setNestedKeyValue_action, setKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
 import {setAge} from "services/ui/ui_functions"
 
-const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, createNewItem, id, reg, setId}) => {    
-
+const EditSavings = ({transaction, setNestedKeyValue_action, setKeyValue_action, savings_reducer, deleteInstance, user_reducer, createNewItem, id, reg, setId}) => {    
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         if (transaction === "withdrawal"){
@@ -21,7 +20,7 @@ const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, de
         setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
 }
      const instance = savings_reducer[id]
-     console.log(instance.toAge);
+
      const endAge = instance.toAge       
      const newItem = savingsInstance_data((+endAge), id, reg, instance.stream, (+endAge + 5), transaction, instance.value)                                         //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
@@ -42,8 +41,9 @@ const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, de
             <Container >  
                 < RangeBarWrapper>
                 <RangeBar 
-                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value
+                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value                                                                                     //Every Add instance has a range bar to set its value
                             reducer="savings_reducer"
+                            second_reducer={transaction === "withdrawal" ? "income_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the income_reducer  
                             label={`Annual ${transaction}`}
                             instance={instance}       
                         /> 
@@ -69,12 +69,13 @@ const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, de
 
 const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
+    user_reducer: state.user_reducer,
     assumptions_reducer: state.assumptions_reducer,
     user_reducer: state.user_reducer,
     tfsaProjection_selector: tfsaProjection_selector(state),
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action})(EditSavings )
+export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_action})(EditSavings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

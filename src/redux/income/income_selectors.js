@@ -11,8 +11,8 @@ const thisYear = new Date()
 const birthYear = state => state.user_reducer.birthYear
 const lifeSpan = state => state.user_reducer.lifeSpan
 
-const cppStartAge = state => state.pensionStartAges_reducer.cppStartAge.rangeBarValue
-const oasStartAge = state => state.pensionStartAges_reducer.oasStartAge.rangeBarValue
+const cppStartAge = state => state.user_reducer.cppStartAge
+const oasStartAge = state => state.user_reducer.oasStartAge
 
 
 

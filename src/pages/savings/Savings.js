@@ -14,9 +14,9 @@ import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
 
 const Savings = ({setKeyValue_action, delete_action, stream, savings_reducer, setStream}) => {    
 
-    const reg = stream.split("").slice(0,4).join("")                                                                       //creates a value called reg that is either "TFSA", "RRSP", or "NReg"
-    const [contributionId, setContributionId] = useState(`${reg}contribution`)                                               //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
-    const [withdrawalId, setWithdrawalId] =  useState(`${reg}withdrawal`)                                                    // the ids for the hard coded contributions and withdrawals look like "TFSAcontribution", and "TFSAwithdrawal"
+    const reg = stream.split("").slice(0,4).join("")                                                                               //creates a value called reg that is either "TFSA", "RRSP", or "NReg"
+    const [contributionId, setContributionId] = useState(`${reg}contribution`)                                                       //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
+    const [withdrawalId, setWithdrawalId] =  useState(`${reg}withdrawal`)                                                            // the ids for the hard coded contributions and withdrawals look like "TFSAcontribution", and "TFSAwithdrawal"
 
     const createNewItem = (state) => {                                                                                               //This creates a new Savings Instance, such as from ages 18-22
         const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
@@ -88,7 +88,6 @@ const Savings = ({setKeyValue_action, delete_action, stream, savings_reducer, se
 }
 
 const mapStateToProps = (state) => ({
-    pensionStartAges_reducer: state.pensionStartAges_reducer,
     user_reducer: state.user_reducer,
     cpp_selector: cpp_selector(state),
     savings_reducer: state.savings_reducer

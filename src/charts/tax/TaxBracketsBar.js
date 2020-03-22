@@ -1,24 +1,72 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {taxCreditBarChartData_selector} from "redux/taxCredits/taxCredits_selectors"
+import {taxBracketsChartData_selector} from "redux/tax/tax_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart = (data, width, height) => {
+const drawChart = (data, width, height, colors) => {
+console.log(data);
+    const data1 = [
+        {
+            bracketIncome: 5000,
+            totalIncome: 5000,
+            type: "deduction", 
+            federalTaxes: .1,
+            provincialTaxes: .1,
+            cppAndEI: .05,
+            keep: .75,
+        },
+        {
+            bracketIncome: 20000,
+            totalIncome: 25000,
+            federalTaxes: .1,
+            type: "",
+            provincialTaxes: .1,
+            cppAndEI: .05,
+            keep: .75,
+        },
+        {
+            bracketIncome: 20000,
+            totalIncome: 45000,
+            federalTaxes: .15,
+            type: "", 
+            provincialTaxes: .15,
+            cppAndEI: .05,
+            keep: .65,
+        },
+        {
+            bracketIncome: 30000,
+            totalIncome: 75000,
+            federalTaxes: .25,
+            type: "", 
+            provincialTaxes: .15,
+            cppAndEI: .05,
+            keep: .55,
+        },
+        {
+            bracketIncome: 10000,
+            totalIncome: 85000,
+            type: "deduction", 
+            federalTaxes: .25,
+            provincialTaxes: .15,
+            cppAndEI: .05,
+            keep: .55,
+        },
+    ]
 
-    const margin = {top: 20, right: 50, bottom: 20, left: 50}
+    const margin = {top: 20, right: 15, bottom: 20, left: 70}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color =  ["age", '#3B7B8E', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
+    const color = ['#88adbf',"#ee6c4a", "#f5ab97", "#F29278", "#ee6c4a"]
 
-console.log(data);
-   d3.select(".creditBarChart > *").remove()
+   d3.select(".taxBarChart > *").remove()
    d3.select(".tooltip").remove()
+  
+    const svg = d3.select('.taxBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-    const svg = d3.select('.creditBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
-
-    const stackedKeys = ["credit"]
+    const stackedKeys = ["keep","federalTaxes", "provincialTaxes", "cppAndEI"]
+  
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -30,14 +78,13 @@ console.log(data);
                             
     const yAxisGroup = graph.append("g")
                         .attr("class", "axis")
-
     
        const stack = d3.stack()
                         .keys(stackedKeys)
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".creditBarChart").append("div")
+        const tooltip = d3.select(".taxBarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
@@ -47,17 +94,14 @@ console.log(data);
                           
     const update = data => {
     
-       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 600 ? 600 : 
-                   d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
+        const max = d3.max(data, d =>  d.totalIncome) + 10000
 
         const series = stack(data);
    
-        const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, max])
-        const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
-        .domain(data.map(item => item.age))
+        const xScale = d3.scaleLinear().range([0, graphWidth]).domain([0, 1])
 
-
-
+        const yScale =  d3.scaleLinear().range([graphHeight, 0]).domain([0, max])
+                                  
     const rects = graph.append("g")
         .selectAll("g")
         .data(series)
@@ -66,26 +110,33 @@ console.log(data);
     
         rects.selectAll("rect")
             .data(d => d)
-            .enter().append("rect")
-                .attr("x", d => xScale(d.data.age))
-                .attr("y", d => yScale(d[1]))
-             .merge(rects)
+            .enter()
+            .append("rect")
+            .attr("x", d => xScale(d[0]))
+            .merge(rects)
 
-    
+
         rects.enter().append("g")
-            .attr("fill", "#8CB8B7")
+            .attr("fill", (d,i) => color[i])
+            .attr("backgroundColor", (d,i) => color[i])
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
             .data(d => d)
             .enter().append("rect")
-                .attr("y", d => yScale(d[1]))
-                .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
-                .attr("x", d => xScale(d.data.age))
-                .attr("width", xScale.bandwidth())
+                .attr("x", d => xScale(d[0]))
+                .attr("fill", (d,i) => d.data.type === "deduction" && d[0] > 0 ? "#8CB8B7" : null)
+    
+                .attr("width", d => xScale(d[1]) - xScale(d[0]))
+                .attr("y", (d,i) =>   d.data.type === "deduction" && i === 0 ?  yScale(d.data.totalIncome) - 2 : yScale(d.data.totalIncome)) 
+                .attr("height", (d,i) => {
+                   return d.data.type === "deduction" && i > 0 ? graphHeight - yScale(d.data.bracketIncome) : 
+                   d.data.type === "deduction" && i === 0 ? graphHeight - yScale(d.data.bracketIncome) + 2 : 
+                            (graphHeight - yScale(d.data.bracketIncome) - 2) }
+                    ) 
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
-
-                                const thisColor = color[2]
+                                const nameIndex = stackedKeys.findIndex(type => type === name)
+                                const thisColor = color[nameIndex]
                         
                                 d3.select(n[i])
                                     .transition()
@@ -138,30 +189,19 @@ console.log(data);
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
-                           
-                                        
-           const convertLabels = (array) => {
-            const ticks = []                                                            
-            const labels = []
-            for (let i = 0; i< array.length; i++) {
-                const age = array[i].age
-                if (i % 10 === 0) {
-                    ticks.push(age)
-                    labels.push(`Age ${age}`)
-                }
-            }
-            return [ticks, labels]
-        }
-        const [ticks, labels] = convertLabels(data)
+          
 
+            var ticks = [48535,97069, 150473, 214368, 400000];
+            var tickLabels = ['48k','97k','150k','214k','400k']
+ 
+
+                              
             const xAxis = d3.axisBottom(xScale)
-                            .tickValues(ticks)
-                            .tickFormat(function(d,i){ return labels[i] })
-                           
-                                    
-            const yAxis = d3.axisLeft(yScale).ticks('1')
-                            .tickFormat(d => `${d/1000}k`)
-
+                              .ticks('2')
+                              .tickFormat(d => `${d*100}%`)
+                         
+            const yAxis = d3.axisLeft(yScale).tickValues(ticks)
+                                 .tickFormat(function(d,i){ return tickLabels[i] })
 
         xAxisGroup.call(xAxis)
         yAxisGroup.call(yAxis)
@@ -171,10 +211,11 @@ console.log(data);
     
 }
 
-const SpendingBarChart = ({data}) =>  {
+const TaxBarChart = ({taxBracketsChartData_selector}) =>  {
+
+    const data = taxBracketsChartData_selector
 
     const inputRef = useRef(null)
-
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
@@ -182,17 +223,16 @@ const SpendingBarChart = ({data}) =>  {
     }, [data])
 
         return (
-            <Canvas className="creditBarChart" ref={inputRef}>
+            <Canvas className="taxBarChart" ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
-    data: taxCreditBarChartData_selector(state),
-
+    taxBracketsChartData_selector: taxBracketsChartData_selector(state),
 })
 
-export default connect(mapStateToProps, {})(SpendingBarChart)
+export default connect(mapStateToProps)(TaxBarChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`

@@ -1,13 +1,15 @@
 import _ from "lodash"
 
 const initialState = {
+
     TFSAwithdrawal: {
-        color: "#8CB8B7",
+        color:  "#8CB8B7",
         fromAge: 65,
         reg: "TFSA",
         stream: "TFSA Income",
         toAge: 95,
         id: "TFSAwithdrawal",
+        transaction: "withdrawal",
         value: 0,
     },
     RRSPwithdrawal: {

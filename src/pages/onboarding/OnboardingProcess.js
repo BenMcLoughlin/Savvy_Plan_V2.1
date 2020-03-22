@@ -7,7 +7,6 @@ import BirthYear from "pages/onboarding/components/BirthYear"
 import Province from "pages/onboarding/components/Province"
 import Spouse from "pages/onboarding/components/Spouse"
 import Children from "pages/onboarding/components/Children"
-import Priorities from "pages/onboarding/components/Priorities"
 import RatesOfReturn from "pages/onboarding/components/RatesOfReturn"
 import RetirementAge from "pages/onboarding/components/RetirementAge"
 import LifeSpan from "pages/onboarding/components/LifeSpan"
@@ -17,7 +16,7 @@ import {setKeyValue_action} from "redux/actions"
 
 function OnboardingProcess({setKeyValue_action}) {
 
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(12);
 
     if (count > 12) return <Redirect to="/"/>
 
@@ -44,8 +43,7 @@ function OnboardingProcess({setKeyValue_action}) {
                             count === 4 ? 
                             <Children/>
                             :
-                            count === 5 ? 
-                            <Priorities/>
+                            count === 5 ? null
                             :
                             count > 5 && count < 11 ? 
                             <RatesOfReturn count={count}/>

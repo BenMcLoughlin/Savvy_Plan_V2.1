@@ -133,7 +133,7 @@ function calculateCppMemoized() {
              fromAge: cppStartAge, 
              reg: "retirementIncome", 
              stream: "CPP Income", 
-             toAge: lifeSpan.rangeBarValue, 
+             toAge: lifeSpan, 
              value: adjustedCppPayment,
          }
          cache[cacheKey] = cppIncome                                                                                              //cache's the answer for later
@@ -144,7 +144,7 @@ function calculateCppMemoized() {
             fromAge: cppStartAge, 
             reg: "retirementIncome", 
             stream: "CPP Income", 
-            toAge: lifeSpan.rangeBarValue, 
+            toAge: lifeSpan, 
             value: 0
         }            
 }
@@ -157,7 +157,7 @@ export const calculateOAS = (age, lifeSpan) => ({
     fromAge: age, 
     reg: "retirementIncome", 
     stream: "OAS Income", 
-    toAge: lifeSpan.rangeBarValue, 
+    toAge: lifeSpan, 
     value: adjustCpp(age, age, 7200)
 })
 

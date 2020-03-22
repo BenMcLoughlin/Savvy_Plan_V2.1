@@ -1,128 +1,70 @@
+import _ from "lodash"
+
 
 const initialState = { 
-
-    income: {
-        employmentIncome: {
-            name: "employmentIncome",
-            label: "Employment Income",
-            financialValue: 100, 
-            rangeBarValue: 0,
-            section: "income" 
-        },
-        selfEmploymentIncome: {
-            name: "selfEmploymentIncome",
-            label: "Self Employment Income",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "income" 
-        },
-        interestIncome: {
-            name: "interestIncome",
-            label: "Business / Rental Income",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "income" 
-        },
-        capitalGains: {
-            name: "capitalGains",
-            label: "Capital Gains",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "income",
-        },
-        eligibleDividends: {
-            name: "eligibleDividends",
-            label: "Eligible Dividends",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "income" 
-        },
-        nonEligibleDividends: {
-            name: "nonEligibleDividends",
-            label: "Non-Eligible Dividends",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "income" 
-        },
-    },
-    deductions: {
-        rrspContributions: {
-            name: "rrspContributions",
-            label: "RRSP Contributions",
-            financialValue: 0, 
-            rangeBarValue: 0, 
-        }
-    },
-    credits: {
-        charitableDonations: {
-            name: "charitableDonations",
-            label: "Charitable Donations",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "credits",
-            min: 0, 
-            max: 20000, 
-        },
-        tuition: {
-            name: "tuition",
-            label: "Tuition, Education and Textbook",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "credits",
-            min: 0,
-            max: 20000,
-        },
-        medicalExpense: {
-            name: "medicalExpense",
-            label: "Medical Expense",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "credits", 
-            min: 0,
-            max: 40000,
-        },
-        homeBuyers: {
-            name: "homeBuyers",
-            label: "Home Buyers",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "credits",
-            min: 0, 
-            max: 5000, 
-        },
-        volunteerFirefighter: {
-            name: "volunteerFirefighter",
-            label: "Volunteer Firefighter",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "credits",
-            min: 0,
-            max: 5000,
-        },
-        interestOnStudentLoans: {
-            name: "interestOnStudentLoans",
-            label: "Interest on Student Loans",
-            financialValue: 0, 
-            rangeBarValue: 0,
-            section: "credits", 
-            min: 0,
-            max: 5000,
-        },
-    },
+    selectedCredit: "medicalExpense",
+    20800: { 
+        registration: "rrsp",
+        label: "RRSP Contribution",    
+        category: "rrsp",    
+        type: "deduction",
+        id: 20800,                                                                             //the label is editable by the user and is what is displayed 
+        transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
+        color: '#D8BABB',                                                                                 //Some forms of income might not be taxable such as inheritance
+        fromAge: 18,
+        toAge: 64,
+        value: 1000
+     },
+     34900: { 
+        label: "Charitable Contribution",    
+        category: "charitableContribution",    
+        type: "credit",
+        id: 34900,      
+        color: '#D8BABB',                                                                                                                                                      
+        fromAge: 18,
+        toAge: 64,
+        value: 1
+     },
+     30100: { 
+        label: "Age Amount",    
+        category: "ageAmount",    
+        type: "ageCredit",
+        id: 30100,      
+        color: '#D8BABB',                                                                                                                                                      
+        fromAge: 65,
+        toAge: 95,
+        value:  1
+     },
+     33099: { 
+        label: "Medical Expense",    
+        category: "medicalExpense",    
+        type: "credit",
+        id: 33099,      
+        color: '#D8BABB',                                                                                                                                                      
+        fromAge: 18,
+        toAge: 64,
+        value:   1,
+     },
 }
 
-
- const tax_reducer= (state = initialState, action) => {
+ const taxCredits_reducer = (state = initialState, action) => {
     switch(action.type) {
-        case "SET_INCOME_FOR_TAX_CALCULATOR": return {...state, [action.section]: {
-                                                            ...state[action.section], [action.name]: {
-                                                                    ...state[action.section][action.name], 
-                                                                    financialValue: action.financialValue, 
-                                                                    rangeBarValue: action.rangeBarValue, 
+        case "tax_reducer/ADD": return {...state, [action.payload.id]: action.payload}
+        case "tax_reducer/DELETE": return _.omit(state, [action.id])
+        case "tax_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}                                 //sets a simple key value pair within the reducer object
+        case "tax_reducer/SET_VALUE": return {...state, [action.id]: {                                                  //creates a copy of state and enters the object with the correct id
+                                                            ...state[action.id], value: {                               //creates a copy of the object with that id and enters the value object
+                                                                    ...state[action.id].value,                          //creates a copy of the value object
+                                                                    financialValue: action.financialValue,              //sets the financialValue with the new value
+                                                                    rangeBarValue: action.rangeBarValue,                //sets the rangeBar value             
                                                             }
         }}
+        case "tax_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {
+                                                                        ...state[action.parentKey], 
+                                                                        [action.childKey]: action.value
+}}    
         default: return state
     }
 }
 
-export default tax_reducer
+export default taxCredits_reducer

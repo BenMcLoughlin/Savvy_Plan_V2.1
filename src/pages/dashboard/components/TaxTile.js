@@ -2,7 +2,6 @@ import React from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import {calculateTaxesByBracket} from "services/tax/tax_functions"
-import TaxDonutChartTile from "charts/tax/TaxDonutChartTile"
 import { NavLink} from "react-router-dom"
 
 
@@ -47,9 +46,7 @@ const TaxTile = ({tax_reducer, progress_reducer}) => {
     return (
         <TaxTileTileWrapper to="/Tax" count={progress_reducer.dashboard}>
             <StackedBarChartPlaceHolder>
-            {/* <TaxDonutChartTile
-                taxDonutChartData={taxDonutChartData}
-            /> */}
+
             </StackedBarChartPlaceHolder>
         </TaxTileTileWrapper>
     )

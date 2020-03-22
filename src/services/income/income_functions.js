@@ -24,7 +24,7 @@ export const convertReducerToArray = (reducer, lifeSpan) => {                   
      let arrayOfLabels = [...new Set(incomeStreams.map(d => d.stream))]                                         //Map through the array returning categories, if theres more then one we only want one stream name. Set filters it down to one name each.          
  
      const array = []                                                                                             //Initialize and empty array to push into
-     for (let age = 18; age <= lifeSpan.rangeBarValue; age++) {                                                                        //For loop showing their income till age 95
+     for (let age = 18; age <= lifeSpan; age++) {                                                                        //For loop showing their income till age 95
          const itemObject = {age: age}                                                                            //The age is used as the x axis
          const details = Object.assign(itemObject,  ...arrayOfLabels.map(stream => (                            //We need an object for each income stream, we map and assign the stream to the object
                              {[stream]: returnIncome(incomeStreams, stream, age)}                             //Checks to see if income has been input for this age, if so the financial value is returned

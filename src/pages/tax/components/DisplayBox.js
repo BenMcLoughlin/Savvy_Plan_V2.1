@@ -4,17 +4,15 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
 import {setKeyValue_action} from "redux/actions"
-import {deduction_selector, credit_selector, ageCredit_selector} from "redux/taxCredits/taxCredits_selectors"
+import {deduction_selector, credit_selector, ageCredit_selector} from "redux/tax/tax_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
 import {taxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
-
 
 const DisplayBox = ({instanceArray, createNewItem, setCategory, progress_reducer, setKeyValue_action, setId, deduction_selector, credit_selector, ageCredit_selector, type}) => {                  
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
     const newState = taxCredit_data(" ", 18, 24, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
 
-    //addSection={() => createNewItem(incomeStream_data(category, (+endAge), (+endAge + 5), item.value.financialValue , item.value.rangeBarValue, item.color ))}
     const selector =  type === "deduction" ? deduction_selector : type === "credit" ? credit_selector : ageCredit_selector 
 
     const addNewCategory = () => {                                                                                                                  //Creates a new item 

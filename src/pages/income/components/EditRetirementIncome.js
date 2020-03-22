@@ -1,26 +1,17 @@
 import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import MiniRangeBar from "UI/miniRangeBar/MiniRangeBar"
+import MiniRangeBar from "UI/miniRangeBar1/MiniRangeBar"
 import {cpp_selector} from "redux/income/income_selectors"
 import ButtonLight from "UI/buttons/ButtonLight"
-import {setNestedKeyValue_action} from "redux/actions"
+import {setKeyValue_action} from "redux/actions"
 
 
-const EditRetirementIncome = ({setStream, cpp_selector, pensionStartAges_reducer, user_reducer, setNestedKeyValue_action}) => {    
+const EditRetirementIncome = ({setStream, cpp_selector,  user_reducer, setKeyValue_action}) => {    
 
-    const {lifeSpan} = user_reducer
+    const {lifeSpan, cppStartAge} = user_reducer
 
-    const handleChange = (value, nothing, {name}) => {
-        console.log(name); 
-        setNestedKeyValue_action("rangeBarValue", name, "user_reducer", value)
-      };
-
-    const setPensionAge = (value1, value2, rangeBarProps) => {
-       const {name} = rangeBarProps
-        setNestedKeyValue_action("rangeBarValue", name, "pensionStartAges_reducer", value1)
-    }
-    const totalCPP = (lifeSpan.rangeBarValue - pensionStartAges_reducer.cppStartAge.rangeBarValue)  * cpp_selector.value.financialValue
+    const totalCPP = (lifeSpan - cppStartAge)  * cpp_selector.value.financialValue
  
     return (
         <Wrapper>
@@ -30,12 +21,25 @@ const EditRetirementIncome = ({setStream, cpp_selector, pensionStartAges_reducer
      
                 <Left>                                                                                                         {/* Choose one is used to select the account type */}
                 < MiniRangeBar 
-                    rangeBarProps={pensionStartAges_reducer.cppStartAge}
-                    setValue={setPensionAge}
+                   label={"CPP Start Age"}
+                   name={'cppStartAge'}
+                   reducer={"user_reducer"}
+                   setKeyValue_action={setKeyValue_action}                                                                         //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
+                   step={1}
+                   value={cppStartAge}
+                   min={60}
+                   max={70}
+                   />
                 />
               < MiniRangeBar 
-                    rangeBarProps={lifeSpan}
-                    setValue={handleChange}
+                    label={"Life span"}
+                    name={'lifeSpan'}
+                    reducer={"user_reducer"}
+                    setKeyValue_action={setKeyValue_action}                                                                         //We pass in the entire object as rangeBarProps to have access to all it's properties throughout the cycle
+                    step={1}
+                    value={lifeSpan}
+                    min={70}
+                    max={110} 
                 />
                 </Left>
                 <Right>
@@ -71,12 +75,11 @@ const EditRetirementIncome = ({setStream, cpp_selector, pensionStartAges_reducer
 }
 
 const mapStateToProps = (state) => ({
-    pensionStartAges_reducer: state.pensionStartAges_reducer,
     user_reducer: state.user_reducer,
     cpp_selector: cpp_selector(state),
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action, setNestedKeyValue_action})(EditRetirementIncome )
+export default connect(mapStateToProps, {setKeyValue_action, setKeyValue_action})(EditRetirementIncome )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

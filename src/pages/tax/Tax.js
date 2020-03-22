@@ -6,11 +6,11 @@ import  Header from "pages/tax/components/Header"
 import EditCredit from "pages/tax/components/EditCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"
 import {creditTypes_data} from "pages/tax/data/tax_data"
-import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
+import {tax_selector, taxBrackets_selector} from "redux/tax/tax_selectors"
 
 import {add_action, setKeyValue_action} from "redux/actions"
 
-const Tax = ({setKeyValue_action, taxCredits_selector,  add_action}) => {    
+const Tax = ({setKeyValue_action, tax_selector,  add_action}) => {    
 
     const [category, setCategory] = useState()                                                                                       //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
     const [id, setId] = useState()                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
@@ -23,7 +23,7 @@ const Tax = ({setKeyValue_action, taxCredits_selector,  add_action}) => {
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
 
-    const instanceArray =  taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) 
+    const instanceArray =  tax_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) 
 
     return (
         <Wrapper>
@@ -84,8 +84,8 @@ const Tax = ({setKeyValue_action, taxCredits_selector,  add_action}) => {
 }
 
 const mapStateToProps = (state) => ({
-    taxCredits_selector: taxCredits_selector(state),
-    taxCredits_reducer: state.taxCredits_reducer,
+    tax_selector: tax_selector(state),
+    tax_reducer: state.tax_reducer,
     taxBrackets_selector: taxBrackets_selector(state),
 })
 

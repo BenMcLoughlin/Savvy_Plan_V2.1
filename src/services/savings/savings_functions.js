@@ -21,7 +21,7 @@ import {RRIFMinimumTable} from "services/savings/savings_tables"
 
 
 /// SAVINGS FUNCTIONS 
-const getValue = (age, reg, savings_reducer, transaction) => {                                                                 //Helper function which will return the income value in the chart
+const getValue = (age, priorValue, reg, savings_reducer, transaction) => {                                                     //Helper function which will return the income value in the chart
                        
     const transactions = Object.values(savings_reducer).filter( d => d.reg === reg)                                            //filter reducer to get an array of instances with the same registration, eg find all "TFSA" contributions & withdrawals
     if (transactions.length > 0) {
@@ -32,7 +32,7 @@ const getValue = (age, reg, savings_reducer, transaction) => {                  
                                     : 0                                                                                        //If it is it returns the financial value, giving an array of financial values
        )
        const amount =  Math.max(...array)                                                                                       //If the person has inputted more than one amount for the sane age range this will return the max
-       return amount > 0 ? amount : 0
+       return priorValue > amount ? amount : priorValue > 0 ? priorValue: 0                                                     //for withdrawals this ensures there is money in the account that can be withdrawn
     }
    return 0
     }
@@ -61,7 +61,7 @@ export const createProjection = (balance, lifeSpan, rate1, rate2, reg, savings_r
         const newObject = {
                            age: age                                                                                            //Initialize a new object
                             } 
-        const contribution = getValue(age, prior.value, reg, savings_reducer, "contribution")                                               //sums all contributions made when the user was that age
+        const contribution = getValue(age, 1000000, reg, savings_reducer, "contribution")                                               //sums all contributions made when the user was that age
         const withdrawal = getValue(age, prior.value, reg, savings_reducer, "withdrawal",)                                                  //sums all withdrawals for the age period
         const contributionRoom = prior.contributionRoom + 6000
         const availableRoom = 6000 - contribution + prior.availableRoom
