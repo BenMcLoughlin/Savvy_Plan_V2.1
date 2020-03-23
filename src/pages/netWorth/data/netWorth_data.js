@@ -42,7 +42,7 @@ export const netWorthWizard_data = [                                            
         currentValueLabel: "Current Mortgage Balance",
         bookValueLabel: "Mortgage Starting Balance",
         interestRateLabel: "Interest Rate",
-
+        accountTypeArray: [0]
     },
 ]
 

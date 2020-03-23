@@ -32,6 +32,7 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, add_acti
                 setStream(state.stream)                                                                                           // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(id)                                                                                                         // determines which income instance to show within the edit box
     }
+    console.log(income_selector);
 
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.stream === stream).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
 

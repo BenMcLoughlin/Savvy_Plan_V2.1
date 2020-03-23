@@ -15,7 +15,7 @@ const DisplayBox = ({ reg, instanceArray, createNewItem, setStream, progress_red
     const toAge =  reg === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = incomeStream_data(colorArray_data[color], fromAge, reg, " ", toAge, 1)                                 //initial State is found in data 
+    const newState = incomeStream_data(colorArray_data[color], fromAge, reg, " ", toAge, 0)                                                     //initial State is found in data 
                                     
     const selector =  reg === "employmentIncome" ? employment_selector
                     : reg === "businessIncome" ? business_selector

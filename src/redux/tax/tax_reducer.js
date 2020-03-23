@@ -8,9 +8,9 @@ const initialState = {
         label: "RRSP Contribution",    
         category: "rrsp",    
         type: "deduction",
-        id: 20800,                                                                             //the label is editable by the user and is what is displayed 
+        id: 20800,                                                                                                          //the label is editable by the user and is what is displayed 
         transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
-        color: '#D8BABB',                                                                                 //Some forms of income might not be taxable such as inheritance
+        color: '#D8BABB',                                                                                                   //Some forms of income might not be taxable such as inheritance
         fromAge: 18,
         toAge: 64,
         value: 1000
