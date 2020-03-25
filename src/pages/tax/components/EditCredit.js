@@ -14,14 +14,14 @@ import {cpp_selector} from "redux/income/income_selectors"
 import CreditBarChart from "charts/tax/CreditBarChart"
 import {setAge} from "services/ui/ui_functions"
 
-const EditCredit = ({category, instanceArray, setNestedKeyValue_action, createNewItem, id, setId, setValue_action, setCategory}) => {    
+const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, id, setId, setValue_action, setStream}) => {    
 
 
     const setDualRangeBar = (name, value) => {                                                                                       //sets the age, as well as the surrounding ages in the array of instances
         setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
     }
 
-    const addSection = () => createNewItem(taxCredit_data(category, (+endAge), (+endAge + 5), item.value, item.color ))
+    const addSection = () => createNewItem(taxCredit_data(stream, (+endAge), (+endAge + 5), item.value, item.color ))
     
     const item = instanceArray.find(d => d.id === id)                                                                               //we're only provided with the id, not the entire instance, this grabs the entire instance details
     const endAge = instanceArray[instanceArray.length -1].toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
@@ -31,13 +31,13 @@ const EditCredit = ({category, instanceArray, setNestedKeyValue_action, createNe
                 item &&
                 <>
                 <Header>
-                <h2>{_.startCase(category)}</h2> 
+                <h2>{_.startCase(stream)}</h2> 
                 </Header>
                 <InstanceNav color={"blue"}
                                 itemList={instanceArray}
                                 setId={setId}
                                 id={id}
-                                onClick={() => deleteInstance(id, item, instanceArray, "tax_reducer", setCategory, setId)}
+                                onClick={() => deleteInstance(id, item, instanceArray, "tax_reducer", setStream, setId)}
                                 addSection={addSection}
                             />
  
@@ -68,13 +68,13 @@ const EditCredit = ({category, instanceArray, setNestedKeyValue_action, createNe
                         <ButtonWrapper>
                                 <ButtonLight 
                                     text={"Add"}
-                                    onClick={() => setCategory(false)}
+                                    onClick={() => setStream(false)}
                                 />
                         </ButtonWrapper>
                         <ButtonLeftWrapper>
                                 <ButtonLight 
                                     text={"Back"}
-                                    onClick={() => setCategory(false)}
+                                    onClick={() => setStream(false)}
                                 />
                         </ButtonLeftWrapper>
                     </Right>

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
+import TaxBracketsBar from "charts/tax/TaxBracketsBar"
 
 const Header = ({user_reducer}) => {
 
@@ -9,29 +10,60 @@ const {taxAge} = user_reducer
 
 return (
             <Wrapper>
-            <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
-                <h1>
-                   Age {taxAge}: Estimated Tax Position
-                </h1>
+            <Left >                                                                                     
+                <h1> Tax Breakdown </h1>
+                <Chart>
+                    <ChartTitle>Taxes By Bracket</ChartTitle>
+                    <TaxBracketsBar/>
+                </Chart>
             </Left>
             <Right>
-            <h2>Estimated Income</h2>
-            <Container >
+                <Row>
                     <Summary>
-                    {111}  
-                        <h4>Before Tax</h4>
-                        <Circle color={"#F29278"}/>
+                        <Title>Taxable Income</Title>
+                        <Value>{47}k</Value>
                     </Summary>
-                    <Summary >
-                    {`${222}k`}
-                        <h4 >Taxes</h4>
-                        <Circle color={"#7DA8B8"}/>
+                    <Summary>
+                        <Title>Non-Taxable Income</Title>
+                        <Value>{2}k</Value>
                     </Summary>
-            </Container>
-            <Summary>
-             {`$3k`}
-            <h4>After Tax</h4>
-            </Summary>
+                </Row>
+                <Row>
+                    <Summary>
+                        <Title>Deductions</Title>
+                        <Value>{5}k</Value>
+                    </Summary>
+                    <Summary>
+                        <Title>Taxes Saved</Title>
+                        <Value>{3}k</Value>
+                    </Summary>
+                </Row>
+                <Row>
+                    <Summary>
+                        <Title>Credits</Title>
+                        <Value>{17}k</Value>
+                    </Summary>
+                    <Summary>
+                        <Title>Taxes Saved</Title>
+                        <Value>{3}k</Value>
+                    </Summary>
+                </Row>
+                <Row>
+                    <Summary>
+                        <Title>Total Taxes</Title>
+                        <Value>{17}k</Value>
+                    </Summary>
+                    <Summary>
+                        <Title>Average Rate</Title>
+                        <Value>{23}%</Value>
+                    </Summary>
+                </Row>
+                <Row>
+                    <Summary>
+                        <Title>After Tax Income</Title>
+                        <Value>{47}k</Value>
+                    </Summary>
+                </Row>
             </Right>
             </Wrapper>
         )
@@ -47,32 +79,50 @@ export default connect(mapStateToProps, {})(Header )
 //-----------------------------------------------style-----------------------------------------------//
 
 
-const Wrapper = styled.div`
-    grid-area: a;                                                                                             {/*Grid-area set in Income, "a" positions it at the top */}
+const Wrapper = styled.div`                                                                                      
     height: 100%;
     width: 100%;
     display: flex;
     margin-top: 4rem;
     position: relative;
     color: ${props => props.theme.color.slate};
+    grid-area: a;
 `
 
 const Left = styled.div`
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    flex: 1;
+`
+const Right = styled.div`
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 0rem 4rem 0rem 4rem;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
 `
 
 const Summary = styled.div`
     flex: 1;
     display: flex;
-    flex-direction: column;
-    padding: .3rem;
+    width: 40%;
+    flex-direction: row;
+    padding: 1rem;
     margin-top: .3rem;
     font-size: ${props => props.theme.fontSize.medium};
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    border-bottom: ${props => props.theme.border.primary};
 
+`
+const Row = styled.div`
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    justify-content: space-between;
 `
 
 const Vr = styled.div`
@@ -84,33 +134,33 @@ const Vr = styled.div`
     border-left: ${props => props.theme.border.primary};
 `
 
-const Right = styled.div`
-    width: 45%;
-    margin-top: -4rem;
-    display: flex;
-    flex-direction: column;
+
+const Title = styled.div`
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: 200;
+`
+const ChartTitle = styled.div`
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: 200;
+  position: absolute;
+  top: 1rem;
+  left: 10rem;
+`
+const Value = styled.div`
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: bold;
+  text-align: left;
+`
+
+const Chart = styled.div`
     text-align: center;
-    align-items: center;
-`
-const Circle = styled.div`
-   border-radius: 50%;
-   height: 1rem;
-   width: 1rem;
-   margin-top: .5rem;
-   background: ${props => props.color}
-   display: flex;
-   align-items: center;
-`
+    margin-top: 1rem;
+    height: 17rem;
+    width: 50rem;
+    margin-left: 7rem;
+    position: relative;
 
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 20rem;
-    width: 12rem;
-    border-bottom: ${props => props.theme.border.primary};
 `
-
 
 
 

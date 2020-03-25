@@ -5,21 +5,12 @@ import {taxBracketsChartData_selector} from "redux/tax/tax_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart = (data, width, height, colors) => {
-console.log(data);
-    const data1 = [
+const drawChart = (data1, width, height, colors) => {
+
+    const data = [
         {
-            bracketIncome: 5000,
-            totalIncome: 5000,
-            type: "deduction", 
-            federalTaxes: .1,
-            provincialTaxes: .1,
-            cppAndEI: .05,
-            keep: .75,
-        },
-        {
-            bracketIncome: 20000,
-            totalIncome: 25000,
+            bracketIncome: 48000,
+            totalIncome: 48000,
             federalTaxes: .1,
             type: "",
             provincialTaxes: .1,
@@ -27,8 +18,8 @@ console.log(data);
             keep: .75,
         },
         {
-            bracketIncome: 20000,
-            totalIncome: 45000,
+            bracketIncome: 40000,
+            totalIncome: 88000,
             federalTaxes: .15,
             type: "", 
             provincialTaxes: .15,
@@ -36,29 +27,20 @@ console.log(data);
             keep: .65,
         },
         {
-            bracketIncome: 30000,
-            totalIncome: 75000,
+            bracketIncome: 40000,
+            totalIncome: 128000,
             federalTaxes: .25,
             type: "", 
             provincialTaxes: .15,
             cppAndEI: .05,
             keep: .55,
         },
-        {
-            bracketIncome: 10000,
-            totalIncome: 85000,
-            type: "deduction", 
-            federalTaxes: .25,
-            provincialTaxes: .15,
-            cppAndEI: .05,
-            keep: .55,
-        },
     ]
 
-    const margin = {top: 20, right: 15, bottom: 20, left: 70}
+    const margin = {top: 20, right: 50, bottom: 20, left: 70}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#88adbf',"#ee6c4a", "#f5ab97", "#F29278", "#ee6c4a"]
+    const color = ['#63bbcf',"#F29278", "#F29278", "#F29278"]
 
    d3.select(".taxBarChart > *").remove()
    d3.select(".tooltip").remove()
@@ -125,9 +107,9 @@ console.log(data);
             .enter().append("rect")
                 .attr("x", d => xScale(d[0]))
                 .attr("fill", (d,i) => d.data.type === "deduction" && d[0] > 0 ? "#8CB8B7" : null)
-    
+
                 .attr("width", d => xScale(d[1]) - xScale(d[0]))
-                .attr("y", (d,i) =>   d.data.type === "deduction" && i === 0 ?  yScale(d.data.totalIncome) - 2 : yScale(d.data.totalIncome)) 
+                .attr("y", (d,i) =>  yScale(d.data.totalIncome)) 
                 .attr("height", (d,i) => {
                    return d.data.type === "deduction" && i > 0 ? graphHeight - yScale(d.data.bracketIncome) : 
                    d.data.type === "deduction" && i === 0 ? graphHeight - yScale(d.data.bracketIncome) + 2 : 
@@ -189,7 +171,13 @@ console.log(data);
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
-          
+                               rects.enter().append("text")
+                                            .attr("x", 362)
+                                            .attr("y", (d,i )=> d[i] !== undefined ? yScale(d[i].data.totalIncome) + 23 : -1000)
+                                            .attr("text-anchor", "middle")
+                                            .attr("fill","grey")
+                                            .attr("font-size","1.1rem")
+                                            .text((d,i) => d[i] !== undefined ? `- ${(d[i].data.federalTaxes + d[i].data.provincialTaxes + d[i].data.cppAndEI)*100} %` : null)
 
             var ticks = [48535,97069, 150473, 214368, 400000];
             var tickLabels = ['48k','97k','150k','214k','400k']
@@ -197,11 +185,12 @@ console.log(data);
 
                               
             const xAxis = d3.axisBottom(xScale)
-                              .ticks('2')
-                              .tickFormat(d => `${d*100}%`)
+                              .ticks('none')
+            
                          
             const yAxis = d3.axisLeft(yScale).tickValues(ticks)
                                  .tickFormat(function(d,i){ return tickLabels[i] })
+                               
 
         xAxisGroup.call(xAxis)
         yAxisGroup.call(yAxis)
@@ -211,25 +200,26 @@ console.log(data);
     
 }
 
-const TaxBarChart = ({taxBracketsChartData_selector}) =>  {
+const TaxBarChart = ({}) =>  {
 
-    const data = taxBracketsChartData_selector
+    //const data = taxBracketsChartData_selector
 
     const inputRef = useRef(null)
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height)
-    }, [data])
+        drawChart(null, width, height)
+    }, [])
 
         return (
             <Canvas className="taxBarChart" ref={inputRef}>
+    
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
-    taxBracketsChartData_selector: taxBracketsChartData_selector(state),
+//taxBracketsChartData_selector: taxBracketsChartData_selector(state),
 })
 
 export default connect(mapStateToProps)(TaxBarChart)
