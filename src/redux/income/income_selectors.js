@@ -1,18 +1,19 @@
 import {createSelector} from "reselect"
 import {calculateCpp, calculateOAS} from "services/income/cpp_functions"
-import {convertReducerToArray } from "services/income/income_functions"
+import {convertReducerToArray, calculateRRSPIncome} from "services/income/income_functions"
 import {addMinWithdrawalsToIncome } from "services/savings/savings_functions"
 import {rrspProjection_selector} from "redux/savings/savings_selectors"
 
 const income_reducer = state => state.income_reducer                                                             //this is the reducer, in object form, pulled from state
 const savings_reducer = state => state.savings_reducer                                                             //this is the reducer, in object form, pulled from state
-const taxAge = state => state.user_reducer.taxAge                                                           //this is the reducer, in object form, pulled from state
-const thisYear = new Date()
+const taxAge = state => state.ui_reducer.taxAge                                                           //this is the reducer, in object form, pulled from state
+
 const birthYear = state => state.user_reducer.birthYear
 const lifeSpan = state => state.user_reducer.lifeSpan
 
 const cppStartAge = state => state.user_reducer.cppStartAge
 const oasStartAge = state => state.user_reducer.oasStartAge
+const rrspStartAge = state => state.user_reducer.rrspStartAge
 
 
 
@@ -30,6 +31,19 @@ export const oas_selector = createSelector(                                     
     (oasStartAge, lifeSpan) => calculateOAS(oasStartAge, lifeSpan)                                             
 )
 
+export const rrsp_selector1 = createSelector( 
+    rrspStartAge, 
+    lifeSpan,                                                                      
+    rrspProjection_selector,                      
+    (rrspStartAge, lifeSpan, rrspProjection_selector) => calculateRRSPIncome(rrspStartAge, lifeSpan, rrspProjection_selector, "preAge80")                                             
+)
+export const rrsp_selector2 = createSelector( 
+    rrspStartAge, 
+    lifeSpan,                                                                      
+    rrspProjection_selector,                      
+    (rrspStartAge, lifeSpan, rrspProjection_selector) => calculateRRSPIncome(rrspStartAge, lifeSpan, rrspProjection_selector, "postAge80")                                             
+)
+
 export const tfsa_selector = createSelector(                                                                      //Determines the OAS payment for the user
     savings_reducer,
     (savings_reducer) => Object.values(savings_reducer).filter(d => d.transaction === "withdrawal")[0]                                       
@@ -40,6 +54,14 @@ export const income_selector = createSelector(                                  
     cpp_selector,
     oas_selector,
     (income_reducer, cpp_selector, oas_selector) => ({...income_reducer, cpp_selector, oas_selector}) 
+)
+export const income_selectorWithRRSP = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
+    income_reducer,
+    cpp_selector,
+    oas_selector,
+    rrsp_selector1,
+    rrsp_selector2,
+    (income_reducer, cpp_selector, oas_selector, rrsp_selector1, rrsp_selector2) => ({...income_reducer, cpp_selector, oas_selector, rrsp_selector1, rrsp_selector2}) 
 )
 
 export const incomeArray_selector = createSelector(                                                          //Final array with CPP and OAS added

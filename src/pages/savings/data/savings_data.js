@@ -1,10 +1,10 @@
 
-export const savingsInstance_data = (fromAge, id, reg, stream, toAge, transaction, value) => ({                                              //this is the initial state of income being stored to the reducer. 
+export const savingsInstance_data = (age1, id, reg, stream, age2, transaction, value) => ({                                              //this is the initial state of income being stored to the reducer. 
         color: '#D8BABB',
-        fromAge,
+        age1,
         reg,
         stream,
-        toAge,
+        age2,
         id,
         transaction,
         value,

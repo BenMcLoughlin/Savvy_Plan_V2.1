@@ -12,7 +12,6 @@ const drawChart = (data, width, height) => {
     const graphWidth = width - margin.left - margin.right
     const color =  ["age", '#3B7B8E', "#8CB8B7", '#3B7B8E', ' #7898a1', "#7898a1",  '#7898a1']
 
-console.log(data);
    d3.select(".creditBarChart > *").remove()
    d3.select(".tooltip").remove()
 
@@ -39,10 +38,11 @@ console.log(data);
         
         const tooltip = d3.select(".creditBarChart").append("div")
                         .attr("class", "tooltip")
-                        .style("opacity", 0)
+                        .style("opacity", 1)
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
+                        .style("z-index", -100)
    
                           
     const update = data => {
@@ -199,3 +199,4 @@ const Canvas = styled.div`
         width: 100%;
         height: 100%;
 `
+

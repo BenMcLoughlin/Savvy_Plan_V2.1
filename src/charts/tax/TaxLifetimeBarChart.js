@@ -1,24 +1,40 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {taxBrackets_selector} from "redux/tax/tax_selectors"
+import {taxLifetimeChartData_selector} from "redux/tax/tax_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
+import {setKeyValue_action} from "redux/actions"
 
-const drawChart = (data, width, height, colors) => {
-//console.log(data);
-    const margin = {top: 20, right: 0, bottom: 20, left: 40}
+const drawChart = (data, width, height, setKeyValue_action) => {
+   
+    const chartData = () => {
+        const array = []
+        for (let i = 0; i < 77; i++) {
+            array.push({
+                age: i + 18, 
+                federalTax: i < 27 ? 4000 : i < 37 ? 6000 : i < 43 ? 9000 : 3000, 
+                provincialTax: i < 27 ? 2000 : i < 37 ? 3000 : i < 43 ? 4000 : 1000, 
+                cppAndEi: 2000, 
+            })
+        }
+        return array
+    }
+    
+    console.log(data);
+
+  
+    const margin = {top: 20, right: 50, bottom: 20, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#88adbf',"#55869d", "#f5ab97", "#F29278", "#ee6c4a"]
+    const color =  ["age", "#F29278", "#F29278", "#F29278", ]
 
-   d3.select(".taxBarChart > *").remove()
+   d3.select(".taxLifetimeBarChart > *").remove()
    d3.select(".tooltip").remove()
-  
-    const svg = d3.select('.taxBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-    const stackedKeys = ["incomeAfterTax", "taxCredits","federalTax", "provincialTax", "cppAndEI",]
-  
+    const svg = d3.select('.taxLifetimeBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+
+    const stackedKeys = ["age", "federalTax", "provincialTax", "cppAndEi"]
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -30,30 +46,32 @@ const drawChart = (data, width, height, colors) => {
                             
     const yAxisGroup = graph.append("g")
                         .attr("class", "axis")
+
     
        const stack = d3.stack()
                         .keys(stackedKeys)
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".taxBarChart").append("div")
+        const tooltip = d3.select(".taxLifetimeBarChart").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
-                        .style("top", 0)
-                        .style("left", 0)
-   
+                        .style("top", -100)
+                        .style("left", -100)
+                        .style("z-index", -100)
                           
     const update = data => {
     
-        const max = d3.max(data, d =>  d.incomeAfterTax ) < 70000 ? 70000 : 
-                      d3.max(data, d => d.incomeAfterTax ) + 10000
+       const max = d3.max(data, d =>  Object.values(d).reduce((acc,num) => acc + num) ) < 600 ? 600 : 
+                   d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
    
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, max])
-        const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.4).paddingOuter(0.3)
-        .domain(data.map(d => d.marginalIncome > 0 ? d.bracket : null) )// d.marginalIncome > 0 ? d.bracket : null))
+        const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)
+        .domain(data.map(item => item.age))
+
 
 
     const rects = graph.append("g")
@@ -71,20 +89,20 @@ const drawChart = (data, width, height, colors) => {
 
     
         rects.enter().append("g")
-            .attr("fill", (d,i) => color[i])
-            .attr("backgroundColor", (d,i) => color[i])
+            .attr("fill", "#F29278")
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
             .data(d => d)
             .enter().append("rect")
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
-                .attr("x", d => xScale(d.data.bracket))
+                .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
+                .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
-                                const nameIndex = stackedKeys.findIndex(type => type === name)
-                                const thisColor = color[nameIndex]
+
+                                const thisColor = color[2]
                         
                                 d3.select(n[i])
                                     .transition()
@@ -137,42 +155,28 @@ const drawChart = (data, width, height, colors) => {
                                                 .style('left', (d3.event.layerX + 30) + 'px'); // always 10px to the right of the mouse
                                             });
                         
-          
-            rects.enter().append("text")
-                                            .attr("x", (d,i) => xScale(i+1) + (xScale.bandwidth()/2))
-                                            .attr("y", (d,i )=> yScale(d[i].data.marginalIncome) - 4)
-                                            .attr("text-anchor", "middle")
-                                            .attr("width", xScale.bandwidth())
-                                            .attr("opacity", (d, i) => d[i].data.marginalIncome > 0 ? 1 : 0)
-                                            .attr("fill","grey")
-                                            .attr("font-size","1.8rem")
-                                            .text((d,i) => `${((d[i].data.marginalTaxBracket)*100).toFixed()}%`)
-   
-           
-                const convertLabels = (array) => {
-                    const ticks = []                                                            
-                    const labels = []
-                    const tickLabels = [' 0- 47k','47-96k','96-147k','147-210k','210k + ']
-                    for (let i = 0; i< array.length; i++) {
-                       const {marginalIncome} = array[i]
-                       if (marginalIncome > 0) {
-                        ticks.push(i + 1)
-                        labels.push(tickLabels[i])
-                       }
-                    }
-                    return [ticks, labels]
+                           
+                                        
+           const convertLabels = (array) => {
+            const ticks = []                                                            
+            const labels = []
+            for (let i = 0; i< array.length; i++) {
+                const age = array[i].age
+                if (i % 10 === 0) {
+                    ticks.push(age)
+                    labels.push(`Age ${age}`)
                 }
+            }
+            return [ticks, labels]
+        }
+        const [ticks, labels] = convertLabels(data)
 
-                const [ticks, labels] = convertLabels(data)
-
-
-                                                
             const xAxis = d3.axisBottom(xScale)
                             .tickValues(ticks)
                             .tickFormat(function(d,i){ return labels[i] })
                            
                                     
-            const yAxis = d3.axisLeft(yScale).ticks('2')
+            const yAxis = d3.axisLeft(yScale).ticks('1')
                             .tickFormat(d => `${d/1000}k`)
 
 
@@ -184,29 +188,32 @@ const drawChart = (data, width, height, colors) => {
     
 }
 
-const TaxBarChart = ({data}) =>  {
-
+const TaxLifetimeBarChart = ({data, setKeyValue_action}) =>  {
+   console.log(data);
     const inputRef = useRef(null)
+
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height)
+        drawChart(data, width, height, setKeyValue_action)
     }, [data])
 
         return (
-            <Canvas className="taxBarChart" ref={inputRef}>
+            <Canvas className="taxLifetimeBarChart" ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
-    data: taxBrackets_selector(state),
+    data: taxLifetimeChartData_selector(state),
+
 })
 
-export default connect(mapStateToProps)(TaxBarChart)
+export default connect(mapStateToProps, {setKeyValue_action})(TaxLifetimeBarChart)
 //-----------------------------------------------style-----------------------------------------------//
 
 const Canvas = styled.div`
         width: 100%;
         height: 100%;
 `
+

@@ -27,7 +27,7 @@ const PhaseSelector = ({instanceArray, id, onClick, setId, color, addSection}) =
                                 <TextAndValueWrapper>
    
                                     <Text onClick={() => handleSelect(d.id)}  selected={selected === d.id} >
-                                    {`Ages ${d.fromAge} to ${d.toAge}`}
+                                    {`Ages ${d.age1} to ${d.age2}`}
                                     </Text>
                                 </TextAndValueWrapper>
 

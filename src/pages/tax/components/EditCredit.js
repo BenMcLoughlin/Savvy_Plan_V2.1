@@ -1,7 +1,5 @@
-import React from "react"
-import styled from "styled-components"
-import {connect} from "react-redux"
-import InstanceNav from "pages/income/components/InstanceNav"
+import React from "react"; import styled from "styled-components"; import {connect} from "react-redux"
+import InstanceNav from "pages/tax/components/InstanceNav"
 import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar1/RangeBar"
@@ -14,21 +12,27 @@ import {cpp_selector} from "redux/income/income_selectors"
 import CreditBarChart from "charts/tax/CreditBarChart"
 import {setAge} from "services/ui/ui_functions"
 
-const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, id, setId, setValue_action, setStream}) => {    
 
+const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, id, setId,  setStream}) => {    
 
-    const setDualRangeBar = (name, value) => {                                                                                       //sets the age, as well as the surrounding ages in the array of instances
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
+const instance = instanceArray.find(d => d.id === id)       
+console.log(instance);
+const setDualRangeBar = (name, value) => {                                                                                       //sets the age, as well as the surrounding ages in the array of instances
+   if(instance.reg === "RRSP") {
+       console.log(id)
+       setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)}
+       setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
     }
 
-    const addSection = () => createNewItem(taxCredit_data(stream, (+endAge), (+endAge + 5), item.value, item.color ))
+    const addSection = () =>  {createNewItem(taxCredit_data(instance.eligible, (+endAge), instance.stream, (+endAge + 5), instance.type, instance.value))}
     
-    const item = instanceArray.find(d => d.id === id)                                                                               //we're only provided with the id, not the entire instance, this grabs the entire instance details
-    const endAge = instanceArray[instanceArray.length -1].toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
+                                                                                                                                //we're only provided with the id, not the entire instance, this grabs the entire instance details
+
+    const endAge = instanceArray[instanceArray.length -1].age2                                                                //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
     return (
         <Wrapper>
             {
-                item &&
+                instance &&
                 <>
                 <Header>
                 <h2>{_.startCase(stream)}</h2> 
@@ -37,48 +41,55 @@ const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewI
                                 itemList={instanceArray}
                                 setId={setId}
                                 id={id}
-                                onClick={() => deleteInstance(id, item, instanceArray, "tax_reducer", setStream, setId)}
+                                onClick={() => deleteInstance(id, instance, instanceArray, "tax_reducer", setStream, setId)}
                                 addSection={addSection}
+                                 addSection={addSection}
                             />
  
                 <BarChartPlaceHolder>
                     <CreditBarChart/>
                 </BarChartPlaceHolder>
-                <Container >                                                                      
-                    <Left>                                                                                                         {/* Choose one is used to select the account type */}
-                            <RangeBar 
-                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add item has a range bar to set its value
-                            reducer="tax_reducer"
-                            item={item}       
-                        /> 
-                    </Left>
-                    <Right>
-                    <YearsSelectorWrapper> 
-                        <SelectorTitleWrapper>
-                            <div>From Age</div>    
-                            <div>To Age</div>    
-                        </SelectorTitleWrapper>
-                        <DualRangeBar
-                            bottom={item.fromAge}                                                                                     //fromAge sets the from Age, eg. age 18 in 18-45
-                            top={item.toAge}                                                                                          //toAge sets the to Age, eg. age 45 in 18-45
-                            setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
-                        /> 
-                </YearsSelectorWrapper>
-
-                        <ButtonWrapper>
-                                <ButtonLight 
-                                    text={"Add"}
-                                    onClick={() => setStream(false)}
-                                />
-                        </ButtonWrapper>
-                        <ButtonLeftWrapper>
+                {instance.type !== "fixed"      ?
+                <Container >          
+                             <Left>                                                                                                         {/* Choose one is used to select the account type */}
+                                      <RangeBar 
+                                      setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value
+                                      reducer="tax_reducer"
+                                      instance={instance}       
+                                  /> 
+                              </Left>
+                                                               
+        
+                            <Right>
+                            <YearsSelectorWrapper> 
+                                <SelectorTitleWrapper>
+                                    <div>From Age</div>    
+                                    <div>To Age</div>    
+                                </SelectorTitleWrapper>
+                                <DualRangeBar
+                                    bottom={instance.age1}                                                                                     //age1 sets the from Age, eg. age 18 in 18-45
+                                    top={instance.age2}                                                                                          //age2 sets the to Age, eg. age 45 in 18-45
+                                    setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
+                                /> 
+                        </YearsSelectorWrapper>
+                                <ButtonWrapper>
+                                        <ButtonLight 
+                                            text={"Add"}
+                                            onClick={() => setStream(false)}
+                                        />
+                                </ButtonWrapper>
+                            </Right>
+                  
+    
+                </Container>
+                : null   
+            }  
+                <ButtonLeftWrapper>
                                 <ButtonLight 
                                     text={"Back"}
                                     onClick={() => setStream(false)}
                                 />
                         </ButtonLeftWrapper>
-                    </Right>
-                </Container>
                 </>
             }
         </Wrapper>
@@ -119,8 +130,8 @@ const ButtonWrapper = styled.div`
 `
 const ButtonLeftWrapper = styled.div`
     position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+    bottom: 13rem;
+    left: 13rem;
 `
 const Right = styled.div`
     width:  50%;
@@ -168,4 +179,6 @@ const Header = styled.div`
 const BarChartPlaceHolder = styled.div`
     height: 7rem;
     width: 100%;
+    position: relative;
+    background: ${props => props.theme.color.ice};
 `

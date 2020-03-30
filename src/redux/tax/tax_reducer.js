@@ -1,64 +1,112 @@
 import _ from "lodash"
 
+const tax_reducer = { 
+   "RRSPcontribution": { 
+      id: "RRSPcontribution", 
+      age1: 25, 
+      stream: "RRSP Contributions",
+      reg: "RRSP",
+      age2: 65, 
+      type: "deduction", 
+      value: 0, 
+    },
+   21400: { 
+       stream: "Child Care Expenses",         
+       type: "deduction",
+       id: 21400,                                                                                                                                                                                                                                                           
+       age1: 18,
+       age2: 64,
+       value: 0
+    },
+   30000: { 
+       stream: "Basic personal amount",         
+       id: 30000,                                                                                                          
+       type: "fixed",                                                                                                                          
+       age1: 18,
+       age2: 95,
+       value: 12069
+    },
+   30001: { 
+       stream: "Age amount",         
+       id: 30001,                                                                                                          
+       type: "fixed",                                                                                                                            
+       age1: 65,
+       age2: 95,
+       value: 0,
+    },
+   30400: { 
+       stream: "Eligible dependant",         
+       id: 30400,      
+       type: "fixed",                                                                                                     
+       eligible: false,                                                                                                                                                  
+       age1: 22,
+       age2: 45,
+       value: 0
+    },
+   30800: { 
+       stream: "CPP & EI contributions",         
+       id: 30800,          
+       type: "fixed",                                                                                                 
+       eligible:  false,                                                                                                                                                  
+       age1: 18,
+       age2: 95,
+       value: 3000
+    },
+31240: { 
+       stream: "Volunteer firefighters' amount",         
+       id: 31240,          
+       type: "fixed",                                                                                                 
+       eligible: false ,                                                                                                                                                 
+       age1: 18,
+       age2: 95,
+       value: 0
+    },
+31240: { 
+       stream: "Employment amount",         
+       id: 31240,                                                                                                    
+       type: "fixed",                                                                                                                   
+       age1: 18,
+       age2: 95,
+       value: 1222
+    },
+31900: { 
+       stream: "Interest on student loans",         
+       id: 31900,                                                                                                  
+       type: "variable",                                                                                                                     
+       age1: 18,
+       age2: 95,
+       value: 0
+    },
+32300: { 
+       stream: "Tuition and textbook costs",         
+       id: 32300,                                                                                                     
+       type: "variable",                                                                                                                                                  
+       age1: 18,
+       age2: 95,
+       value: 0
+    },
+33099: { 
+       stream: "Medical expenses",         
+       id: 33099,                                                                                               
+       type: "variable",                                                                                                                                           
+       age1: 18,
+       age2: 95,
+       value: 0
+    },
+34900: { 
+       stream: "Donations and gifts",       
+       id: 34900,                                                                                               
+       type: "variable",                                                                                                                               
+       age1: 18,
+       age2: 44,
+       value: 0,
+    },
+   }
 
-const initialState = { 
-    selectedCredit: "medicalExpense",
-    20800: { 
-        registration: "rrsp",
-        label: "RRSP Contribution",    
-        category: "rrsp",    
-        type: "deduction",
-        id: 20800,                                                                                                          //the label is editable by the user and is what is displayed 
-        transaction: "contribution",                                                                                        //examples include "employment", "business", "pension"
-        color: '#D8BABB',                                                                                                   //Some forms of income might not be taxable such as inheritance
-        fromAge: 18,
-        toAge: 64,
-        value: 1000
-     },
-     34900: { 
-        label: "Charitable Contribution",    
-        category: "charitableContribution",    
-        type: "credit",
-        id: 34900,      
-        color: '#D8BABB',                                                                                                                                                      
-        fromAge: 18,
-        toAge: 64,
-        value: 1
-     },
-     30100: { 
-        label: "Age Amount",    
-        category: "ageAmount",    
-        type: "ageCredit",
-        id: 30100,      
-        color: '#D8BABB',                                                                                                                                                      
-        fromAge: 65,
-        toAge: 95,
-        value:  1
-     },
-     33099: { 
-        label: "Medical Expense",    
-        category: "medicalExpense",    
-        type: "credit",
-        id: 33099,      
-        color: '#D8BABB',                                                                                                                                                      
-        fromAge: 18,
-        toAge: 64,
-        value:   1,
-     },
-}
-
- const taxCredits_reducer = (state = initialState, action) => {
+ const taxCredits_reducer = (state = tax_reducer, action) => {
     switch(action.type) {
-        case "tax_reducer/ADD": return {...state, [action.payload.id]: action.payload}
         case "tax_reducer/DELETE": return _.omit(state, [action.id])
         case "tax_reducer/SET_KEY_VALUE": return {...state, [action.key]: action.value}                                 //sets a simple key value pair within the reducer object
-        case "tax_reducer/SET_VALUE": return {...state, [action.id]: {                                                  //creates a copy of state and enters the object with the correct id
-                                                            ...state[action.id], value: {                               //creates a copy of the object with that id and enters the value object
-                                                                    ...state[action.id].value,                          //creates a copy of the value object
-                                                                    financialValue: action.financialValue,              //sets the financialValue with the new value
-                                                                    rangeBarValue: action.rangeBarValue,                //sets the rangeBar value             
-                                                            }
-        }}
         case "tax_reducer/SET_NESTED_KEY_VALUE": return {...state, [action.parentKey]: {
                                                                         ...state[action.parentKey], 
                                                                         [action.childKey]: action.value

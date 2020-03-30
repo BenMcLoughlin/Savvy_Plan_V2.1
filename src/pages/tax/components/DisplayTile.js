@@ -4,30 +4,33 @@ import {connect} from "react-redux"
 import {Close} from "style/Icons"
 import { delete_action, setKeyValue_action} from "redux/actions"
 import {income_selector} from "redux/income/income_selectors"
-import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
+import {tax_selector} from "redux/tax/tax_selectors"
+import {setAge} from "services/ui/ui_functions"
 
-const DisplayTile = ({ delete_action, credit, color, setId, category, setCategory, setKeyValue_action}) => {                                    //Individual category that is added
+const DisplayTile = ({ delete_action, tax_selector, color,  setId, stream, setStream, setKeyValue_action}) => {                                    //Individual stream that is added
 
-    const setCategoryAndId = (category) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that category
-        const id = credit.id                                                                                                //we're just grabbing the first random instance id in the array from that category, instance is the earning time period and category is the income stream
-         setCategory(category)  
-         setId(id)
-         setKeyValue_action("selectedCredit", "tax_reducer", category)                                                  //this sets the selectedCredit, eg "medicalExpense" which then fills out the chart for that credit in the display box
+
+    const setCategoryAndId = (stream) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that stream
+        setStream(stream)  
+        const instanceArray =  tax_selector.filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) 
+         setId(instanceArray[0].id)
+         setKeyValue_action("credit", "ui_reducer", stream)                                                  //this sets the selectedCredit, eg "medicalExpense" which then fills out the chart for that credit in the display box
      }
+
     return (
-        <Item label={credit.label} color={color} >
-            <Text onClick={() => setCategoryAndId(category)}>                                                              {/*When the category is clicked the id is set which fills out the edit form with the items details */} 
-                <H2>{credit.label}</H2>
+        <Item label={stream} color={"#485056"} >
+            <Text onClick={() => setCategoryAndId(stream)}>                                                              {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
+                <H2>{stream}</H2>
                 <H2>{100}K</H2>
             </Text>
-            <Delete onClick={() => delete_action(credit.id, "tax_reducer")}/>                                                                           {/*  If the x is clicked the category is removed */}
+            <Delete onClick={() => delete_action("credit.id", "tax_reducer")}/>                                                                           {/*  If the x is clicked the stream is removed */}
         </Item>
     )
 }
 
 const mapStateToProps = (state) => ({
-    income_selector: income_selector(state),
-    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
+    tax_selector: tax_selector(state),
+
 })
 
 export default connect(mapStateToProps,{ delete_action, setKeyValue_action})(DisplayTile )
@@ -44,7 +47,7 @@ const Item = styled.div`
     width: 30rem;
     display: flex;
     position: relative;
-    height: ${props => props.label.length > 24 ? "7rem" : "4rem"};
+    height: ${props => props.label.length > 27 ? "7rem" : "4rem"};
     background:${props =>  props.color};
     border-radius: 5px;
     color: white

@@ -2,68 +2,33 @@ import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import TaxBracketsBar from "charts/tax/TaxBracketsBar"
+import {taxDisplayDetails_selector} from "redux/tax/tax_selectors"
 
-const Header = ({user_reducer}) => {
-
-const {taxAge} = user_reducer
-
-
+const Header = ({ui_reducer, taxDisplayDetails_selector}) => {
+const {taxAge} = ui_reducer
 return (
             <Wrapper>
             <Left >                                                                                     
                 <h1> Tax Breakdown </h1>
                 <Chart>
-                    <ChartTitle>Taxes By Bracket</ChartTitle>
+                    <ChartTitle>{`Age ${taxAge} Taxes Per Bracket`}</ChartTitle>
                     <TaxBracketsBar/>
                 </Chart>
             </Left>
             <Right>
-                <Row>
-                    <Summary>
-                        <Title>Taxable Income</Title>
-                        <Value>{47}k</Value>
-                    </Summary>
-                    <Summary>
-                        <Title>Non-Taxable Income</Title>
-                        <Value>{2}k</Value>
-                    </Summary>
-                </Row>
-                <Row>
-                    <Summary>
-                        <Title>Deductions</Title>
-                        <Value>{5}k</Value>
-                    </Summary>
-                    <Summary>
-                        <Title>Taxes Saved</Title>
-                        <Value>{3}k</Value>
-                    </Summary>
-                </Row>
-                <Row>
-                    <Summary>
-                        <Title>Credits</Title>
-                        <Value>{17}k</Value>
-                    </Summary>
-                    <Summary>
-                        <Title>Taxes Saved</Title>
-                        <Value>{3}k</Value>
-                    </Summary>
-                </Row>
-                <Row>
-                    <Summary>
-                        <Title>Total Taxes</Title>
-                        <Value>{17}k</Value>
-                    </Summary>
-                    <Summary>
-                        <Title>Average Rate</Title>
-                        <Value>{23}%</Value>
-                    </Summary>
-                </Row>
-                <Row>
-                    <Summary>
-                        <Title>After Tax Income</Title>
-                        <Value>{47}k</Value>
-                    </Summary>
-                </Row>
+                {
+                    taxDisplayDetails_selector.map(d =>  <Row>
+                                                            <Summary>
+                                                                <Title>{d.label1}</Title>
+                                                                <Value>{Math.round(d.value1/1000)}k</Value>
+                                                            </Summary>
+                                                            <Summary>
+                                                                <Title>{d.label2}</Title>
+                                                                <Value>{Math.round(d.value2/1000)}k</Value>
+                                                            </Summary>
+                                                         </Row>
+                    )
+                }
             </Right>
             </Wrapper>
         )
@@ -71,7 +36,8 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    user_reducer: state.user_reducer,
+    ui_reducer: state.ui_reducer,
+    taxDisplayDetails_selector: taxDisplayDetails_selector(state)
 })
 
 export default connect(mapStateToProps, {})(Header )
@@ -98,11 +64,13 @@ const Left = styled.div`
 const Right = styled.div`
     display: flex;
     height: 100%;
-    width: 100%;
+    width: 80%;
     padding: 0rem 4rem 0rem 4rem;
     flex-direction: column;
     text-align: center;
     align-items: center;
+    margin-top: 3rem;
+    margin-right: 6rem;
 `
 
 const Summary = styled.div`
@@ -120,7 +88,7 @@ const Summary = styled.div`
 `
 const Row = styled.div`
     width: 100%;
-    height: 4rem;
+    height: 3.2rem;
     display: flex;
     justify-content: space-between;
 `
@@ -141,7 +109,7 @@ const Title = styled.div`
 `
 const ChartTitle = styled.div`
   font-size: ${props => props.theme.fontSize.small};
-  font-weight: 200;
+  font-weight: 500;
   position: absolute;
   top: 1rem;
   left: 10rem;
@@ -154,10 +122,10 @@ const Value = styled.div`
 
 const Chart = styled.div`
     text-align: center;
-    margin-top: 1rem;
-    height: 17rem;
+    margin-top: 3rem;
+    height: 15rem;
     width: 50rem;
-    margin-left: 7rem;
+    margin-left: 2rem;
     position: relative;
 
 `

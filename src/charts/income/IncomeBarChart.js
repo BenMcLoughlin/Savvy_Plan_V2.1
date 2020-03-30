@@ -80,7 +80,7 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                 .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
-                .on("click", d => setKeyValue_action("taxAge", "user_reducer", d.data.age))
+                .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
 

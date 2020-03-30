@@ -7,70 +7,66 @@ import TaxBracketsBar from "charts/tax/TaxBracketsBar"
 import EditCredit from "pages/tax/components/EditCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"
 import {creditTypes_data} from "pages/tax/data/tax_data"
-import {tax_selector, taxBrackets_selector} from "redux/tax/tax_selectors"
-import * as selector from "redux/tax/tax_selectors1"
+import {tax_selector} from "redux/tax/tax_selectors"
+import * as selector from "redux/tax/tax_selectors"
 import {add_action, setKeyValue_action} from "redux/actions"
-import SavingsBarChart from "charts/savings/SavingsBarChart"
+import TaxLifetimeBarChart from "charts/tax/TaxLifetimeBarChart"
 
-const Tax = ({setKeyValue_action, tax_selector,  add_action, totalIncome_selector}) => {    
 
-    console.log(totalIncome_selector);
+const Tax = ({setKeyValue_action, tax_selector, add_action, taxableIncome_selector }) => {    
+
     const [stream, setStream] = useState()                                                                                           //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
     const [id, setId] = useState()                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
-    const [type, setCreditType] = useState("regularCredit")                                                                          // We're using three types, "regularCredit", "deduction", and "ageCredit"
- 
+
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
                 add_action(newId, {...state}, "tax_reducer")                                                                         //This action fires and sets the state in the reducer, 
-                setStream(state.stream)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
+                setStream(state.stream)                                                                                              // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
+   
+    //console.log(taxableIncome_selector);
 
-    const instanceArray =  tax_selector.filter(d => d.stream === stream).sort((a, b) => a.fromAge - b.fromAge) 
+    const instanceArray =  tax_selector.filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) 
+    //console.log(instanceArray);
+    // console.log(id);
 
     return (
         <Wrapper>
             <Header/>
             <Chart>
-                <ChartTitle>Lifetime Taxes By Year</ChartTitle>
+                <ChartTitle>Lifetime Taxes Per Year</ChartTitle>
                 <ChartPlaceHolder>
-                    <SavingsBarChart
-                                reg={"RRSP"}
-                            />
+                    <TaxLifetimeBarChart/>
                 </ChartPlaceHolder>
             </Chart>
-                          {
-                                stream ? 
-                            
-                                       <EditCredit  
-                                                type={type}                                                                          //eg. "regularCredit", "deduction", and "ageCredit" 
-                                                id={id}                                                                              //eg. "123987" set in state above, or false
-                                                setStream={setStream}                                                            //eg. set "medicalExpense" function to set stream, which is the name of the credit 
-                                                stream={stream}                                                                  //eg. "medicalExpense"
-                                                setId={setId}                                                                        //eg. set "123987"
-                                                instanceArray={instanceArray}                                                        //eg. [{stream: "medicalExpense" etc. }, {stream: "medicalExpense" etc. }]
-                                                createNewItem={createNewItem}/>                                                      //function to add a new item to the reducer
-                                : 
-                            
-                                    <ControlPanel>
-                                        {creditTypes_data.map(d => <DisplayBox setStream={setStream}                                              //This is the box showing the names of all the tax credits
-                                                                                setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
-                                                                                id={id}
-                                                                                type={d.type}
-                                                                                stream={stream}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
-                                                                                createNewItem={createNewItem} 
-                                                                                instanceArray={instanceArray}
-                                                                                />
-                                        )}
-                                    </ControlPanel>
-                                
-            
-                                  
-                            }
+            {
+                stream ? 
+                                <EditCredit  
+                                id={id}                                                                              //eg. "123987" set in state above, or false
+                                setStream={setStream}                                                                //eg. set "medicalExpense" function to set stream, which is the name of the credit 
+                                stream={stream}                                                                      //eg. "medicalExpense"
+                                setId={setId}                                                                        //eg. set "123987"
+                                instanceArray={instanceArray}                                                        //eg. [{stream: "medicalExpense" etc. }, {stream: "medicalExpense" etc. }]
+                                createNewItem={createNewItem}/>   
+                :  
+             <ControlPanel>
+                {creditTypes_data.map(d => <DisplayBox setStream={setStream}                                              //This is the box showing the names of all the tax credits
+                                                        setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
+                                                        type={d.type}
+                                                        id={id}
+                                                        stream={stream}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
+                                                        createNewItem={createNewItem} 
+                                                        instanceArray={instanceArray}
+                                                        />
+                )}
+            </ControlPanel>
+            }
+
                             <Bottom>
                                 <ButtonLeftWrapper>
                                 <ButtonLight 
-                                            onClick={() =>  setKeyValue_action("taxAge", "user_reducer", false)}
+                                            onClick={() =>  setKeyValue_action("taxAge", "ui_reducer", false)}
                                             text={"Back"}
                                         />
                                 </ButtonLeftWrapper>
@@ -83,8 +79,8 @@ const Tax = ({setKeyValue_action, tax_selector,  add_action, totalIncome_selecto
 const mapStateToProps = (state) => ({
     tax_selector: tax_selector(state),
     tax_reducer: state.tax_reducer,
-    taxBrackets_selector: taxBrackets_selector(state),
-    totalIncome_selector: selector.totalIncome_selector(state)
+    taxableIncome_selector: selector.taxableIncome_selector(state),
+
 })
 
 export default connect(mapStateToProps, {add_action, setKeyValue_action})(Tax )
@@ -147,14 +143,14 @@ const Chart = styled.div`
 `
 const ChartTitle = styled.div`
   font-size: ${props => props.theme.fontSize.small};
-  font-weight: 200;
+  font-weight: 500;
   position: absolute;
   top: 3rem;
-  left: 17rem;
+  left: 12rem;
 `
 const ChartPlaceHolder = styled.div`
-    margin-top: 1rem;
-    height: 11rem;
+    margin-top: 3rem;
+    height: 9rem;
     width: 106rem;
     margin-left: 4rem;
 `

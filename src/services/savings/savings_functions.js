@@ -26,8 +26,8 @@ const getValue = (age, priorValue, reg, savings_reducer, transaction) => {      
     const transactions = Object.values(savings_reducer).filter( d => d.reg === reg)                                            //filter reducer to get an array of instances with the same registration, eg find all "TFSA" contributions & withdrawals
     if (transactions.length > 0) {
         const array = transactions.map(d => d.transaction === transaction                                                      //for each income transaction it is collecing all the contributions or withdrawals reported for that age
-                                    && age >= d.fromAge                                                                        //Checks if the given age is between the start and end age
-                                    && age <= d.toAge ?                                         
+                                    && age >= d.age1                                                                        //Checks if the given age is between the start and end age
+                                    && age <= d.age2 ?                                         
                                     d.value 
                                     : 0                                                                                        //If it is it returns the financial value, giving an array of financial values
        )
@@ -84,7 +84,6 @@ export const createProjection = (balance, lifeSpan, rate1, rate2, reg, savings_r
              value: value > 0 ? value : 0,
              minWithdrawal, 
             }
-
         array.push(details)
     }
 
@@ -102,10 +101,19 @@ export const addMinWithdrawalsToIncome = (income, rrif) => {
    return  income.map(d => ({...d, "RRSP Income": (rrifObject[d.age] ? rrifObject[d.age] : 0)}))                 //now we map through income and create a new array with the same objects, if the rrifObject age exists then we add the minWithdrawal
  }
  
+export const addMinWithdrawalsToIncomeReducer = (income, rrif) => {
+    const rrifObject = {}                                                                                        //When we do the map below we don't want to filter the array each time, so we convert the array to an object
+     for (let i = 0; i <= rrif.length -1; i++) {                                                                 //we loop through the rrif
+         const age = rrif[i].age                                                                                 //determine the age for each i and assign the minimum Withdrawal to it
+         rrifObject[age] = rrif[i].minWithdrawal
+         }
+   return  income.map(d => ({...d, "RRSP Income": (rrifObject[d.age] ? rrifObject[d.age] : 0)}))                 //now we map through income and create a new array with the same objects, if the rrifObject age exists then we add the minWithdrawal
+ }
+ 
 
  export const instanceArray_function = (savings_reducer, transaction, reg) => {
     return Object.values(savings_reducer)  
                  .filter(d => d.transaction === transaction)
                  .filter(d => d.reg === reg)
-                 .sort((a, b) => a.fromAge - b.fromAge)        //here we take the instance, eg TFSA contributions, and make an array of all the instances of that income
+                 .sort((a, b) => a.age1 - b.age1)        //here we take the instance, eg TFSA contributions, and make an array of all the instances of that income
  }

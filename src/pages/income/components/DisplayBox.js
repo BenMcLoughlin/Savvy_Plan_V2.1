@@ -11,11 +11,11 @@ import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
 
 const DisplayBox = ({ reg, instanceArray, createNewItem, setStream, progress_reducer, setKeyValue_action,setId, employment_selector, business_selector, retirement_selector}) => {                  
 
-    const fromAge =  reg === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
-    const toAge =  reg === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
+    const age1 =  reg === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
+    const age2 =  reg === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = incomeStream_data(colorArray_data[color], fromAge, reg, " ", toAge, 0)                                                     //initial State is found in data 
+    const newState = incomeStream_data(colorArray_data[color], age1, reg, " ", age2, 0)                                                     //initial State is found in data 
                                     
     const selector =  reg === "employmentIncome" ? employment_selector
                     : reg === "businessIncome" ? business_selector

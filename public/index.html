@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,500,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,800&display=swap" rel="stylesheet">
     <link href="./baseStyles.css" rel="stylesheet">
+    <link href="./chartStyles.css" rel="stylesheet">
     <script src="https://apis.google.com/js/api.js"></script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -34,17 +35,9 @@
     <title>Savvy Plan</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty pages.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
+  <script>
+        Array.prototype.filterAll = function(name, ...args) {console.log(args.map(arg => this.filter( d => d[name] === arg)))};
+  </script>
 </html>

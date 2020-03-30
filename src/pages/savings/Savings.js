@@ -10,9 +10,9 @@ import SavingsBarChart from "charts/savings/SavingsBarChart"
 import Header from "pages/savings/components/Header"
 import AccountBox  from "pages/savings/components/AccountBox"
 import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
+import {taxCredit_data} from "pages/tax/data/tax_data"
 
-
-const Savings = ({setKeyValue_action, delete_action, stream, savings_reducer, setStream}) => {    
+const Savings = ({setKeyValue_action, delete_action, stream, setStream}) => {    
 
     const reg = stream.split("").slice(0,4).join("")                                                                               //creates a value called reg that is either "TFSA", "RRSP", or "NReg"
     const [contributionId, setContributionId] = useState(`${reg}contribution`)                                                       //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
@@ -22,6 +22,10 @@ const Savings = ({setKeyValue_action, delete_action, stream, savings_reducer, se
         const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
                 setKeyValue_action(id, "savings_reducer",  {...state, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
               if(state.transaction === "contribution")  { setContributionId(id)     }                                                // determines which income instance to show within the edit box
+              if(state.transaction === "contribution" && state.reg === "RRSP")  {                                                    //if a new RRSP contribution instance is created it also has to be stored in the tax section
+                  const newSavingsInstance = taxCredit_data(true, state.age1, state.stream, state.age2, "deduction", state.value)                    //create a new tax instance object using the details from the savings instance
+                  setKeyValue_action(id, "tax_reducer",  {...newSavingsInstance, id})                                                //add the new tax instance to the tax_reducer
+                }                                                                                                                    // determines which income instance to show within the edit box
               if(state.transaction === "withdrawal")  { 
                 setKeyValue_action(id, "income_reducer",  {...state, id})  
                 setWithdrawalId(id)   

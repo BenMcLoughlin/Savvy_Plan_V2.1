@@ -7,6 +7,7 @@ import netWorth_reducer from "./netWorth/netWorth_reducer"
 import tax_reducer from "./tax/tax_reducer"
 import savings_reducer from "./savings/savings_reducer"
 import assumptions_reducer from "./assumptions/assumptions_reducer"
+import ui_reducer from "./ui/ui_reducer"
 import auth_reducer from "./auth/auth_reducer"
 import progress_reducer from "./progress/progress_reducer"
 
@@ -22,6 +23,7 @@ const persistConfig = {
     "user_reducer",
     "savings_reducer",
     "assumptions_reducer",
+    "ui_reducer",
     "progress_reducer",
     "netWorth_reducer",
 ]
@@ -30,6 +32,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
        auth: auth_reducer,
        assumptions_reducer, 
+       ui_reducer, 
        tax_reducer,
        income_reducer,
        user_reducer,

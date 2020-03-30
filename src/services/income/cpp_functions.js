@@ -111,8 +111,8 @@ function calculateCppMemoized() {
             const array = []                                                                                                               // create our array into which income will be pushed
             for (let age = 18; age <= 65; age ++) {                                                                                         //start a for loop to adjust pensionable earnings of each year of users life
              const year = birthYear + age                                                                                                  //determine the year for which we are adjusting earnings
-             const unadjustedPensionableEarnings = incomeArray.map(d => age >= d.fromAge                                                   //map through the income streams to see if there was income in this year
-                                                         && age <= d.toAge ? 
+             const unadjustedPensionableEarnings = incomeArray.map(d => age >= d.age1                                                   //map through the income streams to see if there was income in this year
+                                                         && age <= d.age2 ? 
                                                          d.value : 0                                                                       //If there was pensionable income, give the financial value
                                                          ).reduce((acc, num) => acc + num)                                                 //Sum all financial values of pensionable income earned
          
@@ -130,10 +130,11 @@ function calculateCppMemoized() {
          const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/1000)*1000
          const cppIncome = {
              color: "#F29278", 
-             fromAge: cppStartAge, 
+             age1: cppStartAge, 
              reg: "retirementIncome", 
              stream: "CPP Income", 
-             toAge: lifeSpan, 
+             taxable: true, 
+             age2: lifeSpan, 
              value: adjustedCppPayment,
          }
          cache[cacheKey] = cppIncome                                                                                              //cache's the answer for later
@@ -141,10 +142,11 @@ function calculateCppMemoized() {
         }
         else return {
             color: "#F29278", 
-            fromAge: cppStartAge, 
+            age1: cppStartAge, 
             reg: "retirementIncome", 
             stream: "CPP Income", 
-            toAge: lifeSpan, 
+            taxable: true, 
+            age2: lifeSpan, 
             value: 0
         }            
 }
@@ -154,10 +156,11 @@ export const calculateCpp = calculateCppMemoized()
 
 export const calculateOAS = (age, lifeSpan) => ({
     color: "#488487", 
-    fromAge: age, 
+    age1: age, 
     reg: "retirementIncome", 
     stream: "OAS Income", 
-    toAge: lifeSpan, 
+    taxable: true, 
+    age2: lifeSpan, 
     value: adjustCpp(age, age, 7200)
 })
 

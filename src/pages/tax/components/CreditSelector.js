@@ -2,7 +2,7 @@ import React from "react"
 import SelectOptionCard from "UI/forms/SelectOptionCard"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {creditList_data} from "pages/tax/data/tax_data"
+
 
 const CreditSelector = ({}) => {
 
@@ -15,7 +15,7 @@ return (
     <>
         <CardWrapper>
                 {
-                    Object.keys(creditList_data).map(d => <SelectOptionCard label={d.label}/>)
+                
                 }      
         </CardWrapper>
 

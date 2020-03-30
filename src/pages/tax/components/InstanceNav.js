@@ -15,19 +15,20 @@ const PhaseSelector = ({itemList, id, setId, onClick, color, addSection}) => {
         select(id)
      }, [id])
 
+     console.log(itemList);
     return (
         <Container>
             <SelectWrapper>
                 {
                     itemList.map(d =>  <SelectValue 
-                        color={color}
+                            color={color}
                             key={d.id}
                             selected={selected === d.id} 
                             >
                                 <TextAndValueWrapper>
    
                                     <Text onClick={() => handleSelect(d.id)}  selected={selected === d.id} >
-                                    {`Ages ${d.fromAge} to ${d.toAge}`}
+                                    {`Ages ${d.age1} to ${d.age2}`}
                                     </Text>
                                 </TextAndValueWrapper>
 
@@ -35,9 +36,9 @@ const PhaseSelector = ({itemList, id, setId, onClick, color, addSection}) => {
                         <Delete onClick={onClick}/>
                      </SelectValue>)
                 }
-                <Add
-                onClick={addSection}
-                />
+                {/* <Add
+                onClick={() => addSection()}
+                /> */}
             </SelectWrapper>
         </Container>
     )

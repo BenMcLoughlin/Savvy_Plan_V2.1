@@ -51,8 +51,8 @@ export default function Section2() {
                             <div>To Age</div>    
                         </SelectorTitleWrapper>
                     <DualRangeBar
-                                       fromAge={18}                                                                                       //fromAge sets the from Age, eg. age 18 in 18-45
-                                       toAge={45}                                                                                           //toAge sets the to Age, eg. age 45 in 18-45
+                                       age1={18}                                                                                       //age1 sets the from Age, eg. age 18 in 18-45
+                                       age2={45}                                                                                           //age2 sets the to Age, eg. age 45 in 18-45
                                        setKeyVariables={"banana"}     
                     />
                  <RangeBar rangeBarProps={rangeBarProps}/>   

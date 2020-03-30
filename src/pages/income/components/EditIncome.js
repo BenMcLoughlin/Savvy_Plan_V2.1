@@ -22,7 +22,7 @@ const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setNested
 
     const instance = instanceArray.find(d => d.id === id)                                                                          //we're only provided with the id, not the entire instance, this grabs the entire instance details
 
-    const endAge = instanceArray[instanceArray.length -1].toAge                                                                //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
+    const endAge = instanceArray[instanceArray.length -1].age2                                                                //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
     return (
         <Wrapper>
@@ -64,8 +64,8 @@ const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setNested
                         <div>To Age</div>    
                     </SelectorTitleWrapper>
                     <DualRangeBar
-                        bottom={instance.fromAge}                                                                                     //fromAge sets the from Age, eg. age 18 in 18-45
-                        top={instance.toAge}                                                                                          //toAge sets the to Age, eg. age 45 in 18-45
+                        bottom={instance.age1}                                                                                     //age1 sets the from Age, eg. age 18 in 18-45
+                        top={instance.age2}                                                                                          //age2 sets the to Age, eg. age 45 in 18-45
                         setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
                     />
             </YearsSelectorWrapper> 

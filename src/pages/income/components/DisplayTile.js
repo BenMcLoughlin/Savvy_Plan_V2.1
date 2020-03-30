@@ -9,20 +9,18 @@ import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, stream, setStream}) => {                                    //Individual stream that is added
   
-    const categoryArray =  Object.values(income_selector)
-                                 .filter(d => d.stream === stream)
-                                 .sort((a,b) => a.startAge - b.startAge)                                                    //here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.startAge - b.startAge)                                                    //here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
 
     const removeItem = () => {                                                                                               //enables us to delete the entire income stream
-        const categoryIdArray =  categoryArray.map(d => d.id)                                                                //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
-        for (let i = 0; i < categoryArray.length; i++) {                                                                     //this mapes through and removes all instances
+        const categoryIdArray =  instanceArray.map(d => d.id)                                                                //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
+        for (let i = 0; i < instanceArray.length; i++) {                                                                     //this mapes through and removes all instances
         delete_action(categoryIdArray[i], "income_reducer")   
         }                                                   
                                                                                       
     }
 
     const setCategoryAndId = (stream) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that stream
-        const id = categoryArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that stream, instance is the earning time period and stream is the income stream
+        const id = instanceArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that stream, instance is the earning time period and stream is the income stream
          setStream(stream)  
          setId(id)
          

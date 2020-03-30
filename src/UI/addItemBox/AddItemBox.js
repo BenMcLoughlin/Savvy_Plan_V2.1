@@ -37,7 +37,7 @@ class AddItemBox extends Component {
 
     handleRemoveItem = (rangeBarProps) => {
 
-          for (let age = this.state.fromAge; age < this.state.toAge; age++ ) {
+          for (let age = this.state.age1; age < this.state.age2; age++ ) {
             this.props.removeItem(age, rangeBarProps.name)
           }
     }

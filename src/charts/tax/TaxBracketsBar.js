@@ -1,13 +1,13 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {taxBracketsChartData_selector} from "redux/tax/tax_selectors"
+import {taxesBracketChartData_selector} from "redux/tax/tax_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart = (data1, width, height, colors) => {
+const drawChart = (data, width, height, colors) => {
 
-    const data = [
+    const data1 = [
         {
             bracketIncome: 48000,
             totalIncome: 48000,
@@ -16,6 +16,7 @@ const drawChart = (data1, width, height, colors) => {
             provincialTaxes: .1,
             cppAndEI: .05,
             keep: .75,
+            
         },
         {
             bracketIncome: 40000,
@@ -37,6 +38,7 @@ const drawChart = (data1, width, height, colors) => {
         },
     ]
 
+
     const margin = {top: 20, right: 50, bottom: 20, left: 70}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
@@ -47,7 +49,7 @@ const drawChart = (data1, width, height, colors) => {
   
     const svg = d3.select('.taxBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-    const stackedKeys = ["keep","federalTaxes", "provincialTaxes", "cppAndEI"]
+    const stackedKeys = ["keep","federalTaxes", "provincialTaxes", "cppAndEI", ""]
   
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
@@ -70,8 +72,9 @@ const drawChart = (data1, width, height, colors) => {
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                         .style("position", "absolute")
-                        .style("top", 0)
-                        .style("left", 0)
+                        .style("top", -100)
+                        .style("left", -100)
+                        .style("z-index", -100)
    
                           
     const update = data => {
@@ -107,7 +110,6 @@ const drawChart = (data1, width, height, colors) => {
             .enter().append("rect")
                 .attr("x", d => xScale(d[0]))
                 .attr("fill", (d,i) => d.data.type === "deduction" && d[0] > 0 ? "#8CB8B7" : null)
-
                 .attr("width", d => xScale(d[1]) - xScale(d[0]))
                 .attr("y", (d,i) =>  yScale(d.data.totalIncome)) 
                 .attr("height", (d,i) => {
@@ -172,12 +174,13 @@ const drawChart = (data1, width, height, colors) => {
                                             });
                         
                                rects.enter().append("text")
-                                            .attr("x", 362)
-                                            .attr("y", (d,i )=> d[i] !== undefined ? yScale(d[i].data.totalIncome) + 23 : -1000)
+                                            .attr("x", xScale(1.05))
+                                            .attr("y", (d,i) =>  yScale(d[i].data.totalIncome - (d[i].data.bracketIncome/2 ))) 
+                                            .attr("opacity", (d,i )=> d[i].data.bracketIncome > 0 ? 1 : 0)
                                             .attr("text-anchor", "middle")
                                             .attr("fill","grey")
                                             .attr("font-size","1.1rem")
-                                            .text((d,i) => d[i] !== undefined ? `- ${(d[i].data.federalTaxes + d[i].data.provincialTaxes + d[i].data.cppAndEI)*100} %` : null)
+                                            .text((d,i) => `- ${(((d[i].data.federalTaxes + d[i].data.provincialTaxes + d[i].data.cppAndEI))*100).toFixed()} %`)
 
             var ticks = [48535,97069, 150473, 214368, 400000];
             var tickLabels = ['48k','97k','150k','214k','400k']
@@ -200,16 +203,16 @@ const drawChart = (data1, width, height, colors) => {
     
 }
 
-const TaxBarChart = ({}) =>  {
+const TaxBarChart = ({taxesBracketChartData_selector, ui_reducer}) =>  {
 
-    //const data = taxBracketsChartData_selector
-
+    const data = taxesBracketChartData_selector
+    const {taxAge} = ui_reducer
     const inputRef = useRef(null)
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(null, width, height)
-    }, [])
+        drawChart(data, width, height)
+    }, [taxAge])
 
         return (
             <Canvas className="taxBarChart" ref={inputRef}>
@@ -219,7 +222,8 @@ const TaxBarChart = ({}) =>  {
 }
 
 const mapStateToProps = (state) => ({
-//taxBracketsChartData_selector: taxBracketsChartData_selector(state),
+    taxesBracketChartData_selector: taxesBracketChartData_selector(state),
+    ui_reducer: state.ui_reducer
 })
 
 export default connect(mapStateToProps)(TaxBarChart)

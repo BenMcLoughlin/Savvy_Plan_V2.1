@@ -1,89 +1,85 @@
 // Data Obtained from https://www.canada.ca/en/revenue-agency/services/forms-publications/payroll/t4032-payroll-deductions-tables/t4032bc/t4032bc-january-general-information.html
 // QUEBEC IS WRONG, Couldnt find rates
 
-export const factors = {
+export const cra = {
     ympe: 58700, //maximum pensionable Earnings - updated 11 March 2020
-    cppSelfTotalContributionRate: 0.102, 
-    cppMaximumPremium: 5796.80,
+    cppRate: 0.0525, 
+    cppMaxPremium: 2898,
     ymie: 54200, //years maximum insurable earnings,
-    eiContributionRate: 0.0158, 
-    eiMaximumPremium: 856.36,
+    eiRate: 0.0158, 
+    eiMaxPremium: 856.36,
 }
 
 export const FTR = { // Federal Tax Rates and Factors - updated 11 March 2020
-    factors: {
-        basicPersonal: 12069,
-        employmentAmount: 1222,
-        eligibleDividendGrossUp: 1.38, 
-        eligibleDividendTaxCredit: 0.1502, 
-        nonEligibleDividendGrossUp: 1.15, 
-        nonEligibleDividendTaxCredit: 0.1052
-
-    },
-    1:{
+    1: {
+        bot: 0,
         top: 48535,
         rate: .15,
         constant: 0,
     },
     2: {
+        bot: 48535,
         top: 97069,
         rate: .205,
         constant: 2620,
     },
     3: {
+        bot: 97069,
         top: 150473,
         rate: .26,
         constant: 7859,
     },
     4: {
+        bot: 150473,
         top: 214368,
         rate: .29,
         constant: 12289
     },
     5: {
-        top: 1000000000,
+        bot: 214368,
+        top: 10000000000,
         rate: .33,
         constant: 20704,
-    }
+    },
+
 }
 
 export const PTR = { // Provincial Tax Rates and factors - updated 11 March 2020
-    factors: {
-        basicPersonal: 10682,
-        eligibleDividendGrossUp: 1.38, 
-        eligibleDividendTaxCredit: 0.10, 
-        nonEligibleDividendGrossUp: 1.16, 
-        nonEligibleDividendTaxCredit: 0.0196, 
-    },
     1:{
+        bot: 0, 
         top: 41725,
         rate: .0506,
         constant: 0,
     },
     2:{
+        bot: 41725, 
         top: 83451,
         rate: .077,
-        constant: 1075,
+        constant: 1102,
     },
     3: {
+        bot: 83451, 
         top: 95812,
         rate: .105,
-        constant: 3354,
+        constant: 3438,
     },
     4: {
+        bot: 95812, 
         top: 116344,
         rate: .1229,
-        constant: 5028,
+        constant: 5153,
     },
     5: {
+        bot: 116344, 
         top: 157748,
         rate: .147,
-        constant: 7763,
+        constant: 7957,
     },
     6: {
+        bot: 157748, 
         top: 100000000,
         rate: .168,
-        constant: 10995,
+        constant: 11270,
     },
 }
 
@@ -613,7 +609,7 @@ const IncomeRanges = [
   ]
 
 const DeductionRanges = [
-    {className: "tax-deduction", type: "currency", name: "rrspContribution", min: 0, max: 30000, step: 1000, label: "RRSP Contribution", explanation: "Any funds contributed to your RRSP will be deducted from your income and you will not have to pay tax it. Taxes will be payable when you withdraw funds from your RRSP. "},
+    {className: "tax-deduction", type: "currency", name: "RRSPcontribution", min: 0, max: 30000, step: 1000, label: "RRSP Contribution", explanation: "Any funds contributed to your RRSP will be deducted from your income and you will not have to pay tax it. Taxes will be payable when you withdraw funds from your RRSP. "},
     {className: "tax-deduction", type: "currency", name: "charitableContribution", min: 0, max: 22000, step: 1000, label: "Charitable Contribution", explanation: "Any contributions made to a charity receive a tax credit of 15% on the first 200 and 30% on anything above that up until your total annual earnings." },
 ]
 

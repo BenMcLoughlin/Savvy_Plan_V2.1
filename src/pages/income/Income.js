@@ -13,7 +13,7 @@ import {add_action} from "redux/actions"
 import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setKeyValue_action, income_selector, add_action, user_reducer, income_reducer}) => {
+const Income = ({progress_reducer, setKeyValue_action, income_selector, ui_reducer, income_reducer}) => {
   
     const exists = Object.values(income_selector).length > 0                                                                         //Checks if the array has objects in it
     const [stream, setStream] = useState()                                                                                       //This refers to the income stream, such as Wal Mart Income, and is used to open the edit box
@@ -32,9 +32,8 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, add_acti
                 setStream(state.stream)                                                                                           // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(id)                                                                                                         // determines which income instance to show within the edit box
     }
-    console.log(income_selector);
 
-    const instanceArray = exists ?  Object.values(income_selector).filter(d => d.stream === stream).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const instanceArray = exists ?  Object.values(income_selector).filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) : ["1"]//here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
 
         return (
             <Page>
@@ -61,7 +60,7 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, add_acti
                       stream={stream} 
                  />
                  :
-                 user_reducer.taxAge  ?                                                                                                      //stream is the income stream, if its clicked and set the edit box will pop up
+                 ui_reducer.taxAge  ?                                                                                                      //stream is the income stream, if its clicked and set the edit box will pop up
                  <Tax/>
                           : 
                     stream ?                                                                                                      //stream is the income stream, if its clicked and set the edit box will pop up
@@ -101,7 +100,7 @@ const mapStateToProps = (state) => {
         income_reducer: state.income_reducer,
         income_selector: income_selector(state),
         tfsa_selector: tfsa_selector(state),
-        user_reducer: state.user_reducer,
+        ui_reducer: state.ui_reducer,
     }
 }
 

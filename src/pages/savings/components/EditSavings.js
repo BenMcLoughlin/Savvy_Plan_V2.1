@@ -11,21 +11,23 @@ import {setNestedKeyValue_action, setKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
 import {setAge} from "services/ui/ui_functions"
 
-const EditSavings = ({transaction, setNestedKeyValue_action, setKeyValue_action, savings_reducer, deleteInstance, user_reducer, createNewItem, id, reg, setId}) => {    
+const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, user_reducer, createNewItem, id, reg, setId}) => {    
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         if (transaction === "withdrawal"){
         setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
     }
+        if (transaction === "contribution" && reg === "RRSP"){
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
+    }
         setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
 }
-     const instance = savings_reducer[id]
-
-     const endAge = instance.toAge       
-     const newItem = savingsInstance_data((+endAge), id, reg, instance.stream, (+endAge + 5), transaction, instance.value)                                         //grabs the toAge of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
+     const instance = savings_reducer[id] 
+     const endAge = instance.age2       
+     const newItem = savingsInstance_data((+endAge), id, reg, instance.stream, (+endAge + 5), transaction, instance.value)                                         //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
      const instanceArray = instanceArray_function(savings_reducer, transaction, reg)
-   
+
      return (
         <Wrapper>
              <Header transaction={transaction}>
@@ -43,7 +45,7 @@ const EditSavings = ({transaction, setNestedKeyValue_action, setKeyValue_action,
                 <RangeBar 
                             setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value                                                                                     //Every Add instance has a range bar to set its value
                             reducer="savings_reducer"
-                            second_reducer={transaction === "withdrawal" ? "income_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the income_reducer  
+                            second_reducer={transaction === "withdrawal" ? "income_reducer" : transaction === "contribution" && reg === "RRSP" ? "tax_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the income_reducer  
                             label={`Annual ${transaction}`}
                             instance={instance}       
                         /> 
@@ -54,8 +56,8 @@ const EditSavings = ({transaction, setNestedKeyValue_action, setKeyValue_action,
                         <div>To Age</div>    
                     </SelectorTitleWrapper>
                     <DualRangeBar
-                        bottom={instance.fromAge}                                                                                     //fromAge sets the from Age, eg. age 18 in 18-45
-                        top={instance.toAge}                                                                                          //toAge sets the to Age, eg. age 45 in 18-45
+                        bottom={instance.age1}                                                                                     //age1 sets the from Age, eg. age 18 in 18-45
+                        top={instance.age2}                                                                                          //age2 sets the to Age, eg. age 45 in 18-45
                         setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
                     />
             </YearsSelectorWrapper>                                                                                                        {/* Choose one is used to select the account type */}
@@ -69,7 +71,6 @@ const EditSavings = ({transaction, setNestedKeyValue_action, setKeyValue_action,
 
 const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
-    user_reducer: state.user_reducer,
     user_reducer: state.user_reducer,
     tfsaProjection_selector: tfsaProjection_selector(state),
 })

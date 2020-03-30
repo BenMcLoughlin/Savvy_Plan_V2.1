@@ -4,16 +4,17 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
 import {setKeyValue_action} from "redux/actions"
-import {deduction_selector, credit_selector, ageCredit_selector} from "redux/tax/tax_selectors"
+import * as selector from "redux/tax/tax_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
 import {taxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
+import {employment_selector, business_selector, retirement_selector} from "redux/income/income_selectors"
 
-const DisplayBox = ({instanceArray, createNewItem, setCategory, progress_reducer, setKeyValue_action, setId, deduction_selector, credit_selector, ageCredit_selector, type}) => {                  
+const DisplayBox = ({instanceArray, createNewItem, setStream, progress_reducer, setKeyValue_action, setId, deduction_selector, fixedCredit_selector, variableCredit_selector, type, employment_selector}) => {                  
 
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
     const newState = taxCredit_data(" ", 18, 24, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
 
-    const selector =  type === "deduction" ? deduction_selector : type === "credit" ? credit_selector : ageCredit_selector 
+    const selector =  type === "deduction" ? deduction_selector :  type === "fixed" ? fixedCredit_selector  :  variableCredit_selector  
 
     const addNewCategory = () => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
@@ -28,14 +29,13 @@ return (
             <Container> 
             {
                     selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
-                                                         key={d.id}
-                                                         credit={d}
-                                                         category={d.category}
-                                                         setCategory={setCategory} 
-                                                         setId={setId}
-                                                         instanceArray={instanceArray}
-                                                         color={"grey"}
-                                                         />)
+                                                        key={d}
+                                                        stream={d}
+                                                        setStream={setStream} 
+                                                        setId={setId}
+                                                        instanceArray={instanceArray}
+                                                        color={"pink"}
+                                                        />)
                 }
     
           <DarkAdd onClick={() => addNewCategory()}/>
@@ -48,10 +48,11 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    ageCredit_selector: ageCredit_selector(state),
+    deduction_selector: selector.deduction_selector(state),
+    fixedCredit_selector: selector.fixedCredit_selector(state),
+    variableCredit_selector: selector.variableCredit_selector(state),
     progress_reducer: state.progress_reducer,
-    deduction_selector: deduction_selector(state),
-    credit_selector: credit_selector(state),
+    employment_selector: employment_selector(state)
 })
 
 export default connect(mapStateToProps,{ setKeyValue_action})(DisplayBox )

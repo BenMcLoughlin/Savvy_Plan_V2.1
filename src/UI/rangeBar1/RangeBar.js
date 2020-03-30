@@ -4,6 +4,7 @@ import {logslider, inverseLogslider} from "services/general/logorithmic_function
 
  const RangeBar = ({instance, label, reducer, setNestedKeyValue_action, second_reducer}) => {
 
+
         return (
             < RangeBarWrapper>
                      <Label>{label}</Label>

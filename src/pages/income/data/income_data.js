@@ -1,10 +1,11 @@
 
-export const incomeStream_data = (color, fromAge, reg, stream, toAge, value) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const incomeStream_data = (color, age1, reg, stream, age2, value) => ({                                              //this is the initial state of value being stored to the reducer. 
     color, 
-    fromAge, 
+    age1, 
     reg, 
     stream, 
-    toAge, 
+    taxable: true, 
+    age2, 
     value,
 })
 

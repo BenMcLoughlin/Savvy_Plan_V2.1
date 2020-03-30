@@ -25,7 +25,7 @@ const PhaseSelector = ({itemList, id, setId, deleteInstance, color, addSection})
                             selected={selected === d.id} 
                             >
                                 <Text onClick={() => handleSelect(d.id)}>
-                                {`${d.fromAge} "-" ${d.toAge}`}
+                                {`${d.age1} "-" ${d.age2}`}
                                 </Text>
                  
                         <Exit onClick={() =>  deleteInstance(d)}/>
