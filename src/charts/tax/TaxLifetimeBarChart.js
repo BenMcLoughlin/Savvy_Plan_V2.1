@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {setKeyValue_action} from "redux/actions"
 
-const drawChart = (data, width, height, setKeyValue_action) => {
+const drawChart = (birthYear, data, width, height, setKeyValue_action, className) => {
    
     const chartData = () => {
         const array = []
@@ -21,18 +21,15 @@ const drawChart = (data, width, height, setKeyValue_action) => {
         return array
     }
     
-    console.log(data);
-
-  
     const margin = {top: 20, right: 50, bottom: 20, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
     const color =  ["age", "#F29278", "#F29278", "#F29278", ]
 
-   d3.select(".taxLifetimeBarChart > *").remove()
-   d3.select(".tooltip").remove()
+    d3.select(`.${className} > *`).remove()
+    d3.select(`.${className}tooltip`).remove()
 
-    const svg = d3.select('.taxLifetimeBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     const stackedKeys = ["age", "federalTax", "provincialTax", "cppAndEi"]
 
@@ -53,13 +50,13 @@ const drawChart = (data, width, height, setKeyValue_action) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".taxLifetimeBarChart").append("div")
-                        .attr("class", "tooltip")
+      const tooltip = d3.select(`.${className}`).append("div")
+                        .attr("class", `${className}tooltip`)
                         .style("opacity", 0)
                         .style("position", "absolute")
-                        .style("top", -100)
-                        .style("left", -100)
-                        .style("z-index", -100)
+                        .style("top", 0)
+                        .style("left", 0)
+
                           
     const update = data => {
     
@@ -119,7 +116,7 @@ const drawChart = (data, width, height, setKeyValue_action) => {
                                             `
                                             <div class="topHeader">
                                                 <p> ${(d.data.age)} Yrs Old</p>
-                                                <p>  Year ${(d.data.age + 1988)} </p>
+                                                <p>  Year ${(d.data.age + birthYear)} </p>
                                             </div>
                                             <div class="financialOutput">
                                                 <div class="total" style="color: ${thisColor}; ">
@@ -130,9 +127,9 @@ const drawChart = (data, width, height, setKeyValue_action) => {
                                                     </p>
                                                 </div>
                                                 <div class="total">
-                                                    <h3 class="title">  Total Income </h3>
+                                                    <h3 class="title">  Total Tax </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${100000/1000} 
+                                                    ${(Math.round((d.data.federalTax + d.data.provincialTax)/1000)*1000)/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -188,25 +185,27 @@ const drawChart = (data, width, height, setKeyValue_action) => {
     
 }
 
-const TaxLifetimeBarChart = ({data, setKeyValue_action}) =>  {
-   console.log(data);
+const TaxLifetimeBarChart = ({data, setKeyValue_action,  user_reducer}) =>  {
+
     const inputRef = useRef(null)
+    const className = "taxLifetimeBarChart"
+    const {birthYear} = user_reducer
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height, setKeyValue_action)
+        drawChart(birthYear, data, width, height, setKeyValue_action, className)
     }, [data])
 
         return (
-            <Canvas className="taxLifetimeBarChart" ref={inputRef}>
+            <Canvas className={className} ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
     data: taxLifetimeChartData_selector(state),
-
+    user_reducer: state.user_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action})(TaxLifetimeBarChart)

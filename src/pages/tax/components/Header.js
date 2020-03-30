@@ -64,12 +64,12 @@ const Left = styled.div`
 const Right = styled.div`
     display: flex;
     height: 100%;
+    margin-top: 7rem;
     width: 80%;
     padding: 0rem 4rem 0rem 4rem;
     flex-direction: column;
     text-align: center;
     align-items: center;
-    margin-top: 3rem;
     margin-right: 6rem;
 `
 

@@ -8,24 +8,39 @@ import * as selector from "redux/tax/tax_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
 import {taxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
 import {employment_selector, business_selector, retirement_selector} from "redux/income/income_selectors"
+import SelectorButtonHorizontal from "UI/buttons/SelectorButtonHorizontal"
+
 
 const DisplayBox = ({instanceArray, createNewItem, setStream, progress_reducer, setKeyValue_action, setId, deduction_selector, fixedCredit_selector, variableCredit_selector, type, employment_selector}) => {                  
 
+    const [creditType, setCreditType] = useState(true)
     const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
     const newState = taxCredit_data(" ", 18, 24, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
 
-    const selector =  type === "deduction" ? deduction_selector :  type === "fixed" ? fixedCredit_selector  :  variableCredit_selector  
+    const selector =  type === "deductions" ? deduction_selector : type === "income" ? employment_selector : creditType ? fixedCredit_selector  :  variableCredit_selector  
 
     const addNewCategory = () => {                                                                                                                  //Creates a new item 
         createNewItem(newState)                                                                                                                  //Passes in the local new state
         setKeyValue_action("incomeColor", "progress_reducer", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
     }
 return (
-        <Wrapper>               
-          <Header>                                                                                                                                                         
-                <h2>{_.startCase(type)}</h2>     
-            </Header>
-            
+        <Wrapper>           
+            <Header>                                                                                                                                                         
+            <h2>{_.startCase(type)}</h2>        
+            {
+                type === "credits" ? 
+                <Right>
+                <TitleWrapper onClick={() => setCreditType(!creditType)}>
+                         <H3 creditType={creditType}>Fixed</H3>
+                         <H3 creditType={!creditType}>Variable</H3>
+                     </TitleWrapper>
+                     <SelectorWrapper>
+                          <SelectorButtonHorizontal visible={creditType} onClick={() => setCreditType(!creditType)}/>
+                     </SelectorWrapper>
+                </Right>
+                : null
+            }
+            </Header>    
             <Container> 
             {
                     selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
@@ -68,7 +83,7 @@ const Header = styled.div`
     display: flex;
     justify-content: space-between;
     padding: .5rem 2rem 0.5rem 2rem;
-
+    position: relative;
 `
 
 const Wrapper = styled.div`
@@ -106,4 +121,25 @@ const DarkAdd = styled(Add)`
     position: relative;
     color: grey;
     cursor: pointer;
+`
+const TitleWrapper = styled.div`
+    width: 15rem;
+    margin-left: 1rem;
+    display: flex;
+    justify-content: space-between;
+`
+const Right = styled.div`
+    width: 18rem;
+    display: flex;
+`
+const SelectorWrapper = styled.div`
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+`
+
+const H3 = styled.h3`
+    cursor: pointer;
+    font-weight: ${props => props.creditType ? 700 : null};
+
 `

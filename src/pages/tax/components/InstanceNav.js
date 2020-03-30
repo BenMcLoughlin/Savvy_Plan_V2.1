@@ -15,7 +15,6 @@ const PhaseSelector = ({itemList, id, setId, onClick, color, addSection}) => {
         select(id)
      }, [id])
 
-     console.log(itemList);
     return (
         <Container>
             <SelectWrapper>

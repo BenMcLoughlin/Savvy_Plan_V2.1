@@ -6,15 +6,16 @@ import {setKeyValue_action} from "redux/actions"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart = (data, width, height, colors, setKeyValue_action) => {
-
+const drawChart =  (birthYear, colors, data, width, height, setKeyValue_action, className) => {
+   
     const margin = {top: 20, right: 100, bottom: 20, left: 100}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-   d3.select(".incomeBarChart > *").remove()
-   d3.select(".tooltip").remove()
 
-    const svg = d3.select('.incomeBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    d3.select(`.${className} > *`).remove()
+    d3.select(`.${className}tooltip`).remove()
+
+    const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     const stackedKeys = Object.keys(data[15])
 
@@ -35,13 +36,12 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".incomeBarChart").append("div")
-                        .attr("class", "tooltip")
+       const tooltip = d3.select(`.${className}`).append("div")
+                        .attr("class", `${className}tooltip`)
                         .style("opacity", 0)
                         .style("position", "absolute")
                         .style("top", 0)
                         .style("left", 0)
-   
                           
     const update = data => {
     
@@ -101,7 +101,7 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
                                             `
                                             <div class="topHeader">
                                                 <p> ${(d.data.age)} Yrs Old</p>
-                                                <p>  Year ${(d.data.age + 1988)} </p>
+                                                <p>  Year ${(d.data.age + birthYear)} </p>
                                             </div>
                                             <div class="financialOutput">
                                                 <div class="total" style="color: ${thisColor}; ">
@@ -159,25 +159,28 @@ const drawChart = (data, width, height, colors, setKeyValue_action) => {
     
 }
 
-const SpendingBarChart = ({data, color_selector, setKeyValue_action}) =>  {
+const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer}) =>  {
 
     const inputRef = useRef(null)
+    const className = "lifetimeBarChart"
+    const {birthYear} = user_reducer
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height, color_selector, setKeyValue_action)
+        drawChart(birthYear, color_selector, data, width, height, setKeyValue_action, className)
     }, [data, color_selector, setKeyValue_action])
 
         return (
-            <Canvas className="incomeBarChart" ref={inputRef}>
+            <Canvas className={className} ref={inputRef}>
             </Canvas>
         )
 }
 
 const mapStateToProps = (state) => ({
     data: incomeArrayWithRRIF_selector(state),
-    color_selector: color_selector(state)
+    color_selector: color_selector(state),
+    user_reducer: state.user_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action})(SpendingBarChart)

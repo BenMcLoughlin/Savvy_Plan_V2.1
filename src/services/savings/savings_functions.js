@@ -27,7 +27,7 @@ const getValue = (age, priorValue, reg, savings_reducer, transaction) => {      
     if (transactions.length > 0) {
         const array = transactions.map(d => d.transaction === transaction                                                      //for each income transaction it is collecing all the contributions or withdrawals reported for that age
                                     && age >= d.age1                                                                        //Checks if the given age is between the start and end age
-                                    && age <= d.age2 ?                                         
+                                    && age < d.age2 ?                                         
                                     d.value 
                                     : 0                                                                                        //If it is it returns the financial value, giving an array of financial values
        )

@@ -5,38 +5,8 @@ import {taxesBracketChartData_selector} from "redux/tax/tax_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart = (data, width, height, colors) => {
+const drawChart = (birthYear, data, width, height, className) => {
 
-    const data1 = [
-        {
-            bracketIncome: 48000,
-            totalIncome: 48000,
-            federalTaxes: .1,
-            type: "",
-            provincialTaxes: .1,
-            cppAndEI: .05,
-            keep: .75,
-            
-        },
-        {
-            bracketIncome: 40000,
-            totalIncome: 88000,
-            federalTaxes: .15,
-            type: "", 
-            provincialTaxes: .15,
-            cppAndEI: .05,
-            keep: .65,
-        },
-        {
-            bracketIncome: 40000,
-            totalIncome: 128000,
-            federalTaxes: .25,
-            type: "", 
-            provincialTaxes: .15,
-            cppAndEI: .05,
-            keep: .55,
-        },
-    ]
 
 
     const margin = {top: 20, right: 50, bottom: 20, left: 70}
@@ -44,10 +14,10 @@ const drawChart = (data, width, height, colors) => {
     const graphWidth = width - margin.left - margin.right
     const color = ['#63bbcf',"#F29278", "#F29278", "#F29278"]
 
-   d3.select(".taxBarChart > *").remove()
-   d3.select(".tooltip").remove()
+    d3.select(`.${className} > *`).remove()
+    d3.select(`.${className}tooltip`).remove()
   
-    const svg = d3.select('.taxBarChart').append("svg").attr("viewBox", `0 0 ${width} ${height}`)
+    const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
     const stackedKeys = ["keep","federalTaxes", "provincialTaxes", "cppAndEI", ""]
   
@@ -68,13 +38,13 @@ const drawChart = (data, width, height, colors) => {
                         .order(d3.stackOrderNone)
                         .offset(d3.stackOffsetDiverging);
         
-        const tooltip = d3.select(".taxBarChart").append("div")
-                        .attr("class", "tooltip")
+       const tooltip = d3.select(`.${className}`).append("div")
+                        .attr("class", `${className}tooltip`)
                         .style("opacity", 0)
                         .style("position", "absolute")
-                        .style("top", -100)
-                        .style("left", -100)
-                        .style("z-index", -100)
+                        .style("top", 0)
+                        .style("left", 0)
+   
    
                           
     const update = data => {
@@ -136,22 +106,22 @@ const drawChart = (data, width, height, colors) => {
                                         tooltip.html(
                                             `
                                             <div class="topHeader">
-                                                <p> ${(d.data.age)} Yrs Old</p>
-                                                <p>  Year ${(d.data.age + 1988)} </p>
+                                                <p>  Tax Bracket ${d.data.bracket} </p>
+                                                <p>${d.data.bracketRange}</p>
                                             </div>
                                             <div class="financialOutput">
                                                 <div class="total" style="color: ${thisColor}; ">
                                                     <h3 class="title">  ${_.startCase(name)} </h3>
                                                     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                        ${(Math.round((d[1] - d[0])/1000)*1000)/1000} 
+                                                         ${(Math.round(((d[1] - d[0])* d.data.totalIncome)/1000)*1000)/1000} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
                                                 <div class="total">
-                                                    <h3 class="title">  Total Income </h3>
+                                                    <h3 class="title">  Percentage</h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${100000/1000} 
-                                                        <span> K</span>
+                                                        ${Math.round((d[1] - d[0])*100)} 
+                                                        <span> %</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -203,19 +173,22 @@ const drawChart = (data, width, height, colors) => {
     
 }
 
-const TaxBarChart = ({taxesBracketChartData_selector, ui_reducer}) =>  {
+const TaxBarChart = ({taxesBracketChartData_selector, ui_reducer, user_reducer}) =>  {
 
     const data = taxesBracketChartData_selector
     const {taxAge} = ui_reducer
     const inputRef = useRef(null)
+    const className = "taxBracketBarChart"
+    const {birthYear} = user_reducer
+
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(data, width, height)
+        drawChart(birthYear, data, width, height, className)
     }, [taxAge])
 
         return (
-            <Canvas className="taxBarChart" ref={inputRef}>
+            <Canvas className={className} ref={inputRef}>
     
             </Canvas>
         )
@@ -223,7 +196,8 @@ const TaxBarChart = ({taxesBracketChartData_selector, ui_reducer}) =>  {
 
 const mapStateToProps = (state) => ({
     taxesBracketChartData_selector: taxesBracketChartData_selector(state),
-    ui_reducer: state.ui_reducer
+    ui_reducer: state.ui_reducer,
+    user_reducer: state.user_reducer,
 })
 
 export default connect(mapStateToProps)(TaxBarChart)

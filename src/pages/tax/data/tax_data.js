@@ -11,13 +11,10 @@ export const taxCredit_data = (eligible, age1, stream, age2, type, value) => ({ 
 
 export const creditTypes_data = [
     {
-        type: "fixed",
+        type: "deductions",
     },
     {
-        type: "deduction",
-    },
-    {
-        type: "variable",
+        type: "credits",
     }
 ]
 

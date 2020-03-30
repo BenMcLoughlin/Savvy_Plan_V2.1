@@ -35,7 +35,7 @@ const SelectorButtonWrapper = styled.div`
 `
 const SelectorFat = styled.div`
     width: 8rem;
-    height: .8rem;
+    height: .6rem;
     border-radius: 5px;
     background: ${props => props.theme.color.onyx};
 

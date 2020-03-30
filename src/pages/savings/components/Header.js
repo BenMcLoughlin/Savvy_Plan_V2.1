@@ -5,7 +5,6 @@ import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selecto
 
 const Header = ({reg, tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspInterest_selector, rrspPeakValue_selector, rrspContributions_selector}) => {
 
-    console.log(reg);
      const contributions_selector = reg === "TFSA" ? tfsaContributions_selector : rrspContributions_selector
      const interest_selector = reg === "TFSA" ? tfsaInterest_selector : rrspInterest_selector
      const peakValue_selector = reg === "TFSA" ? tfsaPeakValue_selector : rrspPeakValue_selector

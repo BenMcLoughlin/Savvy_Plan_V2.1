@@ -13,7 +13,7 @@ export const convertReducerToArray = (reducer, lifeSpan) => {                   
         if (incomeStreams.length > 0) {
             const arrayOfIncome = incomeStreams.map(d => d.stream === stream                                   //for each income stream it is collecing all the income reported for that age
                                         && age >= d.age1                                                        //Checks if the given age is between the start and end age
-                                        && age <= d.age2 ?                                         
+                                        && age < d.age2 ?                                         
                                         d.value : 0                                                //If it is it returns the financial value, giving an array of financial values
             )
             return Math.max(...arrayOfIncome)                                                                      //If the person has inputted more than one income amount for the sane age range this will return the max
@@ -36,19 +36,20 @@ export const convertReducerToArray = (reducer, lifeSpan) => {                   
  }
 
 export const calculateRRSPIncome = (age1, age2, array, type) => {                                                             //we need to distill rrsp income into one object that can be added to the reducer  
-    const filteredArray = type === "preAge80" ? array.filter( d => d.minWithdrawal > 0).filter( d => d.age <= 80)                                                      //we're going to just get an average which will be used in the tax calculation
+
+    const filteredArray = type === "preAge80" ? array.filter(d => d.minWithdrawal > 0).filter( d => d.age <= 80)                                                      //we're going to just get an average which will be used in the tax calculation
                                               : array.filter( d => d.minWithdrawal > 0).filter( d => d.age > 80)    
-    const avgMinWithdrawal = filteredArray.reduce((a, n) => (a + n.minWithdrawal), 0) / filteredArray.length                          //sum up all ann rrsp income that includes the min withdrawal and their additional withdrawal
-                                                                                                                 //divide by the length of the array to get the averaege
+    const avgMinWithdrawal = filteredArray.reduce((a, n) => (a + n.minWithdrawal), 0) / filteredArray.length                          //sum up all ann rrsp income that includes the min withdrawal and their additional withdrawal                                                                                                      //divide by the length of the array to get the averaege
  return ({                                                                                                           //this object is now added to the income reducer, representing all rrsp income
         age1: type == "preAge80" ? age1 : 80,                                                                           //age1 is the selected retirement age
         reg: "retirementIncome",      
         stream: "RRSP Income",                                                                                         
         taxable: true, 
         age2: type == "preAge80" ? 80 : age2, 
-        value: avgMinWithdrawal
+        value: filteredArray.length > 1 ? avgMinWithdrawal : 0
     })
 }
+
 
 const historicRRSP = {
     1990: 63889,
@@ -156,12 +157,12 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
                                                                     .map(d => d.financialValue).reduce((acc, num) => acc + num)                                                        //Sum the value of all income streams
 
             const rrspMaxContribution = totalRrspContEligibleIncome > contributionLimit ? (contributionLimit * .18) : (totalRrspContEligibleIncome * .18)
-            console.log(`
-            totalRrspContEligibleIncome: ${totalRrspContEligibleIncome}
-            contributionLimit: ${contributionLimit}
-            rrspMaxContribution: ${rrspMaxContribution}
-            `
-                )
+            // console.log(`
+            // totalRrspContEligibleIncome: ${totalRrspContEligibleIncome}
+            // contributionLimit: ${contributionLimit}
+            // rrspMaxContribution: ${rrspMaxContribution}
+            // `
+            //     )
                 ;
            setMaxContribution_action(age, "rrsp", rrspMaxContribution)
          }

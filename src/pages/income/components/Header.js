@@ -8,7 +8,7 @@ const Header = ({income_selector, rrspMinWithdrawal_selector}) => {
 
     const cppIncome = income_selector.cpp_selector.value
     const oasIncome =  income_selector.oas_selector.value
-    const tfsaIncome = income_selector["TFSAwithdrawal"].value
+   // const tfsaIncome = income_selector["TFSAwithdrawal"].value
 
 return (
             <Wrapper>
@@ -34,12 +34,12 @@ return (
                     <h4 >RRSP</h4>
                     </Summary>
                     <Summary>
-                    {`${tfsaIncome/1000}k`}
+                    {`${1000/1000}k`}
                     <h4>TFSA</h4>
                     </Summary>
             </Container>
             <Summary>
-             {`${(cppIncome + oasIncome + rrspMinWithdrawal_selector + tfsaIncome)/1000}k`}
+             {`${(cppIncome + oasIncome + rrspMinWithdrawal_selector + 1000)/1000}k`}
             <h4>Total</h4>
             </Summary>
             </Right>

@@ -112,7 +112,7 @@ function calculateCppMemoized() {
             for (let age = 18; age <= 65; age ++) {                                                                                         //start a for loop to adjust pensionable earnings of each year of users life
              const year = birthYear + age                                                                                                  //determine the year for which we are adjusting earnings
              const unadjustedPensionableEarnings = incomeArray.map(d => age >= d.age1                                                   //map through the income streams to see if there was income in this year
-                                                         && age <= d.age2 ? 
+                                                         && age < d.age2 ? 
                                                          d.value : 0                                                                       //If there was pensionable income, give the financial value
                                                          ).reduce((acc, num) => acc + num)                                                 //Sum all financial values of pensionable income earned
          

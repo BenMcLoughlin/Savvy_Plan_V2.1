@@ -16,10 +16,8 @@ import {setAge} from "services/ui/ui_functions"
 const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, id, setId,  setStream}) => {    
 
 const instance = instanceArray.find(d => d.id === id)       
-console.log(instance);
 const setDualRangeBar = (name, value) => {                                                                                       //sets the age, as well as the surrounding ages in the array of instances
    if(instance.reg === "RRSP") {
-       console.log(id)
        setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)}
        setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
     }
