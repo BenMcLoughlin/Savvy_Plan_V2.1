@@ -72,7 +72,6 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
     
         rects.enter().append("g")
             .attr("fill", (d,i) => colors[d.key])
-            .attr("class", (d,i) => console.log(d.key))
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
             .data(d => d)
@@ -82,7 +81,7 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
                 .attr("x", d => xScale(d.data.age))
                 .attr("opacity", (d, i, n) =>  {
                     const name = n[0].parentNode.className.animVal
-                    return stream === name && d.data.age > age1 && d.data.age <= age2 ? 0.7 : 1
+                    return stream === name && d.data.age >= age1 && d.data.age < age2 ? 0.7 : 1
                 })
                 .attr("width", xScale.bandwidth())
                 .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
@@ -119,7 +118,7 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
                                                 <div class="total">
                                                     <h3 class="title">  Total Income </h3>
                                                     <p class="value" style="border-left: .3px solid #72929B;">  
-                                                        ${100000/1000} 
+                                                    ${Math.round(Object.values(d.data).reduce((acc, num) => acc + num)/1000)} 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -131,7 +130,10 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
                                     .on("mouseout", (d,i,n) => {d3.select(n[i])
                                         .transition()
                                         .duration(100)
-                                        .attr("opacity", 1)
+                                        .attr("opacity", (d, i, n) =>  {
+                                            const name = n[0].parentNode.className.animVal
+                                            return stream === name && d.data.age >= age1 && d.data.age < age2 ? 0.7 : 1
+                                        })
                             
                                         tooltip.transition()
                                         .duration(100)
@@ -164,17 +166,18 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
     
 }
 
-const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer, ui_reducer}) =>  {
+const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer, ui_reducer, income_reducer}) =>  {
 
     const inputRef = useRef(null)
     const className = "lifetimeBarChart"
     const {birthYear} = user_reducer
-    const {age1, age2, stream} = ui_reducer
+    const {viewId, viewStream} = ui_reducer
+    const {age1, age2} = income_reducer[viewId] || 0
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(age1, age2, birthYear, color_selector, data, width, height, setKeyValue_action, stream, className)
+        drawChart(age1, age2, birthYear, color_selector, data, width, height, setKeyValue_action, viewStream, className)
     }, [data, color_selector, age1, age2])
 
         return (
@@ -188,6 +191,7 @@ const mapStateToProps = (state) => ({
     color_selector: color_selector(state),
     user_reducer: state.user_reducer,
     ui_reducer: state.ui_reducer,
+    income_reducer: state.income_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action})(SpendingBarChart)

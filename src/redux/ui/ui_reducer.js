@@ -1,7 +1,8 @@
 import _ from "lodash"
 
 const initialState = { 
-
+        viewStream: null, 
+        viewId: null, 
    }
 
  const ui_reducer = (state = initialState, action) => {

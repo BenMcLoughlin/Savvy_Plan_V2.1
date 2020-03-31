@@ -7,16 +7,20 @@ import RangeBar  from "UI/rangeBar1/RangeBar"
 import _ from "lodash"
 import {savingsInstance_data} from "pages/savings/data/savings_data"
 import {tfsaProjection_selector} from "redux/savings/savings_selectors"
+import {income_selector} from "redux/income/income_selectors"
 import {setNestedKeyValue_action, setKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
 import {setAge} from "services/ui/ui_functions"
 
-const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, user_reducer, createNewItem, id, reg, setId}) => {    
+
+const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, income_selector, createNewItem, id, reg, setId}) => {    
+
+    const instanceArray = instanceArray_function(savings_reducer, transaction, reg)
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
         if (transaction === "withdrawal"){
         setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
-    }
+    }       //id, income_selector, name, setNestedKeyValue_action, reducer, value
         if (transaction === "contribution" && reg === "RRSP"){
         setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
     }
@@ -26,7 +30,7 @@ const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, de
      const endAge = instance.age2       
      const newItem = savingsInstance_data((+endAge), id, reg, instance.stream, (+endAge + 5), transaction, instance.value)                                         //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
-     const instanceArray = instanceArray_function(savings_reducer, transaction, reg)
+
 
      return (
         <Wrapper>
@@ -73,6 +77,7 @@ const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
     user_reducer: state.user_reducer,
     tfsaProjection_selector: tfsaProjection_selector(state),
+    income_selector: income_selector(state),
 })
 
 export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_action})(EditSavings )

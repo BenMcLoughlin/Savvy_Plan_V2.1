@@ -96,6 +96,11 @@ export const taxDisplayDetails_selector = createSelector(
     (taxDetails_selector) => convertTaxDetailsToDisplay(taxDetails_selector)
 )  
 
+//IMPORTANT VALUES
+export const rrspSavings_selector = createSelector( 
+    taxLifetimeChartData_selector,
+    (taxLifetimeChartData_selector) => taxLifetimeChartData_selector.reduce((acc, num) => (acc + num.rrspTaxSavings), 0)
+)  
 
 //TOTAL DEDUCTIONS
 

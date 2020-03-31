@@ -8,41 +8,31 @@ import RangeBar  from "UI/rangeBar1/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import _ from "lodash"
 import {incomeStream_data} from "pages/income/data/income_data"
-import {cpp_selector} from "redux/income/income_selectors"
-import { setNestedKeyValue_action, setKeyValue_action, delete_action, deleteInstance} from "redux/actions"
+import { setNestedKeyValue_action, setKeyValue_action, delete_action} from "redux/actions"
 import {editStreamName, setAge} from "services/ui/ui_functions"
+import {income_selector} from "redux/income/income_selectors"
 
-const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setKeyValue_action, setNestedKeyValue_action, setStream}) => {    
+const EditIncome = ({viewStream, createNewItem, income_selector, viewId, setKeyValue_action, setNestedKeyValue_action}) => {           //this is the box that enables us to edit an income stream and add new instances
 
-    const instance = instanceArray.find(d => d.id === id)                                                                          //we're only provided with the id, not the entire instance, this grabs the entire instance details
-    const {age1, age2} = instance
+    const instance = income_selector[viewId]                                                                        //this grabs the instance details, the instance is an object that is part of a stream like walmart income but only in a certain age range
+    const instanceArray =  Object.values(income_selector).filter(d => d.stream === viewStream).sort((a,b) => a.age1 - b.age1)   
 
-    const highlightChartBars = (age1, age2, stream) => {
-        setKeyValue_action("age1", "ui_reducer", age1)
-        setKeyValue_action("age2", "ui_reducer", age2)
-        setKeyValue_action("stream", "ui_reducer", stream)
-    }                                               
+    const {age2} = instance
+                                            
     const setDualRangeBar = (name, value) => {                                                                                 //sets the age, as well as the surrounding ages in the array of instances
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value)
-        highlightChartBars(age1, age2, stream)
-    }
-
-    const endAge = instanceArray[instanceArray.length -1].age2                                                                //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
+        setAge(viewId, instanceArray, name, setNestedKeyValue_action, "income_reducer", value)
+    }                                                                                                                           //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
 
     return (
         <Wrapper>
             <Header color={instance.color}>
-            <h2>{_.startCase(stream)}</h2> 
+            <h2>{_.startCase(viewStream)}</h2> 
             </Header>
             <InstanceNav color={instance.color}
                             instanceArray={instanceArray}
-                            setId={setId}
-                            id={id}
-                            onClick={() => deleteInstance(id, instance, instanceArray, "income_reducer", setStream, setId)}
+                            viewId={viewId}
                             addSection={() => {
-                                createNewItem(incomeStream_data(instance.color, (+endAge), instance.reg, instance.stream, (+endAge + 5), instance.value))
-                                highlightChartBars(age1, age2, stream)
-                            } }
+                            createNewItem(incomeStream_data(instance.color, age2, instance.reg, instance.stream, (age2 + 5), instance.value))} }
                         />                                                  
             <Container >                                                                      
      
@@ -51,7 +41,7 @@ const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setKeyVal
                         label="Income name"
                         value={instance.stream}                                                                                        //because the stream also set if the instance is shown we need this ternary to prevent it from exiting when the text is empty
                         type={"text"}  
-                        handleChange={(e) => editStreamName(e, id, instanceArray, setNestedKeyValue_action, setStream, "income_reducer")}                                                                      //sets the state in the local state
+                        handleChange={(e) => editStreamName(e, income_selector, viewStream, setNestedKeyValue_action, setKeyValue_action, "income_reducer")}                                                                      //sets the state in the local state
                     />                                    
                         <RangeBar 
                             setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value
@@ -83,8 +73,8 @@ const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setKeyVal
                             <ButtonLight 
                                 text={"Add"}
                                 onClick={() => { 
-                                    highlightChartBars(null, null, null)
-                                    setStream(false)
+                                    setKeyValue_action("viewStream", "ui_reducer", null)
+                                    setKeyValue_action("viewId", "ui_reducer", null)
                                 }}
                             />
                     </ButtonWrapper>
@@ -92,9 +82,9 @@ const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setKeyVal
                             <ButtonLight 
                                 text={"Back"}
                                 onClick={() => {
-                                    highlightChartBars(null, null, null)
-                                    setStream(false)}
-                                }
+                                    setKeyValue_action("viewStream", "ui_reducer", null)
+                                    setKeyValue_action("viewId", "ui_reducer", null)
+                                }}
                             />
                     </ButtonLeftWrapper>
                 </Right>
@@ -107,8 +97,7 @@ const EditIncome = ({stream, instanceArray,  createNewItem, id, setId, setKeyVal
 }
 
 const mapStateToProps = (state) => ({
-    cpp_selector: cpp_selector(state),
-    
+    income_selector: income_selector(state)
 })
 
 export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_action,  delete_action})(EditIncome )
@@ -119,11 +108,11 @@ export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_a
 const Wrapper = styled.div`
     width: 90rem;
     height: 33rem;
-    margin: 0 auto;
+    margin-left: 13rem;
     border-radius: 5px;
-    overflow: hidden;
+    overflow: hdden;
     border: ${props => props.theme.border.primary};
-    grid-area: c;
+    gridd-area: cid
 `
 
 const Left = styled.div`  
@@ -161,7 +150,8 @@ const Container = styled.div`
     width: 90rem;
     height: 25rem;
     border-radius: 5px;
-    overflow: hidden;
+    overflow: hi
+    dden;
     position: relative;
     display: flex;
     background: ${props => props.theme.color.ice};

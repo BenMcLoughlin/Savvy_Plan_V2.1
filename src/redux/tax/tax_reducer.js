@@ -7,7 +7,7 @@ const tax_reducer = {
       stream: "RRSP Contributions",
       reg: "RRSP",
       age2: 65, 
-      type: "deduction", 
+      type: "rrsp", 
       value: 0, 
     },
    21400: { 

@@ -37,9 +37,6 @@ return (
                     selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
                                                          key={d}
                                                          stream={d}
-                                                         setStream={setStream} 
-                                                         setId={setId}
-                                                         instanceArray={instanceArray}
                                                          />)
                 }
     

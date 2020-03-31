@@ -142,12 +142,22 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
     let preDedFedTaxes = tax(taxableIncome, "fed")
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
-    let deductions = sum(age, "type", "deduction", tax_selector)
+    let otheDeductions = sum(age, "type", "deduction", tax_selector)
+    let rrsdDeductions = sum(age, "type", "rrsp", tax_selector)
+    let deductions = rrsdDeductions + otheDeductions
+
+    let postRRSPIncome = taxableIncome - rrsdDeductions > 0 ? taxableIncome - rrsdDeductions : 0
+    let postRRSPFedTaxes = tax(postRRSPIncome, "fed")
+    let postRRSPProvTaxes = tax(postRRSPIncome, "prov")
+    let postRRSPTotalTaxes = postRRSPFedTaxes + postRRSPProvTaxes
+    let rrspSavings = preDedTotalTaxes - postRRSPTotalTaxes
+
     let postDedIncome = taxableIncome - deductions > 0 ? taxableIncome - deductions : 0
     let postDedFedTaxes = tax(postDedIncome, "fed")
     let postDedProvTaxes = tax(postDedIncome, "prov")
     let postDedTotalTaxes = postDedFedTaxes + postDedProvTaxes
     let dedTaxSavings = preDedTotalTaxes - postDedTotalTaxes
+    let rrspTaxSavings = preDedTotalTaxes - postDedTotalTaxes
     let fixedCredits = sum(age, "type",  "fixed", tax_selector)
     let variableCredits = sum(age, "type",  "variable", tax_selector)
     let totalCredits = fixedCredits + variableCredits
@@ -165,12 +175,13 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
         preDedFedTaxes,
         preDedProvTaxes,
         preDedTotalTaxes,
-        deductions,
+        rrspSavings,
         postDedIncome,
         postDedFedTaxes,
         postDedProvTaxes,
         postDedTotalTaxes,
         dedTaxSavings,
+        rrspTaxSavings,
         credFedTaxSavings,
         credProvTaxSavings,
         fixedCredits,
@@ -191,13 +202,15 @@ const array = []
      for (let age = age1; age<= age2; age++) {
 
         const bracketDetails  = calculateTaxes(age, income_reducer, tax_reducer)
-        const {fedTax, provTax } = bracketDetails
+        const {fedTax, provTax, rrspTaxSavings} = bracketDetails
              array.push({
                  age:  age, 
                  federalTax: fedTax,
                  provincialTax: provTax,
+                 rrspTaxSavings,
              })
      }
+     console.log(array);
      return array
 }   
 

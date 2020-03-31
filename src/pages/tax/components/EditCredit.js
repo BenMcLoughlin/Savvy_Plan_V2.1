@@ -9,11 +9,12 @@ import {setValue_action, setNestedKeyValue_action, deleteInstance} from "redux/a
 import _ from "lodash"
 import {taxCredit_data} from "pages/tax/data/tax_data"
 import {cpp_selector} from "redux/income/income_selectors"
+import {rrspSavings_selector} from "redux/tax/tax_selectors"
 import CreditBarChart from "charts/tax/CreditBarChart"
 import {setAge} from "services/ui/ui_functions"
 
 
-const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, id, setId,  setStream}) => {    
+const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, rrspSavings_selector, id, setId,  setStream}) => {    
 
 const instance = instanceArray.find(d => d.id === id)       
 const setDualRangeBar = (name, value) => {                                                                                       //sets the age, as well as the surrounding ages in the array of instances
@@ -23,7 +24,7 @@ const setDualRangeBar = (name, value) => {                                      
     }
 
     const addSection = () =>  {createNewItem(taxCredit_data(instance.eligible, (+endAge), instance.stream, (+endAge + 5), instance.type, instance.value))}
-    
+    console.log(rrspSavings_selector);
                                                                                                                                 //we're only provided with the id, not the entire instance, this grabs the entire instance details
 
     const endAge = instanceArray[instanceArray.length -1].age2                                                                //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
@@ -33,7 +34,9 @@ const setDualRangeBar = (name, value) => {                                      
                 instance &&
                 <>
                 <Header>
+            <h3>{`Taxes Saved ${Math.round(rrspSavings_selector/1000)}k`}</h3>
                 <h2>{_.startCase(stream)}</h2> 
+                <h3>Taxes Paid 143k</h3>
                 </Header>
                 <InstanceNav color={"blue"}
                                 itemList={instanceArray}
@@ -97,7 +100,7 @@ const setDualRangeBar = (name, value) => {                                      
 }
 
 const mapStateToProps = (state) => ({
-    cpp_selector: cpp_selector(state),
+    rrspSavings_selector: rrspSavings_selector(state),
 })
 
 export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action,})(EditCredit )
@@ -108,7 +111,7 @@ export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_acti
 const Wrapper = styled.div`
     width: 90rem;
     height: 33rem;
-    margin: 0 auto;
+    margin:1rem auto;
     border-radius: 5px;
     overflow: hidden;
     border: ${props => props.theme.border.primary};
@@ -169,7 +172,7 @@ const Header = styled.div`
     background: #55869d;
     height: 4rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     color: ${props => props.theme.color.ice};
 `

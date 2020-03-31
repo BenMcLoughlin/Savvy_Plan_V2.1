@@ -85,7 +85,7 @@ function adjustOasMemoized() {                                                  
         } else {
             if (age === 65) {return income}
   
-            else if (age > 65 && age <= 70) {                                                       //anything above age 65 is increased each year
+            else if (age > 65 && age < 70) {                                                       //anything above age 65 is increased each year
                 const years = age -65
                 const percentage = years * .072
                 const value = income * (1 + percentage)
@@ -116,7 +116,7 @@ function calculateCppMemoized() {
                                                          d.value : 0                                                                       //If there was pensionable income, give the financial value
                                                          ).reduce((acc, num) => acc + num)                                                 //Sum all financial values of pensionable income earned
          
-             const adjustedEarningsPercentage = year < 2019 && age <= 70 ?                                                                 //if income was earned before 2020, we need to adjusted it using the history YMPE, if not its the same as the pensionable income above
+             const adjustedEarningsPercentage = year < 2019 && age < 70 ?                                                                 //if income was earned before 2020, we need to adjusted it using the history YMPE, if not its the same as the pensionable income above
                                        unadjustedPensionableEarnings / historicYmpe[year] < 1 ?                                            //Next we want to check if the percentage is less than one, if so we want to use it, if not we just want 100%
                                        unadjustedPensionableEarnings / historicYmpe[year] : 1 :
                                        unadjustedPensionableEarnings / fiveYearYMPE < 1 ? unadjustedPensionableEarnings / fiveYearYMPE : 1

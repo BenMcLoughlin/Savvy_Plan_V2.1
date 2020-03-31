@@ -2,12 +2,12 @@ import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
-import {delete_action} from "redux/actions"
+import {delete_action, setKeyValue_action} from "redux/actions"
 import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 
-const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, stream, setStream}) => {                                    //Individual stream that is added
+const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, stream, setStream, setKeyValue_action}) => {                                    //Individual stream that is added
   
     const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.startAge - b.startAge)                                                    //here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
 
@@ -21,8 +21,8 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
 
     const setCategoryAndId = (stream) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that stream
         const id = instanceArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that stream, instance is the earning time period and stream is the income stream
-         setStream(stream)  
-         setId(id)
+        setKeyValue_action("viewStream", "ui_reducer", stream)  
+        setKeyValue_action("viewId", "ui_reducer", id)  
          
      }
     const color =  Object.values(income_selector).filter(d => d.stream === stream)[0].color                            //Grabs a new color to assign
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => ({
     rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
 })
 
-export default connect(mapStateToProps,{delete_action})(DisplayTile )
+export default connect(mapStateToProps,{delete_action, setKeyValue_action})(DisplayTile )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

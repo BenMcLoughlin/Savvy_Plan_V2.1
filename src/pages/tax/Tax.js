@@ -105,7 +105,7 @@ const Wrapper = styled.div`
     'c c c c c c'
     'd d d d d d'
 `
-    //background: white;
+
     const ButtonLeftWrapper = styled.div`
     position: absolute;
     bottom: 5rem;
@@ -140,10 +140,10 @@ const ChartTitle = styled.div`
   left: 12rem;
 `
 const ChartPlaceHolder = styled.div`
-    margin-top: 3rem;
+    margin-top: 4rem;
     height: 9rem;
-    width: 106rem;
-    margin-left: 4rem;
+    width: 95rem;
+    margin-left: 8.7rem;
 `
 
 
