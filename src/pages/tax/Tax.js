@@ -3,82 +3,68 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import ButtonLight from "UI/buttons/ButtonLight"
 import  Header from "pages/tax/components/Header"
+import TaxBracketsBar from "charts/tax/TaxBracketsBar"
 import EditCredit from "pages/tax/components/EditCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"
 import {creditTypes_data} from "pages/tax/data/tax_data"
-import {taxCredits_selector, taxBrackets_selector} from "redux/taxCredits/taxCredits_selectors"
-import TaxLifetimeBarChart from "charts/tax/TaxLifetimeBarChart"
+import {tax_selector} from "redux/tax/tax_selectors"
+import * as selector from "redux/tax/tax_selectors"
 import {add_action, setKeyValue_action} from "redux/actions"
-import {taxBracketsSunburstData_selector, finalTaxPosition_selector} from "redux/taxCredits/taxCredits_selectors"
+import TaxLifetimeBarChart from "charts/tax/TaxLifetimeBarChart"
 
-const Tax = ({setKeyValue_action, taxCredits_selector,  add_action, taxBracketsSunburstData_selector}) => {    
 
-    const exists = Object.values(taxCredits_selector).length > 0   
-    const [category, setCategory] = useState()                                                                                       //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
+const Tax = ({setKeyValue_action, tax_selector, add_action, taxableIncome_selector }) => {    
+
+    const [stream, setStream] = useState()                                                                                           //This refers to the tax Credit, such as medical Expense, and is used to open the edit box
     const [id, setId] = useState()                                                                                                   // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
-    const [type, setCreditType] = useState("regularCredit")                                                                          // We're using three types, "regularCredit", "deduction", and "ageCredit"
- 
+
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const newId = (Math.random() * 10000000000).toFixed()                                                                        //creates the random ID that is the key to the object
                 add_action(newId, {...state}, "tax_reducer")                                                                         //This action fires and sets the state in the reducer, 
-                setCategory(state.category)                                                                                          // Sets item above in local state enabling the edit box to be shown                                                           
+                setStream(state.stream)                                                                                              // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
+   
+    //console.log(taxableIncome_selector);
 
-    const instanceArray = exists ? taxCredits_selector.filter(d => d.category === category).sort((a, b) => a.fromAge - b.fromAge) : ["1"]//here we take the category, eg Wal Mart Income, and make an array of all the instances of that incoem
+    const instanceArray =  tax_selector.filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) 
 
     return (
         <Wrapper>
-             < Header color={"#3B7B8E"} >
-              
-            </Header>
-            <Charts >
-                <BarChartPlaceHolder>
-                    <TaxBarChart/>
-                </BarChartPlaceHolder>
-                <ChartPlaceHolder >
-                  <TaxSunBurstChart
-                    data={taxBracketsSunburstData_selector}
-                    className="preTaxSunburst"
-                  />
+            <Header/>
+            <Chart>
+                <ChartTitle>Lifetime Taxes Per Year</ChartTitle>
+                <ChartPlaceHolder>
+                    <TaxLifetimeBarChart/>
                 </ChartPlaceHolder>
-                <ChartPlaceHolder >
+            </Chart>
+            {
+                stream ? 
+                                <EditCredit  
+                                id={id}                                                                              //eg. "123987" set in state above, or false
+                                setStream={setStream}                                                                //eg. set "medicalExpense" function to set stream, which is the name of the credit 
+                                stream={stream}                                                                      //eg. "medicalExpense"
+                                setId={setId}                                                                        //eg. set "123987"
+                                instanceArray={instanceArray}                                                        //eg. [{stream: "medicalExpense" etc. }, {stream: "medicalExpense" etc. }]
+                                createNewItem={createNewItem}/>   
+                :  
+             <ControlPanel>
+                {creditTypes_data.map(d => <DisplayBox setStream={setStream}                                              //This is the box showing the names of all the tax credits
+                                                        setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
+                                                        type={d.type}
+                                                        id={id}
+                                                        stream={stream}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
+                                                        createNewItem={createNewItem} 
+                                                        instanceArray={instanceArray}
+                                                        />
+                )}
+            </ControlPanel>
+            }
 
-                </ChartPlaceHolder>
-
-            </Charts>
-                            {
-                                category ? 
-                            
-                                       <EditCredit  
-                                                type={type}                                                                          //eg. "regularCredit", "deduction", and "ageCredit" 
-                                                id={id}                                                                              //eg. "123987" set in state above, or false
-                                                setCategory={setCategory}                                                            //eg. set "medicalExpense" function to set category, which is the name of the credit 
-                                                category={category}                                                                  //eg. "medicalExpense"
-                                                setId={setId}                                                                        //eg. set "123987"
-                                                instanceArray={instanceArray}                                                        //eg. [{category: "medicalExpense" etc. }, {category: "medicalExpense" etc. }]
-                                                createNewItem={createNewItem}/>                                                      //function to add a new item to the reducer
-                                : 
-                            
-                                    <ControlPanel>
-                                        {creditTypes_data.map(d => <DisplayBox setCategory={setCategory}                                              //This is the box showing the names of all the tax credits
-                                                                                setId={setId}                                                       //this enables the user to set the id of the income instance they want to see
-                                                                                id={id}
-                                                                                type={d.type}
-                                                                                category={category}                                                 //this is the income stream, such as Wal Mart Income, and contains many income instances
-                                                                                createNewItem={createNewItem} 
-                                                                                instanceArray={instanceArray}
-                                                                                />
-                                        )}
-                                    </ControlPanel>
-                                
-            
-                                  
-                            }
                             <Bottom>
                                 <ButtonLeftWrapper>
                                 <ButtonLight 
-                                            onClick={() =>  setKeyValue_action("taxAge", "user_reducer", false)}
+                                            onClick={() =>  setKeyValue_action("taxAge", "ui_reducer", false)}
                                             text={"Back"}
                                         />
                                 </ButtonLeftWrapper>
@@ -89,13 +75,13 @@ const Tax = ({setKeyValue_action, taxCredits_selector,  add_action, taxBracketsS
 }
 
 const mapStateToProps = (state) => ({
-    taxCredits_selector: taxCredits_selector(state),
-    taxCredits_reducer: state.taxCredits_reducer,
-    taxBrackets_selector: taxBrackets_selector(state),
-    taxBracketsSunburstData_selector: taxBracketsSunburstData_selector(state)
+    tax_selector: tax_selector(state),
+    tax_reducer: state.tax_reducer,
+    taxableIncome_selector: selector.taxableIncome_selector(state),
+
 })
 
-export default connect(mapStateToProps, {setKeyValue_action, add_action, add_action})(Tax )
+export default connect(mapStateToProps, {add_action, setKeyValue_action})(Tax )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -112,12 +98,12 @@ const Wrapper = styled.div`
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     display: grid;
-    grid-template-rows: 10rem 26rem 26rem 4rem;
+    grid-template-rows: 22rem 13rem 26rem 4rem;
     grid-template-areas:
-    'a a a'
-    'b b b'
-    'c c c'
-    'd d d'
+    'a a a a a a'
+    'b b b b b b'
+    'c c c c c c'
+    'd d d d d d'
 `
     //background: white;
     const ButtonLeftWrapper = styled.div`
@@ -127,9 +113,10 @@ const Wrapper = styled.div`
 `
 
 const ControlPanel = styled.div`
-    width:  60rem;
+    width: 70rem;
     border-radius: 5px;
-    height: 100%;                 
+    height: 100%;            
+    margin: 0 auto;     
     padding: 1rem;                                
     display: flex;
     justify-content: space-around;
@@ -137,21 +124,26 @@ const ControlPanel = styled.div`
 `
 const Bottom = styled.div`
     width: 100%;
-    grid-area: d;
 `
-
-const Charts = styled.div`
+const Chart = styled.div`
     grid-area: b;
-    height: 100%;
-    width:  100rem;
-    display: flex;
+    margin-top: 1rem;
+    text-align:center;
+    position: relative;
+
+`
+const ChartTitle = styled.div`
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: 500;
+  position: absolute;
+  top: 3rem;
+  left: 12rem;
 `
 const ChartPlaceHolder = styled.div`
-    height: 23rem;
-    width: 30rem;
+    margin-top: 3rem;
+    height: 9rem;
+    width: 106rem;
+    margin-left: 4rem;
 `
-const BarChartPlaceHolder = styled.div`
-    height: 26rem;
-    width: 40%;
-`
+
 

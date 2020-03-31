@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {setKeyValue_action} from "redux/actions"
@@ -32,6 +32,11 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, ui_reduc
                 setStream(state.stream)                                                                                           // Sets item above in local state enabling the edit box to be shown                                                           
                 setId(id)                                                                                                         // determines which income instance to show within the edit box
     }
+
+    useEffect(() => {
+        setKeyValue_action("age1", "ui_reducer", null)
+        setKeyValue_action("age2", "ui_reducer", null)
+    }, [stream])
 
     const instanceArray = exists ?  Object.values(income_selector).filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) : ["1"]//here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
 

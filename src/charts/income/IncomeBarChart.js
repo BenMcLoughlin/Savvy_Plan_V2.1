@@ -6,7 +6,7 @@ import {setKeyValue_action} from "redux/actions"
 import {connect} from "react-redux"
 import _ from "lodash"
 
-const drawChart =  (birthYear, colors, data, width, height, setKeyValue_action, className) => {
+const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyValue_action, stream, className) => {
    
     const margin = {top: 20, right: 100, bottom: 20, left: 100}
     const graphHeight = height - margin.top - margin.bottom
@@ -72,6 +72,7 @@ const drawChart =  (birthYear, colors, data, width, height, setKeyValue_action, 
     
         rects.enter().append("g")
             .attr("fill", (d,i) => colors[d.key])
+            .attr("class", (d,i) => console.log(d.key))
             .attr("class", (d,i) => d.key)
             .selectAll("rect") 
             .data(d => d)
@@ -79,6 +80,10 @@ const drawChart =  (birthYear, colors, data, width, height, setKeyValue_action, 
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                 .attr("x", d => xScale(d.data.age))
+                .attr("opacity", (d, i, n) =>  {
+                    const name = n[0].parentNode.className.animVal
+                    return stream === name && d.data.age > age1 && d.data.age <= age2 ? 0.7 : 1
+                })
                 .attr("width", xScale.bandwidth())
                 .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
                     .on("mouseover", (d,i,n) => {
@@ -159,17 +164,18 @@ const drawChart =  (birthYear, colors, data, width, height, setKeyValue_action, 
     
 }
 
-const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer}) =>  {
+const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer, ui_reducer}) =>  {
 
     const inputRef = useRef(null)
     const className = "lifetimeBarChart"
     const {birthYear} = user_reducer
+    const {age1, age2, stream} = ui_reducer
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(birthYear, color_selector, data, width, height, setKeyValue_action, className)
-    }, [data, color_selector, setKeyValue_action])
+        drawChart(age1, age2, birthYear, color_selector, data, width, height, setKeyValue_action, stream, className)
+    }, [data, color_selector, age1, age2])
 
         return (
             <Canvas className={className} ref={inputRef}>
@@ -181,6 +187,7 @@ const mapStateToProps = (state) => ({
     data: incomeArrayWithRRIF_selector(state),
     color_selector: color_selector(state),
     user_reducer: state.user_reducer,
+    ui_reducer: state.ui_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action})(SpendingBarChart)

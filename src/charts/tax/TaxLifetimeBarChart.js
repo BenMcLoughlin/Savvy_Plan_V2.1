@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {setKeyValue_action} from "redux/actions"
 
-const drawChart = (birthYear, data, width, height, setKeyValue_action, className) => {
+const drawChart = (birthYear, data, width, height, setKeyValue_action, className, taxAge) => {
    
     const chartData = () => {
         const array = []
@@ -95,6 +95,7 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                 .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
+                .attr("fill", d => d.data.age === taxAge ? "blue" : null)
                 .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
@@ -185,17 +186,18 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
     
 }
 
-const TaxLifetimeBarChart = ({data, setKeyValue_action,  user_reducer}) =>  {
+const TaxLifetimeBarChart = ({data, setKeyValue_action,  user_reducer, ui_reducer}) =>  {
 
     const inputRef = useRef(null)
     const className = "taxLifetimeBarChart"
     const {birthYear} = user_reducer
+    const {taxAge} = ui_reducer
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight
-        drawChart(birthYear, data, width, height, setKeyValue_action, className)
-    }, [data])
+        drawChart(birthYear, data, width, height, setKeyValue_action, className, taxAge)
+    }, [data, taxAge])
 
         return (
             <Canvas className={className} ref={inputRef}>
@@ -206,6 +208,7 @@ const TaxLifetimeBarChart = ({data, setKeyValue_action,  user_reducer}) =>  {
 const mapStateToProps = (state) => ({
     data: taxLifetimeChartData_selector(state),
     user_reducer: state.user_reducer,
+    ui_reducer: state.ui_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action})(TaxLifetimeBarChart)
