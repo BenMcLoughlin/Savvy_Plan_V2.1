@@ -7,25 +7,21 @@ import {setKeyValue_action} from "redux/actions"
 import {employment_selector, business_selector, retirement_selector} from "redux/income/income_selectors"
 import DisplayTile from "pages/income/components/DisplayTile"
 import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
+import {createIncomeInstance} from "services/income/income_functions"
 
+const DisplayBox = ({ reg,  setKeyValue_action, user_reducer, employment_selector, business_selector, retirement_selector, ui_reducer}) => {                  
 
-const DisplayBox = ({ reg, instanceArray, createNewItem, setStream, progress_reducer, setKeyValue_action,setId, employment_selector, business_selector, retirement_selector}) => {                  
+    const {currentAge} = user_reducer
+    const age1 =  reg === "retirementIncome" ? 65 : currentAge                                                                                         //these are the ages for the dual range bar before the user has changed anything
+    const age2 =  reg === "retirementIncome" ? 95 : currentAge + 5                                                                                     //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
-    const age1 =  reg === "retirementIncome" ? 65 : 18                                                                                      //these are the ages for the dual range bar
-    const age2 =  reg === "retirementIncome" ? 95 : 25                                                                                        //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
-
-    const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = incomeStream_data(colorArray_data[color], age1, reg, " ", age2, 0)                                                     //initial State is found in data 
+    const {changeColor: color} = ui_reducer                                                                                                            //to keep the color the same as the chart we store the color on the instance object
+                                                                                
+    const state = incomeStream_data(colorArray_data[color], age1, reg, " ", age2, 0)                                                                   //initial State is found in data, this is the empty state used to create a new object
                                     
     const selector =  reg === "employmentIncome" ? employment_selector
                     : reg === "businessIncome" ? business_selector
                     : retirement_selector 
-
-
-    const addNewCategory = (reg) => {                                                                                                                  //Creates a new item 
-        createNewItem(newState)                                                                                                                  //Passes in the local new state
-        setKeyValue_action("incomeColor", "progress_reducer", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
-    }
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         
@@ -34,13 +30,16 @@ return (
             
             <Container> 
                 {
-                    selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
-                                                         key={d}
-                                                         stream={d}
+                    selector.map(d => <DisplayTile  key={d}                                                                                             //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
+                                                    color={color}
+                                                    stream={d}
                                                          />)
                 }
     
-          <DarkAdd onClick={() => addNewCategory()}/>
+          <DarkAdd onClick={() => {
+                                    createIncomeInstance(setKeyValue_action, state)                                                                      //clicking this button creates a new instance and opens the edit box
+                                    setKeyValue_action("changeColor", "ui_reducer", (color + 1))                                                         // changes the color number in the reducer so the color is always a different one
+          }}/>
             </Container>
         </Wrapper>
 
@@ -50,8 +49,9 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    income_reducer2: state.income_reducer2,
+    ui_reducer: state.ui_reducer,
     progress_reducer: state.progress_reducer,
+    user_reducer: state.user_reducer,
     employment_selector: employment_selector(state),
     business_selector: business_selector(state),
     retirement_selector: retirement_selector(state),

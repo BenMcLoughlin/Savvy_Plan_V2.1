@@ -5,67 +5,52 @@ import InstanceNav from "pages/savings/components/InstanceNav"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar1/RangeBar"
 import _ from "lodash"
-import {savingsInstance_data} from "pages/savings/data/savings_data"
-import {tfsaProjection_selector} from "redux/savings/savings_selectors"
-import {income_selector} from "redux/income/income_selectors"
 import {setNestedKeyValue_action, setKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
 import {setAge} from "services/ui/ui_functions"
 
+const EditSavings = ({type, setNestedKeyValue_action, savings_reducer, ui_reducer,  reg}) => {    
 
-const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, deleteInstance, income_selector, createNewItem, id, reg, setId}) => {    
-
-    const instanceArray = instanceArray_function(savings_reducer, transaction, reg)
+    const instanceArray = instanceArray_function(savings_reducer, type, reg)                                                            //creates an array of instances for the specific stream
+    const id = type === "withdrawal" ? ui_reducer.id : ui_reducer.id2                                                                   // we're working with two ids at the same time to display the two boxes, this checks which one we want and jist makes it "id"
+    const {[id]: instance} = savings_reducer                                                                                            //we use id to grab the entire object from the income_selector
+    const {age1, age2} = instance 
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
-        if (transaction === "withdrawal"){
+        if (type === "withdrawal"){
         setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
-    }       //id, income_selector, name, setNestedKeyValue_action, reducer, value
-        if (transaction === "contribution" && reg === "RRSP"){
+    }   
+        if (type === "contribution" && reg === "RRSP"){
         setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
     }
         setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
 }
-     const instance = savings_reducer[id] 
-     const endAge = instance.age2       
-     const newItem = savingsInstance_data((+endAge), id, reg, instance.stream, (+endAge + 5), transaction, instance.value)                                         //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
-
-
 
      return (
         <Wrapper>
-             <Header transaction={transaction}>
-            <h2>{_.startCase(transaction)}s</h2> 
+             <Header type={type}>
+            <h2>{_.startCase(type)}s</h2> 
             </Header>
-            <InstanceNav color={instance.color}
-                            instanceArray={instanceArray}
-                            setId={setId}
-                            id={id}
-                            deleteInstance={deleteInstance}
-                            addSection={() => createNewItem(newItem)}
-                        />
+            <InstanceNav 
+                     instanceArray={instanceArray}
+                     instance={instance}
+             />
             <Container >  
                 < RangeBarWrapper>
                 <RangeBar 
-                            setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value                                                                                     //Every Add instance has a range bar to set its value
-                            reducer="savings_reducer"
-                            second_reducer={transaction === "withdrawal" ? "income_reducer" : transaction === "contribution" && reg === "RRSP" ? "tax_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the income_reducer  
-                            label={`Annual ${transaction}`}
-                            instance={instance}       
-                        /> 
+                      setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value                                                                                     //Every Add instance has a range bar to set its value
+                      reducer="savings_reducer"
+                      second_reducer={type === "withdrawal" ? "income_reducer" : type === "contribution" && reg === "RRSP" ? "tax_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the income_reducer  
+                      label={`Annual ${type}`}
+                      instance={instance}       
+                /> 
                 </RangeBarWrapper>                                   
-                <YearsSelectorWrapper> 
-                    <SelectorTitleWrapper>
-                        <div>From Age</div>    
-                        <div>To Age</div>    
-                    </SelectorTitleWrapper>
-                    <DualRangeBar
-                        bottom={instance.age1}                                                                                     //age1 sets the from Age, eg. age 18 in 18-45
-                        top={instance.age2}                                                                                          //age2 sets the to Age, eg. age 45 in 18-45
-                        setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
+                <DualRangeBar
+                      title={""}
+                      bottom={age1}                                                                                                      //age1 sets the from Age, eg. age 18 in 18-45
+                      top={age2}                                                                                                         //age2 sets the to Age, eg. age 45 in 18-45
+                      setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
                     />
-            </YearsSelectorWrapper>                                                                                                        {/* Choose one is used to select the account type */}
-
             </Container>
         </Wrapper>
        
@@ -75,9 +60,7 @@ const EditSavings = ({transaction, setNestedKeyValue_action, savings_reducer, de
 
 const mapStateToProps = (state) => ({
     savings_reducer: state.savings_reducer,
-    user_reducer: state.user_reducer,
-    tfsaProjection_selector: tfsaProjection_selector(state),
-    income_selector: income_selector(state),
+    ui_reducer: state.ui_reducer,
 })
 
 export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_action})(EditSavings )
@@ -130,7 +113,7 @@ const SelectorTitleWrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    background: ${props => props.transaction === "contribution" ? props.theme.color.steelBlue : props.theme.color.green};
+    background: ${props => props.type === "contribution" ? props.theme.color.steelBlue : props.theme.color.green};
     height: 4rem;
     color: ${props => props.theme.color.ice};
     border-bottom:  ${props => props.theme.border.primary};

@@ -1,8 +1,10 @@
 import _ from "lodash"
 
 const initialState = { 
-        viewStream: null, 
-        viewId: null, 
+        stream: null, 
+        id: null, 
+        changeColor: 0, 
+        id2: "TFSAcontribution",
    }
 
  const ui_reducer = (state = initialState, action) => {

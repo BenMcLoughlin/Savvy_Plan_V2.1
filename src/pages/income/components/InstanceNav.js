@@ -1,46 +1,47 @@
 import React, {useState,  useEffect} from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
 import {setKeyValue_action, delete_action} from "redux/actions"
-import {deleteInstance} from "services/ui/ui_functions"
+import {deleteInstance} from "services/savings/savings_functions"
 import {income_selector} from "redux/income/income_selectors"
+import {createIncomeInstance} from "services/income/income_functions"
+import {incomeStream_data} from "pages/income/data/income_data"
 
-const InstanceNav  = ({delete_action, income_selector, viewId, setKeyValue_action, addSection}) => {
+const InstanceNav  = ({delete_action, instanceArray, instance, setKeyValue_action}) => {
 
-    const viewStream = income_selector[viewId].stream
-    const instanceArray =  Object.values(income_selector).filter(d => d.stream === viewStream).sort((a,b) => a.age1 - b.age1)   
+    const {color, age2, id, reg, stream, value}  = instance                                                             //the instance is in the income reducer but identified by the stream and id in the ui_reducer and has been passed here
 
-    const [selected, select] = useState(viewId)                                                                         //here we store a local id value and compare with the viewId to see if it should be highlighted
+    const state = incomeStream_data(color, age2, reg, stream, (age2 + 5), value)                                        //creating a new income instance requires us to fire this new state
+  
+    const [selected, select] = useState(id)                                                                             //here we store a local id value and compare with the id to see if it should be highlighted
+  
     const handleSelect = (id) => {                                                                                      //this allows the user to navigate along the array, eg. clicking 18-25 then 25-37
-        setKeyValue_action("viewId", "ui_reducer", id)                                                                  //when they select an item in the array we set the id in the ui_reducer and it will be highlighted
+        setKeyValue_action("id", "ui_reducer", id)                                                                      //when they select an item in the array we set the id in the ui_reducer and it will be highlighted
         select(id)                                                                                                      //we also set the local selected state to show highlight
     }
 
-    useEffect(()=> {select(viewId) }, [viewId])                                                                         //when the user adds a new instance we want it to auto highlight, useEffect listens for changes and sets the local state in that case
+    useEffect(()=> {select(id) }, [id])                                                                                 //when the user adds a new instance we want it to auto highlight, useEffect listens for changes and sets the local state in that case
 
     return (
         <Container>
             <SelectWrapper>
-                {instanceArray.map((d, i) =>  <SelectValue                                                                    //we map through the instance array showing a little tab for each year range
-                                            key={d.viewId}                                          
-                                            selected={selected === d.id}                                                 //this is where a booleon is passed to the styles to determine if it shoul dbe highlighted
-                            >
-                                        <TextAndValueWrapper>
-                                            <Text onClick={() => handleSelect(d.id)}                                     //clicking the text selects the id and sets it in the ui_reducer 
-                                                                 selected={selected === d.id}                            //sets it locally for the highlight
-                                           >
-                                                {`Ages ${d.age1} to ${d.age2}`}
-                                            </Text>
-                                        </TextAndValueWrapper>
-                                         {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "income_reducer", setKeyValue_action)}/> : null}
-                             
-                                          </SelectValue>)              
+                {instanceArray.map((d, i) =>  <SelectValue                                                               //we map through the instance array showing a little tab for each year range
+                                                           key={d.id}                                          
+                                                           selected={selected === d.id}                                  //this is where a booleon is passed to the styles to determine if it shoul dbe highlighted
+                                               >
+                                                        <TextAndValueWrapper>
+                                                            <Text onClick={() => handleSelect(d.id)}                      //clicking the text selects the id and sets it in the ui_reducer 
+                                                                                selected={selected === d.id}              //sets it locally for the highlight
+                                                        >
+                                                                {`Ages ${d.age1} to ${d.age2}`}
+                                                            </Text>
+                                                        </TextAndValueWrapper>
+                                                        {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "income_reducer", setKeyValue_action)}/> : null}
+                                            
+                                              </SelectValue>)              
                 }
-                <Add
-                onClick={addSection}
-                />
+                                              <Add onClick={() => createIncomeInstance(setKeyValue_action, state)} />
             </SelectWrapper>
         </Container>
     )

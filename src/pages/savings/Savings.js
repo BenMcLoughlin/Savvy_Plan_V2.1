@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {cpp_selector} from "redux/income/income_selectors"
@@ -10,79 +10,47 @@ import SavingsBarChart from "charts/savings/SavingsBarChart"
 import Header from "pages/savings/components/Header"
 import AccountBox  from "pages/savings/components/AccountBox"
 import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
-import {taxCredit_data} from "pages/tax/data/tax_data"
 
-const Savings = ({setKeyValue_action, delete_action, ui_reducer}) => {    
+const Savings = ({setKeyValue_action, ui_reducer}) => {    
 
-    const {viewStream} = ui_reducer
-    const reg = viewStream.split("").slice(0,4).join("")                                                                             //creates a value called reg that is either "TFSA", "RRSP", or "NReg"
-    const [contributionId, setContributionId] = useState(`${reg}contribution`)                                                       //contributions and withdrawals are hard coded in the reducer, this enables the starting state to be set according to which page we're on, RRSP or TFSA 
-    const [withdrawalId, setWithdrawalId] =  useState(`${reg}withdrawal`)                                                            // the ids for the hard coded contributions and withdrawals look like "TFSAcontribution", and "TFSAwithdrawal"
+    const {stream} = ui_reducer                                                                                                  //the stream name was set in the ui reducer forcing this section to be shown, we grab it from there
+    const reg = stream.split("").slice(0,4).join("")                                                                             //creates a value called reg that is either "TFSA", "RRSP", or "NReg"
 
-    const createNewItem = (state) => {                                                                                               //This creates a new Savings Instance, such as from ages 18-22
-        const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
-                setKeyValue_action(id, "savings_reducer",  {...state, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
-              if(state.transaction === "contribution")  { setContributionId(id)     }                                                // determines which income instance to show within the edit box
-              if(state.transaction === "contribution" && state.reg === "RRSP")  {                                                    //if a new RRSP contribution instance is created it also has to be stored in the tax section
-                  const newSavingsInstance = taxCredit_data(true, state.age1, state.stream, state.age2, "deduction", state.value)    //create a new tax instance object using the details from the savings instance
-                  setKeyValue_action(id, "tax_reducer",  {...newSavingsInstance, id})                                                //add the new tax instance to the tax_reducer
-                }                                                                                                                    // determines which income instance to show within the edit box
-              if(state.transaction === "withdrawal")  { 
-                setKeyValue_action(id, "income_reducer",  {...state, id})  
-                setWithdrawalId(id)   
-                  }                                                                                                                 // determines which income instance to show within the edit box
-    }
-
-    const deleteInstance = ({id}) => {                                                                                                   //deletes the instance
-                delete_action(id, "savings_reducer")                                                                                     //removes the instance
-                setContributionId(`${reg}contribution`)                                                                         //sets the object being viewed to the first one
-                setWithdrawalId(`${reg}withdrawal`)                                                                              //sets the object being viewed to the first one
-    }
+    useEffect(() => {
+        setKeyValue_action("id2", "ui_reducer", `${reg}contribution` )                                                           // because we're showing two edit boxes at the same time we need two ids, onw for withdrawals one for contributions                                                                        
+    }, [])
 
     return (
         <Wrapper>
-             <Header  reg={reg}/>
+             <Header reg={reg}/>
                 <Charts>
                     <ChartPlaceHolder>
-                        <SavingsAreaChart
-                        reg={reg}
-                        />
+                        <SavingsAreaChart reg={reg} />
                     </ChartPlaceHolder>
                     <BarChartPlaceHolder >
-                        <SavingsBarChart
-                        reg={reg}
-                       />
+                        <SavingsBarChart reg={reg}/>
                     </BarChartPlaceHolder>
                 </Charts>
                 <ControlPanel>
-                <AccountBox 
-                    display={"assets"}
+                <AccountBox  
+                    display={"assets"}                                                                                            //this allows the user to change the starting value of the investment
                     subCategory={"investmentAssets"}
-                    reg={reg}
+                    reg={reg} 
+                 />
+                <EditSavings  
+                    type={"contribution"}                                                               
+                    reg={reg} 
                 />
-                <EditSavings createNewItem = {createNewItem} 
-                            transaction={"contribution"}                                                               
-                            id={contributionId} 
-                            reg={reg}
-                            setId={setContributionId}
-                            deleteInstance={deleteInstance}
-                />
-                <EditSavings createNewItem = {createNewItem} 
-                            transaction={"withdrawal"}   
-                            reg={reg}                                                            
-                            id={withdrawalId} 
-                            setId={setWithdrawalId}
-                            deleteInstance={deleteInstance}
+                <EditSavings 
+                    type={"withdrawal"}   
+                    reg={reg}   
                 />
                 </ControlPanel>
                 <Bottom>
                     <InvestmentFactor/>
                     <ButtonLeftWrapper>
                     <ButtonLight 
-                                onClick={() => {
-                                    setKeyValue_action("viewStream", "ui_reducer", null)
-                                    setKeyValue_action("viewId", "ui_reducer", null)
-                                }}
+                                onClick={() => setKeyValue_action("stream", "ui_reducer", null)}
                                 text={"Back"}
                             />
                     </ButtonLeftWrapper>

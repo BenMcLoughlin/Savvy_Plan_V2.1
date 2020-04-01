@@ -1,49 +1,58 @@
 import React, {useState, useEffect} from "react"
+import {connect} from "react-redux"
 import styled from "styled-components"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
+import {setKeyValue_action, delete_action} from "redux/actions"
+import {createSavingsInstance, deleteInstance} from "services/savings/savings_functions"
+import {savingsInstance_data} from "pages/savings/data/savings_data"
+import {taxCredit_data} from "pages/tax/data/tax_data"
 
-const PhaseSelector = ({instanceArray, id, setId, deleteInstance, color, addSection}) => {
+const InstanceNav = ({instanceArray, instance, delete_action, setKeyValue_action }) => {
 
+    const {age2, color, id, reg, stream, value, type}  = instance     
+    console.log(instance);
+    const state = savingsInstance_data(age2, color, reg, stream, (age2 + 5), type, value)                                        //creating a new income instance requires us to fire this new state
+   
     const [selected, select] = useState(id)
-    const handleSelect = (value) => {
-        select(value)
-        setId(value)
+
+    const handleSelect = (id) => {                                                                                      //this allows the user to navigate along the array, eg. clicking 18-25 then 25-37
+        setKeyValue_action((type === "contribution" ? "id2" : "id"), "ui_reducer", id)                                                                      //when they select an item in the array we set the id in the ui_reducer and it will be highlighted
+        select(id)                                                                                                      //we also set the local selected state to show highlight
     }
 
-    useEffect(()=> {
-        select(id)
-     }, [id])
-
+    useEffect(()=> { select(id) }, [id])
+                       
     return (
         <Container>
             <SelectWrapper>
-                {
-                    instanceArray.map((d,i) =>  <SelectValue 
-                        color={color}
-                            key={d.id}
-                            selected={selected === d.id} 
-                            >
-                                <TextAndValueWrapper>
-   
-                                    <Text onClick={() => handleSelect(d.id)}  selected={selected === d.id} >
+                {instanceArray.map((d,i) =>  <SelectValue 
+                                                         key={d.id}
+                                                         selected={selected === d.id} 
+                                                              >
+                                                  <TextAndValueWrapper>
+                                                     <Text onClick={() => handleSelect(d.id)}                      //clicking the text selects the id and sets it in the ui_reducer 
+                                                                          selected={selected === d.id}              //sets it locally for the highlight
+                                                        >
                                     {`${d.age1} - ${d.age2}`}
                                     </Text>
                                 </TextAndValueWrapper>
-
-                 
-                        {i > 0 ? <Delete onClick={() =>  deleteInstance(d, instanceArray)}/> : null}
-                     </SelectValue>)
+                                 {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, "savings_reducer", reg, setKeyValue_action)}/> : null}
+                     </SelectValue>)                                     
                 }
-                <Add
-                onClick={addSection}
+                <Add onClick={() => {createSavingsInstance(setKeyValue_action, state, taxCredit_data)} }  
                 />
             </SelectWrapper>
         </Container>
     )
 }
 
-export default PhaseSelector
+const mapStateToProps = (state) => ({
+    
+})
+
+export default connect(mapStateToProps, {setKeyValue_action,  delete_action})(InstanceNav )
+
 
 //-----------------------------------------------style-----------------------------------------------//
 

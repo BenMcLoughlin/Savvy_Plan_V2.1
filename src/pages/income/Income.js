@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {setKeyValue_action} from "redux/actions"
@@ -9,60 +9,38 @@ import Tax from "pages/tax/Tax"
 import Savings from "pages/savings/Savings"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
-import {add_action} from "redux/actions"
-import {income_selector, tfsa_selector} from "redux/income/income_selectors"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({progress_reducer, setKeyValue_action, income_selector, ui_reducer, income_reducer}) => {
+const Income = ({setKeyValue_action, ui_reducer}) => {
   
-    const {viewStream, viewId} = ui_reducer
-                                                                                                                          // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this and instance
+    const {stream, id} = ui_reducer                                                                                                  //stream and id represent the selected values which are stored in the ui_reducer and tell the app what edit box to display
+                                                                                                                                     // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
     const createNewItem = (state) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
         const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
-                setKeyValue_action(id, "income_reducer",  {...state, id})                                                            //This action fires and sets the state in the reducer,        
-                setKeyValue_action("viewStream", "ui_reducer", state.stream)  
-                setKeyValue_action("viewId", "ui_reducer", id)                                                                                                           // determines which income instance to show within the edit box
-                setKeyValue_action("streamArray", "ui_reducer", Object.values(income_selector).filter(d => d.stream === viewStream).sort((a, b) => a.age1 - b.age1))                                                                                                           // determines which income instance to show within the edit box
+                setKeyValue_action(id, "income_reducer",  {...state, id})                                                            //This action fires and sets the state in the income reducer creating a new item there,        
+                setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
+                setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
     }
-
         return (
             <Page>
-                <Header
-                     income_reducer={income_reducer}
-                />
-                <ChartPlaceHolder>
+              <Header/>                                                                                                               
+                 <ChartPlaceHolder>
                     <IncomeBarChart/>
                 </ChartPlaceHolder>    
-                {
-                   viewStream == "CPP Income" || viewStream === "OAS Income" ?                                                             //stream is the income stream, if its clicked and set the edit box will pop up
-
-                 <EditRetirementIncome viewId={viewId} 
-                                       viewStream={viewStream} 
-                                       createNewItem={createNewItem}/>
-                          : 
-                   viewStream == "TFSA Income" || viewStream === "RRSP Income"  ?                                                               //stream is the income stream, if its clicked and set the edit box will pop up
-                 <Savings/>
-                 :
-                 ui_reducer.taxAge  ?                                                                                                      //stream is the income stream, if its clicked and set the edit box will pop up
-                 <Tax/>
-                          : 
-                 viewStream ?                                                                                                      //stream is the income stream, if its clicked and set the edit box will pop up
-
-                    <EditIncome  viewId={viewId} 
-                                 viewStream={viewStream} 
-                                 createNewItem={createNewItem}/>
-                    : 
-              
+                 {stream == "CPP Income" || stream === "OAS Income"     ?                                                            //if it is CPP or OAS income we want to show the edit retirement box
+                 <EditRetirementIncome createNewItem={createNewItem}/>  : 
+                   stream == "TFSA Withdrawals" || stream === "RRSP Withdrawals"  ?                                                            //if it is TFSA or RRSP we want to show their respective savings section
+                 <Savings/>                                             :
+                 ui_reducer.taxAge                                      ?                                                            //if the tax age is set, by clicking on a bar in the chart, then it shows the tax page
+                 <Tax/>                                                 : 
+                 stream                                                 ?                                                            //stream is the income stream, if its clicked and set the edit box will pop up
+                    <EditIncome  createNewItem={createNewItem}/>        : 
                     <>
-                    {
-                        displayBox_data.map(d => <DisplayBox viewId={viewId} 
-                                                                viewStream={viewStream}                                                         //This mapping will provide 3 boxes, one for employment income, one for business income and one for retirement income
-                                                                reg={d.reg}                                                     //the income types are seperated according to if they make contributions to CPP
-                                                                createNewItem={createNewItem}                                                         
-                                                                />
+                   {displayBox_data.map(d => <DisplayBox  
+                                 reg={d.reg}                                                                                          //the income types are seperated according to if they make contributions to CPP                                                    
+                                    />
                         )
                     }
-
                      </>           
                 }
 
@@ -73,14 +51,11 @@ const Income = ({progress_reducer, setKeyValue_action, income_selector, ui_reduc
 const mapStateToProps = (state) => {
     return {
         progress_reducer: state.progress_reducer,
-        income_reducer: state.income_reducer,
-        income_selector: income_selector(state),
-        tfsa_selector: tfsa_selector(state),
         ui_reducer: state.ui_reducer,
     }
 }
 
-export default connect(mapStateToProps, {add_action, setKeyValue_action})(Income)
+export default connect(mapStateToProps, {setKeyValue_action})(Income)
 
 //-----------------------------------------------style-----------------------------------------------//
 

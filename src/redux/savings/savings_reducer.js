@@ -3,23 +3,23 @@ import _ from "lodash"
 
   const initialState = {
     TFSAcontribution: {
-        color: '#D8BABB',
+        color: "#8CB8B7",
         age1: 18,
         reg: "TFSA",
         stream: "TFSA Contributions",
         age2: 64,
         id: "TFSAcontribution",
-        transaction: "contribution",
+        type: "contribution",
         value: 0,
     },
     TFSAwithdrawal: {
-        color: '#D8BABB',
+        color: "#8CB8B7",
         age1: 65,
         reg: "TFSA",
         stream: "TFSA Withdrawals",
         age2: 95,
         id: "TFSAwithdrawal",
-        transaction: "withdrawal",
+        type: "withdrawal",
         value: 0,
     },
     RRSPcontribution: {
@@ -29,7 +29,7 @@ import _ from "lodash"
         stream: "RRSP Contributions",
         age2: 65,
         id: "RRSPcontribution",
-        transaction: "contribution",
+        type: "contribution",
         value: 0,
     },  
     RRSPwithdrawal: {
@@ -39,7 +39,7 @@ import _ from "lodash"
         stream: "RRSP Withdrawals",
         age2: 95,
         id: "RRSPwithdrawal",
-        transaction: "withdrawal",
+        type: "withdrawal",
         value: 0,
     },
 }

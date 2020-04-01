@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const DualRangeBar = ({bottom, top, setValue}) =>  {
+const DualRangeBar = ({bottom, top, setValue, title}) =>  {
 
 
     const handleChange = (e) => {
@@ -32,6 +32,14 @@ const DualRangeBar = ({bottom, top, setValue}) =>  {
 
 
         return (
+            <YearsSelectorWrapper> 
+            <Label>
+            {title}
+            </Label>
+            <SelectorTitleWrapper>
+                <div>From Age</div>    
+                <div>To Age</div>    
+            </SelectorTitleWrapper>
             <div >
             {/* this is the runner bar*/}
                 <InputWrapper 
@@ -84,9 +92,10 @@ const DualRangeBar = ({bottom, top, setValue}) =>  {
                         />
 
                 </ValueBoxWrapper>
-
-                
             </div>
+    </YearsSelectorWrapper> 
+
+           
         )
 }
 
@@ -202,6 +211,33 @@ const ValueAsInput = styled.input`
            
         }
 }
+`
+
+const YearsSelectorWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`
+
+
+const SelectorTitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: .5rem;
+    font-size: ${props =>props.theme.fontSize.small};
+    color: ${props => props.theme.color.slate};
+`
+const Label = styled.label`
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: ${props => props.theme.color.darkGrey};
+    width: 25rem;
+    height: 4rem;
+    padding: 1rem;
+    font-weight: 700;
+    text-align: left;
 `
 
 

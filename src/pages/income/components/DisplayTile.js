@@ -7,34 +7,32 @@ import {income_selector} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 
-const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, setId, stream, setStream, setKeyValue_action}) => {                                    //Individual stream that is added
+const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, stream, setKeyValue_action}) => {                   //A tile box showing the title of the stream, eg "Wal Mart Income"
   
-    const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.startAge - b.startAge)                                                    //here we take the stream, eg Wal Mart Income, and make an array of all the instances of that incoem
-
-    const removeItem = () => {                                                                                               //enables us to delete the entire income stream
-        const categoryIdArray =  instanceArray.map(d => d.id)                                                                //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
-        for (let i = 0; i < instanceArray.length; i++) {                                                                     //this mapes through and removes all instances
+    const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.startAge - b.startAge)     //here we take the stream, Wal Mart Income, and make an array of all the instances of that incoem
+   console.log(instanceArray);
+    const {color, id, value} = instanceArray[0]
+    console.log(instanceArray);
+    const removeItem = () => {                                                                                                        //enables us to delete the entire income stream
+        const categoryIdArray =  instanceArray.map(d => d.id)                                                                         //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
+        for (let i = 0; i < instanceArray.length; i++) {                                                                              //this mapes through and removes all instances
         delete_action(categoryIdArray[i], "income_reducer")   
         }                                                   
                                                                                       
-    }
+    }              
 
-    const setCategoryAndId = (stream) => {                                                                                //this enables the user to click the tile and bring up the categroy and the instance of income from that stream
-        const id = instanceArray[0].id                                                                                      //we're just grabbing the first random instance id in the array from that stream, instance is the earning time period and stream is the income stream
-        setKeyValue_action("viewStream", "ui_reducer", stream)  
-        setKeyValue_action("viewId", "ui_reducer", id)  
-         
-     }
-    const color =  Object.values(income_selector).filter(d => d.stream === stream)[0].color                            //Grabs a new color to assign
-    const maxIncome = Math.max(...Object.values(income_selector).filter(d => d.stream === stream).map(d => d.value))
-    const income = stream === "RRSP Income" ? (maxIncome + rrspMinWithdrawal_selector) : maxIncome
+    const income = stream === "RRSP Income" ? (value + rrspMinWithdrawal_selector) : value
+    const id2 = stream === "RRSP Income" ? (value + rrspMinWithdrawal_selector) : value
     return (
         <Item label={stream} color={color} >
-            <Text onClick={() => setCategoryAndId(stream)}>                                                              {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
+            <Text onClick={() => {
+                                    setKeyValue_action("stream", "ui_reducer", stream)  
+                                    setKeyValue_action("id", "ui_reducer", id)  
+                                }}>                                                                                                 {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{stream}</H2>
                 <H2>{income/1000}K</H2>
             </Text>
-            <Exit onClick={() => removeItem()}/>                                                                           {/*  If the x is clicked the stream is removed */}
+            <Delete onClick={() => removeItem()}/>                                                                                   {/*  If the x is clicked the stream is removed */}
         </Item>
     )
 }
@@ -78,7 +76,7 @@ const Text = styled.div`
 `
 
 
-const Exit = styled(Close)`
+const Delete = styled(Close)`
     width: 1.3rem;
     height: 1.3rem;
     color: white;

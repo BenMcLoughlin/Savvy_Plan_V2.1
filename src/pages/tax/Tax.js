@@ -25,7 +25,6 @@ const Tax = ({setKeyValue_action, tax_selector, add_action, taxableIncome_select
                 setId(newId)                                                                                                         // determines which income instance to show within the edit box
     }
    
-    //console.log(taxableIncome_selector);
 
     const instanceArray =  tax_selector.filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) 
 

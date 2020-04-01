@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {income_selector} from "redux/income/income_selectors"
+import {income_selectorWithRRSP} from "redux/income/income_selectors"
 import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
-const Header = ({income_selector, rrspMinWithdrawal_selector}) => {
-
-    const cppIncome = income_selector.cpp_selector.value
-    const oasIncome =  income_selector.oas_selector.value
-   // const tfsaIncome = income_selector["TFSAwithdrawal"].value
+const Header = ({income_selectorWithRRSP}) => {
+ 
+    let {rrsp_selector1: {value: rrsp}, cpp_selector: {value: cpp},
+         oas_selector: {value: oas},  TFSAwithdrawal: {value: tfsa},} = income_selectorWithRRSP
 
 return (
             <Wrapper>
@@ -21,25 +20,25 @@ return (
             <h2>Optimized Retirement Income Plan</h2>
             <Container >
                     <Summary>
-                    {`${(cppIncome)/1000}k`}  
+                    {`${(cpp)/1000}k`}  
                         <h4>CPP</h4>
                     </Summary>
                     <Summary >
-                    {`${(oasIncome)/1000}k`}
+                    {`${(oas)/1000}k`}
                         <h4 >OAS</h4>
                     </Summary>
                     <Vr/>
                     <Summary>
-                    {`${(rrspMinWithdrawal_selector)/1000}k`}
+                    {`${Math.round(rrsp/1000)}k`}
                     <h4 >RRSP</h4>
                     </Summary>
                     <Summary>
-                    {`${1000/1000}k`}
+                    {`${Math.round(tfsa/1000)}k`}
                     <h4>TFSA</h4>
                     </Summary>
             </Container>
             <Summary>
-             {`${(cppIncome + oasIncome + rrspMinWithdrawal_selector + 1000)/1000}k`}
+             {`${Math.round((cpp + oas + tfsa + rrsp)/1000)}k`}
             <h4>Total</h4>
             </Summary>
             </Right>
@@ -50,8 +49,9 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    income_selector: income_selector(state),
-    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state)
+    income_selectorWithRRSP: income_selectorWithRRSP(state),
+    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state),
+    income_reducer: state.income_reducer,
 })
 
 export default connect(mapStateToProps, {})(Header )

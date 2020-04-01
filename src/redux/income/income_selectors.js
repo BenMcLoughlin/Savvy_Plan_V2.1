@@ -46,7 +46,7 @@ export const rrsp_selector2 = createSelector(
 
 export const tfsa_selector = createSelector(                                                                      //Determines the OAS payment for the user
     savings_reducer,
-    (savings_reducer) => Object.values(savings_reducer).filter(d => d.transaction === "withdrawal")[0]                                       
+    (savings_reducer) => Object.values(savings_reducer).filter(d => d.type === "withdrawal")[0]                                       
 )
 
 export const income_selector = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
