@@ -10,7 +10,7 @@ export const tax_reducer = state => state.tax_reducer
 export const income_reducer = state => state.income_reducer
 //export const income_selectorWithRRSP = state => Object.values(state.income_reducer)
 export const tax_selector = state => Object.values(state.tax_reducer)
-export const selectedCredit = state => state.ui_reducer.credit
+export const selectedCredit = state => state.ui_reducer.stream
 const age = state => state.ui_reducer.taxAge   
 const currentAge = state => state.user_reducer.currentAge   
 const lifeSpan = state => state.user_reducer.lifeSpan 
@@ -20,7 +20,7 @@ const lifeSpan = state => state.user_reducer.lifeSpan
 //DISPLAY SELCTORS
 export const deduction_selector = createSelector(
      tax_selector,
-    (tax_selector) => [...new Set(tax_selector.filter(d => d.type === "deduction").map(d => d.stream))]
+    (tax_selector) => [...new Set(tax_selector.filter(d => d.type === "deduction" || d.type === "rrsp").map(d => d.stream))]
 )
 
 export const fixedCredit_selector = createSelector(

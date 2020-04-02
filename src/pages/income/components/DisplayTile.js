@@ -9,10 +9,10 @@ import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 
 const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, stream, setKeyValue_action}) => {                   //A tile box showing the title of the stream, eg "Wal Mart Income"
   
-    const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.startAge - b.startAge)     //here we take the stream, Wal Mart Income, and make an array of all the instances of that incoem
-   console.log(instanceArray);
+    const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.age1 - b.age1)     //here we take the stream, Wal Mart Income, and make an array of all the instances of that incoem
+
     const {color, id, value} = instanceArray[0]
-    console.log(instanceArray);
+
     const removeItem = () => {                                                                                                        //enables us to delete the entire income stream
         const categoryIdArray =  instanceArray.map(d => d.id)                                                                         //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
         for (let i = 0; i < instanceArray.length; i++) {                                                                              //this mapes through and removes all instances

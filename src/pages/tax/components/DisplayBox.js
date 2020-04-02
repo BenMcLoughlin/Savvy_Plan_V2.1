@@ -2,27 +2,18 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
-import {PlusIcon} from "style/Icons"
-import {setKeyValue_action} from "redux/actions"
 import * as selector from "redux/tax/tax_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
-import {taxCredit_data, colorArray_data} from "pages/tax/data/tax_data"
-import {employment_selector, business_selector, retirement_selector} from "redux/income/income_selectors"
 import SelectorButtonHorizontal from "UI/buttons/SelectorButtonHorizontal"
 
 
-const DisplayBox = ({instanceArray, createNewItem, setStream, progress_reducer, setKeyValue_action, setId, deduction_selector, fixedCredit_selector, variableCredit_selector, type, employment_selector}) => {                  
+const DisplayBox = ({deduction_selector, fixedCredit_selector, variableCredit_selector, type}) => {                                     //shows a list of all the credits or deductions          
 
-    const [creditType, setCreditType] = useState(true)
-    const [color, setColor] = useState(progress_reducer.incomeColor)                                                                            //to keep the color the same as the chart we store the color on the instance object
-    const newState = taxCredit_data(" ", 18, 24, 10000, 50, colorArray_data[color], type)                                 //initial State is found in data 
-
-    const selector =  type === "deductions" ? deduction_selector : type === "income" ? employment_selector : creditType ? fixedCredit_selector  :  variableCredit_selector  
-
-    const addNewCategory = () => {                                                                                                                  //Creates a new item 
-        createNewItem(newState)                                                                                                                  //Passes in the local new state
-        setKeyValue_action("incomeColor", "progress_reducer", (color + 1))                                                                                           //to keep the colors different we store it in the progress reducer             
-    }
+    const [creditType, setCreditType] = useState(false)                                                                                 //the user can chose between fixed or variable credits, false is variable true shows fixed
+                                                                     
+    const selector =  type === "deductions" ? deduction_selector :                                                                      //decides which selector to show
+                      creditType ? fixedCredit_selector  :  
+                      variableCredit_selector  
 return (
         <Wrapper>           
             <Header>                                                                                                                                                         
@@ -44,16 +35,10 @@ return (
             <Container> 
             {
                     selector.map(d => <DisplayTile                                                                                                 //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
-                                                        key={d}
-                                                        stream={d}
-                                                        setStream={setStream} 
-                                                        setId={setId}
-                                                        instanceArray={instanceArray}
-                                                        color={"pink"}
-                                                        />)
+                                                 key={d}
+                                                 stream={d}
+                                                 />)
                 }
-    
-          <DarkAdd onClick={() => addNewCategory()}/>
             </Container>
         </Wrapper>
 
@@ -66,11 +51,9 @@ const mapStateToProps = (state) => ({
     deduction_selector: selector.deduction_selector(state),
     fixedCredit_selector: selector.fixedCredit_selector(state),
     variableCredit_selector: selector.variableCredit_selector(state),
-    progress_reducer: state.progress_reducer,
-    employment_selector: employment_selector(state)
 })
 
-export default connect(mapStateToProps,{ setKeyValue_action})(DisplayBox )
+export default connect(mapStateToProps,{})(DisplayBox )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
@@ -105,22 +88,6 @@ const Container = styled.div`
     padding: 0.5rem;
     justify-content: flex-start;
     overflow: scroll;
-`
-const Add = styled(PlusIcon)`
-    width: 4rem;
-    color: grey;
-    display: flex;
-    position: absolute;
-    top: .8rem;
-    left: 0rem;
-`
-const DarkAdd = styled(Add)`
-    width: 4rem;
-    color: white;
-    display: flex;
-    position: relative;
-    color: grey;
-    cursor: pointer;
 `
 const TitleWrapper = styled.div`
     width: 15rem;

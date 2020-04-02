@@ -1,98 +1,67 @@
 import React from "react"; import styled from "styled-components"; import {connect} from "react-redux"
 import InstanceNav from "pages/tax/components/InstanceNav"
-import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar1/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
-import CreditSelector from "pages/tax/components/CreditSelector"
-import {setValue_action, setNestedKeyValue_action, deleteInstance} from "redux/actions"
+import {setKeyValue_action, setNestedKeyValue_action} from "redux/actions"
 import _ from "lodash"
-import {taxCredit_data} from "pages/tax/data/tax_data"
-import {cpp_selector} from "redux/income/income_selectors"
 import {rrspSavings_selector} from "redux/tax/tax_selectors"
 import CreditBarChart from "charts/tax/CreditBarChart"
-import {setAge} from "services/ui/ui_functions"
+import {setAge, hideStream} from "services/ui/ui_functions"
 
+const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_selector, tax_reducer, ui_reducer }) => {      //after clicking a crdit this box pops up and allows the user to edit the amount they are claiming
 
-const EditCredit = ({stream, instanceArray, setNestedKeyValue_action, createNewItem, rrspSavings_selector, id, setId,  setStream}) => {    
-
-const instance = instanceArray.find(d => d.id === id)       
-const setDualRangeBar = (name, value) => {                                                                                       //sets the age, as well as the surrounding ages in the array of instances
-   if(instance.reg === "RRSP") {
-       setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)}
-       setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
-    }
-
-    const addSection = () =>  {createNewItem(taxCredit_data(instance.eligible, (+endAge), instance.stream, (+endAge + 5), instance.type, instance.value))}
-    console.log(rrspSavings_selector);
-                                                                                                                                //we're only provided with the id, not the entire instance, this grabs the entire instance details
-
-    const endAge = instanceArray[instanceArray.length -1].age2                                                                //grabs the age2 of the next instance in the array, used for if we create a new instance and the age is then automatically set to be higher
+    const {stream, id} = ui_reducer                                                                                           //figures out which credit to show based on what is now in the ui_reducer
+    
+    const {[id]: instance} = tax_reducer                                                                                      //links the credit shown with the data in the tax_reducer
+    
+    const instanceArray =  Object.values(tax_reducer).filter(d => d.stream === stream).sort((a,b) => a.age1 - b.age1)         //creats an array of all instances of that credit, for instance if the credit is rrsp contributions they may have an array of many different times they contributed    
+      
+    const setDualRangeBar = (name, value) => {                                                                                //sets the age, as well as the surrounding ages in the array of instances
+    if(instance.reg === "RRSP") {
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)}                                  //If they are editing rrsp that also has to change in the savings_reducer                                 
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
+        }                                                                                                                       
+                                                    
     return (
         <Wrapper>
-            {
-                instance &&
-                <>
-                <Header>
-            <h3>{`Taxes Saved ${Math.round(rrspSavings_selector/1000)}k`}</h3>
-                <h2>{_.startCase(stream)}</h2> 
+                <Header color={instance.color}>
+                <h3>{`Taxes Saved ${Math.round(rrspSavings_selector/1000)}k`}</h3>
+                      <h2>{_.startCase(stream)}</h2> 
                 <h3>Taxes Paid 143k</h3>
                 </Header>
-                <InstanceNav color={"blue"}
-                                itemList={instanceArray}
-                                setId={setId}
-                                id={id}
-                                onClick={() => deleteInstance(id, instance, instanceArray, "tax_reducer", setStream, setId)}
-                                addSection={addSection}
-                                 addSection={addSection}
-                            />
- 
+                <InstanceNav   
+                           instanceArray={instanceArray}
+                           instance={ instance}
+                />
                 <BarChartPlaceHolder>
                     <CreditBarChart/>
                 </BarChartPlaceHolder>
                 {instance.type !== "fixed"      ?
                 <Container >          
-                             <Left>                                                                                                         {/* Choose one is used to select the account type */}
+                             <Left>                                                                                         
                                       <RangeBar 
-                                      setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value
-                                      reducer="tax_reducer"
-                                      instance={instance}       
-                                  /> 
+                                               setNestedKeyValue_action={setNestedKeyValue_action}                              //The range bar is used to change the value of the credit
+                                               reducer="tax_reducer"
+                                               instance={instance}       
+                                       /> 
                               </Left>
-                                                               
-        
-                            <Right>
-                            <YearsSelectorWrapper> 
-                                <SelectorTitleWrapper>
-                                    <div>From Age</div>    
-                                    <div>To Age</div>    
-                                </SelectorTitleWrapper>
-                                <DualRangeBar
-                                    bottom={instance.age1}                                                                                     //age1 sets the from Age, eg. age 18 in 18-45
-                                    top={instance.age2}                                                                                          //age2 sets the to Age, eg. age 45 in 18-45
-                                    setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
-                                /> 
-                        </YearsSelectorWrapper>
-                                <ButtonWrapper>
-                                        <ButtonLight 
-                                            text={"Add"}
-                                            onClick={() => setStream(false)}
-                                        />
-                                </ButtonWrapper>
-                            </Right>
-                  
-    
+                              <Right>
+                                    <DualRangeBar
+                                                bottom={instance.age1}                                                                                  
+                                                top={instance.age2}                                                                                         
+                                                setValue={setDualRangeBar}                                                                           
+                                    /> 
+                             </Right>
                 </Container>
                 : null   
             }  
                 <ButtonLeftWrapper>
                                 <ButtonLight 
                                     text={"Back"}
-                                    onClick={() => setStream(false)}
+                                    onClick={() => hideStream(setKeyValue_action) }
                                 />
                         </ButtonLeftWrapper>
-                </>
-            }
         </Wrapper>
        
     )
@@ -101,9 +70,11 @@ const setDualRangeBar = (name, value) => {                                      
 
 const mapStateToProps = (state) => ({
     rrspSavings_selector: rrspSavings_selector(state),
+    ui_reducer: state.ui_reducer, 
+    tax_reducer: state.tax_reducer 
 })
 
-export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_action,})(EditCredit )
+export default connect(mapStateToProps, {setKeyValue_action, setNestedKeyValue_action,})(EditCredit )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

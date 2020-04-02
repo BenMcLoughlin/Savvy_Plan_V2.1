@@ -1,49 +1,57 @@
 import React, {useState,  useEffect} from "react"
+import {connect} from "react-redux"
 import styled from "styled-components"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
+import {createTaxInstance} from "services/tax/tax_functions"
+import {deleteInstance} from "services/ui/ui_functions"
+import {taxCredit_data} from "pages/tax/data/tax_data"
+import {setKeyValue_action, delete_action} from "redux/actions"
 
-const PhaseSelector = ({itemList, id, setId, onClick, color, addSection}) => {
+const InstanceNav =({delete_action, instanceArray, instance, setKeyValue_action}) => {
+
+    const {eligible, age2, id, stream, type, value}  = instance  
+
+    const state = taxCredit_data(eligible, age2, stream, (age2 + 5), type, value)                                        //creating a new income instance requires us to fire this new state
 
     const [selected, select] = useState(id)
-    const handleSelect = (value) => {
-        select(value)
-        setId(value)
+    const handleSelect = (id) => {
+        setKeyValue_action("id", "ui_reducer", id)                                                                      //when they select an item in the array we set the id in the ui_reducer and it will be highlighted
+        select(id)    
     }
   
-    useEffect(()=> {
-        select(id)
-     }, [id])
+    useEffect(()=> {select(id) }, [id])                                                                                 //when the user adds a new instance we want it to auto highlight, useEffect listens for changes and sets the local state in that case
 
     return (
         <Container>
             <SelectWrapper>
-                {
-                    itemList.map(d =>  <SelectValue 
-                            color={color}
-                            key={d.id}
-                            selected={selected === d.id} 
-                            >
-                                <TextAndValueWrapper>
-   
-                                    <Text onClick={() => handleSelect(d.id)}  selected={selected === d.id} >
-                                    {`Ages ${d.age1} to ${d.age2}`}
-                                    </Text>
-                                </TextAndValueWrapper>
-
-                 
-                        <Delete onClick={onClick}/>
-                     </SelectValue>)
+                {instanceArray.map((d, i) =>  <SelectValue                                                               //we map through the instance array showing a little tab for each year range
+                                                           key={d.id}                                          
+                                                           selected={selected === d.id}                                  //this is where a booleon is passed to the styles to determine if it shoul dbe highlighted
+                                               >
+                                                        <TextAndValueWrapper>
+                                                            <Text onClick={() => handleSelect(d.id)}                      //clicking the text selects the id and sets it in the ui_reducer 
+                                                                                selected={selected === d.id}              //sets it locally for the highlight
+                                                        >
+                                                                {`Ages ${d.age1} to ${d.age2}`}
+                                                            </Text>
+                                                        </TextAndValueWrapper>
+                                                        {i > 0 && type === "variable" ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "tax_reducer", setKeyValue_action)}/> : null}
+                                                                                                                            //(delete_action, id, reducer, reg, setKeyValue_action)
+                                              </SelectValue>)              
                 }
-                {/* <Add
-                onClick={() => addSection()}
-                /> */}
+                                              <Add onClick={() => createTaxInstance(setKeyValue_action, state)} />
             </SelectWrapper>
         </Container>
     )
 }
 
-export default PhaseSelector
+const mapStateToProps = (state) => ({
+
+})
+
+export default connect(mapStateToProps, {setKeyValue_action,  delete_action})(InstanceNav )
+
 
 //-----------------------------------------------style-----------------------------------------------//
 

@@ -67,7 +67,7 @@ export const bracketsToChartData = (bracket) => {                               
 
 //CONVERTS REDUCER TO ARRAY FOR CHART SHOWING SPECIFIC CREDIT CLAIMS
 export const convertReducerToArray = (stream, lifeSpan, userAge, tax_reducer) => {                 //Converts reducer to an array of objects                                                          
-
+console.log(stream);
     const creditClaimed = Object.values(tax_reducer).filter(d => d.stream === stream)              //filter through to get the credit we're looking for, eg. "medicalExpense"
 
           //RETURNS Credit VALUE FOR THE GIVEN Credit INSTANCE    
@@ -138,7 +138,9 @@ return value > 0 ? value  : 0
 
 export const calculateTaxes = (age, income_selector, tax_selector) => {
     let taxableIncome = sum(age, "taxable", true, income_selector)
+    let oasIncome = sum(age, "taxable", true, income_selector) //stream: "OAS Income",
     let nonTaxableIncome = sum(age, "taxable", false, income_selector)
+
     let preDedFedTaxes = tax(taxableIncome, "fed")
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
@@ -210,7 +212,7 @@ const array = []
                  rrspTaxSavings,
              })
      }
-     console.log(array);
+
      return array
 }   
 
@@ -246,3 +248,10 @@ export const convertTaxDetailsToDisplay = (d) => {
     ]
 }
 
+
+export const createTaxInstance = (setKeyValue_action, state ) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
+    const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object    
+    setKeyValue_action(id, "tax_reducer",  {...state, id})                                                            //This action fires and sets the state in the income reducer creating a new item there,        
+            setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
+            setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
+}

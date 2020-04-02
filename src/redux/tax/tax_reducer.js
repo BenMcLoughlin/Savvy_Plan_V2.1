@@ -73,8 +73,8 @@ const tax_reducer = {
        stream: "Interest on student loans",         
        id: 31900,                                                                                                  
        type: "variable",                                                                                                                     
-       age1: 18,
-       age2: 95,
+       age1: 24,
+       age2: 30,
        value: 0
     },
 32300: { 

@@ -95,7 +95,7 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
                 .attr("height", d => yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0)
                 .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
-                .attr("fill", d => d.data.age === taxAge ? "blue" : null)
+                .attr("opacity", d => d.data.age === taxAge ? 0.5 : 1)
                 .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
@@ -142,7 +142,7 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
                                     .on("mouseout", (d,i,n) => {d3.select(n[i])
                                         .transition()
                                         .duration(100)
-                                        .attr("opacity", 1)
+                                        .attr("opacity", d => d.data.age === taxAge ? 0.5 : 1)
                             
                                         tooltip.transition()
                                         .duration(100)
