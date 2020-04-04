@@ -13,7 +13,8 @@ const tax_reducer = {
    21400: { 
        stream: "Child Care Expenses",         
        type: "deduction",
-       id: 21400,                                                                                                                                                                                                                                                           
+       id: 21400,     
+       eligible: true,                                                                                                                                                                                                                                                        
        age1: 18,
        age2: 64,
        value: 0
@@ -21,18 +22,11 @@ const tax_reducer = {
    30000: { 
        stream: "Basic personal amount",         
        id: 30000,                                                                                                          
-       type: "fixed",                                                                                                                          
+       type: "fixed",      
+       eligible: true,                                                                                                                        
        age1: 18,
-       age2: 95,
+       age2: 96,
        value: 12069
-    },
-   30001: { 
-       stream: "Age amount",         
-       id: 30001,                                                                                                          
-       type: "fixed",                                                                                                                            
-       age1: 65,
-       age2: 95,
-       value: 0,
     },
    30400: { 
        stream: "Eligible dependant",         
@@ -47,9 +41,9 @@ const tax_reducer = {
        stream: "CPP & EI contributions",         
        id: 30800,          
        type: "fixed",                                                                                                 
-       eligible:  false,                                                                                                                                                  
+       eligible: true,                                                                                                                                                  
        age1: 18,
-       age2: 95,
+       age2: 65,
        value: 3000
     },
 31240: { 
@@ -64,15 +58,17 @@ const tax_reducer = {
 31240: { 
        stream: "Employment amount",         
        id: 31240,                                                                                                    
-       type: "fixed",                                                                                                                   
+       type: "fixed",     
+       eligible: true,                                                                                                                
        age1: 18,
-       age2: 95,
+       age2: 65,
        value: 1222
     },
 31900: { 
        stream: "Interest on student loans",         
        id: 31900,                                                                                                  
-       type: "variable",                                                                                                                     
+       type: "variable",            
+       eligible: true,                                                                                                           
        age1: 24,
        age2: 30,
        value: 0
@@ -80,23 +76,26 @@ const tax_reducer = {
 32300: { 
        stream: "Tuition and textbook costs",         
        id: 32300,                                                                                                     
-       type: "variable",                                                                                                                                                  
-       age1: 18,
-       age2: 95,
+       type: "variable",             
+       eligible: true,                                                                                                                                       
+       age1: 20,
+       age2: 25,
        value: 0
     },
 33099: { 
        stream: "Medical expenses",         
        id: 33099,                                                                                               
-       type: "variable",                                                                                                                                           
-       age1: 18,
-       age2: 95,
+       type: "variable",          
+       eligible: true,                                                                                                                                   
+       age1: 30,
+       age2: 35,
        value: 0
     },
 34900: { 
        stream: "Donations and gifts",       
        id: 34900,                                                                                               
-       type: "variable",                                                                                                                               
+       type: "variable",        
+       eligible: true,                                                                                                                         
        age1: 18,
        age2: 44,
        value: 0,

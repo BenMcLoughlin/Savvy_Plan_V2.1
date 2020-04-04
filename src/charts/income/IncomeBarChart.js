@@ -84,7 +84,11 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
                     return stream === name && d.data.age >= age1 && d.data.age < age2 ? 0.7 : 1
                 })
                 .attr("width", xScale.bandwidth())
-                .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
+                .on("click", d => {
+                    setKeyValue_action("stream", "ui_reducer", null)
+                    setKeyValue_action("id", "ui_reducer", null)
+                    setKeyValue_action("taxAge", "ui_reducer", d.data.age)
+                })
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
 

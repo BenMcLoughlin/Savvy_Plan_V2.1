@@ -31,7 +31,7 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
 
     const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-    const stackedKeys = ["age", "federalTax", "provincialTax", "cppAndEi"]
+    const stackedKeys = ["age", "federalTax", "provincialTax", "cppAndEi", "oasClawback"]
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
                                  .attr("width", graphWidth)
@@ -96,7 +96,10 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
                 .attr("x", d => xScale(d.data.age))
                 .attr("width", xScale.bandwidth())
                 .attr("opacity", d => d.data.age === taxAge ? 0.5 : 1)
-                .on("click", d => setKeyValue_action("taxAge", "ui_reducer", d.data.age))
+                .on("click", d => {
+                    setKeyValue_action("taxAge", "ui_reducer", d.data.age)
+            }
+                )
                     .on("mouseover", (d,i,n) => {
                                 const name = n[0].parentNode.className.animVal
 

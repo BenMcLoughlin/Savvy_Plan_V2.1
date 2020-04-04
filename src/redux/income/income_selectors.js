@@ -1,6 +1,6 @@
 import {createSelector} from "reselect"
 import {calculateCpp, calculateOAS} from "services/income/cpp_functions"
-import {convertReducerToArray, calculateRRSPIncome} from "services/income/income_functions"
+import {convertReducerToArray, calculateRRSPIncome, calculateCcb, addCcbToIncome} from "services/income/income_functions"
 import {addMinWithdrawalsToIncome } from "services/savings/savings_functions"
 import {rrspProjection_selector} from "redux/savings/savings_selectors"
 
@@ -10,6 +10,7 @@ const taxAge = state => state.ui_reducer.taxAge                                 
 
 const birthYear = state => state.user_reducer.birthYear
 const lifeSpan = state => state.user_reducer.lifeSpan
+const user_reducer = state => state.user_reducer
 
 const cppStartAge = state => state.user_reducer.cppStartAge
 const oasStartAge = state => state.user_reducer.oasStartAge
@@ -23,13 +24,22 @@ export const cpp_selector = createSelector(                                     
     cppStartAge,
     lifeSpan,
     (income_reducer, birthYear, cppStartAge, lifeSpan) => calculateCpp(birthYear, "banana", cppStartAge, lifeSpan, income_reducer, 57400)                                       
-)                                                                     
+) 
 
-export const oas_selector = createSelector(                                                                      //Determines the OAS payment for the user
-    oasStartAge,
-    lifeSpan,
-    (oasStartAge, lifeSpan) => calculateOAS(oasStartAge, lifeSpan)                                             
-)
+export const ccbArray_selector = createSelector(                                                                      //Determines the CPP payment for the user
+    birthYear,
+    income_reducer,
+    user_reducer,
+    (birthYear, income_reducer, user_reducer) => calculateCcb(birthYear, income_reducer, user_reducer)                                       
+)        
+
+
+
+export const HAPPYPIE_selector = createSelector(                                                                      //Determines the CPP payment for the user
+    income_reducer,
+    ccbArray_selector,
+    (income_reducer, ccbArray_selector) =>  addCcbToIncome(income_reducer, ccbArray_selector)                                        
+)                                                                     
 
 export const rrsp_selector1 = createSelector( 
     rrspStartAge, 
@@ -37,6 +47,8 @@ export const rrsp_selector1 = createSelector(
     rrspProjection_selector,                      
     (rrspStartAge, lifeSpan, rrspProjection_selector) => calculateRRSPIncome(rrspStartAge, lifeSpan, rrspProjection_selector, "preAge80")                                             
 )
+
+
 export const rrsp_selector2 = createSelector( 
     rrspStartAge, 
     lifeSpan,                                                                      
@@ -49,25 +61,38 @@ export const tfsa_selector = createSelector(                                    
     (savings_reducer) => Object.values(savings_reducer).filter(d => d.type === "withdrawal")[0]                                       
 )
 
-export const income_selector = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
+export const income_selectorWithRRSP = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
+    income_reducer,
+    cpp_selector,
+    rrsp_selector1,
+    rrsp_selector2,
+    (income_reducer, cpp_selector, rrsp_selector1, rrsp_selector2) => ({...income_reducer, cpp_selector, rrsp_selector1, rrsp_selector2}) 
+)
+export const oas_selector = createSelector(                                                                      //Determines the OAS payment for the user
+     income_selectorWithRRSP,
+    oasStartAge,
+    lifeSpan,
+    (  income_selectorWithRRSP, oasStartAge, lifeSpan) => calculateOAS(oasStartAge, lifeSpan, income_selectorWithRRSP)                                             
+)
+
+export const income_selectorNoRRSP = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
     income_reducer,
     cpp_selector,
     oas_selector,
     (income_reducer, cpp_selector, oas_selector) => ({...income_reducer, cpp_selector, oas_selector}) 
 )
-export const income_selectorWithRRSP = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
-    income_reducer,
+
+export const income_selector = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
+    income_selectorWithRRSP,
     cpp_selector,
     oas_selector,
-    rrsp_selector1,
-    rrsp_selector2,
-    (income_reducer, cpp_selector, oas_selector, rrsp_selector1, rrsp_selector2) => ({...income_reducer, cpp_selector, oas_selector, rrsp_selector1, rrsp_selector2}) 
+    (income_selectorWithRRSP, cpp_selector, oas_selector) => ({...income_selectorWithRRSP, cpp_selector, oas_selector}) 
 )
 
 export const incomeArray_selector = createSelector(                                                          //Final array with CPP and OAS added
-    income_selector,
+    income_selectorNoRRSP,
     lifeSpan,
-    (income_selector, lifeSpan) => convertReducerToArray(income_selector, lifeSpan) 
+    (income_selectorNoRRSP, lifeSpan) => convertReducerToArray(income_selectorNoRRSP, lifeSpan) 
 )
 export const incomeArrayWithRRIF_selector = createSelector(                                                          //Final array with CPP and OAS added
     incomeArray_selector,
@@ -78,16 +103,16 @@ export const incomeArrayWithRRIF_selector = createSelector(                     
 
 export const employment_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.reg === "employmentIncome").map(d => d.stream))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "employmentIncome").map(d => d.stream))]
 )
 export const business_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.reg === "businessIncome").map(d => d.stream))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "businessIncome").map(d => d.stream))]
 )
 export const retirement_selector = createSelector(
-    income_selector,
-    (income_selector) => {
-return [...new Set((Object.values(income_selector)).filter(d => d.reg !== "businessIncome").filter(d => d.reg !== "employmentIncome").map(d => d.stream))]
+    income_selectorNoRRSP,
+    (income_selectorNoRRSP) => {
+return [...new Set((Object.values(income_selectorNoRRSP)).filter(d => d.type !== "businessIncome").filter(d => d.type !== "employmentIncome").map(d => d.stream))]
 }
 )
 

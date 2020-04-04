@@ -46,3 +46,9 @@
         numberType: "percentage",
     },
    ] 
+
+
+   export const child_data = (value) => ({                                           
+    type: "child", 
+    birthYear: value, 
+ })

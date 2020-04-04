@@ -3,7 +3,7 @@ export const taxCredit_data = (eligible, age1, stream, age2, type, value) => ({ 
     age1,
     stream,
     age2,
-    type,                                                                                                                                                   
+    type,                                                                                                                                               
     value,
  })
 

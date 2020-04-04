@@ -1,23 +1,24 @@
 
-export const incomeStream_data = (color, age1, reg, stream, age2, value) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const incomeStream_data = (color, age1, reg, stream, type, age2, taxable, value) => ({                                              //this is the initial state of value being stored to the reducer. 
     color, 
     age1, 
     reg, 
-    stream, 
-    taxable: true, 
+    stream,
+    type, 
+    taxable, 
     age2, 
     value,
 })
 
 export const displayBox_data = [
     {
-        reg: "employmentIncome",
+        type: "employmentIncome",
     },
     {
-        reg: "businessIncome",
+        type: "businessIncome",
     },
     {
-        reg: "retirementIncome",
+        type: "retirementIncome",
     }
 ]
 export const retirementIncome_data = [

@@ -8,6 +8,10 @@ export const cra = {
     ymie: 54200, //years maximum insurable earnings,
     eiRate: 0.0158, 
     eiMaxPremium: 856.36,
+    oasPayment: 7362.45,
+    oasThres: 79054,
+    oasTop: 128137,
+    ageAmount: 7494,
 }
 
 export const FTR = { // Federal Tax Rates and Factors - updated 11 March 2020

@@ -7,7 +7,7 @@ import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
 const Header = ({income_selectorWithRRSP}) => {
  
     let {rrsp_selector1: {value: rrsp}, cpp_selector: {value: cpp},
-         oas_selector: {value: oas},  TFSAwithdrawal: {value: tfsa},} = income_selectorWithRRSP
+           TFSAwithdrawal: {value: tfsa},} = income_selectorWithRRSP
 
 return (
             <Wrapper>
@@ -24,7 +24,7 @@ return (
                         <h4>CPP</h4>
                     </Summary>
                     <Summary >
-                    {`${(oas)/1000}k`}
+                    {`${(0)/1000}k`}
                         <h4 >OAS</h4>
                     </Summary>
                     <Vr/>
@@ -38,7 +38,7 @@ return (
                     </Summary>
             </Container>
             <Summary>
-             {`${Math.round((cpp + oas + tfsa + rrsp)/1000)}k`}
+             {`${Math.round((cpp + + tfsa + rrsp)/1000)}k`}
             <h4>Total</h4>
             </Summary>
             </Right>

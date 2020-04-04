@@ -16,7 +16,7 @@ import {setKeyValue_action} from "redux/actions"
 
 function OnboardingProcess({setKeyValue_action}) {
 
-    const [count, setCount] = useState(6);
+    const [count, setCount] = useState(0);
 
     if (count > 12) return <Redirect to="/"/>
 
@@ -29,7 +29,7 @@ function OnboardingProcess({setKeyValue_action}) {
                     <Form>
                        {
                             count === 0 ? 
-                            <FirstName/>
+                               null
                             :
                             count === 1 ? 
                             <BirthYear/>
@@ -38,7 +38,7 @@ function OnboardingProcess({setKeyValue_action}) {
                             <Province/>
                             :
                             count === 3 ? 
-                            <Spouse/>
+        null
                             :
                             count === 4 ? 
                             <Children/>

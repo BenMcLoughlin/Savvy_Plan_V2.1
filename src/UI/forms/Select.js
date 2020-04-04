@@ -13,7 +13,7 @@ const Select = ({label, selectType, type, value, name, required, handleChange, s
 
     const renderYears = () => {
         const yearArray = []
-        for (let i = 2010; i > 1930; i--) {
+        for (let i = 2020; i > 1930; i--) {
            yearArray.push(i)
         }
        return yearArray.map(year => <SelectValue selectType={selectType} onClick={() => handleSelect(name, year)}>{year}</SelectValue>)
@@ -118,10 +118,10 @@ const ArrowPositioner = styled.div`
 const DropDown = styled.div`
     position: absolute;
     top: 5rem;
-    height: 30rem;
+    height: 20rem;
     width: 35rem;
     background: white;
-    z-index: 500;
+    z-index: 250000;
     overflow: hidden;
     border-radius: 5px;
     border: .7px solid ${props => props.theme.color.lightGrey};

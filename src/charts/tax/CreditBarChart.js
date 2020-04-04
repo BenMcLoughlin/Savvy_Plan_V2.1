@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import _ from "lodash"
 
 const drawChart = (data, width, height) => {
-console.log(data);
+
     const margin = {top: 20, right: 50, bottom: 20, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right

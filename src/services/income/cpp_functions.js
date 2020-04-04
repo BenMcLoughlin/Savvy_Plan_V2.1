@@ -77,27 +77,14 @@ const adjustCppMemoized = () =>  {                                              
       }
 }
 
-function adjustOasMemoized() {                                                                      //OAS is  also either increased or reduced 
-    let cache = {};                             
-    return function( age, cacheKey, income) { 
-        if (cacheKey in cache) {
-            return cache[cacheKey]                                                                  //it can only begin at age 65 so there is no reduction if taken earlier because the user cant
-        } else {
-            if (age === 65) {return income}
-  
-            else if (age > 65 && age < 70) {                                                       //anything above age 65 is increased each year
-                const years = age -65
-                const percentage = years * .072
-                const value = income * (1 + percentage)
-                return Math.round(value/100)*100
-             }
-          
-             if (age > 70) {return income * 1.36}                                                    //The largest increase possible is 36%, if the user is over 70 it's just increased by that amount.
-        }
-      }
-}
 
-export const adjustOas = adjustOasMemoized()
+
+export const adjustOAS = (age, payment, income) => {
+    const oasPayment = payment * (1+  ((age - 65) * 0.072))
+    const overage = income > 75000 ? income - 75000 : 0
+    const clawback = overage * .15 
+    return oasPayment - clawback > 0 ? oasPayment - clawback : 0
+   }
 
 
 const adjustCpp = adjustCppMemoized()
@@ -105,7 +92,7 @@ const adjustCpp = adjustCppMemoized()
 function calculateCppMemoized() {
     let cache = {};                                                                                                         //Its a heavy function so we use caching
     return function(birthYear, cacheKey, cppStartAge, lifeSpan, income_reducer, ympe) {
-        const incomeArray = Object.values(income_reducer).filter(d => d.reg === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
+        const incomeArray = Object.values(income_reducer).filter(d => d.type === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
         if (incomeArray.length > 0) {
        
             const array = []                                                                                                               // create our array into which income will be pushed
@@ -131,10 +118,10 @@ function calculateCppMemoized() {
          const cppIncome = {
              color: "#F29278", 
              age1: cppStartAge, 
-             reg: "retirementIncome", 
+             type: "retirementIncome", 
              stream: "CPP Income", 
              taxable: true, 
-             age2: lifeSpan, 
+             age2: lifeSpan + 1, 
              value: adjustedCppPayment,
          }
          cache[cacheKey] = cppIncome                                                                                              //cache's the answer for later
@@ -143,10 +130,10 @@ function calculateCppMemoized() {
         else return {
             color: "#F29278", 
             age1: cppStartAge, 
-            reg: "retirementIncome", 
+            type: "retirementIncome", 
             stream: "CPP Income", 
             taxable: true, 
-            age2: lifeSpan, 
+            age2: lifeSpan + 1, 
             value: 0
         }            
 }
@@ -154,15 +141,31 @@ function calculateCppMemoized() {
 export const calculateCpp = calculateCppMemoized()
 
 
-export const calculateOAS = (age, lifeSpan) => ({
+//HELPER FUNCTIONS
+export const sum = (age, name, query, reducer) => Object.values(reducer).map(d => d[name] === query 
+    && age >= d.age1
+    && age < d.age2 ?
+    d.value : 0 )
+    .reduce((a, n) => a + n)
+
+
+export const calculateOAS = (age, lifeSpan, income_selector) =>{
+  const array = []
+   for(let i = 65; i < 85; i++) {
+    array.push(sum(i, "taxable", true, income_selector))
+   }
+ 
+   const avgIncome = array.reduce((a, n) => a + n) / array.length
+    return ({
     color: "#488487", 
     age1: age, 
-    reg: "retirementIncome", 
+    type: "retirementIncome", 
     stream: "OAS Income", 
     taxable: true, 
-    age2: lifeSpan, 
-    value: adjustCpp(age, age, 7200)
-})
+    age2: lifeSpan + 1, 
+    value: adjustOAS(age, 7200, avgIncome)
+})}
+
 
 //DETERMINE CPP AND OAS PAYMENT AFTER AGE CHANGES
 

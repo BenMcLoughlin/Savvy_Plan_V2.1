@@ -2,7 +2,7 @@ import {cra, FTR, PTR} from "services/tax/tax_rates"
 
 
 //SHOW INCOME BROKEN DOWN BY BRACKET
-export const taxesByBracket = (inc) => {                                                          //"FTR" is Federal Tax rates, "bot" is bottom value of the bracket, "top" is top value
+export const taxesByBracket = (age, inc) => {                                                          //"FTR" is Federal Tax rates, "bot" is bottom value of the bracket, "top" is top value
                                                                                                   // "inc" is the total income
     const fedTax = (inc, i) => inc * FTR[i].rate                                                  //since we have the bracket size we can then multiply it by the rate to get the federal taxes                                                                                        
 
@@ -26,6 +26,17 @@ export const taxesByBracket = (inc) => {                                        
         }
         else return 0
     }   
+    const calcClawback = (inc, i) => {                                                              //Determines the CPP and EI contributions made by the user, if the user is self employed they must also make employer contribution
+        if(i === 2 && inc > cra.oasThres) {
+            let overage = inc > FTR[2].top  ? FTR[2].top - cra.oasThres : inc - cra.oasThres
+            return overage * 0.15
+        }
+        if(i === 3 && inc > FTR[2].top) {
+            let overage = inc > cra.oasTop  ? cra.oasTop - FTR[2].top : inc - FTR[2].top
+            return overage * 0.15
+        }
+       else {return 0}
+    }   
 
     const bracketSize = (inc, i) => inc > FTR[i].bot && inc < FTR[i].top ?                        //does income fit within this bracket ? 
                                         inc - FTR[i].bot : inc > FTR[i].top ?                     //if it does return the income minus the bottom value of the bracket, otherwise is it greater than the top ? 
@@ -38,7 +49,8 @@ export const taxesByBracket = (inc) => {                                        
             bracketRange: `${Math.round(FTR[i].bot/1000)}k - ${Math.round(FTR[i].top/1000)}k`, 
             inc: bracketSize(inc, i),                                                             //return the total dollars that fits into this bracket
             totalInc: inc > FTR[i].top ? FTR[i].top : inc,                                        //returns the maximum income earned in this bracket and all below,
-            cppAndEI: calcCPPandEI(inc, i),                                                       //return the combined CPP and EI Premiums the user would have paid
+            cppAndEI: age < 65 ? calcCPPandEI(inc, i) : 0,                                                       //return the combined CPP and EI Premiums the user would have paid
+            oasClawback: age > 65 ? calcClawback(inc, i) : 0, 
             fedTax:  fedTax(bracketSize(inc, i), i),                                              //return the federal taxes to be paid on this bracket
             provTax: inc > FTR[i].top ? provTax(FTR[i].top) - provTax(FTR[i].bot) :               //is income greater than this bracket's top ? if so give me total provincial taxes 
                      inc < FTR[i].top && inc > FTR[i].bot ?                                       //Does income fall within this bracket ? 
@@ -56,19 +68,22 @@ export const bracketsToChartData = (bracket) => {                               
                                  bracketRange: d.bracketRange,
                                  bracketIncome: d.inc,
                                  cppAndEI: d.cppAndEI/d.inc,
+                                 oasClawback: d.oasClawback/d.inc,
+                                 oasClawbackValue: d.oasClawback,
                                  totalIncome: d.totalInc, 
                                  federalTaxes: d.fedTax/d.inc || 0, 
                                  provincialTaxes: d.provTax/d.inc || 0, 
-                                 keep: ((d.inc - d.fedTax-d.provTax - d.cppAndEI)/d.inc) || 0,
+                                 keep: ((d.inc - d.fedTax-d.provTax - d.cppAndEI -  d.oasClawback)/d.inc) || 0,
                                      }))
                                  }
 
 
 
+
+                        
 //CONVERTS REDUCER TO ARRAY FOR CHART SHOWING SPECIFIC CREDIT CLAIMS
-export const convertReducerToArray = (stream, lifeSpan, userAge, tax_reducer) => {                 //Converts reducer to an array of objects                                                          
-console.log(stream);
-    const creditClaimed = Object.values(tax_reducer).filter(d => d.stream === stream)              //filter through to get the credit we're looking for, eg. "medicalExpense"
+export const convertReducerToArray = (stream, lifeSpan, userAge, tax_selector) => {                 //Converts reducer to an array of objects                                                          
+    const creditClaimed = tax_selector.filter(d => d.stream === stream)                             //filter through to get the credit we're looking for, eg. "medicalExpense"
 
           //RETURNS Credit VALUE FOR THE GIVEN Credit INSTANCE    
             const creditValue = (creditClaimed, stream, age) => {                                  //Helper function which will return the Credit value in the chart
@@ -107,8 +122,27 @@ export const tax = (inc1, type) => {
     const tax = inc * rate - constant 
     return tax                                                                                    //return the provincial taxes for that income amount, this is done by mulitplying income by the rate and subtracting the constant
 }
-                        
-export const credits = (age, tax_selector, postDedIncome, tax) => {                                                                         //determines the tax savings from the crdits claimed at that age, either federally or provincially
+
+export const oasClaw = (inc) => {                                                                                                            //if the user has retirement income above the threshold they get their OAS clawed back
+    const overage = inc >= cra.oasThres ? inc - cra.oasThres : 0                                                                  //checks to see if income is above threshold
+
+}
+      
+
+export const calculateAgeAmount = (income_reducer) => {
+    let inc = sum(67, "taxable", true, income_reducer)
+    let value =  inc < 37790 ? cra.ageAmount : inc > 87750 ? 0 : (inc - 37790) * 0.15
+    return ({ 
+        stream: "Age amount",         
+        id: 30001,                                                                                                          
+        type: "fixed",                                                                                                                            
+        age1: 65,
+        age2: 95,
+        value,
+     })
+}  
+
+export const credits = (age, tax_selector, postDedIncome, tax) => {                                                                          //determines the tax savings from the crdits claimed at that age, either federally or provincially
     const lowestRate = tax === "fed" ? FTR[1].rate : PTR[1].rate                                                                              //Credits are multiplied by the lowest rate, which is either federal or provincial
     const donationRate = tax === "fed" ? 0.33 : 0.168                                                                                         //Credits are multiplied by the lowest rate, which is either federal or provincial
    
@@ -135,12 +169,16 @@ const value = (totalCredits * lowestRate) + totalDonations + medValue
 return value > 0 ? value  : 0
 }
 
+const oasClawbackTotal = inc => inc > cra.oasThres && inc < cra.oasTop ? (inc - cra.oasThres) * 0.15 :  inc > cra.oasTop ? cra.oasPayment : 0
+
 
 export const calculateTaxes = (age, income_selector, tax_selector) => {
-    let taxableIncome = sum(age, "taxable", true, income_selector)
-    let oasIncome = sum(age, "taxable", true, income_selector) //stream: "OAS Income",
-    let nonTaxableIncome = sum(age, "taxable", false, income_selector)
 
+    let taxableIncome = sum(age, "taxable", true, income_selector)
+    let oasIncome = sum(age, "stream", "OAS Income", income_selector) 
+    let nonTaxableIncome = sum(age, "taxable", false, income_selector)
+    let oasClawback = age >= 65 ? oasClawbackTotal(taxableIncome) : 0
+    
     let preDedFedTaxes = tax(taxableIncome, "fed")
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
@@ -158,17 +196,36 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
     let postDedFedTaxes = tax(postDedIncome, "fed")
     let postDedProvTaxes = tax(postDedIncome, "prov")
     let postDedTotalTaxes = postDedFedTaxes + postDedProvTaxes
+
+
+
     let dedTaxSavings = preDedTotalTaxes - postDedTotalTaxes
     let rrspTaxSavings = preDedTotalTaxes - postDedTotalTaxes
     let fixedCredits = sum(age, "type",  "fixed", tax_selector)
     let variableCredits = sum(age, "type",  "variable", tax_selector)
     let totalCredits = fixedCredits + variableCredits
+
     let credFedTaxSavings = credits(age, tax_selector, postDedIncome, "fed")
     let credProvTaxSavings = credits(age, tax_selector, postDedIncome, "prov")
     let totalCredSavings = credFedTaxSavings + credProvTaxSavings
+
     let fedTax = postDedFedTaxes - credFedTaxSavings > 0 ? postDedFedTaxes - credFedTaxSavings : 0
     let provTax = postDedProvTaxes - credProvTaxSavings > 0 ? postDedProvTaxes - credProvTaxSavings : 0
-    let afterTaxIncome = postDedIncome - fedTax - provTax 
+    let totalTaxes = fedTax + provTax + oasClawback 
+
+    let rrspIncome = sum(age, "reg", "RRSP", income_selector)
+
+    let noRRSPIncome = postDedIncome - rrspIncome
+    let noRRSPFedTaxes = tax(noRRSPIncome, "fed")- credFedTaxSavings > 0 ? tax(noRRSPIncome, "fed")- credFedTaxSavings : 0
+    let noRRSPProvTaxes = tax(noRRSPIncome, "prov") - credProvTaxSavings > 0 ? tax(noRRSPIncome, "prov") - credProvTaxSavings : 0
+    let noRRSPTotalTaxes = noRRSPFedTaxes + noRRSPProvTaxes + oasClawback 
+
+    let RRSPextraTaxes = totalTaxes -noRRSPTotalTaxes
+
+    //console.log("taxableIncome", postDedIncome, "rrspIncome", rrspIncome, "noRRSPIncome ", noRRSPIncome, "regular Taxes", totalTaxes, "noRRSPTaxes", noRRSPTotalTaxes, " RRSPextraTaxes",  RRSPextraTaxes  );
+
+ 
+    let afterTaxIncome = postDedIncome - fedTax - provTax - oasClawback + nonTaxableIncome
     let averageTaxRate = (taxableIncome - afterTaxIncome)/taxableIncome 
 
     return ({
@@ -177,6 +234,8 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
         preDedFedTaxes,
         preDedProvTaxes,
         preDedTotalTaxes,
+        oasClawback,
+        deductions,
         rrspSavings,
         postDedIncome,
         postDedFedTaxes,
@@ -186,6 +245,7 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
         rrspTaxSavings,
         credFedTaxSavings,
         credProvTaxSavings,
+        RRSPextraTaxes,
         fixedCredits,
         totalCredits,
         fedTax, 
@@ -204,15 +264,17 @@ const array = []
      for (let age = age1; age<= age2; age++) {
 
         const bracketDetails  = calculateTaxes(age, income_reducer, tax_reducer)
-        const {fedTax, provTax, rrspTaxSavings} = bracketDetails
+        const {fedTax, provTax, oasClawback, rrspTaxSavings, deductions, RRSPextraTaxes} = bracketDetails
              array.push({
                  age:  age, 
                  federalTax: fedTax,
                  provincialTax: provTax,
+                 oasClawback,
+                 deductions,
+                 RRSPextraTaxes,
                  rrspTaxSavings,
              })
      }
-
      return array
 }   
 
@@ -255,3 +317,30 @@ export const createTaxInstance = (setKeyValue_action, state ) => {              
             setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
             setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
 }
+
+export const creditTaxSavings = (age, instance, income_selector) => {
+
+    const {stream, value, type} = instance
+    const inc = sum(age, "taxable", true, income_selector)
+console.log(inc);
+    if (stream === "Donations and gifts") {
+        let donationsClaimed = value > 200 ? value - 200 : 200                                                                            //donations claimed below $200 only get 15% back, over gets %33
+        return donationsClaimed > 200 ? (value * 0.498) + 40 : donationsClaimed *  .2        
+    }
+
+    if (type === "deduction") {
+        const preDedTaxes = tax(inc, "fed") + tax(inc, "prov")
+        const postDedTaxes = tax((inc-value), "fed") + tax((inc-value), "prov")
+        return preDedTaxes - postDedTaxes
+    }
+
+    if (stream === "Medical expense") {
+        let threePercentInc = inc * 0.03                                                   
+        let medReduction = threePercentInc < 2352 ? threePercentInc : 2352                                                                  // calculation for med expense
+        const medicalExpClaimed = value - medReduction > 0 ? value - medReduction : 0
+        let medValue = medicalExpClaimed * 0.2
+    
+    }
+    else return value * .2
+
+   }

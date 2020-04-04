@@ -10,9 +10,9 @@ import {incomeStream_data} from "pages/income/data/income_data"
 
 const InstanceNav  = ({delete_action, instanceArray, instance, setKeyValue_action}) => {
 
-    const {color, age2, id, reg, stream, value}  = instance                                                             //the instance is in the income reducer but identified by the stream and id in the ui_reducer and has been passed here
+    const {color, age2, id, reg, stream, value, type}  = instance                                                        //the instance is in the income reducer but identified by the stream and id in the ui_reducer and has been passed here
 
-    const state = incomeStream_data(color, age2, reg, stream, (age2 + 5), value)                                        //creating a new income instance requires us to fire this new state
+    const state = incomeStream_data(color, age2, null, stream, type, (age2 + 5), true, 0)                                     //creating a new income instance requires us to fire this new state
   
     const [selected, select] = useState(id)                                                                             //here we store a local id value and compare with the id to see if it should be highlighted
   

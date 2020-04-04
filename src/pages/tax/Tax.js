@@ -8,7 +8,7 @@ import DisplayBox from "pages/tax/components/DisplayBox"
 import {creditTypes_data} from "pages/tax/data/tax_data"
 import { setKeyValue_action} from "redux/actions"
 import TaxLifetimeBarChart from "charts/tax/TaxLifetimeBarChart"
-
+import {hideStream} from "services/ui/ui_functions"
 
 const Tax = ({setKeyValue_action, ui_reducer}) => {                                                                     //shows two charts and a breakdown of the users taxes as well as lists all the credits and deductions
 
@@ -39,7 +39,9 @@ const Tax = ({setKeyValue_action, ui_reducer}) => {                             
                             <Bottom>
                                 <ButtonLeftWrapper>
                                 <ButtonLight 
-                                            onClick={() =>  setKeyValue_action("taxAge", "ui_reducer", false)}         //displaying taxes depends on if a tax age is set in the ui reducer, this sets it to false and hides it
+                                            onClick={() =>  {
+                                                hideStream(setKeyValue_action)
+                                                setKeyValue_action("taxAge", "ui_reducer", false)}}         //displaying taxes depends on if a tax age is set in the ui reducer, this sets it to false and hides it
                                             text={"Back"}
                                         />
                                 </ButtonLeftWrapper>

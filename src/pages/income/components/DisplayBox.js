@@ -9,23 +9,22 @@ import DisplayTile from "pages/income/components/DisplayTile"
 import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
 import {createIncomeInstance} from "services/income/income_functions"
 
-const DisplayBox = ({ reg,  setKeyValue_action, user_reducer, employment_selector, business_selector, retirement_selector, ui_reducer}) => {                  
+const DisplayBox = ({ type,  setKeyValue_action, user_reducer, employment_selector, business_selector, retirement_selector, ui_reducer}) => {                  
 
     const {currentAge} = user_reducer
-    const age1 =  reg === "retirementIncome" ? 65 : currentAge                                                                                         //these are the ages for the dual range bar before the user has changed anything
-    const age2 =  reg === "retirementIncome" ? 95 : currentAge + 5                                                                                     //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
+    const age1 =  type === "retirementIncome" ? 65 : currentAge                                                                                         //these are the ages for the dual range bar before the user has changed anything
+    const age2 =  type === "retirementIncome" ? 95 : currentAge + 5                                                                                     //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
-    const {changeColor: color} = ui_reducer                                                                                                            //to keep the color the same as the chart we store the color on the instance object
-                                                                                
-    const state = incomeStream_data(colorArray_data[color], age1, reg, " ", age2, 0)                                                                   //initial State is found in data, this is the empty state used to create a new object
-                                    
-    const selector =  reg === "employmentIncome" ? employment_selector
-                    : reg === "businessIncome" ? business_selector
+    const {changeColor: color} = ui_reducer                                                                                                            //to keep the color the same as the chart we store the color on the instance object                                      
+    const state = incomeStream_data(colorArray_data[color], age1, null, " ", type, age2, true, 0)                                                                   //initial State is found in data, this is the empty state used to create a new object
+                              
+    const selector =  type === "employmentIncome" ? employment_selector
+                    : type === "businessIncome" ? business_selector
                     : retirement_selector 
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         
-                <h2>{_.startCase(reg)}</h2>     
+                <h2>{_.startCase(type)}</h2>     
             </Header>
             
             <Container> 

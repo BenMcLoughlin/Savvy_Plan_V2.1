@@ -10,8 +10,9 @@ import Savings from "pages/savings/Savings"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {displayBox_data} from "pages/income/data/income_data"
+import {HAPPYPIE_selector} from "redux/income/income_selectors"
 
-const Income = ({setKeyValue_action, ui_reducer}) => {
+const Income = ({setKeyValue_action, ui_reducer, HAPPYPIE_selector}) => {
   
     const {stream, id} = ui_reducer                                                                                                  //stream and id represent the selected values which are stored in the ui_reducer and tell the app what edit box to display
                                                                                                                                      // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
@@ -21,6 +22,9 @@ const Income = ({setKeyValue_action, ui_reducer}) => {
                 setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
                 setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
     }
+
+    console.log(HAPPYPIE_selector);
+
         return (
             <Page>
               <Header/>                                                                                                               
@@ -37,7 +41,7 @@ const Income = ({setKeyValue_action, ui_reducer}) => {
                     <EditIncome  createNewItem={createNewItem}/>        : 
                     <>
                    {displayBox_data.map(d => <DisplayBox  
-                                 reg={d.reg}                                                                                          //the income types are seperated according to if they make contributions to CPP                                                    
+                                     type={d.type}                                                                                          //the income types are seperated according to if they make contributions to CPP                                                    
                                     />
                         )
                     }
@@ -52,6 +56,7 @@ const mapStateToProps = (state) => {
     return {
         progress_reducer: state.progress_reducer,
         ui_reducer: state.ui_reducer,
+        HAPPYPIE_selector: HAPPYPIE_selector(state)
     }
 }
 

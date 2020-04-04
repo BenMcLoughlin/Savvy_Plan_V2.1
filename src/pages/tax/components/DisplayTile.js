@@ -9,7 +9,7 @@ const DisplayTile = ({tax_selector, stream, setKeyValue_action}) => {           
 
     const instanceArray =  tax_selector.filter(d => d.stream === stream).sort((a, b) => a.age1 - b.age1) 
     
-    const {id} = instanceArray[0]
+    const {id, value} = instanceArray[0]
 
     return (
         <Item label={stream} color={"#485056"} >
@@ -18,7 +18,7 @@ const DisplayTile = ({tax_selector, stream, setKeyValue_action}) => {           
                                     setKeyValue_action("id", "ui_reducer", id)  
                                 }}>                                                                     {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{stream}</H2>
-                <H2>{100}K</H2>
+                <H2>{Math.round(value/1000)}K</H2>
             </Text>
                                  
         </Item>

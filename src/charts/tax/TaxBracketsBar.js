@@ -12,14 +12,14 @@ const drawChart = (birthYear, data, width, height, className) => {
     const margin = {top: 20, right: 50, bottom: 20, left: 70}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
-    const color = ['#63bbcf',"#F29278", "#F29278", "#F29278"]
+    const color = ['#63bbcf',"#F29278", "#F29278", "#F29278", "#F29278"]
 
     d3.select(`.${className} > *`).remove()
     d3.select(`.${className}tooltip`).remove()
   
     const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-    const stackedKeys = ["keep","federalTaxes", "provincialTaxes", "cppAndEI", ""]
+    const stackedKeys = ["keep","federalTaxes", "provincialTaxes", "cppAndEI", "oasClawback"]
   
 
     const graph = svg.append("g").attr("height",  graphHeight > 0 ? graphHeight : 0)
@@ -113,7 +113,7 @@ const drawChart = (birthYear, data, width, height, className) => {
                                                 <div class="total" style="color: ${thisColor}; ">
                                                     <h3 class="title">  ${_.startCase(name)} </h3>
                                                     <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                         ${(Math.round(((d[1] - d[0])* d.data.totalIncome)/1000)*1000)/1000} 
+                                                         ${ (Math.round(((d[1] - d[0])* d.data.bracketIncome)/1000)*1000)/1000  } 
                                                         <span> K</span>
                                                     </p>
                                                 </div>
@@ -150,7 +150,7 @@ const drawChart = (birthYear, data, width, height, className) => {
                                             .attr("text-anchor", "middle")
                                             .attr("fill","grey")
                                             .attr("font-size","1.1rem")
-                                            .text((d,i) => `- ${(((d[i].data.federalTaxes + d[i].data.provincialTaxes + d[i].data.cppAndEI))*100).toFixed()} %`)
+                                            .text((d,i) => `- ${(((d[i].data.federalTaxes + d[i].data.provincialTaxes + d[i].data.cppAndEI + d[i].data.oasClawback))*100).toFixed()} %`)
 
             var ticks = [48535,97069, 150473, 214368, 400000];
             var tickLabels = ['48k','97k','150k','214k','400k']
