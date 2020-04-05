@@ -5,7 +5,9 @@ import {ChevronsRight} from "styled-icons/feather/ChevronsRight"
 import {KeyboardArrowDown} from "styled-icons/material/KeyboardArrowDown"
 import {Navicon} from "styled-icons/evil/Navicon"
 import {NavigateBefore} from "styled-icons/material/NavigateBefore"
+import {NavigateNext} from "styled-icons/material/NavigateNext"
 import {Edit3} from "styled-icons/feather/Edit3"
+import {Play} from "styled-icons/evil/Play"
 
 
 
@@ -36,12 +38,22 @@ export const ArrowLeft = styled(NavigateBefore)`
     width: 3.2rem;
     color: ${props => props.theme.color.onyx}
 `
+export const ArrowRight = styled(NavigateNext)`
+    height: 3.2rem;
+    width: 3.2rem;
+    color: ${props => props.theme.color.onyx}
+`
 export const NavIcon = styled(Navicon)`
     height: 4.2rem;
     width: 4.2rem;
     color: ${props => props.theme.color.onyx}
 `
 export const Edit = styled(Edit3)`
+    height: 2.2rem;
+    width: 2.2rem;
+    color: ${props => props.theme.color.lightGrey}
+`
+export const PlayIcon = styled(Play)`
     height: 2.2rem;
     width: 2.2rem;
     color: ${props => props.theme.color.lightGrey}

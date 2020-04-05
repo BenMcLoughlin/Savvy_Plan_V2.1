@@ -13,7 +13,7 @@ return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                 <h1>
-                    Lifetime Income Chart
+                    Lifetime Income Chart1
                 </h1>
             </Left>
             <Right>
