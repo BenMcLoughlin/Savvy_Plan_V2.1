@@ -2,16 +2,16 @@ import React from 'react'
 import styled from "styled-components"
 
 
-const CloseButton = ({rangeBarProps, handleRemoveItem}) => {
+export const Close = ({onClick}) => {
 
     return (
 
-            <Cross onClick={() => handleRemoveItem(rangeBarProps)}/>
+            <Cross onClick={() => onClick}/>
     )
 
 }
 
-export default CloseButton
+export default Close
 
 const Cross = styled.div`
 position: relative;

@@ -10,6 +10,7 @@ import SavingsBarChart from "charts/savings/SavingsBarChart"
 import Header from "pages/savings/components/Header"
 import AccountBox  from "pages/savings/components/AccountBox"
 import InvestmentFactor  from "pages/savings/components/InvestmentFactors"
+import {ArrowLeft} from "style/Icons"
 
 const Savings = ({setKeyValue_action, ui_reducer}) => {    
 
@@ -32,29 +33,24 @@ const Savings = ({setKeyValue_action, ui_reducer}) => {
                     </BarChartPlaceHolder>
                 </Charts>
                 <ControlPanel>
-                <AccountBox  
-                    display={"assets"}                                                                                            //this allows the user to change the starting value of the investment
-                    subCategory={"investmentAssets"}
-                    reg={reg} 
-                 />
-                <EditSavings  
-                    type={"contribution"}                                                               
-                    reg={reg} 
-                />
-                <EditSavings 
-                    type={"withdrawal"}   
-                    reg={reg}   
-                />
+                    <AccountBox  
+                        display={"assets"}                                                                                            //this allows the user to change the starting value of the investment
+                        subCategory={"investmentAssets"}
+                        reg={reg} 
+                    />
+                    <EditSavings  
+                        type={"contribution"}                                                               
+                        reg={reg} 
+                    />
+                    <EditSavings 
+                        type={"withdrawal"}   
+                        reg={reg}   
+                    />
                 </ControlPanel>
                 <Bottom>
                     <InvestmentFactor/>
-                    <ButtonLeftWrapper>
-                    <ButtonLight 
-                                onClick={() => setKeyValue_action("stream", "ui_reducer", null)}
-                                text={"Back"}
-                            />
-                    </ButtonLeftWrapper>
-
+                    <BackArrow onClick={() => setKeyValue_action("stream", "ui_reducer", null)}   />
+ 
         </Bottom>
         </Wrapper>
     )
@@ -73,33 +69,26 @@ export default connect(mapStateToProps, {setKeyValue_action, setKeyValue_action,
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper = styled.div`
-    width:  115rem;
-    height: 80rem;
+    width:  108rem;
+    height: 65rem;
     padding: 1rem;
     margin: 0 auto;
     position: absolute;
     background: white;
-    top: 6.5rem;
-    left: 20rem;
+    top: 6.2rem;
+    left: 15rem;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     display: grid;
-    grid-template-rows: 10rem 22rem 40rem 4rem;
+    grid-template-rows: 8rem 23rem 26rem;
     grid-template-areas:
     'a a a'
     'b b b'
     'c c c'
-    'd d d'
-`
-    //background: white;
-    const ButtonLeftWrapper = styled.div`
-    position: absolute;
-    bottom: 5rem;
-    left: 2rem;
 `
 
 const ControlPanel = styled.div`
-    width:  100%;
+    width:  108rem;
     border-radius: 5px;
     height: 100%;                 
     padding: 1rem;                                
@@ -114,8 +103,8 @@ const Bottom = styled.div`
 
 const Charts = styled.div`
     grid-area: b;
-    width: 90%;
-    margin-left: 4%;
+    width: 105rem;
+    margin-left: -0.2rem;
     height: 100%;
 `
 const ChartPlaceHolder = styled.div`
@@ -127,3 +116,13 @@ const BarChartPlaceHolder = styled.div`
     height: 40%;
 `
 
+const BackArrow = styled(ArrowLeft)`
+    width: 7rem;
+    height: 7rem;
+    position: absolute;
+    top: 10rem;
+    left: -7rem;
+    cursor: pointer;
+    color: ${props => props.theme.color.lightGrey};
+
+`

@@ -15,7 +15,7 @@ export const displayBox_data = [
         type: "employmentIncome",
     },
     {
-        type: "businessIncome",
+        type: "otherIncome",
     },
     {
         type: "retirementIncome",
@@ -26,7 +26,7 @@ export const retirementIncome_data = [
         reg: "employmentIncome",
     },
     {
-        reg: "businessIncome",
+        reg: "otherIncome",
     },
     {
         reg: "retirementIncome",

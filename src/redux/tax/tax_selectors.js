@@ -6,7 +6,7 @@ import {convertReducerToArray, bracketsToChartData, sum, taxesByBracket, lifetim
 export const tax_reducer = state => state.tax_reducer
 export const income_reducer = state => state.income_reducer
 export const selectedCredit = state => state.ui_reducer.stream
-const age = state => state.ui_reducer.taxAge   
+const age = state => state.ui_reducer.taxAge ? state.ui_reducer.taxAge : state.user_reducer.currentAge
 const currentAge = state => state.user_reducer.currentAge   
 const lifeSpan = state => state.user_reducer.lifeSpan 
 

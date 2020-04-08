@@ -29,10 +29,10 @@ return (
                          <Circle color={"#7898a1"}/>
                     </Summary>
             </Container>
-            <Summary>
+            <Summary2>
              {`${(peakValue_selector/1000)}k`}
             <h4>Peak Value</h4>
-            </Summary>
+            </Summary2>
             </Right>
             
             </Wrapper>
@@ -58,7 +58,7 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 6.3rem;
+    margin-top: 4rem;
     margin-left: 3.9rem;
     position: relative;
     color: ${props => props.theme.color.slate};
@@ -83,6 +83,14 @@ const Summary = styled.div`
     justify-content: center;
 
   
+`
+const Summary2 = styled.div`
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: ${props => props.theme.fontSize.medium};
+    text-align: right;
+    margin-left: 12rem;
+
 `
 
 const Vr = styled.div`

@@ -3,66 +3,31 @@ import {connect} from "react-redux"
 import styled from "styled-components"
 import {calculateTaxesByBracket} from "services/tax/tax_functions"
 import { NavLink} from "react-router-dom"
+import TaxBracketsBar from "charts/tax/TaxBracketsBar"
 
+const TaxTile = () => {
 
-const TaxTile = ({tax_reducer, progress_reducer}) => {
-
-
-    
-  // const incomeArray = Object.values(tax_reducer.income).map(d => d.financialValue)                                    //Convert the regularIncome values into an array
-  // const [EI,  SEI,  II , EDI,  NEDI , CG ] =  incomeArray                                                                      //naming all income types, EI = employmentIncome, SEI = selfEmploymentIncome, II = interestIncome,
-                                                  
-  // const creditsRangeBarValues = Object.values( tax_reducer.credits)
-
-  // const beforeTaxIncome = EI + SEI + II + EDI + NEDI + CG                                                                     //Sum all incomeTypes to get before tax income
-
-  // const taxStackedData = calculateTaxesByBracket(EI, SEI, CG, EDI, NEDI, creditsRangeBarValues)                                                      //This function breaks down the tax according to its bracket 
-  // const taxData = taxStackedData[4]                                                                                           //The top bracket contains the sum of all the brackets below enabling us to access the essential data from it
-  // const federalTaxPayable = taxData.totalFederalTax - taxData.federalTaxCredits             
-  // const provincialTaxPayable = taxData.totalProvincialTax - taxData.provincialTaxCredits
-  // const totalCppAndEI = taxData.totalCppAndEI
-  // const totalCredits = taxData.provincialTaxCredits + taxData.federalTaxCredits
-  // const totalTaxLiability = federalTaxPayable + provincialTaxPayable  + totalCppAndEI 
-  // const afterTaxIncome = beforeTaxIncome - totalTaxLiability - totalCredits
-
-  // const taxDonutChartData = [
-  //   {name: "afterTaxIncome", 
-  //   value: afterTaxIncome
-  //   },
-  //   {name: "taxCredit", 
-  //   value: totalCredits
-  //   },
-  //   {name: "federalTaxPayable", 
-  //   value: federalTaxPayable
-  //   },
-  //   {name: "provincialTaxPayable", 
-  //   value: provincialTaxPayable
-  //   },
-  //   {name: "CPPandEI", 
-  //   value: totalCppAndEI
-  //   }
-  // ]
-
+  
     return (
-        <TaxTileTileWrapper to="/Tax" count={progress_reducer.dashboard}>
-            <StackedBarChartPlaceHolder>
-
-            </StackedBarChartPlaceHolder>
-        </TaxTileTileWrapper>
+        <Wrapper to="/Tax">
+                      <Chart>
+                    <ChartTitle>{`Your Taxes Per Bracket`}</ChartTitle>
+                    <TaxBracketsBar/>
+                </Chart>
+        </Wrapper>
     )
 }
 
 const mapStateToProps = (state) => {
 
     return {
-      tax_reducer: state.tax_reducer
     }
   }
 export default connect(mapStateToProps)(TaxTile)
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const TaxTileTileWrapper = styled(NavLink)`
+const Wrapper = styled(NavLink)`
   text-decoration: none;
   grid-area: b;
   position: relative;
@@ -85,3 +50,21 @@ const StackedBarChartPlaceHolder = styled.div`
     height: 25rem;  
 `
 
+const Chart = styled.div`
+    text-align: center;
+    margin-top: 1rem;
+    margin-left: 6.5rem;
+    height: 13rem;
+    width: 50rem;
+    position: relative;
+
+`
+
+
+const ChartTitle = styled.div`
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: 500;
+  position: absolute;
+  top: 1rem;
+  left: 10rem;
+`

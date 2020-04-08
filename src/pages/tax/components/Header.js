@@ -49,7 +49,7 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 4rem;
+    margin-top: 1rem;
     position: relative;
     color: ${props => props.theme.color.slate};
     grid-area: a;
@@ -123,9 +123,9 @@ const Value = styled.div`
 const Chart = styled.div`
     text-align: center;
     margin-top: 3rem;
+    margin-left: 6.5rem;
     height: 15rem;
     width: 50rem;
-    margin-left: 2rem;
     position: relative;
 
 `

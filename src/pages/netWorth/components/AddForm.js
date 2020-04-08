@@ -122,12 +122,6 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
                                 onClick={() => addItem()}
                             />
                     </ButtonWrapper>
-                    <ButtonLeftWrapper>
-                            <ButtonLight 
-                                text={"Back"}
-                                onClick={() => setAddFormSubCategory(false)}
-                            />
-                    </ButtonLeftWrapper>
                 </Right>
             </Container>
         

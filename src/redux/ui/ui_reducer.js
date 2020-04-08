@@ -5,6 +5,7 @@ const initialState = {
         id: null, 
         changeColor: 0, 
         id2: "TFSAcontribution",
+        videoUrl: false, 
    }
 
  const ui_reducer = (state = initialState, action) => {

@@ -46,7 +46,11 @@ export const taxesByBracket = (age, inc) => {                                   
     for (let i = 1; i <=5; i++) {                                                                 //we want to have 5 brackets representing the 5 federal brackets
         array.push({                                                                              //push a new object into the array
             bracket: i,                                                                           //give the bracket number
-            bracketRange: `${Math.round(FTR[i].bot/1000)}k - ${Math.round(FTR[i].top/1000)}k`, 
+            bracketRange:  inc < FTR[i].top ?
+                `${Math.round(FTR[i].bot/1000)}k - ${Math.round(inc/1000)}k`
+                :
+                `${Math.round(FTR[i].bot/1000)}k - ${Math.round(FTR[i].top/1000)}k`
+             , 
             inc: bracketSize(inc, i),                                                             //return the total dollars that fits into this bracket
             totalInc: inc > FTR[i].top ? FTR[i].top : inc,                                        //returns the maximum income earned in this bracket and all below,
             cppAndEI: age < 65 ? calcCPPandEI(inc, i) : 0,                                                       //return the combined CPP and EI Premiums the user would have paid
@@ -146,9 +150,10 @@ export const credits = (age, tax_selector, postDedIncome, tax) => {             
     const lowestRate = tax === "fed" ? FTR[1].rate : PTR[1].rate                                                                              //Credits are multiplied by the lowest rate, which is either federal or provincial
     const donationRate = tax === "fed" ? 0.33 : 0.168                                                                                         //Credits are multiplied by the lowest rate, which is either federal or provincial
    
-    let totalCredits = Object.values(tax_selector).map(d => d.eligible && d.stream !== "Donations and gifts" || "Medical expense"                            // Donations and Med expenses have a different calculation so we remove them from the list                      
+    let totalCredits = Object.values(tax_selector).map(d => d.eligible && d.stream !== "Donations and gifts" && d.stream !== "Medical expense"                            // Donations and Med expenses have a different calculation so we remove them from the list                      
                                             && age >= d.age1 && age < d.age2 ? d.value : 0 ).reduce((a, n) => a + n)                         //sum the value of all regular credits
-
+                                        
+                                            console.log('age', age, "totalCredits", totalCredits);
                                          
     const donations = Object.values(tax_selector).map(d => d.eligible && d.stream === "Donations and gifts"                                                  //filter out donations for their seperate calculation
                                            && age >= d.age1 && age < d.age2 ? d.value : 0 ).reduce((a, n) => a + n)                          //sum all donations to get the total value                
@@ -275,6 +280,7 @@ const array = []
                  rrspTaxSavings,
              })
      }
+     console.log('lifetimeArray', array);
      return array
 }   
 

@@ -6,11 +6,13 @@ import FirstName from "pages/onboard/components/FirstName"
 import BirthYear from "pages/onboard/components/BirthYear"
 import Province from "pages/onboard/components/Province"
 import Spouse from "pages/onboard/components/Spouse"
-import Children from "pages/onboard/components/Children"
-import RatesOfReturn from "pages/onboard/components/RatesOfReturn"
+import RetireAndLifeSpan from "pages/onboard/components2/RetireAndLifeSpan"
+import Accounts from "pages/onboard/components2/Accounts"
+import Children2 from "pages/onboard/components2/Children"
+import {ArrowRight, ArrowLeft} from "style/Icons"
 import RetirementAge from "pages/onboard/components/RetirementAge"
-import LifeSpan from "pages/onboard/components/LifeSpan"
-import LifeEvents from "pages/onboard/components/LifeEvents"
+import RentOrOwn from "pages/onboard/components2/RentOrOwn"
+import GenderAndAge from "pages/onboard/components2/GenderAndAge"
 import { Redirect} from "react-router-dom"
 import {setKeyValue_action} from "redux/actions"
 
@@ -18,7 +20,7 @@ function OnboardingProcess({setKeyValue_action}) {
 
     const [count, setCount] = useState(0);
 
-    if (count > 12) return <Redirect to="/"/>
+    if (count > 4) return <Redirect to="/income"/>
 
     const setCountAndProgress = (section, number) => {
         setKeyValue_action(section, "progress_reducer", number)
@@ -29,41 +31,25 @@ function OnboardingProcess({setKeyValue_action}) {
                     <Form>
                        {
                             count === 0 ? 
-                               null
+                            <GenderAndAge/>
                             :
-                            count === 1 ? 
-                            <BirthYear/>
-                            :
-                            count === 2 ? 
-                            <Province/>
+                            count > 0 && count <= 2 ? 
+                            <Accounts count = {count}/>
                             :
                             count === 3 ? 
-        null
+                          
+                            <RentOrOwn />
                             :
                             count === 4 ? 
-                            <Children/>
-                            :
-                            count === 5 ? null
-                            :
-                            count > 5 && count < 11 ? 
-                            <RatesOfReturn count={count}/>
-                            :
-                            count === 11 ? 
-                            <RetirementAge/>
-                            :
-                            count === 12 ? 
-                            <LifeSpan/>
-                            :
-                            count === 13 ? 
-                            <LifeEvents/>
+                           
+                            <Children2/>
                             :
                             null
                         }
+                        <ArrowR onClick={() => setCountAndProgress("onboard", ( count < 14 ? count + 1 : 14))}/>
+                        <ArrowL onClick={() => setCountAndProgress("onboard", (count > 0 ? count - 1 : 0))}/>
                     </Form>
-                   <Buttons>
-                                < ButtonLight backward onClick={() => setCountAndProgress("onboard", (count > 0 ? count - 1 : 0))}/>
-                                < ButtonLight forward onClick={() => setCountAndProgress("onboard", ( count < 14 ? count + 1 : 14))}/>      
-                    </Buttons>
+
                 </Wrapper>
         )
           
@@ -90,20 +76,35 @@ const Wrapper = styled.div`
     background: white;
 `
 const Form = styled.form`
-    min-height: 30rem;
-    width: 50rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20rem;
+    margin-top: 15rem;
     margin: 0 auto;
+    height: auto;
+    position: relative;
 `
 
 const Buttons = styled.div`
-    width: 50%;
     display: flex;
     justify-content: center;
+    margin: 0 auto;
+`
+const ArrowR = styled(ArrowRight)`
     position: absolute;
-    top: 60rem;
-    left: 25%;
+    top: 10rem;
+    right: 1rem;
+    width: 6rem;
+    height: 6rem;
+    color: ${props => props.theme.color.grey};
+    cursor: pointer
+`
+const ArrowL = styled(ArrowLeft)`
+    position: absolute;
+    top: 10rem;
+    left: 1rem;
+    width: 6rem;
+    height: 6rem;
+    color: ${props => props.theme.color.grey};
+    cursor: pointer
 `

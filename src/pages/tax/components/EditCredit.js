@@ -10,6 +10,7 @@ import {income_selector} from "redux/income/income_selectors"
 import CreditBarChart from "charts/tax/CreditBarChart"
 import {setAge, hideStream} from "services/ui/ui_functions"
 import {creditTaxSavings} from "services/tax/tax_functions"
+import {ArrowLeft} from "style/Icons"
 
 const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_selector, rrspCost_selector, tax_reducer, income_selector, ui_reducer }) => {      //after clicking a crdit this box pops up and allows the user to edit the amount they are claiming
 
@@ -29,9 +30,17 @@ const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_s
     return (
         <Wrapper>
                 <Header color={instance.color}>
+                <BackArrow  onClick={() => {
+                    console.log("hi");
+                    hideStream(setKeyValue_action)}}/>
                 <h3>{`Annual Taxes Saved ${(Math.round(savings/100)*100) /1000}k`}</h3>
                       <h2>{_.startCase(stream)}</h2> 
-                 <h3>{`Extra Taxes Paid ${Math.round(rrspCost_selector/1000)}k`}</h3>
+                      {
+                          instance.reg === "RRSP" ?
+                          <h3>{`Extra Taxes Paid ${Math.round(rrspCost_selector/1000)}k`}</h3>
+                          : <div style={{width: "15rem"}}></div>
+                      }
+                
                 </Header>
                 <InstanceNav   
                            instanceArray={instanceArray}
@@ -60,12 +69,7 @@ const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_s
                 </Container>
                 : null   
             }  
-                <ButtonLeftWrapper>
-                                <ButtonLight 
-                                    text={"Back"}
-                                    onClick={() => hideStream(setKeyValue_action) }
-                                />
-                        </ButtonLeftWrapper>
+
         </Wrapper>
        
     )
@@ -87,33 +91,28 @@ export default connect(mapStateToProps, {setKeyValue_action, setNestedKeyValue_a
 
 const Wrapper = styled.div`
     width: 90rem;
-    height: 33rem;
+    height: 28rem;
     margin:1rem auto;
     border-radius: 5px;
     overflow: hidden;
     border: ${props => props.theme.border.primary};
     grid-area: c;
+    z-index: 1000;
 `
 
 const Left = styled.div`  
     width:  50%;
     height: 100%;
     padding: 2rem;
-    margin-left: 2rem;
+    margin-left: 4rem;
+    margin-top: -2rem;
 `
-const ButtonWrapper = styled.div`
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
-`
-const ButtonLeftWrapper = styled.div`
-    position: absolute;
-    bottom: 13rem;
-    left: 13rem;
-`
+
 const Right = styled.div`
     width:  50%;
     padding: 2rem;
+    margin-left: 2rem;
+    margin-top: -5rem;
 `
 
 const Container = styled.div`
@@ -127,22 +126,6 @@ const Container = styled.div`
 `
 
 
-const YearsSelectorWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-`
-
-
-const SelectorTitleWrapper = styled.div`
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding: .5rem;
-    font-size: ${props =>props.theme.fontSize.small};
-    color: ${props => props.theme.color.slate};
-`
 
 const Header = styled.div`
     width: 100%;
@@ -152,6 +135,7 @@ const Header = styled.div`
     justify-content: space-around;
     align-items: center;
     color: ${props => props.theme.color.ice};
+    position: relative;
 `
 
 const BarChartPlaceHolder = styled.div`
@@ -159,4 +143,13 @@ const BarChartPlaceHolder = styled.div`
     width: 100%;
     position: relative;
     background: ${props => props.theme.color.ice};
+`
+const BackArrow = styled(ArrowLeft)`
+    width: 3.5rem;
+    height: 3.5rem;
+    position: absolute;
+    color: ${props => props.theme.color.ice};
+    top: 0rem;
+    left: 1rem;
+    cursor: pointer;
 `

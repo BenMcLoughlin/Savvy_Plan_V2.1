@@ -4,12 +4,12 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
 import {setKeyValue_action} from "redux/actions"
-import {employment_selector, business_selector, retirement_selector} from "redux/income/income_selectors"
+import {employment_selector, otherIncome_selector, retirement_selector} from "redux/income/income_selectors"
 import DisplayTile from "pages/income/components/DisplayTile"
 import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
 import {createIncomeInstance} from "services/income/income_functions"
 
-const DisplayBox = ({ type,  setKeyValue_action, user_reducer, employment_selector, business_selector, retirement_selector, ui_reducer}) => {                  
+const DisplayBox = ({ type,  setKeyValue_action, user_reducer, employment_selector, otherIncome_selector, retirement_selector, ui_reducer}) => {                  
 
     const {currentAge} = user_reducer
     const age1 =  type === "retirementIncome" ? 65 : currentAge                                                                                         //these are the ages for the dual range bar before the user has changed anything
@@ -19,7 +19,7 @@ const DisplayBox = ({ type,  setKeyValue_action, user_reducer, employment_select
     const state = incomeStream_data(colorArray_data[color], age1, null, " ", type, age2, true, 0)                                                                   //initial State is found in data, this is the empty state used to create a new object
                               
     const selector =  type === "employmentIncome" ? employment_selector
-                    : type === "businessIncome" ? business_selector
+                    : type === "otherIncome" ? otherIncome_selector
                     : retirement_selector 
 return (
         <Wrapper>               
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => ({
     progress_reducer: state.progress_reducer,
     user_reducer: state.user_reducer,
     employment_selector: employment_selector(state),
-    business_selector: business_selector(state),
+    otherIncome_selector: otherIncome_selector(state),
     retirement_selector: retirement_selector(state),
 })
 

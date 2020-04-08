@@ -10,6 +10,7 @@ import _ from "lodash"
 import {setNestedKeyValue_action, setKeyValue_action, delete_action} from "redux/actions"
 import {editStreamName, setAge, hideStream} from "services/ui/ui_functions"
 import {income_selector} from "redux/income/income_selectors"
+import {ArrowLeft} from "style/Icons"
 
 const EditIncome = ({income_selector, ui_reducer, setKeyValue_action, setNestedKeyValue_action}) => {                                           //this is the box that enables us to edit an income stream and add new instances
 
@@ -26,6 +27,7 @@ const EditIncome = ({income_selector, ui_reducer, setKeyValue_action, setNestedK
     return (
         <Wrapper>
             <Header color={instance.color}>
+            <BackArrow  onClick={() => hideStream(setKeyValue_action)}/>
             <h2>{_.startCase(stream)}</h2> 
             </Header>
             <InstanceNav  instanceArray={instanceArray}                                                                                         //this Nav runs alng the top and displays each of the instances
@@ -53,12 +55,6 @@ const EditIncome = ({income_selector, ui_reducer, setKeyValue_action, setNestedK
                         top={instance.age2}                                                                                                          //age2 sets the to Age, eg. age 45 in 18-45
                         setValue={setDualRangeBar}                                                                                                   //reaches into reducer to set the values
                     />
-                    <ButtonLeftWrapper>
-                            <ButtonLight 
-                                text={"Back"}
-                                onClick={() => hideStream(setKeyValue_action) }
-                            />
-                    </ButtonLeftWrapper>
                 </Right>
             </Container>
         </Wrapper>
@@ -77,34 +73,30 @@ export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_a
 
 const Wrapper = styled.div`
     width: 90rem;
-    height: 33rem;
-    margin-left: 13rem;
+    height: 28rem;
+    margin:1rem auto;
     border-radius: 5px;
-    overflow: hdden;
+    overflow: hidden;
     border: ${props => props.theme.border.primary};
-    gridd-area: cid
+    grid-area: c;
+    z-index: 1000;
+    grid-area: c
 `
 
 const Left = styled.div`  
     width:  50%;
     height: 100%;
     padding: 2rem;
-    margin-left: 2rem;
-`
-const ButtonLeftWrapper = styled.div`
-    position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+    margin-left: 4rem;
 `
 const Right = styled.div`
     width:  50%;
     padding: 2rem;
 `
 
-
 const Container = styled.div`
     width: 100%;
-    height: 25rem;
+    height: 22rem;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -119,4 +111,16 @@ const Header = styled.div`
     justify-content: center;
     align-items: center;
     color: ${props => props.theme.color.ice};
+    position: relative;
+`
+
+const BackArrow = styled(ArrowLeft)`
+    width: 3.5rem;
+    height: 3.5rem;
+    position: absolute;
+    color: ${props => props.theme.color.ice};
+    top: 0rem;
+    left: 1rem;
+    cursor: pointer;
+
 `

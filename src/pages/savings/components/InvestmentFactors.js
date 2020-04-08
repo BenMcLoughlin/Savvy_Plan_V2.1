@@ -5,6 +5,7 @@ import MiniRangeBar  from "UI/miniRangeBar1/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {rates_data} from "pages/onboard/data/onboard_data"
 import {setKeyValue_action} from "redux/actions"
+import {ArrowLeft} from "style/Icons"
 
 const InvestmentFactor = ({setKeyValue_action,  user_reducer}) => {    
 
@@ -17,12 +18,13 @@ const InvestmentFactor = ({setKeyValue_action,  user_reducer}) => {
             <Wrapper>                                                                     
 
             <Header>
+            <BackArrow onClick={() => setVisible(false)}/>
             <h2>Investment Factors</h2> 
             </Header>
             <Container> 
             <MiniRangeBarWrapper>
                 {
-                    rates_data.slice(0,4).map(d =>  <MiniRangeBar
+                    rates_data.slice(0,3).map(d =>  <MiniRangeBar
                                                                             label={d.label}
                                                                             name={d.name}
                                                                             reducer={"user_reducer"}
@@ -37,14 +39,12 @@ const InvestmentFactor = ({setKeyValue_action,  user_reducer}) => {
                 }
 
             </MiniRangeBarWrapper>
-            <ButtonLeftWrapper>
-                <ButtonLight text="Back" onClick={() => setVisible(false)}></ButtonLight>
-            </ButtonLeftWrapper>
+  
             </Container>
             </Wrapper>
             :
             <ButtonRightWrapper>
-                <ButtonLight text="Investment Factors" onClick={() => setVisible(true)}></ButtonLight>
+                <ButtonLight text="Rates" onClick={() => setVisible(true)}></ButtonLight>
             </ButtonRightWrapper>
         }
     </>
@@ -62,32 +62,26 @@ export default connect(mapStateToProps, {setKeyValue_action})(InvestmentFactor )
 
 //-----------------------------------------------STYLES-----------------------------------------------//
 
-
-const ButtonLeftWrapper = styled.div`
-    position: absolute;
-    bottom: 2rem;
-    left: -14rem;
-`
 const ButtonRightWrapper = styled.div`
     position: absolute;
-    bottom: 5rem;
+    top: 24rem;
     left: 95rem;
 `
 const MiniRangeBarWrapper = styled.div`
-    height: 28rem;
-    width: 40rem;
+    height: 24rem;
+    width: 60rem;
     display: flex;
     flex-wrap: wrap;
 `
 const Wrapper = styled.div`
-    width: 77rem;
+    width: 70rem;
     border-radius: 5px;
     overflow: hidden;
-    height: 33rem;                                                    
+    height: 28rem;                                                    
     border: ${props => props.theme.border.primary};
     position: absolute;
-    top: 36rem;
-    left: 37rem;
+    top: 35rem;
+    left: 36rem;
     display: flex;
     z-index: 700;
     background: ${props => props.theme.color.ice};
@@ -101,10 +95,25 @@ const Header = styled.div`
     background: ${props => props.theme.color.turquoise};
     height: 4rem;
     color: ${props => props.theme.color.ice};
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 `
 const Container = styled.div`
     display: flex;
     align-content: center;
     position: relative;
+`
+
+const BackArrow = styled(ArrowLeft)`
+    width: 3.5rem;
+    height: 3.5rem;
+    position: absolute;
+    color: ${props => props.theme.color.ice};
+    top: 0rem;
+    left: 1rem;
+    cursor: pointer;
+
 `

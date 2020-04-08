@@ -54,8 +54,8 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
                         .attr("class", `${className}tooltip`)
                         .style("opacity", 0)
                         .style("position", "absolute")
-                        .style("top", 0)
-                        .style("left", 0)
+                        .style("top", "-15rem")
+                        .style("left", "60rem")
 
                           
     const update = data => {
@@ -193,7 +193,8 @@ const TaxLifetimeBarChart = ({data, setKeyValue_action,  user_reducer, ui_reduce
 
     const inputRef = useRef(null)
     const className = "taxLifetimeBarChart"
-    const {birthYear} = user_reducer
+    const {currentAge} = user_reducer
+    const birthYear = new Date().getFullYear() - currentAge
     const {taxAge} = ui_reducer
 
     useEffect(()=> {

@@ -9,6 +9,7 @@ import {creditTypes_data} from "pages/tax/data/tax_data"
 import { setKeyValue_action} from "redux/actions"
 import TaxLifetimeBarChart from "charts/tax/TaxLifetimeBarChart"
 import {hideStream} from "services/ui/ui_functions"
+import {ArrowLeft} from "style/Icons"
 
 const Tax = ({setKeyValue_action, ui_reducer}) => {                                                                     //shows two charts and a breakdown of the users taxes as well as lists all the credits and deductions
 
@@ -36,16 +37,13 @@ const Tax = ({setKeyValue_action, ui_reducer}) => {                             
                 )}
             </ControlPanel>
             }
-                            <Bottom>
-                                <ButtonLeftWrapper>
-                                <ButtonLight 
+                                <BackArrow 
                                             onClick={() =>  {
                                                 hideStream(setKeyValue_action)
                                                 setKeyValue_action("taxAge", "ui_reducer", false)}}         //displaying taxes depends on if a tax age is set in the ui reducer, this sets it to false and hides it
                                             text={"Back"}
                                         />
-                                </ButtonLeftWrapper>
-                            </Bottom>
+ 
 
         </Wrapper>
     )
@@ -61,30 +59,24 @@ export default connect(mapStateToProps, {setKeyValue_action})(Tax )
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper = styled.div`
-    width:  115rem;
-    height: 80rem;
+    width:  108rem;
+    height: 65rem;
     padding: 1rem;
     margin: 0 auto;
     position: absolute;
     background: white;
-    top: 6.5rem;
-    left: 20rem;
+    top: 6.2rem;
+    left: 15rem;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     display: grid;
-    grid-template-rows: 22rem 13rem 26rem 4rem;
+    grid-template-rows: 19rem 12rem 26rem;
     grid-template-areas:
     'a a a a a a'
     'b b b b b b'
     'c c c c c c'
-    'd d d d d d'
 `
 
-    const ButtonLeftWrapper = styled.div`
-    position: absolute;
-    bottom: 5rem;
-    left: 2rem;
-`
 
 const ControlPanel = styled.div`
     width: 70rem;
@@ -96,12 +88,9 @@ const ControlPanel = styled.div`
     justify-content: space-around;
     grid-area: c;
 `
-const Bottom = styled.div`
-    width: 100%;
-`
 const Chart = styled.div`
     grid-area: b;
-    margin-top: 1rem;
+    margin-top: -1rem;
     text-align:center;
     position: relative;
 
@@ -120,4 +109,13 @@ const ChartPlaceHolder = styled.div`
     margin-left: 8.7rem;
 `
 
+const BackArrow = styled(ArrowLeft)`
+    width: 7rem;
+    height: 7rem;
+    position: absolute;
+    top: 10rem;
+    color: ${props => props.theme.color.lightGrey};
+    left: -7rem;
+    cursor: pointer;
 
+`

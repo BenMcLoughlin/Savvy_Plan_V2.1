@@ -6,7 +6,7 @@ export const lightTheme = {
     color: {
         ice: "#FCFCFC",
         blue: "#63bbcf",
-        lightGrey: "#cbcbcb",
+        lightGrey: "#c9d0cc",
         darkGrey: "#7f7f7f",
         slate: "#536D7A",
         turquoise: "#4BB9D0",
@@ -69,7 +69,7 @@ export const setFlex = ({align="center",justify="center"}) => {
 
 export const buttonStyles = `
     padding: 1rem 2rem 1rem 2rem;
-    min-width: 12rem;
+    min-width: 11rem;
     width: auto;
     height: 5rem;
     margin: 1rem;
@@ -82,13 +82,13 @@ export const buttonStyles = `
 `
 
 export const pageBaseStyles = `
-grid-area: 
-margin-top: 5rem;
-display: grid;
-margin: 0 auto;
-height: 90vh;
-width:  80vw;
-background: white;
+    grid-area: m;
+    margin-top: 5rem;
+    display: grid;
+    margin: 0 auto;
+    height: 90vh;
+    width:  80vw;
+    background: white;
 `
 export const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700&display=swap');

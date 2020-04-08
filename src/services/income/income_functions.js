@@ -263,51 +263,49 @@ export const calculateCcb = (birthYear, income_reducer, user_reducer) => {
     const ageAtLastChild =  (lastKidBirthYear - birthYear) + 17                                                         //determine their age when last child turns 17
 
 
-
-    const array = []
-    for (let age = ageAtFirstChild; age <=ageAtLastChild; age++) {
-       const inc = sum(age, "taxable", true, income_reducer)
-
-     //  console.log(inc);
-
-        const currentYear = birthYear + age
-        const ages = kidsArray.map(d => currentYear - user_reducer[d])
-        
-       // console.log(ages);
-
-        const kids = kidsArray.filter(d => user_reducer[d] <= currentYear).length
-        const r1 = ccbRates[kids].r1
-        const r2 = ccbRates[kids].r2
-        const c = ccbRates[kids].c
-
-       // console.log("currentYear", currentYear, "kids", kids);
-
-        const max = ages.map(d => d >= 0 && d <= 6 ? 6639 : d <= 17 ? 5602 : 0).reduce((a, n) => a + n)
-
-        const reduction = inc <= 31120 ? 0 : inc <= 67426 ? (inc - 31120) * r1 : ((inc - 67426) * r2) + c 
-        const value = max - reduction > 0 ? max - reduction : 0
-       
-        array.push({
-                color: "#ffd152", 
-                age1: age, 
-                type: "retirementIncome", 
-                stream: "CCb Income", 
-                taxable: true, 
-                age2: age + 1, 
-                value: value,
-        })
-    }
-                                                                                        
-    return array
+        const array = []
+        for (let age = ageAtFirstChild; age <=ageAtLastChild; age++) {
+           const inc = sum(age, "taxable", true, income_reducer)
+    
+         //  console.log(inc);
+    
+            const currentYear = birthYear + age
+            const ages = kidsArray.map(d => currentYear - user_reducer[d])
+            
+           // console.log(ages);
+    
+            const kids = kidsArray.filter(d => user_reducer[d] <= currentYear).length
+            const r1 = ccbRates[kids].r1
+            const r2 = ccbRates[kids].r2
+            const c = ccbRates[kids].c
+    
+           // console.log("currentYear", currentYear, "kids", kids);
+    
+            const max = ages.map(d => d >= 0 && d <= 6 ? 6639 : d <= 17 ? 5602 : 0).reduce((a, n) => a + n)
+    
+            const reduction = inc <= 31120 ? 0 : inc <= 67426 ? (inc - 31120) * r1 : ((inc - 67426) * r2) + c 
+            const value = max - reduction > 0 ? max - reduction : 0
+           
+            array.push({
+                    color: "#ffd152", 
+                    age1: age, 
+                    type: "otherIncome", 
+                    stream: "Child Benefit", 
+                    taxable: true, 
+                    age2: age + 1, 
+                    value: value,
+            })
+        }
+                                                                                            
+        return array
 
         }
 
 export const addCcbToIncome = (income_selector, ccbArray) => {
-
+console.log(ccbArray);
     for (let i = 0; i < ccbArray.length; i++) {
-        const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
-       
-        income_selector[id] = ccbArray[i]
+        const id = `ccb${ccbArray[i].age1}`
+        income_selector[id] = {...ccbArray[i]}
     }  
     return income_selector
 }

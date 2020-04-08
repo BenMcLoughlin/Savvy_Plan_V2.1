@@ -174,9 +174,12 @@ const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reduce
 
     const inputRef = useRef(null)
     const className = "lifetimeBarChart"
-    const {birthYear} = user_reducer
+    const {currentAge} = user_reducer
+    const birthYear = new Date().getFullYear() - currentAge
     const {id, stream} = ui_reducer
     const {age1, age2} = income_reducer[id] || 0
+
+    console.log(birthYear);
 
     useEffect(()=> {
        const width = inputRef.current.offsetWidth

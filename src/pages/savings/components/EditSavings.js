@@ -44,13 +44,17 @@ const EditSavings = ({type, setNestedKeyValue_action, savings_reducer, ui_reduce
                       label={`Annual ${type}`}
                       instance={instance}       
                 /> 
-                </RangeBarWrapper>                                   
-                <DualRangeBar
-                      title={""}
-                      bottom={age1}                                                                                                      //age1 sets the from Age, eg. age 18 in 18-45
-                      top={age2}                                                                                                         //age2 sets the to Age, eg. age 45 in 18-45
-                      setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
-                    />
+                </RangeBarWrapper> 
+                <DualRangeBarWrapper>
+                    <DualRangeBar
+                        style={{marginTop: "-7rem"}}
+                        title={""}
+                        bottom={age1}                                                                                                      //age1 sets the from Age, eg. age 18 in 18-45
+                        top={age2}                                                                                                         //age2 sets the to Age, eg. age 45 in 18-45
+                        setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
+                        />
+                </DualRangeBarWrapper>                                  
+
             </Container>
         </Wrapper>
        
@@ -69,14 +73,14 @@ export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_a
 //-----------------------------------------------STYLES-----------------------------------------------//
 
 const Wrapper = styled.div`
-    width: 32%;
-    height: 30rem;
-    margin-top: 2rem;
+    width: 35rem;
+    margin: 1rem;
+    min-height: 28rem;
     border-radius: 5px;
-    overflow: hidden;
     border: ${props => props.theme.border.primary};
+    overflow: hidden;
+    margin-bottom: 1rem;
     background: ${props => props.theme.color.ice};
-    grid-area: c;
 `
 
 
@@ -89,27 +93,16 @@ const Container = styled.div`
     justify-content: space-around;
 `
 
-
-const YearsSelectorWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-`
 const RangeBarWrapper = styled.div`
-    margin-left: 3rem;
+    margin-left: 5rem;
     margin-top: 2rem;
 `
-
-
-const SelectorTitleWrapper = styled.div`
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding: .5rem;
-    font-size: ${props =>props.theme.fontSize.small};
-    color: ${props => props.theme.color.slate};
+const DualRangeBarWrapper = styled.div`
+    margin-left: 1rem;
+    margin-top: -3rem;
 `
+
+
 
 const Header = styled.div`
     width: 100%;

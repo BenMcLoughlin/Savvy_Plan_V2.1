@@ -37,6 +37,7 @@ export default RangeBar
 
 const RangeBarWrapper = styled.div`
     margin-top: 1rem;
+    margin-left: -3rem;
     position: relative;
     width: 23rem;
 

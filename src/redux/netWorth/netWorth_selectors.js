@@ -21,10 +21,10 @@ const netWorth_reducer = state => state.netWorth_reducer
 const investmentReturn = state => state.assumptions_reducer.beforeRetirementReturn.rangeBarValue
 const propertyAppreciation = state => state.assumptions_reducer.propertyAppreciation.rangeBarValue
 
-const thisYear = new Date()
-const birthYear = state => state.user_reducer.birthYear
+
+const birthYear = state => new Date().getFullYear() - state.user_reducer.currentAge
 const retirementAge = state => state.user_reducer.retirementAge.rangeBarValue
-const userAge = state => thisYear.getFullYear() - state.user_reducer.birthYear
+const userAge = state => state.user_reducer.currentAge
 
 //ASSET SELECTORS
 export const property_selector = createSelector(

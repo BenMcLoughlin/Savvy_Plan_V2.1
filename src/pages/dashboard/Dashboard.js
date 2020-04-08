@@ -22,15 +22,6 @@ console.log(progress_reducer.dashboard);
     console.log(count);
         return (
             <Page>
-                 {
-                  count < 7 ?  <Blackout/> : null
-                }
-              
-                <Wizard 
-                    count={count}
-                    setCountAndProgress={setCountAndProgress}
-                    progress_reducer={progress_reducer}
-                    />
                    <NetWorthTile 
                         progress_reducer={progress_reducer}
                         onClick = {() => count === 2 ? setCountAndProgress(count + 1) : null}
@@ -70,7 +61,7 @@ const Page = styled.div`
    margin: 1rem;
    grid-gap: 1rem;
    grid-template-columns: repeat(24, 1fr);
-   grid-template-rows: repeat(16, minmax(3rem, 4rem)) ;
+   grid-template-rows: repeat(16, minmax(2rem, 3rem)) ;
    grid-template-areas:
    "a a a a a a b b b b b b b b b b b b c c c c c"
    "a a a a a a b b b b b b b b b b b b c c c c c"

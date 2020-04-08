@@ -8,7 +8,7 @@ const income_reducer = state => state.income_reducer                            
 const savings_reducer = state => state.savings_reducer                                                             //this is the reducer, in object form, pulled from state
 const taxAge = state => state.ui_reducer.taxAge                                                           //this is the reducer, in object form, pulled from state
 
-const birthYear = state => state.user_reducer.birthYear
+const birthYear = state => new Date().getFullYear() - state.user_reducer.currentAge
 const lifeSpan = state => state.user_reducer.lifeSpan
 const user_reducer = state => state.user_reducer
 
@@ -35,7 +35,7 @@ export const ccbArray_selector = createSelector(                                
 
 
 
-export const HAPPYPIE_selector = createSelector(                                                                      //Determines the CPP payment for the user
+export const ccb_selector = createSelector(                                                                      //Determines the CPP payment for the user
     income_reducer,
     ccbArray_selector,
     (income_reducer, ccbArray_selector) =>  addCcbToIncome(income_reducer, ccbArray_selector)                                        
@@ -66,13 +66,15 @@ export const income_selectorWithRRSP = createSelector(                          
     cpp_selector,
     rrsp_selector1,
     rrsp_selector2,
-    (income_reducer, cpp_selector, rrsp_selector1, rrsp_selector2) => ({...income_reducer, cpp_selector, rrsp_selector1, rrsp_selector2}) 
+    ccb_selector,
+    (income_reducer, cpp_selector, rrsp_selector1, rrsp_selector2, ccb_selector) => ({...income_reducer, cpp_selector, rrsp_selector1, rrsp_selector2}) 
 )
 export const oas_selector = createSelector(                                                                      //Determines the OAS payment for the user
      income_selectorWithRRSP,
-    oasStartAge,
-    lifeSpan,
-    (  income_selectorWithRRSP, oasStartAge, lifeSpan) => calculateOAS(oasStartAge, lifeSpan, income_selectorWithRRSP)                                             
+     ccb_selector,
+     oasStartAge,
+     lifeSpan,
+    (  income_selectorWithRRSP, ccb_selector, oasStartAge, lifeSpan) => calculateOAS(oasStartAge, lifeSpan, income_selectorWithRRSP, ccb_selector)                                             
 )
 
 export const income_selectorNoRRSP = createSelector(                                                             //Adds the CPP and OAS Income into the reducer
@@ -105,14 +107,14 @@ export const employment_selector = createSelector(
     income_selector,
     (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "employmentIncome").map(d => d.stream))]
 )
-export const business_selector = createSelector(
+export const otherIncome_selector = createSelector(
     income_selector,
-    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "businessIncome").map(d => d.stream))]
+    (income_selector) =>  [...new Set((Object.values(income_selector)).filter(d => d.type === "otherIncome").map(d => d.stream))]
 )
 export const retirement_selector = createSelector(
     income_selectorNoRRSP,
     (income_selectorNoRRSP) => {
-return [...new Set((Object.values(income_selectorNoRRSP)).filter(d => d.type !== "businessIncome").filter(d => d.type !== "employmentIncome").map(d => d.stream))]
+return [...new Set((Object.values(income_selectorNoRRSP)).filter(d => d.type !== "otherIncome").filter(d => d.type !== "employmentIncome").map(d => d.stream))]
 }
 )
 

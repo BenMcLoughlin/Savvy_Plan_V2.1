@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import ProgressIndicator from "UI/progressIndicator/ProgressIndicator"
 import {ArrowLeft, NavIcon} from "style/Icons"
 
+
 const LeftNavBar = ({progress_reducer}) => {
 
     const [open, toggleOpen] = useState((false))

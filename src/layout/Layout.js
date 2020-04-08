@@ -21,6 +21,7 @@ import RightVideoSelector from "./navigation/RightVideoSelector"
 import WithSpinner from "HOC/withSpinner/WithSpinner"
 import {connect} from "react-redux"
 import Spending from "pages/spending/Spending"
+import './baseStyles.css'
 
 const DashboardWithSpinner = WithSpinner(Dashboard);
 
@@ -31,7 +32,6 @@ const Layout = ({auth, state}) => {
                 <>
                 <Header auth={auth}/>
                 <LeftNavBar/>
-
                 <GridContainer>  
                         <Route path="/Assumptions" component={Assumptions}/>
                         <Route path="/Onboarding" component={OnboardProcess}/>

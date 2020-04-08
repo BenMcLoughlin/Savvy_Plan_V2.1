@@ -72,7 +72,7 @@ const Header = styled.div`
 const Wrapper = styled.div`
     width: 35rem;
     margin: 1rem;
-    min-height: 30rem;;
+    min-height: 28rem;;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     overflow: hidden;

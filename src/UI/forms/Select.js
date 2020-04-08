@@ -13,7 +13,7 @@ const Select = ({label, selectType, type, value, name, required, handleChange, s
 
     const renderYears = () => {
         const yearArray = []
-        for (let i = 2020; i > 1930; i--) {
+        for (let i = 2030; i > 1930; i--) {
            yearArray.push(i)
         }
        return yearArray.map(year => <SelectValue selectType={selectType} onClick={() => handleSelect(name, year)}>{year}</SelectValue>)
@@ -59,7 +59,6 @@ const Wrapper = styled.div`
     height: 7rem;
     margin: 2rem 0 2rem 0;
     position: relative;
-
 `
 
 const Label = styled.label`

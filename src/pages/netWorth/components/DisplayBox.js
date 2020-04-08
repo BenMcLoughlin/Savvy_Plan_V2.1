@@ -82,19 +82,17 @@ const Header = styled.div`
     color: ${props => props.theme.color.ice};
     border-bottom:  ${props => props.theme.border.primary};
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: .5rem 2rem 0.5rem 2rem;
 
 `
 
 const Wrapper = styled.div`
-    width: 100%;
-    min-height: 30rem;
+    min-width: 35rem;
+    min-height: 28rem;
     border-radius: 5px;
     border: ${props => props.theme.border.primary};
     overflow: hidden;
-    margin-bottom: 1rem;
-    margin-left: -3rem;
     background: ${props => props.theme.color.ice};
 `
 const Item = styled.div`

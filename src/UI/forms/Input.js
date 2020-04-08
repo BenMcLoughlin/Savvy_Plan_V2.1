@@ -46,7 +46,7 @@ export default FormInput
 const Wrapper = styled.div`
     width: 35rem;
     height: 7rem;
-    margin: 2rem 0 2rem 0;
+    margin: 3rem 0 2rem 0;
     position: relative;
     display: flex;
 `

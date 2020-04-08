@@ -4,32 +4,26 @@
   "private": true,
   "homepage": "https://benmcloughlin.github.io/Savvy_Plan_V2.1/",
   "dependencies": {
-    "d3": "^5.14.2",
-    "d3-legend": "^1.0.0",
-    "d3-svg-legend": "^2.25.6",
-    "firebase": "^7.6.1",
-    "font-awesome": "^4.7.0",
+    "d3": "^5.15.1",
+    "firebase": "^7.13.2",
     "fontawesome": "^5.6.3",
-    "gh-pages": "^2.1.1",
-    "immutability-helper": "^3.0.1",
     "lodash": "^4.17.15",
     "npm": "^6.13.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-fontawesome": "^1.7.1",
+    "react-player": "^1.15.3",
     "react-redux": "^7.1.3",
-    "react-redux-firebase": "^3.0.7",
+    "react-redux-firebase": "^3.3.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.0.1",
-    "redux": "^4.0.4",
+    "react-scripts": "^3.4.1",
+    "react-transition-group": "^4.3.0",
+    "redux": "^4.0.5",
     "redux-firestore": "^0.11.0",
-    "redux-form": "^8.2.6",
     "redux-persist": "^6.0.0",
-    "redux-saga": "^1.1.3",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "styled-components": "^4.4.1",
-    "styled-icons": "^8.6.0"
+    "styled-icons": "^10.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -55,7 +49,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.1.1",
     "redux-devtools-extension": "^2.13.8"
   }
 }

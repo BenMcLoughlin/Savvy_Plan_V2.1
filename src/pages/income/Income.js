@@ -10,9 +10,9 @@ import Savings from "pages/savings/Savings"
 import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {displayBox_data} from "pages/income/data/income_data"
-import {HAPPYPIE_selector} from "redux/income/income_selectors"
+import {income_selector} from "redux/income/income_selectors"
 
-const Income = ({setKeyValue_action, ui_reducer, HAPPYPIE_selector}) => {
+const Income = ({setKeyValue_action, ui_reducer, income_selector}) => {
   
     const {stream, id} = ui_reducer                                                                                                  //stream and id represent the selected values which are stored in the ui_reducer and tell the app what edit box to display
                                                                                                                                      // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
@@ -22,8 +22,6 @@ const Income = ({setKeyValue_action, ui_reducer, HAPPYPIE_selector}) => {
                 setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
                 setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
     }
-
-    console.log(HAPPYPIE_selector);
 
         return (
             <Page>
@@ -38,14 +36,15 @@ const Income = ({setKeyValue_action, ui_reducer, HAPPYPIE_selector}) => {
                  ui_reducer.taxAge                                      ?                                                            //if the tax age is set, by clicking on a bar in the chart, then it shows the tax page
                  <Tax/>                                                 : 
                  stream                                                 ?                                                            //stream is the income stream, if its clicked and set the edit box will pop up
-                    <EditIncome  createNewItem={createNewItem}/>        : 
-                    <>
-                   {displayBox_data.map(d => <DisplayBox  
-                                     type={d.type}                                                                                          //the income types are seperated according to if they make contributions to CPP                                                    
-                                    />
-                        )
-                    }
-                     </>           
+                    <EditIncome  createNewItem={createNewItem}/>        :
+
+                    <ControlPanel>
+                        {displayBox_data.map(d => <DisplayBox  
+                                                        type={d.type}                                                                                          //the income types are seperated according to if they make contributions to CPP                                                    
+                                                        />
+                                            )
+                                        }
+                    </ControlPanel>         
                 }
 
             </Page>
@@ -56,7 +55,7 @@ const mapStateToProps = (state) => {
     return {
         progress_reducer: state.progress_reducer,
         ui_reducer: state.ui_reducer,
-        HAPPYPIE_selector: HAPPYPIE_selector(state)
+        income_selector: income_selector(state)
     }
 }
 
@@ -66,19 +65,26 @@ export default connect(mapStateToProps, {setKeyValue_action})(Income)
 
 const Page = styled.div`
     ${props => props.theme.pageBaseStyles}
-    grid-template-rows: 10rem 26rem 26rem 4rem;
+    grid-template-rows: 8rem 23rem 26rem;
     grid-template-areas:
     'a a a'
     'b b b'
     'c c c'
-    'd d d'
 `
 const ChartPlaceHolder = styled.div`
     grid-area: b;
-    width: 90%;
-    margin-left: 5%;
+    width: 100rem;
+    margin-left: 7rem;
     height: 100%;
 
+`
+const ControlPanel = styled.div`
+    width:  108rem;
+    border-radius: 5px;
+    height: 100%;                 
+    padding: 1rem;                                
+    display: flex;
+    justify-content: space-around;
 `
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//

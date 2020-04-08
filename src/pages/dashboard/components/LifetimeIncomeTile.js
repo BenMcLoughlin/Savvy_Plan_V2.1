@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-
+import IncomeBarChart 
+from "charts/income/IncomeBarChart"
 import { NavLink} from "react-router-dom"
+import Header from "pages/income/components/Header"
 
 const LifetimeIncomeTile = ({progress_reducer}) => {
 
@@ -12,19 +14,10 @@ const LifetimeIncomeTile = ({progress_reducer}) => {
 
         return (
             <LifetimeIncomeTileWrapper to="/income" count={progress_reducer.dashboard} >
-            <Top>
-                    <Left>
-
-                </Left>
-                <Right>
-
-                    </Right>
-            
-            </Top>
-
-            <ChartWrapper>
-
-            </ChartWrapper>
+            <Header/>   
+            <ChartPlaceHolder>
+                    <IncomeBarChart/>
+                </ChartPlaceHolder>  
             </LifetimeIncomeTileWrapper>
         )
 
@@ -60,32 +53,12 @@ const LifetimeIncomeTileWrapper = styled(NavLink)`
   }
 `
 
-const Top = styled.div`
-    display: flex;
-    flex: 30%;
-    margin-top: 4rem;
+
+const ChartPlaceHolder = styled.div`
+    grid-area: b;
+    width: 100rem;
+    margin-left: 7rem;
+    margin-top: -6rem;
+    height: 100%;
 
 `
-const Left = styled.div`
-    display: flex;
-    flex-direction: column;
-    font-size: ${props => props.theme.fontSize.medium};
-    flex: 1;
-`
-const Right = styled.div`
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-`
-
-const ChartWrapper = styled.div`
-    margin-top: -5rem;
-    margin-bottom: 1rem;
-    width: 100%;
-    height: 70%;
-    font-size: 1.2rem;
-`
-

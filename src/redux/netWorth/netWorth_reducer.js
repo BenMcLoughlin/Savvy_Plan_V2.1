@@ -2,8 +2,42 @@ import _ from "lodash"
 
 
 const initialState = { 
-
+    TFSA: {
+        color:  "#8CB8B7",
+        age1: 65,
+        reg: "TFSA",
+        taxable: false, 
+        stream: "TFSA Current Value",
+        age2: 96,
+        id: "TFSA",
+        type: "asset",
+        value: 0,
+    },
+    RRSP: {
+        color:  "#8CB8B7",
+        age1: 65,
+        reg: "RRSP",
+        taxable: false, 
+        stream: "RRSP Current Value",
+        age2: 96,
+        id: "RRSP",
+        type: "asset",
+        value: 0,
+    },
+    Other: {
+        color:  "#8CB8B7",
+        age1: 65,
+        reg: "Other",
+        taxable: false, 
+        stream: "TOtherCurrent Value",
+        age2: 96,
+        id: "Other",
+        type: "asset",
+        value: 0,
+    },
 }
+
+
 
  const netWorth_reducer = (state = initialState, action) => {
     switch(action.type) {

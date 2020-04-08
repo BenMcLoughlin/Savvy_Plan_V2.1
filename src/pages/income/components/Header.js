@@ -13,11 +13,10 @@ return (
             <Wrapper>
             <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
                 <h1>
-                    Lifetime Income Chart1
+                    Lifetime Income Chart
                 </h1>
             </Left>
             <Right>
-            <h2>Optimized Retirement Income Plan</h2>
             <Container >
                     <Summary>
                     {`${(cpp)/1000}k`}  
@@ -39,7 +38,7 @@ return (
             </Container>
             <Summary>
              {`${Math.round((cpp + + tfsa + rrsp)/1000)}k`}
-            <h4>Total</h4>
+            <h4>Retirement Income</h4>
             </Summary>
             </Right>
             
@@ -64,7 +63,7 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    margin-top: 4rem;
+    margin-top: 1rem;
     position: relative;
     color: ${props => props.theme.color.slate};
 `
@@ -109,6 +108,7 @@ const Right = styled.div`
 const Container = styled.div`
     display: flex;
     width: 60%;
+    margin-top: 3rem;
     border-bottom: ${props => props.theme.border.primary};
 `
 

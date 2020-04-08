@@ -78,18 +78,21 @@ export default connect(mapStateToProps,{})(ControlPanel)
 
 
 const Wrapper = styled.div`
-    width: 30%;
+    width: 35rem;
+    margin: 1rem;
+    min-height: 28rem;
     border-radius: 5px;
-    height: 100%;
+    border: ${props => props.theme.border.primary};
+    overflow: hidden;
+    margin-bottom: 1rem;
 `
 const Sections = styled.div`
     display: flex;
-    padding: 1rem;
     width: 37rem;
     position: relative;
     justify-content: center;
 `
 const Section = styled.div`
     width: 100%;
-    margin: 1rem;
+
 `

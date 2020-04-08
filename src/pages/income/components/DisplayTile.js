@@ -13,23 +13,29 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
     const {color, id, value} = instanceArray[0]
 
     const removeItem = () => {                                                                                                        //enables us to delete the entire income stream
+        if(stream !== "Child Benefit") {
         const categoryIdArray =  instanceArray.map(d => d.id)                                                                         //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
         for (let i = 0; i < instanceArray.length; i++) {                                                                              //this mapes through and removes all instances
         delete_action(categoryIdArray[i], "income_reducer")   
         }                                                   
-                                                                                      
+    }                                                                       
     }              
-
     const income = stream === "RRSP Withdrawals" ? (value + rrspMinWithdrawal_selector) : value
-    const id2 = stream === "RRSP Withdrawals" ? (value + rrspMinWithdrawal_selector) : value
+  
+    const openEditIncome = () => {
+        if(stream !== "Child Benefit" || stream !== "TFSA" ) {
+            setKeyValue_action("stream", "ui_reducer", stream)  
+                                    setKeyValue_action("id", "ui_reducer", id)  
+        }
+    }
+
+
+
     return (
         <Item label={stream} color={color} >
-            <Text onClick={() => {
-                                    setKeyValue_action("stream", "ui_reducer", stream)  
-                                    setKeyValue_action("id", "ui_reducer", id)  
-                                }}>                                                                                                 {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
+            <Text onClick={() => openEditIncome()}>                                                                                                 {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 
                 <H2>{stream}</H2>
-                <H2>{income/1000}K</H2>
+                <H2>{Math.round(income/1000)}K</H2>
             </Text>
             <Delete onClick={() => removeItem()}/>                                                                                   {/*  If the x is clicked the stream is removed */}
         </Item>

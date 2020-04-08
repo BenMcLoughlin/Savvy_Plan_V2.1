@@ -179,6 +179,7 @@ const TaxBarChart = ({taxesBracketChartData_selector, ui_reducer, user_reducer})
     const {taxAge} = ui_reducer
     const inputRef = useRef(null)
     const className = "taxBracketBarChart"
+    const {currentAge} = user_reducer
     const {birthYear} = user_reducer
 
     useEffect(()=> {

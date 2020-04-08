@@ -4,12 +4,12 @@ import { createProjection} from "services/savings/savings_functions"
 
 
 const savings_reducer = state => state.savings_reducer                                                             //this is the reducer, in object form, pulled from state
-const thisYear = new Date()
-const birthYear = state => state.user_reducer.birthYear
+
+const birthYear = state => new Date().getFullYear() - state.user_reducer.currentAge
 const lifeSpan = state => state.user_reducer.lifeSpan
 const rrifStartAge = state => state.user_reducer.rrspStartAge
 const retirementAge = state => state.user_reducer.retirementAge
-const userAge = state => thisYear.getFullYear() - state.user_reducer.birthYear
+const userAge = state => state.user_reducer.currentAge
 const netWorth_reducer = state => state.netWorth_reducer
 
 export const user_reducer = state => state.user_reducer
