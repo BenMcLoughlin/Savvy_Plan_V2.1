@@ -317,13 +317,6 @@ export const convertTaxDetailsToDisplay = (d) => {
 }
 
 
-export const createTaxInstance = (setKeyValue_action, state ) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
-    const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object    
-    setKeyValue_action(id, "tax_reducer",  {...state, id})                                                            //This action fires and sets the state in the income reducer creating a new item there,        
-            setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
-            setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
-}
-
 export const creditTaxSavings = (age, instance, income_selector) => {
 
     const {stream, value, type} = instance

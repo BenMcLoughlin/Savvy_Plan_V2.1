@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import ButtonLight from "UI/buttons/ButtonLight"
 import Header from "pages/tax/components/Header"
 import EditCredit from "pages/tax/components/EditCredit"
 import DisplayBox from "pages/tax/components/DisplayBox"

@@ -9,48 +9,43 @@ import {ArrowLeft} from "style/Icons"
 
 const InvestmentFactor = ({setKeyValue_action,  user_reducer}) => {    
 
-
         const [visible, setVisible] = useState(false)
-    return (
+   
+        return (
         <>
         {
             visible ? 
             <Wrapper>                                                                     
-
-            <Header>
-            <BackArrow onClick={() => setVisible(false)}/>
-            <h2>Investment Factors</h2> 
-            </Header>
-            <Container> 
-            <MiniRangeBarWrapper>
-                {
-                    rates_data.slice(0,3).map(d =>  <MiniRangeBar
-                                                                            label={d.label}
-                                                                            name={d.name}
-                                                                            reducer={"user_reducer"}
-                                                                            setKeyValue_action={setKeyValue_action}                                                                      
-                                                                            step={d.step}
-                                                                            value={user_reducer[d.name]}
-                                                                            min={d.min}
-                                                                            max={d.max}
-                                                                            numberType={d.numberType}
-                        />
-                )
-                }
-
-            </MiniRangeBarWrapper>
-  
-            </Container>
+                <Header>
+                <BackArrow onClick={() => setVisible(false)}/>
+                <h2>Investment Factors</h2> 
+                </Header>
+                <Container> 
+                <MiniRangeBarWrapper>
+                    {
+                        rates_data.slice(0,3).map(d =>  <MiniRangeBar
+                                                                                label={d.label}
+                                                                                name={d.name}
+                                                                                reducer={"user_reducer"}
+                                                                                setKeyValue_action={setKeyValue_action}                                                                      
+                                                                                step={d.step}
+                                                                                value={user_reducer[d.name]}
+                                                                                min={d.min}
+                                                                                max={d.max}
+                                                                                numberType={d.numberType}
+                            />
+                    )
+                    }
+                </MiniRangeBarWrapper>
+                </Container>
             </Wrapper>
             :
             <ButtonRightWrapper>
                 <ButtonLight text="Rates" onClick={() => setVisible(true)}></ButtonLight>
             </ButtonRightWrapper>
         }
-    </>
-       
+    </>  
     )
-
 }
 
 const mapStateToProps = (state) => ({

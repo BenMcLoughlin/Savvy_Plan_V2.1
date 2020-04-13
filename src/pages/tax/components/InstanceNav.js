@@ -3,16 +3,15 @@ import {connect} from "react-redux"
 import styled from "styled-components"
 import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
-import {createTaxInstance} from "services/tax/tax_functions"
-import {deleteInstance} from "services/ui/ui_functions"
-import {taxCredit_data} from "pages/tax/data/tax_data"
+import {deleteInstance, createInstance} from "services/ui/ui_functions"
+import {newTaxInstance} from "pages/tax/data/tax_data"
 import {setKeyValue_action, delete_action} from "redux/actions"
 
 const InstanceNav =({delete_action, instanceArray, instance, setKeyValue_action}) => {
 
     const {eligible, age2, id, stream, taxType, value}  = instance  
 
-    const state = taxCredit_data(eligible, age2, stream, (age2 + 5), taxType, value)                                        //creating a new income instance requires us to fire this new state
+    const newInstance = newTaxInstance(eligible, age2, stream, (age2 + 5), taxType, value)                                        //creating a new income instance requires us to fire this new state
 
     const [selected, select] = useState(id)
     const handleSelect = (id) => {
@@ -40,7 +39,7 @@ const InstanceNav =({delete_action, instanceArray, instance, setKeyValue_action}
                                                                                                                           
                                               </SelectValue>)              
                 }
-                                              <Add onClick={() => createTaxInstance(setKeyValue_action, state)} />
+                                              <Add onClick={() => createInstance(setKeyValue_action, newInstance)} />
             </SelectWrapper>
         </Container>
     )

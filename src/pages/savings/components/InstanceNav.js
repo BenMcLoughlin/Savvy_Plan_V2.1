@@ -5,14 +5,13 @@ import _ from "lodash"
 import {Close, PlusIcon} from "style/Icons"
 import {setKeyValue_action, delete_action} from "redux/actions"
 import {createSavingsInstance, deleteInstance} from "services/savings/savings_functions"
-import {savingsInstance_data} from "pages/savings/data/savings_data"
-import {taxCredit_data} from "pages/tax/data/tax_data"
+import {newSavingsInstance} from "pages/savings/data/savings_data"
 
 const InstanceNav = ({instanceArray, instance, delete_action, setKeyValue_action }) => {
 
     const {age2, color, id, reg, stream, value, taxType, transaction}  = instance     
 
-    const state = savingsInstance_data(age2, color, reg, stream, (age2 + 5), transaction, taxType,  value)                                        //creating a new income instance requires us to fire this new state
+    const newInstance = newSavingsInstance(age2, color, reg, stream, (age2 + 5), transaction, taxType,  value)                                        //creating a new income instance requires us to fire this new state
    
     const [selected, select] = useState(id)
 
@@ -40,7 +39,7 @@ const InstanceNav = ({instanceArray, instance, delete_action, setKeyValue_action
                                  {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, "main_reducer", reg, setKeyValue_action)}/> : null}
                      </SelectValue>)                                     
                 }
-                <Add onClick={() => {createSavingsInstance(setKeyValue_action, state, taxCredit_data)} }  
+                <Add onClick={() => {createSavingsInstance(newInstance, setKeyValue_action)} }  
                 />
             </SelectWrapper>
         </Container>

@@ -34,7 +34,6 @@ return (
             <h4>Peak Value</h4>
             </Summary2>
             </Right>
-            
             </Wrapper>
         )
 }

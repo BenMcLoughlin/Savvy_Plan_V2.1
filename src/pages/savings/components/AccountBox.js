@@ -7,7 +7,7 @@ import EditForm from "pages/netWorth/components/EditForm"
 import AddForm from "pages/netWorth/components/AddForm"
 import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
-const ControlPanel = ({setCount, display, netWorth_reducer, reg}) => {    
+const ControlPanel = ({display, netWorth_reducer, reg}) => {    
 
     const [id, setId] = useState()                                                                              //If the user wants to change something this sets the id of the item they want to change
   
@@ -43,19 +43,15 @@ const ControlPanel = ({setCount, display, netWorth_reducer, reg}) => {
                     <>
                     {
                                                     //if neither add or edit forms are clicked then it renders out the item display
-
                             <Section  key={netWorthWizard_data[1].subCategory}>
                             <DisplayBox                                                                  //Displays all the assets or liabilities they have added
                                 category={netWorthWizard_data[1].category}
                                 item={netWorthWizard_data[1]}
                                 subCategory={netWorthWizard_data[1].subCategory}
-                                setCount={setCount}
-                                setId={setId}
                                 setAddFormSubCategory={setAddFormSubCategory}
                                 reg={reg}
                                 />
                             </Section> 
-
                     }
                 </>
                  }

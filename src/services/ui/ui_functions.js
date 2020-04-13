@@ -62,8 +62,6 @@ export function useComponentVisible(initialIsVisible) {
 
  //DELETE INSTANCE -- used to delete objects in an instance array, this is an array of objects that are all related such as earning years of the same income stream
  export const deleteInstance = (delete_action, id, localId, instanceArray, reducer, setKeyValue_action) => {       //deletes the instance
-console.log("id", id);
-console.log("localId", localId);
    if (localId === id) {                                                                                                       //checks if the instance being deleted and the one currently being displayed are the same
         {                                                                                                                    // if the array is greater then one it wil delete the instance and change the id of the instance being displayed
              setKeyValue_action("id", "ui_reducer", instanceArray[0].id)                                                // sets the id to the first id in the instance array, this prevents errors, otherwise it wants to display an instance that no longer exists
@@ -88,3 +86,5 @@ export const createInstance = (newInstance, setKeyValue_action) => {            
             setKeyValue_action("stream", "ui_reducer",  newInstance.stream)                                                      //we then set the stream in the ui reducer telling which values should be given to the edit box
             setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
 }
+
+

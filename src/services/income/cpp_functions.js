@@ -116,7 +116,7 @@ export const calculateCpp = (birthYear, cppStartAge, lifeSpan, main_reducer) => 
          const cppIncome = {
             color: "#F29278", 
             age1: cppStartAge, 
-            type: "retirementIncome", 
+            incomeType: "retirementIncome", 
             stream: "CPP Income", 
             id: "cpp_selector", 
             taxable: true, 
@@ -129,13 +129,13 @@ export const calculateCpp = (birthYear, cppStartAge, lifeSpan, main_reducer) => 
         else return {
             color: "#F29278", 
             age1: cppStartAge, 
-            type: "retirementIncome", 
+            incomeType: "retirementIncome", 
             stream: "CPP Income", 
             id: "cpp_selector", 
             taxable: true, 
             age2: lifeSpan + 1, 
-            base: annualCppPayment,
-            value: adjustedCppPayment,
+            base: 0,
+            value: 0,
         }            
 }
 

@@ -2,7 +2,7 @@ import React, {useEffect} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import {cpp_selector} from "redux/main/income_selectors"
-import { delete_action, setKeyValue_action} from "redux/actions"
+import {setKeyValue_action} from "redux/actions"
 import ButtonLight from "UI/buttons/ButtonLight"
 import EditSavings from "pages/savings/components/EditSavings"
 import SavingsAreaChart from "charts/savings/SavingsAreaChart"
@@ -59,10 +59,9 @@ const Savings = ({setKeyValue_action, ui_reducer}) => {
 const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
     ui_reducer: state.ui_reducer,
-    cpp_selector: cpp_selector(state),
 })
 
-export default connect(mapStateToProps, {setKeyValue_action, setKeyValue_action,  delete_action})(Savings )
+export default connect(mapStateToProps, {setKeyValue_action})(Savings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//

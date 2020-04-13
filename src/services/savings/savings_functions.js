@@ -19,11 +19,11 @@ import {RRIFMinimumTable} from "services/savings/savings_tables"
 
     
 //CREATES A NEW SAVINGS INSTANCE
-export const createSavingsInstance = (setKeyValue_action, state, taxCredit_data) => {                                                                                               //This creates a new Savings Instance, such as from ages 18-22
+export const createSavingsInstance = (newInstance, setKeyValue_action) => {                                                                                               //This creates a new Savings Instance, such as from ages 18-22
         const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
            
-               setKeyValue_action(id, "main_reducer",  {...state, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
-               setKeyValue_action((state.transaction === "withdrawal" ? "id" : "id2"), "ui_reducer", id)
+               setKeyValue_action(id, "main_reducer",  {...newInstance, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
+               setKeyValue_action((newInstance.transaction === "withdrawal" ? "id" : "id2"), "ui_reducer", id)
                                                                                                                                                                                                                     // determines which income instance to show within the edit box
     }
 

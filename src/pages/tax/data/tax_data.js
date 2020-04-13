@@ -1,4 +1,4 @@
-export const taxCredit_data = (eligible, age1, stream, age2, taxType, value) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const newTaxInstance = (eligible, age1, stream, age2, taxType, value) => ({                                              //this is the initial state of value being stored to the reducer. 
     eligible, 
     age1,
     stream,

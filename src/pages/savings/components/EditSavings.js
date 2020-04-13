@@ -1,11 +1,11 @@
-import React, {useEffect} from "react"
+import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import InstanceNav from "pages/savings/components/InstanceNav"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar1/RangeBar"
 import _ from "lodash"
-import {setNestedKeyValue_action, setKeyValue_action} from "redux/actions"
+import {setNestedKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
 import {setAge} from "services/ui/ui_functions"
 
@@ -33,8 +33,7 @@ const EditSavings = ({transaction, setNestedKeyValue_action, main_reducer, ui_re
                 < RangeBarWrapper>
                 <RangeBar 
                       setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value                                                                                     //Every Add instance has a range bar to set its value
-                      reducer="main_reducer"
-                     // second_reducer={transaction === "withdrawal" ? "main_reducer" : transaction === "contribution" && reg === "RRSP" ? "main_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the main_reducer  
+                      reducer="main_reducer"                                                            
                       label={`Annual ${transaction}`}
                       instance={instance}       
                 /> 
@@ -48,12 +47,9 @@ const EditSavings = ({transaction, setNestedKeyValue_action, main_reducer, ui_re
                         setValue={setDualRangeBar}                                                                                         //reaches into reducer to set the values
                         />
                 </DualRangeBarWrapper>                                  
-
             </Container>
         </Wrapper>
-       
     )
-
 }
 
 const mapStateToProps = (state) => ({
@@ -61,7 +57,7 @@ const mapStateToProps = (state) => ({
     ui_reducer: state.ui_reducer,
 })
 
-export default connect(mapStateToProps, {setNestedKeyValue_action, setKeyValue_action})(EditSavings )
+export default connect(mapStateToProps, {setNestedKeyValue_action})(EditSavings )
 
 
 //-----------------------------------------------STYLES-----------------------------------------------//
