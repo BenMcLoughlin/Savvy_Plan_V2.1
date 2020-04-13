@@ -15,7 +15,7 @@ const ControlPanel = ({display, netWorth_reducer, reg}) => {
     const addFormDetails = netWorthWizard_data.find(d => d.subCategory === addFormSubCategory)                  //Provides the add form with the details to render
 
     const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
-    const subCategory = id ? netWorth_reducer[id].subCategory : "cashAssets"                          //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
+    const subCategory = id ? netWorth_reducer[id].subCategory : "cashAssets"                                    //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
     return (
         <Wrapper>   
@@ -23,7 +23,7 @@ const ControlPanel = ({display, netWorth_reducer, reg}) => {
            { 
                     id ? 
                     <EditForm
-                        id={id}                                                                        //Clicking add takes the id of the item being added and sets it in the local state
+                        id={id}                                                                                 //Clicking add takes the id of the item being added and sets it in the local state
                         category={category}
                         subCategory={subCategory}
                         setId={setId}

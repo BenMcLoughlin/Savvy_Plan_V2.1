@@ -14,7 +14,7 @@ import {individualItem_data} from "pages/netWorth/data/netWorth_data"
 
 //THe add form is used to add individual items to the users net worth.
 
-const AddForm = ({category, subCategory, user_reducer, main_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector}) => {    
+const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector, parent}) => {    
 
 
     const initialState = individualItem_data(bookValueLabel, category, currentValueLabel, interestRateLabel, accountTypeArray[0], subCategory)     //initial State is found in data 
@@ -48,11 +48,12 @@ const AddForm = ({category, subCategory, user_reducer, main_reducer, setAddFormS
         setState({...initialState})     
     }
 
+console.log(subCategory);
 
     return (
         <>
         <WhiteBox/>
-            <Container subCategory={subCategory}>                                                                       {/* passing in subCategory is used to change the header color */}
+            <Container subCategory={subCategory} parent={parent}>                                                                       {/* passing in subCategory is used to change the header color */}
                 <Left>                                                                                                  {/* Choose one is used to select the account type */}
                     <ChooseOne
                             array={subCategory === "securedDebt" ? propertyNames_selector.concat("None of These") : accountTypeArray }  //if it is secored (a mortgage) it has to be linked to the property its secured against
@@ -172,9 +173,9 @@ const Center = styled.div`
 `
 const WhiteBox = styled.div`
     position: absolute;
-    top: 1rem;
+    top: -2rem;
     left: 1rem;
-    width: 115rem;
+    width: 103rem;
     height: 32rem;
     background: white;
     z-index: 700;
@@ -183,11 +184,11 @@ const Container = styled.div`
     width: 94rem;
     border-radius: 5px;
     overflow: hidden;
-    height: 30rem;                                                    
+    height: ${props => props.subCategory === "securedDebt" ? "33rem" : "28rem"};                                          
     border: ${props => props.theme.border.primary};
     position: absolute;
-    top: 2rem;
-    left: 11rem;
+    top: ${props => props.parent ? "0rem" : "2rem"};
+    left: ${props => props.parent ? "0rem" : "11.8rem"};
     display: flex;
     z-index: 800;
     background: ${props => props.theme.color.ice}
