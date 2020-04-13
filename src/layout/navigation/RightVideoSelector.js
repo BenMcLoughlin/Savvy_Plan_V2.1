@@ -11,17 +11,16 @@ import {ArrowRight, PlayIcon, ArrowLeft} from "style/Icons"
 
 const VideoNav = ({ui_reducer, setKeyValue_action}) => {
 
-
  const {videoUrl} = ui_reducer
- const [open, setOpen] = useState(false)
+
  return ( <>
             {
-                    open ? 
+                    videoUrl ? 
                     <>
                     <Video/> 
                     <Wrapper>
                     <Header> 
-                        <Close onClick={() => setOpen(false)}/>
+                        <Close  onClick={() => setKeyValue_action("videoUrl", "ui_reducer", false)}/>
                          PlayList
                     </Header>
                     {
@@ -40,7 +39,7 @@ const VideoNav = ({ui_reducer, setKeyValue_action}) => {
                 </>
 
                 :
-                <Open onClick={() => setOpen(true)}/>
+                <Open onClick={() => setKeyValue_action("videoUrl", "ui_reducer", true)}/>
             }
      </>
        

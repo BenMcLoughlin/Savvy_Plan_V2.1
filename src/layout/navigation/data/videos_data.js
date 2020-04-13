@@ -13,14 +13,14 @@ export const videos = [
     },
     {
         count: 3, 
-        title: "Understanding savings",
+        title: "Understanding RRSP Savings",
         url: "https://www.youtube.com/watch?v=WG6wex_Cy3Y",
         duration: "6:04"
     },
     {
         count: 4, 
-        title: "What next",
-        url: "https://www.youtube.com/watch?v=CYIgF2UxGoI&t=119s",
+        title: "Understanding TFSA Savings",
+        url: "https://www.youtube.com/watch?v=CYIgF2UxGoI",
         duration: "13:49"
     },
 ]

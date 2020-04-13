@@ -18,7 +18,7 @@ const Income = ({ui_reducer, setKeyValue_action}) => {
 console.log('ui_reducer', ui_reducer);
 
     useEffect(() => {
-        if (!incomeVisited) {setKeyValue_action("videoUrl", "ui_reducer", "https://www.youtube.com/watch?v=vi7rNAlL-IQ")}
+        if (!incomeVisited) {setKeyValue_action("videoUrl", "ui_reducer", "https://www.youtube.com/watch?v=DjIjHYafVvk")}
         setKeyValue_action("incomeVisited", "ui_reducer", true)
     }, [])                                                                                                                                 // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
       
