@@ -7,20 +7,20 @@ export const videos = [
     },
     {
         count: 2, 
-        title: "Its all about income",
-        url: "https://www.youtube.com/watch?v=XAowXcmQ-kA",
-        duration: "13:49"
+        title: "How this chart works",
+        url: "https://www.youtube.com/watch?v=-7USWGI0kac",
+        duration: "3:59"
     },
     {
         count: 3, 
         title: "Understanding savings",
-        url: "https://www.youtube.com/watch?v=vi7rNAlL-IQ",
-        duration: "13:49"
+        url: "https://www.youtube.com/watch?v=WG6wex_Cy3Y",
+        duration: "6:04"
     },
     {
         count: 4, 
         title: "What next",
-        url: "https://www.youtube.com/watch?v=UDVtMYqUAyw",
+        url: "https://www.youtube.com/watch?v=CYIgF2UxGoI&t=119s",
         duration: "13:49"
     },
 ]

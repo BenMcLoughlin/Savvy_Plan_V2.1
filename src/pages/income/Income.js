@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import Header from "pages/income/components/Header"
@@ -6,15 +6,23 @@ import IncomeBarChart from "charts/income/IncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
 import Tax from "pages/tax/Tax"
 import Savings from "pages/savings/Savings"
+import {setKeyValue_action} from "redux/actions"
 import EditPension from "pages/income/components/EditPension"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {displayBox_data} from "pages/income/data/income_data"
 
-const Income = ({ui_reducer}) => {
+const Income = ({ui_reducer, setKeyValue_action}) => {
   
-    const {stream} = ui_reducer                                                                                                  //stream and id represent the selected values which are stored in the ui_reducer and tell the app what edit box to display
-                                                                                                                                 // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
-        return (
+    const {stream, incomeVisited} = ui_reducer    
+
+console.log('ui_reducer', ui_reducer);
+
+    useEffect(() => {
+        if (!incomeVisited) {setKeyValue_action("videoUrl", "ui_reducer", "https://www.youtube.com/watch?v=vi7rNAlL-IQ")}
+        setKeyValue_action("incomeVisited", "ui_reducer", true)
+    }, [])                                                                                                                                 // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
+      
+    return (
             <Page>
               <Header/>                                                                                                               
                  <ChartPlaceHolder>
@@ -48,7 +56,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {})(Income)
+export default connect(mapStateToProps, {setKeyValue_action})(Income)
 
 //-----------------------------------------------style-----------------------------------------------//
 
