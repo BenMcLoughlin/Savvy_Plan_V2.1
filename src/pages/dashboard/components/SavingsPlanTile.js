@@ -11,7 +11,7 @@ const SavingsPlanTile = ({progress_reducer}) => {
 
 
         return (
-            <Wrapper to="/Savings" count={progress_reducer.dashboard}>
+            <Wrapper to="/Income" count={progress_reducer.dashboard}>
           <Charts>
                     <ChartPlaceHolder>
                         <SavingsAreaChart reg={"RRSP"} />

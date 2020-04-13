@@ -179,8 +179,6 @@ const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reduce
     const {id, stream} = ui_reducer
     const {age1, age2} = main_reducer[id] || 0
 
-    console.log(birthYear);
-
     useEffect(()=> {
        const width = inputRef.current.offsetWidth
        const height = inputRef.current.offsetHeight

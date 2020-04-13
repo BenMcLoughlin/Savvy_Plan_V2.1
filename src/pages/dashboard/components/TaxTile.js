@@ -1,16 +1,17 @@
 import React from "react"
 import {connect} from "react-redux"
 import styled from "styled-components"
-import {calculateTaxesByBracket} from "services/tax/tax_functions"
 import { NavLink} from "react-router-dom"
 import TaxBracketsBar from "charts/tax/TaxBracketsBar"
+import {setKeyValue_action} from "redux/actions"
 
-const TaxTile = () => {
+const TaxTile = ({setKeyValue_action, ui_reducer}) => {
 
-  
+const {currentAge} = ui_reducer  
+console.log("currentAge", currentAge);
     return (
-        <Wrapper to="/Tax">
-                      <Chart>
+        <Wrapper to="/Income" >
+                      <Chart  onClick={() =>  console.log('setKeyValue_action("taxAge", "ui_reducer", currentAge)')}>
                     <ChartTitle>{`Your Taxes Per Bracket`}</ChartTitle>
                     <TaxBracketsBar/>
                 </Chart>
@@ -18,12 +19,10 @@ const TaxTile = () => {
     )
 }
 
-const mapStateToProps = (state) => {
-
-    return {
-    }
-  }
-export default connect(mapStateToProps)(TaxTile)
+const mapStateToProps = (state) => ({
+  ui_reducer: state.ui_reducer
+  })
+export default connect(mapStateToProps, {setKeyValue_action})(TaxTile)
 
 //-----------------------------------------------style-----------------------------------------------//
 

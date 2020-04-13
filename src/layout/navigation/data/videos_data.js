@@ -1,9 +1,9 @@
 export const videos = [
     {
         count: 1, 
-        title: "Start with Why",
-        url: "https://www.youtube.com/watch?v=zTitoHKsyJg&t=18s",
-        duration: "13:49"
+        title: "Introduction",
+        url: "https://www.youtube.com/watch?v=DjIjHYafVvk",
+        duration: "2:35"
     },
     {
         count: 2, 

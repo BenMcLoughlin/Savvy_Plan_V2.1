@@ -8,7 +8,6 @@ import {setKeyValue_action} from "redux/actions"
 
 const drawChart = (birthYear, data, width, height, setKeyValue_action, className, taxAge) => {
    
-    console.log("data", data);
     const margin = {top: 20, right: 50, bottom: 20, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right

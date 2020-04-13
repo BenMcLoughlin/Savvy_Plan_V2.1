@@ -178,7 +178,6 @@ const oasClawbackTotal = inc => inc > cra.oasThres && inc < cra.oasTop ? (inc - 
 
 export const calculateTaxes = (age, income_selector, main_reducer) => {
 
-    console.log("income_selector", income_selector);
     let taxableIncome = sum(age, "taxable", true, income_selector)
     let oasIncome = sum(age, "stream", "OAS Income", income_selector) 
     let nonTaxableIncome = sum(age, "taxable", false, income_selector)
@@ -188,7 +187,7 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
     let otheDeductions = sum(age, "taxType", "deduction", main_reducer)
-    let rrsdDeductions = sum(age, "taxType", "RRSP Contributions", main_reducer)
+    let rrsdDeductions = sum(age, "taxType", "rrspDeduction", main_reducer)
     let deductions = rrsdDeductions + otheDeductions
 
     let postRRSPIncome = taxableIncome - rrsdDeductions > 0 ? taxableIncome - rrsdDeductions : 0
@@ -224,8 +223,6 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
     let noRRSPTotalTaxes = noRRSPFedTaxes + noRRSPProvTaxes + oasClawback 
 
     let RRSPextraTaxes = totalTaxes - noRRSPTotalTaxes
-                console.log("age", age, "rrspIncome", rrspIncome, 'totalTaxes', totalTaxes, "noRRSPTotalTaxes", noRRSPTotalTaxes);
-
     let afterTaxIncome = postDedIncome - fedTax - provTax - oasClawback + nonTaxableIncome
     let averageTaxRate = (taxableIncome - afterTaxIncome)/taxableIncome 
 

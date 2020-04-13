@@ -18,6 +18,7 @@ const initialState = {
         stream: "TFSA Withdrawals",
         age2: 95,
         id: "TFSAwithdrawal",
+        taxable: false,
         transaction: "withdrawal",
         incomeType: "retirementIncome", 
         value: 0,

@@ -22,9 +22,6 @@ import {signOut_action} from "redux/auth/auth_actions"
             </Left>
             <Right>
           
-                <PageSelect to="/plan" activeClassName="active">
-                        YOUR PLAN
-                </PageSelect>
             <Hr/>
                 <PageSelect to="/" activeClassName="active">
                         DASHBOARD
@@ -34,9 +31,6 @@ import {signOut_action} from "redux/auth/auth_actions"
                        ACCOUNT
                     </PageSelect>
             <Hr/>
-                    <PageSelect to="/assumptions" activeClassName="active">
-                       ASSUMPTIONS
-                    </PageSelect>   
             {
                 auth.uid ? 
                     <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut_action()}>Sign Out</LinkButton>
