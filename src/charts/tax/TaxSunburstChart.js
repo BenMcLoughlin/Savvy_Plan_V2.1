@@ -4,7 +4,7 @@ import _ from "lodash"
 import styled from "styled-components"
 import {stackedBarData} from "redux/assumptions/assumptions_selectors"
 import {connect} from "react-redux"
-import {preCreditSunburstData_selector, postCreditSunburstData_selector, finalTaxPosition_selector} from"redux/tax/tax_selectors"
+import {preCreditSunburstData_selector, postCreditSunburstData_selector, finalTaxPosition_selector} from"redux/main/tax_selectors"
 
 const drawChart = (data, width, height, total, className) => {
     

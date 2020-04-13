@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {income_selectorWithRRSP} from "redux/income/income_selectors"
-import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
+import {income_selectorWithRRSP} from "redux/main/income_selectors"
 
 const Header = ({income_selectorWithRRSP}) => {
  
@@ -11,37 +10,36 @@ const Header = ({income_selectorWithRRSP}) => {
 
 return (
             <Wrapper>
-            <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
-                <h1>
-                    Lifetime Income Chart
-                </h1>
-            </Left>
-            <Right>
-            <Container >
-                    <Summary>
-                    {`${(cpp)/1000}k`}  
-                        <h4>CPP</h4>
-                    </Summary>
-                    <Summary >
-                    {`${(0)/1000}k`}
-                        <h4 >OAS</h4>
-                    </Summary>
-                    <Vr/>
-                    <Summary>
-                    {`${Math.round(rrsp/1000)}k`}
-                    <h4 >RRSP</h4>
-                    </Summary>
-                    <Summary>
-                    {`${Math.round(tfsa/1000)}k`}
-                    <h4>TFSA</h4>
-                    </Summary>
-            </Container>
-            <Summary>
-             {`${Math.round((cpp + + tfsa + rrsp)/1000)}k`}
-            <h4>Retirement Income</h4>
-            </Summary>
-            </Right>
-            
+                <Left >                                                                                         {/* Displays the total shortfall, the value determines the color of the number negative for red or  positive for lightGrey */}
+                    <h1>
+                        Lifetime Income Chart
+                    </h1>
+                </Left>
+                <Right>
+                <Container >
+                        <Summary>
+                        {`${(cpp)/1000}k`}  
+                            <h4>CPP</h4>
+                        </Summary>
+                        <Summary >
+                        {`${(0)/1000}k`}
+                            <h4 >OAS</h4>
+                        </Summary>
+                        <Vr/>
+                        <Summary>
+                        {`${Math.round(rrsp/1000)}k`}
+                        <h4 >RRSP</h4>
+                        </Summary>
+                        <Summary>
+                        {`${Math.round(tfsa/1000)}k`}
+                        <h4>TFSA</h4>
+                        </Summary>
+                </Container>
+                <Summary>
+                {`${Math.round((cpp + + tfsa + rrsp)/1000)}k`}
+                <h4>Retirement Income</h4>
+                </Summary>
+                </Right>
             </Wrapper>
         )
 
@@ -49,8 +47,6 @@ return (
 
 const mapStateToProps = (state) => ({
     income_selectorWithRRSP: income_selectorWithRRSP(state),
-    rrspMinWithdrawal_selector: rrspMinWithdrawal_selector(state),
-    income_reducer: state.income_reducer,
 })
 
 export default connect(mapStateToProps, {})(Header )

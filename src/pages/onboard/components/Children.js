@@ -16,21 +16,21 @@ const FirstName = ({user_reducer, setKeyValue_action, setNestedKeyValue_action})
 
     const setHasChildren = value => {
         setKeyValue_action("hasChildren", "user_reducer", value)
-        setNestedKeyValue_action("eligible", "21400", "tax_reducer", value)
+        setNestedKeyValue_action("eligible", "21400", "main_reducer", value)
       }
 
       const handleChange = event => {
         const { value, name } = event.target;
         setKeyValue_action(name, "user_reducer", value)
-        setNestedKeyValue_action("value", "21400", "tax_reducer", (value * 2000))
+        setNestedKeyValue_action("value", "21400", "main_reducer", (value * 2000))
     
       };
 
       const setValue = (name, value) => {
         setKeyValue_action(name, "user_reducer", value)
        const birthAge = value - birthYear
-       setNestedKeyValue_action("age1", "21400", "tax_reducer", birthAge)
-       setNestedKeyValue_action("age2", "21400", "tax_reducer", birthAge + 18)
+       setNestedKeyValue_action("age1", "21400", "main_reducer", birthAge)
+       setNestedKeyValue_action("age2", "21400", "main_reducer", birthAge + 18)
       };
 
 

@@ -89,10 +89,8 @@ export const adjustOAS = (age, payment, income) => {
 
 const adjustCpp = adjustCppMemoized()
 
-function calculateCppMemoized() {
-    let cache = {};                                                                                                         //Its a heavy function so we use caching
-    return function(birthYear, cacheKey, cppStartAge, lifeSpan, income_reducer, ympe) {
-        const incomeArray = Object.values(income_reducer).filter(d => d.type === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
+export const calculateCpp = (birthYear, cppStartAge, lifeSpan, main_reducer) =>  {
+        const incomeArray = Object.values(main_reducer).filter(d => d.incomeType === "employmentIncome")                                 //convert object containing income streams to array filtering out only CPP contributory Income
         if (incomeArray.length > 0) {
        
             const array = []                                                                                                               // create our array into which income will be pushed
@@ -118,27 +116,26 @@ function calculateCppMemoized() {
          const cppIncome = {
              color: "#F29278", 
              age1: cppStartAge, 
-             type: "retirementIncome", 
+             incomeType: "retirementIncome", 
              stream: "CPP Income", 
              taxable: true, 
              age2: lifeSpan + 1, 
              value: adjustedCppPayment,
          }
-         cache[cacheKey] = cppIncome                                                                                              //cache's the answer for later
-         return cache[cacheKey] 
+         return cppIncome
         }
         else return {
             color: "#F29278", 
             age1: cppStartAge, 
-            type: "retirementIncome", 
+            incomeType: "retirementIncome", 
             stream: "CPP Income", 
             taxable: true, 
             age2: lifeSpan + 1, 
             value: 0
         }            
 }
-}
-export const calculateCpp = calculateCppMemoized()
+
+
 
 
 //HELPER FUNCTIONS
@@ -159,7 +156,7 @@ export const calculateOAS = (age, lifeSpan, income_selector) =>{
     return ({
     color: "#488487", 
     age1: age, 
-    type: "retirementIncome", 
+    incomeType: "retirementIncome", 
     stream: "OAS Income", 
     taxable: true, 
     age2: lifeSpan + 1, 

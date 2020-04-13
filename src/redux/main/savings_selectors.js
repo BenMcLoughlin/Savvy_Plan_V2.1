@@ -3,7 +3,7 @@ import {createSelector} from "reselect"
 import { createProjection} from "services/savings/savings_functions"
 
 
-const savings_reducer = state => state.savings_reducer                                                             //this is the reducer, in object form, pulled from state
+const main_reducer = state => state.main_reducer                                                             //this is the reducer, in object form, pulled from state
 
 const birthYear = state => new Date().getFullYear() - state.user_reducer.currentAge
 const lifeSpan = state => state.user_reducer.lifeSpan
@@ -35,13 +35,13 @@ export const rate2 = createSelector(
 
 
 export const tfsaProjection_selector = createSelector(                                                                      
-    savings_reducer,
+    main_reducer,
     userAge,
     lifeSpan,
     rate1,
     rate2,
     tfsaCurrentBalance,
-    (savings_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance) => createProjection(tfsaCurrentBalance, lifeSpan, rate1, rate2, "TFSA", savings_reducer, userAge, 120)                                       
+    (main_reducer, userAge, lifeSpan, rate1, rate2, tfsaCurrentBalance) => createProjection(tfsaCurrentBalance, lifeSpan, rate1, rate2, "TFSA", main_reducer, userAge, 120)                                       
 )                                                                                                           
 
 export const tfsaPeakValue_selector = createSelector(                                                                                           //determines the maximum value of the TFSA account  
@@ -90,14 +90,14 @@ export const rrspCurrentBalance = createSelector(
 )
 
 export const rrspProjection_selector = createSelector(                                                                     
-    savings_reducer,
+    main_reducer,
     userAge,
     lifeSpan,
     rate1,
     rate2,
     rrspCurrentBalance,
     rrifStartAge,
-    (savings_reducer, userAge, lifeSpan, rate1, rate2, rrspCurrentBalance, rrifStartAge ) => createProjection(rrspCurrentBalance, lifeSpan, rate1, rate2, "RRSP", savings_reducer, userAge, rrifStartAge)                                        
+    (main_reducer, userAge, lifeSpan, rate1, rate2, rrspCurrentBalance, rrifStartAge ) => createProjection(rrspCurrentBalance, lifeSpan, rate1, rate2, "RRSP", main_reducer, userAge, rrifStartAge)                                        
 )
 
 export const rrspMinWithdrawal_selector = createSelector(                                                                      

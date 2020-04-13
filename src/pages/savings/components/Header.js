@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspContributions_selector, rrspinterest_selector, rrspInterest_selector, rrspPeakValue_selector} from "redux/savings/savings_selectors"
+import {tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspContributions_selector, rrspinterest_selector, rrspInterest_selector, rrspPeakValue_selector} from "redux/main/savings_selectors"
 
 const Header = ({reg, tfsaPeakValue_selector, tfsaContributions_selector, tfsaInterest_selector, rrspInterest_selector, rrspPeakValue_selector, rrspContributions_selector}) => {
 

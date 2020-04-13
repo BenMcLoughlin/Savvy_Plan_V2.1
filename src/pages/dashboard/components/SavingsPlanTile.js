@@ -28,7 +28,7 @@ const SavingsPlanTile = ({progress_reducer}) => {
 const mapStateToProps = (state) => {
 
     return {
-        income_reducer: state.income_reducer,
+        main_reducer: state.main_reducer,
     }
 }
 

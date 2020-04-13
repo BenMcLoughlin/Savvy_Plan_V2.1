@@ -1,7 +1,7 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {tfsaArea_selector, rrspArea_selector} from "redux/savings/savings_selectors"
+import {tfsaArea_selector, rrspArea_selector} from "redux/main/savings_selectors"
 import {connect} from "react-redux"
 
 

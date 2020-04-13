@@ -2,24 +2,24 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import _ from "lodash"
-import * as selector from "redux/tax/tax_selectors"
+import * as selector from "redux/main/tax_selectors"
 import DisplayTile from "pages/tax/components/DisplayTile"
 import SelectorButtonHorizontal from "UI/buttons/SelectorButtonHorizontal"
 
 
-const DisplayBox = ({deduction_selector, fixedCredit_selector, variableCredit_selector, type}) => {                                     //shows a list of all the credits or deductions          
+const DisplayBox = ({deduction_selector, fixedCredit_selector, variableCredit_selector, taxType}) => {                                     //shows a list of all the credits or deductions          
 
     const [creditType, setCreditType] = useState(false)                                                                                 //the user can chose between fixed or variable credits, false is variable true shows fixed
                                                                      
-    const selector =  type === "deductions" ? deduction_selector :                                                                      //decides which selector to show
+    const selector =  taxType === "deduction" ? deduction_selector :                                                                      //decides which selector to show
                       creditType ? fixedCredit_selector  :  
                       variableCredit_selector  
 return (
         <Wrapper>           
             <Header>                                                                                                                                                         
-            <h2>{_.startCase(type)}</h2>        
+            <h2>{_.startCase(taxType)}s</h2>        
             {
-                type === "credits" ? 
+                taxType === "credit" ? 
                 <Right>
                 <TitleWrapper onClick={() => setCreditType(!creditType)}>
                          <H3 creditType={creditType}>Fixed</H3>

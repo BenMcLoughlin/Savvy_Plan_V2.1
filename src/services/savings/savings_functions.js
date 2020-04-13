@@ -22,16 +22,9 @@ import {RRIFMinimumTable} from "services/savings/savings_tables"
 export const createSavingsInstance = (setKeyValue_action, state, taxCredit_data) => {                                                                                               //This creates a new Savings Instance, such as from ages 18-22
         const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
            
-               setKeyValue_action(id, "savings_reducer",  {...state, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
-               setKeyValue_action((state.type === "withdrawal" ? "id" : "id2"), "ui_reducer", id)
-              if(state.type === "contribution" && state.reg === "RRSP")  {                                                    //if a new RRSP contribution instance is created it also has to be stored in the tax section
-                  const newSavingsInstance = taxCredit_data(true, state.age1, state.stream, state.age2, "deduction", state.value)    //create a new tax instance object using the details from the savings instance
-                  setKeyValue_action(id, "tax_reducer",  {...newSavingsInstance, id})                                                //add the new tax instance to the tax_reducer
-                }                                                                                                                    // determines which income instance to show within the edit box
-              if(state.type === "withdrawal")  { 
-                setKeyValue_action(id, "income_reducer",  {...state, id})  
-
-                  }                                                                                                                 // determines which income instance to show within the edit box
+               setKeyValue_action(id, "main_reducer",  {...state, id})                                                           //This action fires and sets a savings instance in the reducer, this could be a contribution or withdrawal
+               setKeyValue_action((state.transaction === "withdrawal" ? "id" : "id2"), "ui_reducer", id)
+                                                                                                                                                                                                                    // determines which income instance to show within the edit box
     }
 
     export const deleteInstance = (delete_action, id, reducer, reg, setKeyValue_action) => {       //deletes the instance
@@ -41,19 +34,14 @@ export const createSavingsInstance = (setKeyValue_action, state, taxCredit_data)
               setKeyValue_action("id2", "ui_reducer", "TFSAcontribution")
         }
 
-    // const deleteInstance = ({id}) => {                                                                                                   //deletes the instance
-    //             delete_action(id, "savings_reducer")                                                                                     //removes the instance
-    //             setContributionId(`${reg}contribution`)                                                                         //sets the object being viewed to the first one
-    //             setWithdrawalId(`${reg}withdrawal`)                                                                              //sets the object being viewed to the first one
-    // }
 
 
 /// SAVINGS FUNCTIONS 
-const getValue = (age, priorValue, reg, savings_reducer, type) => {                                                     //Helper function which will return the income value in the chart
+const getValue = (age, priorValue, reg, main_reducer, transaction) => {                                                     //Helper function which will return the income value in the chart
                        
-    const types = Object.values(savings_reducer).filter( d => d.reg === reg)                                            //filter reducer to get an array of instances with the same registration, eg find all "TFSA" contributions & withdrawals
+    const types = Object.values(main_reducer).filter( d => d.reg === reg)                                            //filter reducer to get an array of instances with the same registration, eg find all "TFSA" contributions & withdrawals
     if (types.length > 0) {
-        const array = types.map(d => d.type === type                                                      //for each income type it is collecing all the contributions or withdrawals reported for that age
+        const array = types.map(d => d.transaction === transaction                                                      //for each income transaction it is collecing all the contributions or withdrawals reported for that age
                                     && age >= d.age1                                                                        //Checks if the given age is between the start and end age
                                     && age < d.age2 ?                                         
                                     d.value 
@@ -66,7 +54,7 @@ const getValue = (age, priorValue, reg, savings_reducer, type) => {             
     }
     
 /// CREATES ARRAY WITH SAVINGS VALUES FOR EACH USER YEAR 
-export const createProjection = (balance, lifeSpan, rate1, rate2, reg, savings_reducer, userAge, rrifStartAge)   => {
+export const createProjection = (balance, lifeSpan, rate1, rate2, reg, main_reducer, userAge, rrifStartAge)   => {
                 
     const array = [                                                                                                            //initialize the array with an empty object, this way we can use refer to the prior object in the array
         {
@@ -89,8 +77,8 @@ export const createProjection = (balance, lifeSpan, rate1, rate2, reg, savings_r
         const newObject = {
                            age: age                                                                                            //Initialize a new object
                             } 
-        const contribution = getValue(age, 1000000, reg, savings_reducer, "contribution")                                               //sums all contributions made when the user was that age
-        const withdrawal = getValue(age, prior.value, reg, savings_reducer, "withdrawal",)                                                  //sums all withdrawals for the age period
+        const contribution = getValue(age, 1000000, reg, main_reducer, "contribution")                                               //sums all contributions made when the user was that age
+        const withdrawal = getValue(age, prior.value, reg, main_reducer, "withdrawal",)                                                  //sums all withdrawals for the age period
         const contributionRoom = prior.contributionRoom + 6000
         const availableRoom = 6000 - contribution + prior.availableRoom
         const interest = age < 65 ? prior.value * rate1 : prior.value * rate2                                                 //interest is different according to their risk levels 
@@ -139,9 +127,9 @@ export const addMinWithdrawalsToIncomeReducer = (income, rrif) => {
  }
  
 
- export const instanceArray_function = (savings_reducer, type, reg) => {
-    return Object.values(savings_reducer)  
-                 .filter(d => d.type === type)
+ export const instanceArray_function = (main_reducer, transaction, reg) => {
+    return Object.values(main_reducer)  
+                 .filter(d => d.transaction === transaction)
                  .filter(d => d.reg === reg)
                  .sort((a, b) => a.age1 - b.age1)        //here we take the instance, eg TFSA contributions, and make an array of all the instances of that income
  }

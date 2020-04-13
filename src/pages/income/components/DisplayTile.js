@@ -3,8 +3,8 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
 import {delete_action, setKeyValue_action} from "redux/actions"
-import {income_selector} from "redux/income/income_selectors"
-import {rrspMinWithdrawal_selector} from "redux/savings/savings_selectors"
+import {income_selector} from "redux/main/income_selectors"
+import {rrspMinWithdrawal_selector} from "redux/main/savings_selectors"
 
 
 const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector, stream, setKeyValue_action}) => {                   //A tile box showing the title of the stream, eg "Wal Mart Income"
@@ -16,7 +16,7 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
         if(stream !== "Child Benefit") {
         const categoryIdArray =  instanceArray.map(d => d.id)                                                                         //if someone want to delete Wal Mart Income, they have to delete all instances of that as well                                                                                                  
         for (let i = 0; i < instanceArray.length; i++) {                                                                              //this mapes through and removes all instances
-        delete_action(categoryIdArray[i], "income_reducer")   
+        delete_action(categoryIdArray[i], "main_reducer")   
         }                                                   
     }                                                                       
     }              
@@ -28,8 +28,6 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
                                     setKeyValue_action("id", "ui_reducer", id)  
         }
     }
-
-
 
     return (
         <Item label={stream} color={color} >

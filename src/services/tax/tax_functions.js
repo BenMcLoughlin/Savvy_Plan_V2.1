@@ -133,8 +133,8 @@ export const oasClaw = (inc) => {                                               
 }
       
 
-export const calculateAgeAmount = (income_reducer) => {
-    let inc = sum(67, "taxable", true, income_reducer)
+export const calculateAgeAmount = (main_reducer) => {
+    let inc = sum(67, "taxable", true, main_reducer)
     let value =  inc < 37790 ? cra.ageAmount : inc > 87750 ? 0 : (inc - 37790) * 0.15
     return ({ 
         stream: "Age amount",         
@@ -177,7 +177,7 @@ return value > 0 ? value  : 0
 const oasClawbackTotal = inc => inc > cra.oasThres && inc < cra.oasTop ? (inc - cra.oasThres) * 0.15 :  inc > cra.oasTop ? cra.oasPayment : 0
 
 
-export const calculateTaxes = (age, income_selector, tax_selector) => {
+export const calculateTaxes = (age, income_selector, main_reducer) => {
 
     let taxableIncome = sum(age, "taxable", true, income_selector)
     let oasIncome = sum(age, "stream", "OAS Income", income_selector) 
@@ -187,8 +187,8 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
     let preDedFedTaxes = tax(taxableIncome, "fed")
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
-    let otheDeductions = sum(age, "type", "deduction", tax_selector)
-    let rrsdDeductions = sum(age, "type", "rrsp", tax_selector)
+    let otheDeductions = sum(age, "type", "deduction", main_reducer)
+    let rrsdDeductions = sum(age, "type", "rrsp", main_reducer)
     let deductions = rrsdDeductions + otheDeductions
 
     let postRRSPIncome = taxableIncome - rrsdDeductions > 0 ? taxableIncome - rrsdDeductions : 0
@@ -206,12 +206,12 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
 
     let dedTaxSavings = preDedTotalTaxes - postDedTotalTaxes
     let rrspTaxSavings = preDedTotalTaxes - postDedTotalTaxes
-    let fixedCredits = sum(age, "type",  "fixed", tax_selector)
-    let variableCredits = sum(age, "type",  "variable", tax_selector)
+    let fixedCredits = sum(age, "type",  "fixed", main_reducer)
+    let variableCredits = sum(age, "type",  "variable", main_reducer)
     let totalCredits = fixedCredits + variableCredits
 
-    let credFedTaxSavings = credits(age, tax_selector, postDedIncome, "fed")
-    let credProvTaxSavings = credits(age, tax_selector, postDedIncome, "prov")
+    let credFedTaxSavings = credits(age, main_reducer, postDedIncome, "fed")
+    let credProvTaxSavings = credits(age, main_reducer, postDedIncome, "prov")
     let totalCredSavings = credFedTaxSavings + credProvTaxSavings
 
     let fedTax = postDedFedTaxes - credFedTaxSavings > 0 ? postDedFedTaxes - credFedTaxSavings : 0
@@ -262,13 +262,13 @@ export const calculateTaxes = (age, income_selector, tax_selector) => {
     })
 }
 
-//BUILD CHART DATA FOR LIFETIME CHART
+//BUILD CHART DATA FOR LIFETIME CHART 
 
-export const lifetimeTaxes = (age1, age2,income_reducer, tax_reducer) => {
+export const lifetimeTaxes = (age1, age2, income_selector, main_reducer) => {
 const array = []
      for (let age = age1; age<= age2; age++) {
 
-        const bracketDetails  = calculateTaxes(age, income_reducer, tax_reducer)
+        const bracketDetails  = calculateTaxes(age, income_selector, main_reducer)
         const {fedTax, provTax, oasClawback, rrspTaxSavings, deductions, RRSPextraTaxes} = bracketDetails
              array.push({
                  age:  age, 

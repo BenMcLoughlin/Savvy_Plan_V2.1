@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
 import TaxBracketsBar from "charts/tax/TaxBracketsBar"
-import {taxDisplayDetails_selector} from "redux/tax/tax_selectors"
+import {taxDisplayDetails_selector} from "redux/main/tax_selectors"
 
 const Header = ({ui_reducer, taxDisplayDetails_selector}) => {
 const {taxAge} = ui_reducer

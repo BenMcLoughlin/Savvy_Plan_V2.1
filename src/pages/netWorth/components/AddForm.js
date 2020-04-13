@@ -14,7 +14,7 @@ import {individualItem_data} from "pages/netWorth/data/netWorth_data"
 
 //THe add form is used to add individual items to the users net worth.
 
-const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector}) => {    
+const AddForm = ({category, subCategory, user_reducer, main_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector}) => {    
 
 
     const initialState = individualItem_data(bookValueLabel, category, currentValueLabel, interestRateLabel, accountTypeArray[0], subCategory)     //initial State is found in data 

@@ -1,15 +1,14 @@
-import React, {useEffect} from "react"
+import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import InstanceNav from "pages/income/components/InstanceNav"
 import FormInput  from "UI/forms/Input"
 import DualRangeBar from "UI/dualRangeBar/DualRangeBar"
 import RangeBar  from "UI/rangeBar1/RangeBar"
-import ButtonLight from "UI/buttons/ButtonLight"
 import _ from "lodash"
 import {setNestedKeyValue_action, setKeyValue_action, delete_action} from "redux/actions"
 import {editStreamName, setAge, hideStream} from "services/ui/ui_functions"
-import {income_selector} from "redux/income/income_selectors"
+import {income_selector} from "redux/main/income_selectors"
 import {ArrowLeft} from "style/Icons"
 
 const EditIncome = ({income_selector, ui_reducer, setKeyValue_action, setNestedKeyValue_action}) => {                                           //this is the box that enables us to edit an income stream and add new instances
@@ -21,7 +20,7 @@ const EditIncome = ({income_selector, ui_reducer, setKeyValue_action, setNestedK
     const instanceArray =  Object.values(income_selector).filter(d => d.stream === stream).sort((a,b) => a.age1 - b.age1)                       //We now create an array of all the instances that are linked by being part of the same stream,  
    
     const setDualRangeBar = (name, value) => {                                                                                                  //sets the age, as well as the surrounding ages in the array of instances
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value)
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "main_reducer", value)
     }                                                                                                                                         
     
     return (
@@ -39,11 +38,11 @@ const EditIncome = ({income_selector, ui_reducer, setKeyValue_action, setNestedK
                         label="Income name"                                                                                                     //this allows the user to change the name of the income stream
                         value={instance.stream}                                                                                                 
                         type={"text"}  
-                        handleChange={(e) => editStreamName(e, income_selector, stream, setNestedKeyValue_action, setKeyValue_action, "income_reducer")}                                                                      //sets the state in the local state
+                        handleChange={(e) => editStreamName(e, income_selector, stream, setNestedKeyValue_action, setKeyValue_action, "main_reducer")}                                                                      //sets the state in the local state
                     />                                    
                   <RangeBar 
                             setNestedKeyValue_action={setNestedKeyValue_action}                                                                   //this allows the user to change the value of the income stream
-                            reducer="income_reducer"
+                            reducer="main_reducer"
                             label={"Annual Income"}
                             instance={instance}       
                      /> 

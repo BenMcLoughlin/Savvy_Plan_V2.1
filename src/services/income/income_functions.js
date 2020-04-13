@@ -5,7 +5,7 @@ import {payment}from "services/general/financial_functions"
 
 //CONVERTS REDUCER TO ARRAY FOR CHART 
 export const convertReducerToArray = (reducer, lifeSpan) => {                                                                       //takes the reducer, an object of objects, and the userAge
-    const incomeStreams = Object.values(reducer)                                                                   //Converts reducer to an array of objects
+    const incomeStreams = Object.values(reducer).filter(d => d.incomeType)                                        //Converts reducer to an array of objects, only income streams have the income type property
 
     //RETURNS INCOME VALUE FOR THE GIVEN INCOME INSTANCE    
       const returnIncome = (incomeStreams, stream, age) => {                                                     //Helper function which will return the income value in the chart
@@ -34,17 +34,6 @@ export const convertReducerToArray = (reducer, lifeSpan) => {                   
      return array
  
  }
-
-
-//CREATE NEW INCOME INSTANCE
-export const createIncomeInstance = (setKeyValue_action, state ) => {                                                                                               //This creates a new Income Instance, such as from ages 18-22
-    const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
-       
-    setKeyValue_action(id, "income_reducer",  {...state, id})                                                            //This action fires and sets the state in the income reducer creating a new item there,        
-            setKeyValue_action("stream", "ui_reducer", state.stream)                                                             //we then set the stream in the ui reducer telling which values should be given to the edit box
-            setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
-}
-
 
 export const calculateRRSPIncome = (age1, age2, array, type) => {                                                             //we need to distill rrsp income into one object that can be added to the reducer  
 
@@ -158,12 +147,12 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
 //SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
 
 
-    export const setMaxContributions = ( birthYear, income_reducer, rrspStartAge, setMaxContribution_action, tfsaStartAge) => {
+    export const setMaxContributions = ( birthYear, main_reducer, rrspStartAge, setMaxContribution_action, tfsaStartAge) => {
 
        for (let age = 18; age < rrspStartAge; age ++) {
             const year = age + birthYear                                                                                                                                                      //year is used to determine the contribution room avaibale from the government
             const contributionLimit = historicRRSP[year] ? historicRRSP[year]  : 154611
-            const totalRrspContEligibleIncome = Object.values(income_reducer[age])                                                                                              //We're looking up their income for that year so we can sum it all
+            const totalRrspContEligibleIncome = Object.values(main_reducer[age])                                                                                              //We're looking up their income for that year so we can sum it all
                                                                     .filter(d => d.type)                                                                                    //We only want to sum income on which RRSP is eligible so we remove income on which CPP contributions aren't made
                                                                     .map(d => d.financialValue).reduce((acc, num) => acc + num)                                                        //Sum the value of all income streams
 
@@ -201,18 +190,18 @@ export const calculateOptimumIncomeStreams = (retirementIncome, pensionIncome, m
 
 
 //SET MAXIMUM CONTRIBUTIONS IN SAVINGS REDUCER
- export const determineMaxRegisteredPayments = (income_reducer, rrspStartAge, savings_reducer, tfsaStartAge, rate1, rate2) => {
+ export const determineMaxRegisteredPayments = (main_reducer, rrspStartAge, tfsaStartAge, rate1, rate2) => {
 
-            const rrspContributionArray = Object.values(savings_reducer).slice(0,(rrspStartAge - 18)).map(d => d.rrsp.maxContribution)
+            const rrspContributionArray = Object.values(main_reducer).slice(0,(rrspStartAge - 18)).map(d => d.rrsp.maxContribution)
             const maxRrspValue = rrspContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
             const maxRrspPayment = payment(rate2, (95-rrspStartAge), maxRrspValue, 0)
             
-            const tfsaContributionArray = Object.values(savings_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
+            const tfsaContributionArray = Object.values(main_reducer).slice(0-(tfsaStartAge - 18)).map(d => d.tfsa.maxContribution)
             const maxTfsaValue = tfsaContributionArray.reduce((acc, num) => (acc * (1 + rate1)) + num)
             const maxTfsaPayment = payment(rate2, (95-tfsaStartAge), maxTfsaValue, 0)
             
             
-            const incomeArray = Object.values(income_reducer).map(d => Object.values(d).map(a => a.financialValue).reduce((acc, num) => acc + num)).slice(0,47)
+            const incomeArray = Object.values(main_reducer).map(d => Object.values(d).map(a => a.financialValue).reduce((acc, num) => acc + num)).slice(0,47)
             
             const highestIncomes = incomeArray.sort((a, b)=> b-a).slice(0,10).reduce((acc, num) => acc + num) /10
             return {
@@ -231,7 +220,7 @@ export const sum = (age, name, query, reducer) => Object.values(reducer).map(d =
 
 
         //CANADA CHILD BENEFIT CALCULATION
-export const calculateCcb = (birthYear, income_reducer, user_reducer) => {
+export const calculateCcb = (birthYear, main_reducer, user_reducer) => {
    
     const ccbRates = {
         1: {
@@ -265,7 +254,7 @@ export const calculateCcb = (birthYear, income_reducer, user_reducer) => {
 
         const array = []
         for (let age = ageAtFirstChild; age <=ageAtLastChild; age++) {
-           const inc = sum(age, "taxable", true, income_reducer)
+           const inc = sum(age, "taxable", true, main_reducer)
     
          //  console.log(inc);
     

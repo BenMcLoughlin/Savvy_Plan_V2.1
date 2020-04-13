@@ -10,14 +10,14 @@ import {taxCredit_data} from "pages/tax/data/tax_data"
 
 const InstanceNav = ({instanceArray, instance, delete_action, setKeyValue_action }) => {
 
-    const {age2, color, id, reg, stream, value, type}  = instance     
-    console.log(instance);
-    const state = savingsInstance_data(age2, color, reg, stream, (age2 + 5), type, value)                                        //creating a new income instance requires us to fire this new state
+    const {age2, color, id, reg, stream, value, taxType, transaction}  = instance     
+
+    const state = savingsInstance_data(age2, color, reg, stream, (age2 + 5), transaction, taxType,  value)                                        //creating a new income instance requires us to fire this new state
    
     const [selected, select] = useState(id)
 
     const handleSelect = (id) => {                                                                                      //this allows the user to navigate along the array, eg. clicking 18-25 then 25-37
-        setKeyValue_action((type === "contribution" ? "id2" : "id"), "ui_reducer", id)                                                                      //when they select an item in the array we set the id in the ui_reducer and it will be highlighted
+        setKeyValue_action((transaction === "contribution" ? "id2" : "id"), "ui_reducer", id)                                                                      //when they select an item in the array we set the id in the ui_reducer and it will be highlighted
         select(id)                                                                                                      //we also set the local selected state to show highlight
     }
 
@@ -37,7 +37,7 @@ const InstanceNav = ({instanceArray, instance, delete_action, setKeyValue_action
                                     {`${d.age1} - ${d.age2}`}
                                     </Text>
                                 </TextAndValueWrapper>
-                                 {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, "savings_reducer", reg, setKeyValue_action)}/> : null}
+                                 {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, "main_reducer", reg, setKeyValue_action)}/> : null}
                      </SelectValue>)                                     
                 }
                 <Add onClick={() => {createSavingsInstance(setKeyValue_action, state, taxCredit_data)} }  

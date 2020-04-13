@@ -1,7 +1,7 @@
 import React, {useEffect} from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {cpp_selector} from "redux/income/income_selectors"
+import {cpp_selector} from "redux/main/income_selectors"
 import { delete_action, setKeyValue_action} from "redux/actions"
 import ButtonLight from "UI/buttons/ButtonLight"
 import EditSavings from "pages/savings/components/EditSavings"
@@ -39,11 +39,11 @@ const Savings = ({setKeyValue_action, ui_reducer}) => {
                         reg={reg} 
                     />
                     <EditSavings  
-                        type={"contribution"}                                                               
+                        transaction={"contribution"}                                                               
                         reg={reg} 
                     />
                     <EditSavings 
-                        type={"withdrawal"}   
+                        transaction={"withdrawal"}   
                         reg={reg}   
                     />
                 </ControlPanel>
@@ -60,7 +60,6 @@ const mapStateToProps = (state) => ({
     user_reducer: state.user_reducer,
     ui_reducer: state.ui_reducer,
     cpp_selector: cpp_selector(state),
-    savings_reducer: state.savings_reducer
 })
 
 export default connect(mapStateToProps, {setKeyValue_action, setKeyValue_action,  delete_action})(Savings )

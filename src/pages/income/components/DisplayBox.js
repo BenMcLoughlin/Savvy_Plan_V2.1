@@ -4,39 +4,40 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import {PlusIcon} from "style/Icons"
 import {setKeyValue_action} from "redux/actions"
-import {employment_selector, otherIncome_selector, retirement_selector} from "redux/income/income_selectors"
+import {employment_selector, otherIncome_selector, retirement_selector} from "redux/main/income_selectors"
 import DisplayTile from "pages/income/components/DisplayTile"
-import {incomeStream_data, colorArray_data} from "pages/income/data/income_data"
-import {createIncomeInstance} from "services/income/income_functions"
+import {newIncomeInstance, colorArray_data} from "pages/income/data/income_data"
+import {createInstance} from "services/ui/ui_functions"
 
-const DisplayBox = ({ type,  setKeyValue_action, user_reducer, employment_selector, otherIncome_selector, retirement_selector, ui_reducer}) => {                  
+const DisplayBox = ({ incomeType,  setKeyValue_action, user_reducer, employment_selector, otherIncome_selector, retirement_selector, ui_reducer}) => {                  
 
     const {currentAge} = user_reducer
-    const age1 =  type === "retirementIncome" ? 65 : currentAge                                                                                         //these are the ages for the dual range bar before the user has changed anything
-    const age2 =  type === "retirementIncome" ? 95 : currentAge + 5                                                                                     //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
+    const age1 =  incomeType === "retirementIncome" ? 65 : currentAge                                                                                         //these are the ages for the dual range bar before the user has changed anything
+    const age2 =  incomeType === "retirementIncome" ? 95 : currentAge + 5                                                                                     //We want the dual range bar to be pre set to higher ages if the user is inputting retrement income                                                                                
 
     const {changeColor: color} = ui_reducer                                                                                                            //to keep the color the same as the chart we store the color on the instance object                                      
-    const state = incomeStream_data(colorArray_data[color], age1, null, " ", type, age2, true, 0)                                                                   //initial State is found in data, this is the empty state used to create a new object
+    const newInstance = newIncomeInstance(colorArray_data[color], age1, null, " ", incomeType, age2, true, 0)                                                                   //initial State is found in data, this is the empty state used to create a new object
                               
-    const selector =  type === "employmentIncome" ? employment_selector
-                    : type === "otherIncome" ? otherIncome_selector
-                    : retirement_selector 
+    const selector =  incomeType === "employmentIncome" ? employment_selector
+                    : incomeType === "otherIncome" ? otherIncome_selector
+                    : incomeType === "retirementIncome" ? retirement_selector 
+                    : "none"
 return (
         <Wrapper>               
           <Header>                                                                                                                                                         
-                <h2>{_.startCase(type)}</h2>     
+                <h2>{_.startCase(incomeType)}</h2>     
             </Header>
             
             <Container> 
                 {
-                    selector.map(d => <DisplayTile  key={d}                                                                                             //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
+                  selector.map(d => <DisplayTile  key={d}                                                                                             //this selector contains an array of the income streams, seperated by if they contribute to CPP or not, eg employment, business or retirement
                                                     color={color}
                                                     stream={d}
                                                          />)
                 }
     
           <DarkAdd onClick={() => {
-                                    createIncomeInstance(setKeyValue_action, state)                                                                      //clicking this button creates a new instance and opens the edit box
+                                    createInstance(newInstance, setKeyValue_action)                                                                      //clicking this button creates a new instance and opens the edit box
                                     setKeyValue_action("changeColor", "ui_reducer", (color + 1))                                                         // changes the color number in the reducer so the color is always a different one
           }}/>
             </Container>

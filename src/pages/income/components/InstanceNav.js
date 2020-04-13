@@ -3,16 +3,15 @@ import {connect} from "react-redux"
 import styled from "styled-components"
 import {Close, PlusIcon} from "style/Icons"
 import {setKeyValue_action, delete_action} from "redux/actions"
-import {deleteInstance} from "services/ui/ui_functions"
-import {income_selector} from "redux/income/income_selectors"
-import {createIncomeInstance} from "services/income/income_functions"
-import {incomeStream_data} from "pages/income/data/income_data"
+import {deleteInstance, createInstance} from "services/ui/ui_functions"
+import {income_selector} from "redux/main/income_selectors"
+import {newIncomeInstance} from "pages/income/data/income_data"
 
 const InstanceNav  = ({delete_action, instanceArray, instance, setKeyValue_action}) => {
 
-    const {color, age2, id, reg, stream, value, type}  = instance                                                        //the instance is in the income reducer but identified by the stream and id in the ui_reducer and has been passed here
+    const {color, age2, id,  stream, value, incomeType}  = instance                                                        //the instance is in the income reducer but identified by the stream and id in the ui_reducer and has been passed here
 
-    const state = incomeStream_data(color, age2, null, stream, type, (age2 + 5), true, 0)                                     //creating a new income instance requires us to fire this new state
+    const newInstance = newIncomeInstance(color, age2, null, stream, incomeType, (age2 + 5), true, value)                                     //creating a new income instance requires us to fire this new state
   
     const [selected, select] = useState(id)                                                                             //here we store a local id value and compare with the id to see if it should be highlighted
   
@@ -37,11 +36,11 @@ const InstanceNav  = ({delete_action, instanceArray, instance, setKeyValue_actio
                                                                 {`Ages ${d.age1} to ${d.age2}`}
                                                             </Text>
                                                         </TextAndValueWrapper>
-                                                        {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "income_reducer", setKeyValue_action)}/> : null}
+                                                        {i > 0 ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "main_reducer", setKeyValue_action)}/> : null}
                                             
                                               </SelectValue>)              
                 }
-                                              <Add onClick={() => createIncomeInstance(setKeyValue_action, state)} />
+                                              <Add onClick={() => createInstance(newInstance, setKeyValue_action)} />
             </SelectWrapper>
         </Container>
     )

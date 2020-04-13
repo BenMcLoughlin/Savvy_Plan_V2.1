@@ -1,7 +1,7 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {taxesBracketChartData_selector} from "redux/tax/tax_selectors"
+import {taxesBracketChartData_selector} from "redux/main/tax_selectors"
 import {connect} from "react-redux"
 import _ from "lodash"
 

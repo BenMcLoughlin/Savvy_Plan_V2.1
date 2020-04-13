@@ -1,11 +1,9 @@
 import {persistReducer} from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import {combineReducers} from "redux"
-import income_reducer from "./income/income_reducer"
+import main_reducer from "redux/main/main_reducer"
 import user_reducer from "./user/user_reducer"
 import netWorth_reducer from "./netWorth/netWorth_reducer"
-import tax_reducer from "./tax/tax_reducer"
-import savings_reducer from "./savings/savings_reducer"
 import assumptions_reducer from "./assumptions/assumptions_reducer"
 import ui_reducer from "./ui/ui_reducer"
 import auth_reducer from "./auth/auth_reducer"
@@ -18,10 +16,8 @@ const persistConfig = {
     key: "root",
     storage, 
     whitelist: [
-    "tax_reducer",
-    "income_reducer",
+    "main_reducer",
     "user_reducer",
-    "savings_reducer",
     "assumptions_reducer",
     "ui_reducer",
     "progress_reducer",
@@ -33,10 +29,8 @@ const rootReducer = combineReducers({
        auth: auth_reducer,
        assumptions_reducer, 
        ui_reducer, 
-       tax_reducer,
-       income_reducer,
-       user_reducer,
-       savings_reducer,         
+       main_reducer,
+       user_reducer,    
        progress_reducer,
        netWorth_reducer,
        firebase: firebaseReducer, 

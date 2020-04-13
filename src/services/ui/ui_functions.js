@@ -80,3 +80,11 @@ export const hideStream = (setKeyValue_action) => {
     setKeyValue_action("stream", "ui_reducer", null)
     setKeyValue_action("id", "ui_reducer", null)
 }      
+
+//CREATE A NEW ITEM AND SET ITS VALUES IN THE UI REDUCER
+export const createInstance = (newInstance, setKeyValue_action) => {                                                             //This creates a new Income Instance, such as from ages 18-22
+    const id = (Math.random() * 10000000000).toFixed()                                                                           //creates the random ID that is the key to the object
+            setKeyValue_action(id, "main_reducer",  {... newInstance, id})                                                       //This action fires and sets the state in the income reducer creating a new item there,        
+            setKeyValue_action("stream", "ui_reducer",  newInstance.stream)                                                      //we then set the stream in the ui reducer telling which values should be given to the edit box
+            setKeyValue_action("id", "ui_reducer", id)                                                                           // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
+}

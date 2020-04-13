@@ -30,7 +30,7 @@ const Tax = ({setKeyValue_action, ui_reducer}) => {                             
                         />   
                 :  
              <ControlPanel>
-                {creditTypes_data.map(d => <DisplayBox  type={d.type}                                                   //the box either sdhows a list of deductions or credits
+                {creditTypes_data.map(d => <DisplayBox  taxType={d.taxType}                                                   //the box either sdhows a list of deductions or credits
                                                         id={id}
                                                         stream={stream}  
                                                         />

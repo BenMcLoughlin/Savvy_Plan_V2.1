@@ -1,10 +1,9 @@
 import {createSelector} from "reselect"
 import {} from "services/tax/tax_functions"
-import {income_selector} from "redux/income/income_selectors"
+import {income_selector} from "redux/main/income_selectors"
 import {convertReducerToArray, bracketsToChartData, sum, taxesByBracket, lifetimeTaxes, tax, calculateTaxes, convertTaxDetailsToDisplay, calculateAgeAmount} from "services/tax/tax_functions"
 
-export const tax_reducer = state => state.tax_reducer
-export const income_reducer = state => state.income_reducer
+export const main_reducer = state => state.main_reducer
 export const selectedCredit = state => state.ui_reducer.stream
 const age = state => state.ui_reducer.taxAge ? state.ui_reducer.taxAge : state.user_reducer.currentAge
 const currentAge = state => state.user_reducer.currentAge   
@@ -13,24 +12,24 @@ const lifeSpan = state => state.user_reducer.lifeSpan
 
 //DISPLAY SELCTORS
 export const tax_selector = createSelector(
-    tax_reducer,
+    main_reducer,
     income_selector,
-    (tax_reducer, income_selector) => Object.values({...tax_reducer, 30001: calculateAgeAmount(income_selector)}) 
+    (main_reducer, income_selector) => Object.values({...main_reducer, 30001: calculateAgeAmount(income_selector)}) 
 )
 
 export const deduction_selector = createSelector(
      tax_selector,
-    (tax_selector) => [...new Set(tax_selector.filter(d => d.type === "deduction" || d.type === "rrsp").map(d => d.stream))]
+    (tax_selector) => [...new Set(tax_selector.filter(d => d.taxType === "deduction" || d.taxType === "rrsp").map(d => d.stream))]
 )
 
 export const fixedCredit_selector = createSelector(
     tax_selector,
-    (tax_selector) => [...new Set(tax_selector.filter(d => d.type === "fixed" && d.eligible).map(d => d.stream))]
+    (tax_selector) => [...new Set(tax_selector.filter(d => d.creditType === "fixed" && d.eligible).map(d => d.stream))]
 )
 
 export const variableCredit_selector = createSelector(
     tax_selector,
-    (tax_selector) => [...new Set(tax_selector.filter(d => d.type === "variable").map(d => d.stream))]
+    (tax_selector) => [...new Set(tax_selector.filter(d => d.creditType === "variable").map(d => d.stream))]
 )
 
 
@@ -45,8 +44,8 @@ export const taxLifetimeChartData_selector = createSelector(
     currentAge,
     lifeSpan,
     income_selector,
-    tax_reducer,
-    (currentAge,lifeSpan,income_selector, tax_reducer) => lifetimeTaxes(currentAge,lifeSpan,income_selector, tax_reducer)
+    main_reducer,
+    (currentAge,lifeSpan,income_selector, main_reducer) => lifetimeTaxes(currentAge,lifeSpan,income_selector, main_reducer)
 )                                                                
 
 //TOTAL TAXABLE INCOME

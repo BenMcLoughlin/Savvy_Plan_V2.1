@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 
     return {
         lifetimeIncomeVariableState: state.lifetimeIncomeVariableState,
-        income_reducer: state.income_reducer
+        main_reducer: state.main_reducer
     }
 }
 

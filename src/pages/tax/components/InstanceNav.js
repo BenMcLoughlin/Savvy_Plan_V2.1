@@ -10,9 +10,9 @@ import {setKeyValue_action, delete_action} from "redux/actions"
 
 const InstanceNav =({delete_action, instanceArray, instance, setKeyValue_action}) => {
 
-    const {eligible, age2, id, stream, type, value}  = instance  
+    const {eligible, age2, id, stream, taxType, value}  = instance  
 
-    const state = taxCredit_data(eligible, age2, stream, (age2 + 5), type, value)                                        //creating a new income instance requires us to fire this new state
+    const state = taxCredit_data(eligible, age2, stream, (age2 + 5), taxType, value)                                        //creating a new income instance requires us to fire this new state
 
     const [selected, select] = useState(id)
     const handleSelect = (id) => {
@@ -36,8 +36,8 @@ const InstanceNav =({delete_action, instanceArray, instance, setKeyValue_action}
                                                                 {`Ages ${d.age1} to ${d.age2}`}
                                                             </Text>
                                                         </TextAndValueWrapper>
-                                                        {i > 0 && type === "variable" ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "tax_reducer", setKeyValue_action)}/> : null}
-                                                                                                                            //(delete_action, id, reducer, reg, setKeyValue_action)
+                                                        {i > 0 && taxType === "variable" ? <Delete onClick={() =>  deleteInstance(delete_action, d.id, selected, instanceArray, "main_reducer", setKeyValue_action)}/> : null}
+                                                                                                                          
                                               </SelectValue>)              
                 }
                                               <Add onClick={() => createTaxInstance(setKeyValue_action, state)} />

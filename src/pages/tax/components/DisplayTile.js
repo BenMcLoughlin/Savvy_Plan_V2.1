@@ -3,7 +3,7 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {Close} from "style/Icons"
 import { delete_action, setKeyValue_action} from "redux/actions"
-import {tax_selector} from "redux/tax/tax_selectors"
+import {tax_selector} from "redux/main/tax_selectors"
 
 const DisplayTile = ({tax_selector, stream, setKeyValue_action}) => {                                    //Individual stream that is added
 

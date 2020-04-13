@@ -2,10 +2,9 @@ import React from "react"
 import styled from "styled-components"
 import {connect} from "react-redux"
 import MiniRangeBar from "UI/miniRangeBar1/MiniRangeBar"
-import {cpp_selector} from "redux/income/income_selectors"
+import {cpp_selector} from "redux/main/income_selectors"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {setKeyValue_action} from "redux/actions"
-
 
 const EditRetirementIncome = ({setStream, cpp_selector,  user_reducer, setKeyValue_action}) => {    
 
@@ -18,7 +17,7 @@ const EditRetirementIncome = ({setStream, cpp_selector,  user_reducer, setKeyVal
             <Header>
             </Header>
             <Container >                                                                      
-     
+
                 <Left>                                                                                                         {/* Choose one is used to select the account type */}
                 < MiniRangeBar 
                    label={"CPP Start Age"}
@@ -51,8 +50,6 @@ const EditRetirementIncome = ({setStream, cpp_selector,  user_reducer, setKeyVal
                     <LargValue>{totalCPP/1000}K</LargValue>
                     <h4>Total CPP Received</h4>
                     </TextWrapper>
-
-              
                     <ButtonWrapper>
                             <ButtonLight 
                                 text={"Add"}

@@ -5,34 +5,32 @@ import RangeBar  from "UI/rangeBar1/RangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {setKeyValue_action, setNestedKeyValue_action} from "redux/actions"
 import _ from "lodash"
-import {rrspSavings_selector, rrspCost_selector} from "redux/tax/tax_selectors"
-import {income_selector} from "redux/income/income_selectors"
+import {rrspSavings_selector, rrspCost_selector} from "redux/main/tax_selectors"
+import {income_selector} from "redux/main/income_selectors"
 import CreditBarChart from "charts/tax/CreditBarChart"
 import {setAge, hideStream} from "services/ui/ui_functions"
 import {creditTaxSavings} from "services/tax/tax_functions"
 import {ArrowLeft} from "style/Icons"
 
-const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_selector, rrspCost_selector, tax_reducer, income_selector, ui_reducer }) => {      //after clicking a crdit this box pops up and allows the user to edit the amount they are claiming
+const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_selector, rrspCost_selector, main_reducer, income_selector, ui_reducer }) => {      //after clicking a crdit this box pops up and allows the user to edit the amount they are claiming
 
     const {stream, id, taxAge} = ui_reducer                                                                                           //figures out which credit to show based on what is now in the ui_reducer
     
-    const {[id]: instance} = tax_reducer                                                                                      //links the credit shown with the data in the tax_reducer
+    const {[id]: instance} = main_reducer                                                                                      //links the credit shown with the data in the main_reducer
     
-    const instanceArray =  Object.values(tax_reducer).filter(d => d.stream === stream).sort((a,b) => a.age1 - b.age1)         //creats an array of all instances of that credit, for instance if the credit is rrsp contributions they may have an array of many different times they contributed    
+    const instanceArray =  Object.values(main_reducer).filter(d => d.stream === stream).sort((a,b) => a.age1 - b.age1)         //creats an array of all instances of that credit, for instance if the credit is rrsp contributions they may have an array of many different times they contributed    
       
     const setDualRangeBar = (name, value) => {                                                                                //sets the age, as well as the surrounding ages in the array of instances
     if(instance.reg === "RRSP") {
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)}                                  //If they are editing rrsp that also has to change in the savings_reducer                                 
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "tax_reducer", value)
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "main_reducer", value)}                                  //If they are editing rrsp that also has to change in the main_reducer                                 
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "main_reducer", value)
         }                                                                                                                       
              
         const savings = creditTaxSavings(taxAge, instance, income_selector)
     return (
         <Wrapper>
-                <Header color={instance.color}>
-                <BackArrow  onClick={() => {
-                    console.log("hi");
-                    hideStream(setKeyValue_action)}}/>
+                <Header color={"red"}>
+                <BackArrow  onClick={() => {  hideStream(setKeyValue_action)}}/>
                 <h3>{`Annual Taxes Saved ${(Math.round(savings/100)*100) /1000}k`}</h3>
                       <h2>{_.startCase(stream)}</h2> 
                       {
@@ -49,13 +47,13 @@ const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_s
                 <BarChartPlaceHolder>
                     <CreditBarChart/>
                 </BarChartPlaceHolder>
-                {instance.type !== "fixed"      ?
+                {instance.taxType !== "fixed"      ?
                 <Container >          
                              <Left>                                                                                         
                                       <RangeBar 
                                                setNestedKeyValue_action={setNestedKeyValue_action}                              //The range bar is used to change the value of the credit
-                                               reducer="tax_reducer"
-                                               second_reducer={instance.reg === "RRSP" ? "savings_reducer" : null}   
+                                               reducer="main_reducer"
+                                               second_reducer={instance.reg === "RRSP" ? "main_reducer" : null}   
                                                instance={instance}       
                                        /> 
                               </Left>
@@ -79,7 +77,7 @@ const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_s
 const mapStateToProps = (state) => ({
     rrspSavings_selector: rrspSavings_selector(state),
     ui_reducer: state.ui_reducer, 
-    tax_reducer: state.tax_reducer,
+    main_reducer: state.main_reducer,
     income_selector: income_selector(state),
     rrspCost_selector: rrspCost_selector(state)
 })

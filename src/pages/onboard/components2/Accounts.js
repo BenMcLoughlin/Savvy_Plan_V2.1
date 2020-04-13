@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import styled from "styled-components"
 import RangeBar from "UI/rangeBar1/RangeBar"
 
-const Accounts = ({netWorth_reducer, savings_reducer, count, setNestedKeyValue_action}) => {
+const Accounts = ({netWorth_reducer, main_reducer, count, setNestedKeyValue_action}) => {
 
      const [accounts, setAccount] = useState({
          TFSA: false, 
@@ -14,7 +14,7 @@ const Accounts = ({netWorth_reducer, savings_reducer, count, setNestedKeyValue_a
 
 
      const {TFSA, RRSP} = netWorth_reducer
-     const {TFSAcontribution, RRSPcontribution} = savings_reducer
+     const {TFSAcontribution, RRSPcontribution} = main_reducer
 
 return (
    <Wrapper className="ACCOUNTS">
@@ -52,7 +52,7 @@ return (
                                     <Select>
                                     <RangeBar
                                             setNestedKeyValue_action={setNestedKeyValue_action}                                                                   //this allows the user to change the value of the income stream
-                                            reducer="savings_reducer"
+                                            reducer="main_reducer"
                                             label={`${d} Annual Contributions`}
                                             instance={instance}     
                                         />
@@ -71,7 +71,7 @@ return (
 
 const mapStateToProps = (state) => ({
     netWorth_reducer: state.netWorth_reducer,
-    savings_reducer: state.savings_reducer,
+    main_reducer: state.main_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action, setNestedKeyValue_action})(Accounts)

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect} from 'react'
 import * as d3 from "d3"
 import styled from "styled-components"
-import {incomeArrayWithRRIF_selector, color_selector} from "redux/income/income_selectors"
+import {incomeArrayWithRRIF_selector, color_selector} from "redux/main/income_selectors"
 import {setKeyValue_action} from "redux/actions"
 import {connect} from "react-redux"
 import _ from "lodash"
@@ -170,14 +170,14 @@ const drawChart =  (age1, age2, birthYear, colors, data, width, height, setKeyVa
     
 }
 
-const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer, ui_reducer, income_reducer}) =>  {
+const SpendingBarChart = ({data, color_selector, setKeyValue_action, user_reducer, ui_reducer, main_reducer}) =>  {
 
     const inputRef = useRef(null)
     const className = "lifetimeBarChart"
     const {currentAge} = user_reducer
     const birthYear = new Date().getFullYear() - currentAge
     const {id, stream} = ui_reducer
-    const {age1, age2} = income_reducer[id] || 0
+    const {age1, age2} = main_reducer[id] || 0
 
     console.log(birthYear);
 
@@ -198,7 +198,7 @@ const mapStateToProps = (state) => ({
     color_selector: color_selector(state),
     user_reducer: state.user_reducer,
     ui_reducer: state.ui_reducer,
-    income_reducer: state.income_reducer,
+    main_reducer: state.main_reducer,
 })
 
 export default connect(mapStateToProps, {setKeyValue_action})(SpendingBarChart)

@@ -9,27 +9,21 @@ import {setNestedKeyValue_action, setKeyValue_action} from "redux/actions"
 import {instanceArray_function} from "services/savings/savings_functions"
 import {setAge} from "services/ui/ui_functions"
 
-const EditSavings = ({type, setNestedKeyValue_action, savings_reducer, ui_reducer,  reg}) => {    
+const EditSavings = ({transaction, setNestedKeyValue_action, main_reducer, ui_reducer,  reg}) => {    
 
-    const instanceArray = instanceArray_function(savings_reducer, type, reg)                                                            //creates an array of instances for the specific stream
-    const id = type === "withdrawal" ? ui_reducer.id : ui_reducer.id2                                                                   // we're working with two ids at the same time to display the two boxes, this checks which one we want and jist makes it "id"
-    const {[id]: instance} = savings_reducer                                                                                            //we use id to grab the entire object from the income_selector
+    const instanceArray = instanceArray_function(main_reducer, transaction, reg)                                                            //creates an array of instances for the specific stream
+    const id = transaction === "withdrawal" ? ui_reducer.id : ui_reducer.id2                                                                   // we're working with two ids at the same time to display the two boxes, this checks which one we want and jist makes it "id"
+    const {[id]: instance} = main_reducer                                                                                            //we use id to grab the entire object from the income_selector
     const {age1, age2} = instance 
 
     const setDualRangeBar = (name, value) => {                                                                                          //sets the age, as well as the surrounding ages in the array of instances
-        if (type === "withdrawal"){
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
-    }   
-        if (type === "contribution" && reg === "RRSP"){
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "income_reducer", value) 
-    }
-        setAge(id, instanceArray, name, setNestedKeyValue_action, "savings_reducer", value)
+        setAge(id, instanceArray, name, setNestedKeyValue_action, "main_reducer", value)
 }
-
+     console.log(id);
      return (
         <Wrapper>
-             <Header type={type}>
-            <h2>{_.startCase(type)}s</h2> 
+             <Header transaction={transaction}>
+            <h2>{_.startCase(transaction)}s</h2> 
             </Header>
             <InstanceNav 
                      instanceArray={instanceArray}
@@ -39,9 +33,9 @@ const EditSavings = ({type, setNestedKeyValue_action, savings_reducer, ui_reduce
                 < RangeBarWrapper>
                 <RangeBar 
                       setNestedKeyValue_action={setNestedKeyValue_action}                                                                             //Every Add instance has a range bar to set its value                                                                                     //Every Add instance has a range bar to set its value
-                      reducer="savings_reducer"
-                      second_reducer={type === "withdrawal" ? "income_reducer" : type === "contribution" && reg === "RRSP" ? "tax_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the income_reducer  
-                      label={`Annual ${type}`}
+                      reducer="main_reducer"
+                     // second_reducer={transaction === "withdrawal" ? "main_reducer" : transaction === "contribution" && reg === "RRSP" ? "main_reducer" : false}                                                         // if its a withdrawal we also want to make changes in the main_reducer  
+                      label={`Annual ${transaction}`}
                       instance={instance}       
                 /> 
                 </RangeBarWrapper> 
@@ -63,7 +57,7 @@ const EditSavings = ({type, setNestedKeyValue_action, savings_reducer, ui_reduce
 }
 
 const mapStateToProps = (state) => ({
-    savings_reducer: state.savings_reducer,
+    main_reducer: state.main_reducer,
     ui_reducer: state.ui_reducer,
 })
 
@@ -106,7 +100,7 @@ const DualRangeBarWrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    background: ${props => props.type === "contribution" ? props.theme.color.steelBlue : props.theme.color.green};
+    background: ${props => props.transaction === "contribution" ? props.theme.color.steelBlue : props.theme.color.green};
     height: 4rem;
     color: ${props => props.theme.color.ice};
     border-bottom:  ${props => props.theme.border.primary};

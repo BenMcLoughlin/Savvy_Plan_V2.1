@@ -17,8 +17,8 @@ const GenderAndAge = ({user_reducer, setKeyValue_action, setNestedKeyValue_actio
        const currentAge = today - value
         setKeyValue_action(name, "user_reducer", value)
         setKeyValue_action("currentAge", "user_reducer", currentAge)
-        setNestedKeyValue_action("age1", "TFSAcontribution", "savings_reducer", currentAge) 
-        setNestedKeyValue_action("age1", "RRSPcontribution", "savings_reducer", currentAge) 
+        setNestedKeyValue_action("age1", "TFSAcontribution", "main_reducer", currentAge) 
+        setNestedKeyValue_action("age1", "RRSPcontribution", "main_reducer", currentAge) 
       };
 
       const {gender, currentAge, maritalStatus, maritalStatusId, genderId} = user_reducer

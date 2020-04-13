@@ -1,9 +1,9 @@
-export const taxCredit_data = (eligible, age1, stream, age2, type, value) => ({                                              //this is the initial state of value being stored to the reducer. 
+export const taxCredit_data = (eligible, age1, stream, age2, taxType, value) => ({                                              //this is the initial state of value being stored to the reducer. 
     eligible, 
     age1,
     stream,
     age2,
-    type,                                                                                                                                               
+    taxType,                                                                                                                                               
     value,
  })
 
@@ -11,10 +11,10 @@ export const taxCredit_data = (eligible, age1, stream, age2, type, value) => ({ 
 
 export const creditTypes_data = [
     {
-        type: "deductions",
+        taxType: "deduction",
     },
     {
-        type: "credits",
+        taxType: "credit",
     }
 ]
 
