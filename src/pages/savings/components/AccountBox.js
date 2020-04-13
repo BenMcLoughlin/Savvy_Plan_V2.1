@@ -7,7 +7,7 @@ import EditForm from "pages/netWorth/components/EditForm"
 import AddForm from "pages/netWorth/components/AddForm"
 import {netWorthWizard_data} from "pages/netWorth/data/netWorth_data"
 
-const ControlPanel = ({display, netWorth_reducer, reg}) => {    
+const ControlPanel = ({setCount, display, netWorth_reducer, reg}) => {    
 
     const [id, setId] = useState()                                                                              //If the user wants to change something this sets the id of the item they want to change
   
@@ -15,7 +15,7 @@ const ControlPanel = ({display, netWorth_reducer, reg}) => {
     const addFormDetails = netWorthWizard_data.find(d => d.subCategory === addFormSubCategory)                  //Provides the add form with the details to render
 
     const category = display                                                                                    //Display is either assets or liabilities and is used to show either of those
-    const subCategory = id ? netWorth_reducer[id].subCategory : "cashAssets"                                    //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
+    const subCategory = id ? netWorth_reducer[id].subCategory : "cashAssets"                          //if we have an id we get the subCategory from the reducer, otherwise we set it to CashAssets
 
     return (
         <Wrapper>   
@@ -23,10 +23,11 @@ const ControlPanel = ({display, netWorth_reducer, reg}) => {
            { 
                     id ? 
                     <EditForm
-                        id={id}                                                                                 //Clicking add takes the id of the item being added and sets it in the local state
+                        id={id}                                                                        //Clicking add takes the id of the item being added and sets it in the local state
                         category={category}
                         subCategory={subCategory}
                         setId={setId}
+                        parent={"savings"}
                     />
                     :
                     addFormSubCategory ? 
@@ -38,20 +39,25 @@ const ControlPanel = ({display, netWorth_reducer, reg}) => {
                         currentValueLabel={addFormDetails.currentValueLabel}
                         interestRateLabel={addFormDetails.interestRateLabel}
                         setAddFormSubCategory={setAddFormSubCategory}
+                      
                     />
                     :
                     <>
                     {
                                                     //if neither add or edit forms are clicked then it renders out the item display
+
                             <Section  key={netWorthWizard_data[1].subCategory}>
                             <DisplayBox                                                                  //Displays all the assets or liabilities they have added
                                 category={netWorthWizard_data[1].category}
                                 item={netWorthWizard_data[1]}
                                 subCategory={netWorthWizard_data[1].subCategory}
+                                setCount={setCount}
+                                setId={setId}
                                 setAddFormSubCategory={setAddFormSubCategory}
                                 reg={reg}
                                 />
                             </Section> 
+
                     }
                 </>
                  }
@@ -78,13 +84,10 @@ const Wrapper = styled.div`
     margin: 1rem;
     min-height: 28rem;
     border-radius: 5px;
-    border: ${props => props.theme.border.primary};
-    overflow: hidden;
     margin-bottom: 1rem;
 `
 const Sections = styled.div`
     display: flex;
-    width: 37rem;
     position: relative;
     justify-content: center;
 `
