@@ -114,24 +114,28 @@ export const calculateCpp = (birthYear, cppStartAge, lifeSpan, main_reducer) => 
          const annualCppPayment = averagePensionableEarnings * .25                                                                          //Multiplied by 25%
          const adjustedCppPayment = Math.round(adjustCpp(cppStartAge, (cppStartAge+annualCppPayment), annualCppPayment)/1000)*1000
          const cppIncome = {
-             color: "#F29278", 
-             age1: cppStartAge, 
-             incomeType: "retirementIncome", 
-             stream: "CPP Income", 
-             taxable: true, 
-             age2: lifeSpan + 1, 
-             value: adjustedCppPayment,
-         }
+            color: "#F29278", 
+            age1: cppStartAge, 
+            type: "retirementIncome", 
+            stream: "CPP Income", 
+            id: "cpp_selector", 
+            taxable: true, 
+            age2: lifeSpan + 1, 
+            base: annualCppPayment,
+            value: adjustedCppPayment,
+        }
          return cppIncome
         }
         else return {
             color: "#F29278", 
             age1: cppStartAge, 
-            incomeType: "retirementIncome", 
+            type: "retirementIncome", 
             stream: "CPP Income", 
+            id: "cpp_selector", 
             taxable: true, 
             age2: lifeSpan + 1, 
-            value: 0
+            base: annualCppPayment,
+            value: adjustedCppPayment,
         }            
 }
 
@@ -158,8 +162,10 @@ export const calculateOAS = (age, lifeSpan, income_selector) =>{
     age1: age, 
     incomeType: "retirementIncome", 
     stream: "OAS Income", 
+    id: "oas_selector", 
     taxable: true, 
     age2: lifeSpan + 1, 
+    base: 7200,
     value: adjustOAS(age, 7200, avgIncome)
 })}
 
