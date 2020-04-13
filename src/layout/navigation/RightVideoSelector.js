@@ -124,6 +124,7 @@ const Close = styled(ArrowRight)`
     position: absolute;
     top: .4rem;
     left: 1rem;
+    cursor: pointer;
 `
 const Open = styled(PlayIcon)`
     position: absolute;

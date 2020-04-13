@@ -59,6 +59,7 @@ const Exit = styled(Close)`
     top: 3%;
     left: 12%;
     z-index: 1501;
+    cursor: pointer;
 `
 const Background = styled.div`
     background: black;
