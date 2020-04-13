@@ -16,7 +16,6 @@ const initialState = {
         age1: 65,
         reg: "TFSA",
         stream: "TFSA Withdrawals",
-        type: "contribution", 
         age2: 95,
         id: "TFSAwithdrawal",
         transaction: "withdrawal",

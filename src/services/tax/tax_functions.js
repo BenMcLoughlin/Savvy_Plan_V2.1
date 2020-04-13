@@ -187,8 +187,8 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
     let preDedFedTaxes = tax(taxableIncome, "fed")
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
-    let otheDeductions = sum(age, "type", "deduction", main_reducer)
-    let rrsdDeductions = sum(age, "type", "rrsp", main_reducer)
+    let otheDeductions = sum(age, "taxType", "deduction", main_reducer)
+    let rrsdDeductions = sum(age, "taxType", "deduction", main_reducer)
     let deductions = rrsdDeductions + otheDeductions
 
     let postRRSPIncome = taxableIncome - rrsdDeductions > 0 ? taxableIncome - rrsdDeductions : 0
@@ -201,8 +201,6 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
     let postDedFedTaxes = tax(postDedIncome, "fed")
     let postDedProvTaxes = tax(postDedIncome, "prov")
     let postDedTotalTaxes = postDedFedTaxes + postDedProvTaxes
-
-
 
     let dedTaxSavings = preDedTotalTaxes - postDedTotalTaxes
     let rrspTaxSavings = preDedTotalTaxes - postDedTotalTaxes

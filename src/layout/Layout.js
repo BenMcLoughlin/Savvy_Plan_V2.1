@@ -8,7 +8,6 @@ import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
 import PropertyApp from "pages/property/PropertyApp"
-import Assumptions from "pages/assumptions/Assumptions"
 import Login from "pages/login/Login"
 import LandingPage from "pages/landingPage/LandingPage"
 import OnboardProcess from "pages/onboard/OnboardProcess"
@@ -33,7 +32,6 @@ const Layout = ({auth, state}) => {
                 <Header auth={auth}/>
                 <LeftNavBar/>
                 <GridContainer>  
-                        <Route path="/Assumptions" component={Assumptions}/>
                         <Route path="/Onboarding" component={OnboardProcess}/>
                         <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
                         <Route path="/NetWorth" component={NetWorth}/>
