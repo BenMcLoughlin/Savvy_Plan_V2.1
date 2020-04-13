@@ -9,9 +9,9 @@ import ButtonLight from "UI/buttons/ButtonLight"
 import {setValue_action, setNestedKeyValue_action} from "redux/actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
 import _ from "lodash"
+import {ArrowLeft} from "style/Icons"
 
-
-const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setValue_action, assumptions_reducer, setNestedKeyValue_action }) => {    
+const EditForm = ({category, subCategory, setId, id, netWorth_reducer, setValue_action, assumptions_reducer, setNestedKeyValue_action, parent }) => {    
 
     const item = netWorth_reducer[id]                                                          //uses the item id provided to go into the reducer and gahter all the users details
 console.log(item);
@@ -31,8 +31,9 @@ console.log(item);
     return (
         <>
         < WhiteBox/>
-        <Wrapper>
+        <Wrapper parent={parent}>
             <Header subCategory={subCategory}>
+            <BackArrow   onClick={() => setId(false)}/>
             <h2>{_.startCase(subCategory)}</h2> 
             </Header>
         <Container subCategory={subCategory}> 
@@ -67,36 +68,6 @@ console.log(item);
 
                 </Center>
                 <Right>
-                    <MiniRangeBarWrapper>
-                        {
-                            category === "liabilities" ? 
-                            <MiniRangeBar 
-                            rangeBarProps={item.interestRate}
-                            setValue={setValue}
-                        /> 
-                        : 
-                        subCategory === "propertyAssets"  ?
-                            <MiniRangeBar 
-                            rangeBarProps={assumptions_reducer.propertyAppreciation}
-                            setValue={setAssumptionValue}
-                         />
-                         :
-                         subCategory === "investmentAssets"  ?
-                         <MiniRangeBar 
-                         rangeBarProps={assumptions_reducer.beforeRetirementReturn}
-                         setValue={setAssumptionValue}
-                      />
-
-                  
-                       : null
-                        }
-                    </MiniRangeBarWrapper>
-                    <ButtonLeftWrapper>
-                            <ButtonLight 
-                                text={"back"}
-                                onClick={() => setId(false)}
-                            />
-                    </ButtonLeftWrapper>
                 </Right>
             </Container>
       
@@ -120,24 +91,22 @@ export default connect(mapStateToProps, {setValue_action, setNestedKeyValue_acti
 
 
 const Wrapper = styled.div`
-    width: 94rem;
+    width: 90rem;
     border-radius: 5px;
     overflow: hidden;
-    height: 30rem;                                                    
+    height: 28rem;                                                    
     border: ${props => props.theme.border.primary};
     position: absolute;
-    top: 2rem;
-    left: 11rem;
-    display: flex;
-    flex-direction: column;
+    top: ${props => props.parent ? "0rem" : "2rem"};
+    left: ${props => props.parent ? "7rem" : "1rem"};
     z-index: 800;
     background: ${props => props.theme.color.ice}
 `
 const WhiteBox = styled.div`
     position: absolute;
-    top: 1rem;
+    top: -2rem;
     left: 1rem;
-    width: 115rem;
+    width: 103rem;
     height: 32rem;
     background: white;
     z-index: 700;
@@ -151,19 +120,18 @@ const Header = styled.div`
                   props => props.subCategory === "unsecuredDebt" ? props.theme.color.salmon : 
                   props => props.subCategory === "securedDebt" ? props.theme.color.darkSalmon : 
     null};
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 4rem;
     color: ${props => props.theme.color.ice};
+    position: relative;
 
 `
 const Left = styled.div`
     width: 30rem;
     height: 100%;
     padding: 2rem;
-`
-const ButtonLeftWrapper = styled.div`
-    position: absolute;
-    bottom: 3rem;
-    left: 2rem;
 `
 const MiniRangeBarWrapper = styled.div`
     position: absolute;
@@ -179,7 +147,17 @@ const Center = styled.div`
     padding: 2rem;
 `
 const Container = styled.div`
-height: ${props => props.subCategory === "securedDebt" ? "33rem" : "30rem"};                                                    //mortgage requires more height because there are more inputs
+height: ${props => props.subCategory === "securedDebt" ? "33rem" : "26rem"};                                                    //mortgage requires more height because there are more inputs
     display: flex;
     position: relative;
+`
+const BackArrow = styled(ArrowLeft)`
+    width: 3.5rem;
+    height: 3.5rem;
+    position: absolute;
+    color: ${props => props.theme.color.ice};
+    top: 0rem;
+    left: 1rem;
+    cursor: pointer;
+
 `
