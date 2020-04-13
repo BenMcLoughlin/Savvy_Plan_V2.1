@@ -22,10 +22,11 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
     }              
     const income = stream === "RRSP Withdrawals" ? (value + rrspMinWithdrawal_selector) : value
   
+    console.log('id instance array', id);
     const openEditIncome = () => {
         if(stream !== "Child Benefit" || stream !== "TFSA" ) {
             setKeyValue_action("stream", "ui_reducer", stream)  
-                                    setKeyValue_action("id", "ui_reducer", id)  
+            setKeyValue_action("id", "ui_reducer", id)  
         }
     }
 

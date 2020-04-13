@@ -6,7 +6,7 @@ import IncomeBarChart from "charts/income/IncomeBarChart"
 import EditIncome from "pages/income/components/EditIncome"
 import Tax from "pages/tax/Tax"
 import Savings from "pages/savings/Savings"
-import EditRetirementIncome from "pages/income/components/EditRetirementIncome"
+import EditPension from "pages/income/components/EditPension"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {displayBox_data} from "pages/income/data/income_data"
 
@@ -21,7 +21,7 @@ const Income = ({ui_reducer}) => {
                     <IncomeBarChart/>
                 </ChartPlaceHolder>    
                  {stream == "CPP Income" || stream === "OAS Income"     ?                                                            //if it is CPP or OAS income we want to show the edit retirement box
-                 <EditRetirementIncome/>  : 
+                 <EditPension/>  : 
                    stream == "TFSA Withdrawals" || stream === "RRSP Withdrawals"  ?                                                            //if it is TFSA or RRSP we want to show their respective savings section
                  <Savings/>                                             :
                  ui_reducer.taxAge                                      ?                                                            //if the tax age is set, by clicking on a bar in the chart, then it shows the tax page
