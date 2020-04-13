@@ -6,12 +6,17 @@ import {taxDisplayDetails_selector} from "redux/main/tax_selectors"
 
 const Header = ({ui_reducer, taxDisplayDetails_selector}) => {
 const {taxAge} = ui_reducer
+const income = taxDisplayDetails_selector[0].value1
+
 return (
             <Wrapper>
             <Left >                                                                                     
+                <Age> 
+                   <AgeText>{taxAge}</AgeText>    
+                </Age>
                 <h1> Tax Breakdown </h1>
                 <Chart>
-                    <ChartTitle>{`Age ${taxAge} Taxes Per Bracket`}</ChartTitle>
+                    <ChartTitle>{`Income of ${Math.round(income/1000)}k broken down by Bracket`}</ChartTitle>
                     <TaxBracketsBar/>
                 </Chart>
             </Left>
@@ -60,6 +65,19 @@ const Left = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
+`
+const Age= styled.div`
+    position: absolute;
+    left: 2rem;
+    top: -0.3rem;
+    display: flex;
+    flex-direction: column;
+    height: 6rem;
+    width: 4rem;
+`
+const AgeText= styled.div`
+    font-size: 5rem;
+    font-weight: 300;
 `
 const Right = styled.div`
     display: flex;

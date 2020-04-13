@@ -1,7 +1,7 @@
 import {createSelector} from "reselect"
 import {} from "services/tax/tax_functions"
 import {income_selector} from "redux/main/income_selectors"
-import {convertReducerToArray, bracketsToChartData, sum, taxesByBracket, lifetimeTaxes, tax, calculateTaxes, convertTaxDetailsToDisplay, calculateAgeAmount} from "services/tax/tax_functions"
+import {convertReducerToArray, bracketsToChartData, sum, taxesByBracket, lifetimeTaxes, tax, calculateTaxes, convertTaxDetailsToDisplay, calculateAgeAmount, lifetimeRRSPValues} from "services/tax/tax_functions"
 
 export const main_reducer = state => state.main_reducer
 export const selectedCredit = state => state.ui_reducer.stream
@@ -19,7 +19,7 @@ export const tax_selector = createSelector(
 
 export const deduction_selector = createSelector(
      tax_selector,
-    (tax_selector) => [...new Set(tax_selector.filter(d => d.taxType === "deduction" || d.taxType === "rrsp").map(d => d.stream))]
+    (tax_selector) => [...new Set(tax_selector.filter(d => d.taxType === "deduction" || d.taxType === "rrspDeduction").map(d => d.stream))]
 )
 
 export const fixedCredit_selector = createSelector(
@@ -47,6 +47,7 @@ export const taxLifetimeChartData_selector = createSelector(
     main_reducer,
     (currentAge,lifeSpan,income_selector, main_reducer) => lifetimeTaxes(currentAge,lifeSpan,income_selector, main_reducer)
 )                                                                
+                                                         
 
 //TOTAL TAXABLE INCOME
 export const taxableIncome_selector = createSelector(  
@@ -68,14 +69,23 @@ export const taxDisplayDetails_selector = createSelector(
 )  
 
 //IMPORTANT VALUES
+
+export const taxRRSPDetails_selector = createSelector(
+    currentAge,
+    lifeSpan,
+    income_selector,
+    main_reducer,
+    (currentAge,lifeSpan,income_selector, main_reducer) => lifetimeRRSPValues(currentAge,lifeSpan,income_selector, main_reducer)
+)       
+
 export const rrspSavings_selector = createSelector( 
-    taxLifetimeChartData_selector,
-    (taxLifetimeChartData_selector) => taxLifetimeChartData_selector.reduce((acc, num) => (acc + num.rrspTaxSavings), 0)
+    taxRRSPDetails_selector,
+    (taxRRSPDetails_selector) => taxRRSPDetails_selector.reduce((acc, num) => (acc + num.rrspTaxSavings), 0)
 )  
 
 export const rrspCost_selector = createSelector( 
-    taxLifetimeChartData_selector,
-    (taxLifetimeChartData_selector) => taxLifetimeChartData_selector.reduce((acc, num) => (acc + num.RRSPextraTaxes), 0)
+    taxRRSPDetails_selector,
+    (taxRRSPDetails_selector) => taxRRSPDetails_selector.reduce((acc, num) => (acc + num.RRSPextraTaxes), 0)
 )  
 
 //TOTAL DEDUCTIONS

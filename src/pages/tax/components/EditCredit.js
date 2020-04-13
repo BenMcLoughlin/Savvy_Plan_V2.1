@@ -31,7 +31,12 @@ const EditCredit = ({setNestedKeyValue_action, setKeyValue_action, rrspSavings_s
         <Wrapper>
                 <Header color={"red"}>
                 <BackArrow  onClick={() => {  hideStream(setKeyValue_action)}}/>
-                <h3>{`Annual Taxes Saved ${(Math.round(savings/100)*100) /1000}k`}</h3>
+                {
+                          instance.reg === "RRSP" ?
+                          <h3>{`Lifetime Taxes Saved ${Math.round(rrspSavings_selector/1000)}k`}</h3>
+                          :  <h3>{`Annual Taxes Saved ${(Math.round(savings/100)*100) /1000}k`}</h3>
+                      }
+            
                       <h2>{_.startCase(stream)}</h2> 
                       {
                           instance.reg === "RRSP" ?

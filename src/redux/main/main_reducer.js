@@ -30,7 +30,7 @@ const initialState = {
         age2: 65,
         id: "RRSPcontribution",
         transaction: "contribution",
-        taxType: "deduction",
+        taxType: "rrspDeduction",
         value: 0,
     },  
     RRSPwithdrawal: {

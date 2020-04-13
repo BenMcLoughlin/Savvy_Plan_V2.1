@@ -8,19 +8,7 @@ import {setKeyValue_action} from "redux/actions"
 
 const drawChart = (birthYear, data, width, height, setKeyValue_action, className, taxAge) => {
    
-    const chartData = () => {
-        const array = []
-        for (let i = 0; i < 77; i++) {
-            array.push({
-                age: i + 18, 
-                federalTax: i < 27 ? 4000 : i < 37 ? 6000 : i < 43 ? 9000 : 3000, 
-                provincialTax: i < 27 ? 2000 : i < 37 ? 3000 : i < 43 ? 4000 : 1000, 
-                cppAndEi: 2000, 
-            })
-        }
-        return array
-    }
-    
+    console.log("data", data);
     const margin = {top: 20, right: 50, bottom: 20, left: 50}
     const graphHeight = height - margin.top - margin.bottom
     const graphWidth = width - margin.left - margin.right
@@ -64,6 +52,8 @@ const drawChart = (birthYear, data, width, height, setKeyValue_action, className
                    d3.max(data, d => Object.values(d).reduce((acc,num) => acc + num)) + 1000
 
         const series = stack(data);
+
+        
    
         const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, max])
         const xScale = d3.scaleBand().range([0, graphWidth]).paddingInner(0.2).paddingOuter(0.3)

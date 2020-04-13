@@ -152,8 +152,7 @@ export const credits = (age, tax_selector, postDedIncome, tax) => {             
    
     let totalCredits = Object.values(tax_selector).map(d => d.eligible && d.stream !== "Donations and gifts" && d.stream !== "Medical expense"                            // Donations and Med expenses have a different calculation so we remove them from the list                      
                                             && age >= d.age1 && age < d.age2 ? d.value : 0 ).reduce((a, n) => a + n)                         //sum the value of all regular credits
-                                        
-                                            console.log('age', age, "totalCredits", totalCredits);
+                                    
                                          
     const donations = Object.values(tax_selector).map(d => d.eligible && d.stream === "Donations and gifts"                                                  //filter out donations for their seperate calculation
                                            && age >= d.age1 && age < d.age2 ? d.value : 0 ).reduce((a, n) => a + n)                          //sum all donations to get the total value                
@@ -179,6 +178,7 @@ const oasClawbackTotal = inc => inc > cra.oasThres && inc < cra.oasTop ? (inc - 
 
 export const calculateTaxes = (age, income_selector, main_reducer) => {
 
+    console.log("income_selector", income_selector);
     let taxableIncome = sum(age, "taxable", true, income_selector)
     let oasIncome = sum(age, "stream", "OAS Income", income_selector) 
     let nonTaxableIncome = sum(age, "taxable", false, income_selector)
@@ -188,7 +188,7 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
     let preDedProvTaxes = tax(taxableIncome, "prov")
     let preDedTotalTaxes = preDedFedTaxes + preDedProvTaxes
     let otheDeductions = sum(age, "taxType", "deduction", main_reducer)
-    let rrsdDeductions = sum(age, "taxType", "deduction", main_reducer)
+    let rrsdDeductions = sum(age, "taxType", "RRSP Contributions", main_reducer)
     let deductions = rrsdDeductions + otheDeductions
 
     let postRRSPIncome = taxableIncome - rrsdDeductions > 0 ? taxableIncome - rrsdDeductions : 0
@@ -204,8 +204,8 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
 
     let dedTaxSavings = preDedTotalTaxes - postDedTotalTaxes
     let rrspTaxSavings = preDedTotalTaxes - postDedTotalTaxes
-    let fixedCredits = sum(age, "type",  "fixed", main_reducer)
-    let variableCredits = sum(age, "type",  "variable", main_reducer)
+    let fixedCredits = sum(age, "creditType",  "fixed", main_reducer)
+    let variableCredits = sum(age, "creditType",  "variable", main_reducer)
     let totalCredits = fixedCredits + variableCredits
 
     let credFedTaxSavings = credits(age, main_reducer, postDedIncome, "fed")
@@ -216,18 +216,16 @@ export const calculateTaxes = (age, income_selector, main_reducer) => {
     let provTax = postDedProvTaxes - credProvTaxSavings > 0 ? postDedProvTaxes - credProvTaxSavings : 0
     let totalTaxes = fedTax + provTax + oasClawback 
 
-    let rrspIncome = sum(age, "reg", "RRSP", income_selector)
+    let rrspIncome = sum(age, "stream", "RRSP Income", income_selector)
 
     let noRRSPIncome = postDedIncome - rrspIncome
     let noRRSPFedTaxes = tax(noRRSPIncome, "fed")- credFedTaxSavings > 0 ? tax(noRRSPIncome, "fed")- credFedTaxSavings : 0
     let noRRSPProvTaxes = tax(noRRSPIncome, "prov") - credProvTaxSavings > 0 ? tax(noRRSPIncome, "prov") - credProvTaxSavings : 0
     let noRRSPTotalTaxes = noRRSPFedTaxes + noRRSPProvTaxes + oasClawback 
 
-    let RRSPextraTaxes = totalTaxes -noRRSPTotalTaxes
+    let RRSPextraTaxes = totalTaxes - noRRSPTotalTaxes
+                console.log("age", age, "rrspIncome", rrspIncome, 'totalTaxes', totalTaxes, "noRRSPTotalTaxes", noRRSPTotalTaxes);
 
-    //console.log("taxableIncome", postDedIncome, "rrspIncome", rrspIncome, "noRRSPIncome ", noRRSPIncome, "regular Taxes", totalTaxes, "noRRSPTaxes", noRRSPTotalTaxes, " RRSPextraTaxes",  RRSPextraTaxes  );
-
- 
     let afterTaxIncome = postDedIncome - fedTax - provTax - oasClawback + nonTaxableIncome
     let averageTaxRate = (taxableIncome - afterTaxIncome)/taxableIncome 
 
@@ -273,12 +271,25 @@ const array = []
                  federalTax: fedTax,
                  provincialTax: provTax,
                  oasClawback,
-                 deductions,
+             })
+     }
+
+     return array
+}   
+
+export const lifetimeRRSPValues = (age1, age2, income_selector, main_reducer) => {
+const array = []
+     for (let age = age1; age<= age2; age++) {
+
+        const bracketDetails  = calculateTaxes(age, income_selector, main_reducer)
+        const {rrspTaxSavings, RRSPextraTaxes} = bracketDetails
+             array.push({
+                 age:  age, 
                  RRSPextraTaxes,
                  rrspTaxSavings,
              })
      }
-     console.log('lifetimeArray', array);
+
      return array
 }   
 
@@ -319,7 +330,7 @@ export const creditTaxSavings = (age, instance, income_selector) => {
 
     const {stream, value, type} = instance
     const inc = sum(age, "taxable", true, income_selector)
-console.log(inc);
+
     if (stream === "Donations and gifts") {
         let donationsClaimed = value > 200 ? value - 200 : 200                                                                            //donations claimed below $200 only get 15% back, over gets %33
         return donationsClaimed > 200 ? (value * 0.498) + 40 : donationsClaimed *  .2        
