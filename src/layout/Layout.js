@@ -32,8 +32,8 @@ const Layout = ({auth, state}) => {
                 <Header auth={auth}/>
                 <LeftNavBar/>
                 <GridContainer>  
-                        <Route path="/Onboarding" component={OnboardProcess}/>
-                        <Route exact path="/" component={Dashboard} />
+                        <Route path="/" component={OnboardProcess}/>
+                        <Route exact path="/Dashboard" component={Dashboard} />
                         <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/income" component={Income}/>  
                         <Route path="/Savings" component={Savings}/>              

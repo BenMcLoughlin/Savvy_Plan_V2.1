@@ -1,8 +1,8 @@
 {
-  "name": "cryptodash-practice",
+  "name": "savvy-plan",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://benmcloughlin.github.io/Savvy_Plan_V2.1/",
+  "homepage": "https://savvy-plan-529f4.web.app",
   "dependencies": {
     "d3": "^5.15.1",
     "firebase": "^7.13.2",
