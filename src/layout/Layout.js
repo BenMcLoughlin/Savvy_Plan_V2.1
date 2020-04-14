@@ -8,8 +8,8 @@ import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
 import PropertyApp from "pages/property/PropertyApp"
+import LandingPage from "pages/onboard/LandingPage"
 import Login from "pages/login/Login"
-import LandingPage from "pages/landingPage/LandingPage"
 import OnboardProcess from "pages/onboard/OnboardProcess"
 import SignUp from "pages/login/SignUp"
 import {ThemeProvider} from "styled-components"
@@ -32,7 +32,8 @@ const Layout = ({auth, state}) => {
                 <Header auth={auth}/>
                 <LeftNavBar/>
                 <GridContainer>  
-                        <Route path="/" component={OnboardProcess}/>
+                        <Route exact path="/" component={LandingPage}/>
+                        <Route path="/onboarding" component={OnboardProcess}/>
                         <Route exact path="/Dashboard" component={Dashboard} />
                         <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/income" component={Income}/>  
@@ -40,9 +41,8 @@ const Layout = ({auth, state}) => {
                         <Route path="/CreditScore" component={CreditScoreApp}/>              
                         <Route path="/Spending" component={Spending}/>                 
                         <Route path="/Property" component={PropertyApp}/>
-                            <Route exact path="/landingpage" component={LandingPage}/>
-                            <Route path="/Login" component={Login}/>
-                            <Route path="/SignUp" component={SignUp}/>
+                        <Route path="/Login" component={Login}/>
+                        <Route path="/SignUp" component={SignUp}/>
                 </GridContainer>                        
                 <RightVideoSelector/>
                 <Footer/>

@@ -17,6 +17,7 @@ const LinkButton = (props) => {
   } = props
   return (
     <ButtonComponent
+    color={props.color}
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event)
@@ -36,6 +37,6 @@ export default withRouter(LinkButton)
 
 const ButtonComponent = styled.button`
   ${buttonStyles};
-  background: ${props => props.theme.color.ice};
-  color: ${props => props.theme.color.slate};
+  background: ${props => props.color === "blue" ? props.theme.color.blue : props.theme.color.ice};
+  color: ${props => props.color === "blue" ? props.theme.color.ice : props.theme.color.slate};
 `
