@@ -1,13 +1,11 @@
 import React from 'react'
 import Layout from "./layout/Layout"
 import {BrowserRouter} from "react-router-dom"
-import { GlobalStyles } from "./style/Themes"
 import {connect} from "react-redux"
 
  function App() {
      return (
         <>
-          <GlobalStyles />
           <BrowserRouter>
               <Layout />
          </BrowserRouter>   

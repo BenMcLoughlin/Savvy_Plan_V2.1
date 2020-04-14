@@ -33,7 +33,7 @@ const Layout = ({auth, state}) => {
                 <LeftNavBar/>
                 <GridContainer>  
                         <Route path="/Onboarding" component={OnboardProcess}/>
-                        <Route exact path="/" render={props => (<DashboardWithSpinner isLoading={auth} {...props}/>)} />
+                        <Route exact path="/" component={Dashboard} />
                         <Route path="/NetWorth" component={NetWorth}/>
                         <Route path="/income" component={Income}/>  
                         <Route path="/Savings" component={Savings}/>              

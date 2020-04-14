@@ -176,6 +176,7 @@ const drawChart = (birthYear, data, width, height, className) => {
 const TaxBarChart = ({taxesBracketChartData_selector, ui_reducer, user_reducer}) =>  {
 
     const data = taxesBracketChartData_selector
+    console.log(data);
     const {taxAge} = ui_reducer
     const inputRef = useRef(null)
     const className = "taxBracketBarChart"

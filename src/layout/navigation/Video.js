@@ -33,12 +33,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps,{ setKeyValue_action})(Video)
 
-{/* <Popup>
-<Exit/>
-<Background/>
-  <Video controls={true} width="90rem" height="55rem"url="videoUrl"/>
-</Popup> */}
-
 const Wrapper = styled.div`
     position: absolute;
     z-index: 800;
@@ -47,18 +41,14 @@ const Wrapper = styled.div`
     width: 100vw;
     display: flex;
 `
-// const Video = styled(ReactPlayer)`
-//     z-index: 1500;
-//     margin-right: 10rem;
-//     margin-top: -11rem;
-// `
+
 const Exit = styled(Close)`
     width: 3rem;
     height: 3rem;
     position: absolute; 
     top: 3%;
     left: 12%;
-    z-index: 1501;
+    z-index: 91501;
     cursor: pointer;
 `
 const Background = styled.div`

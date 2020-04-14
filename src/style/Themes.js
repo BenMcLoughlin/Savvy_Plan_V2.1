@@ -90,45 +90,4 @@ export const pageBaseStyles = `
     width:  80vw;
     background: white;
 `
-export const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-   font-size: 100%;
-   background: #fff;
-   font-family: 'Muli', sans-serif;
-}
-html {
-   @media (min-width: 0px) {
-       font-size: 12.5%;
-   }
-   @media (min-width: 200px) {
-       font-size: 32.5%;
-   }
-   @media (min-width: 400px) {
-       font-size: 37.5%;
-   }
-   @media (min-width: 600px) {
-       font-size: 42.5%;
-   }
-   @media (min-width: 1000px) {
-       font-size: 47.5%;
-   }
-   @media (min-width: 1200px) {
-       font-size: 52.5%;
-   }
-   @media (min-width: 1400px) {
-       font-size: 57.5%;
-   }
-   @media (min-width: 1500px) {
-       font-size: 67.5%;
-   }
-   @media (min-width: 1700px) {
-       font-size: 72.5%;
-   }
-}
-`
+

@@ -42,8 +42,8 @@ const drawChart = (data, width, height, className) => {
                         .attr("class", `${className}tooltip`)
                         .style("opacity", 0)
                         .style("position", "absolute")
-                        .style("top", 0)
-                        .style("left", 0)
+                        .style("top", "10rem")
+                        .style("right", "30rem")
    
                           
     const update = data => {
