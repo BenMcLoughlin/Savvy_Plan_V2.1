@@ -2,38 +2,33 @@ import _ from "lodash"
 
 
 const initialState = { 
-    TFSA: {
-        color:  "#8CB8B7",
-        age1: 65,
-        reg: "TFSA",
-        taxable: false, 
-        stream: "TFSA Current Value",
-        age2: 96,
-        id: "TFSA",
-        type: "asset",
-        value: 0,
+    TFSAcurrentValue: {
+        category: "assets",                                                                                                   //this is the initial state of an item being stored to the reducer. 
+        label: "TFSA Current Value",                                                                                                           //the label is editable by the user and is what is displayed 
+        subCategory: "investmentAssets",   
+        id: "TFSAcurrentValue",
+        registration: "TFSA",                                                                                                          //this referes to if the account is a TFSA or RRSP or property
+        value: {                                                                                                                 //The current value of the assets
+            rangeBarValue: 0,
+            id: "TFSAcurrentValue",
+            financialValue: 0,
+            name: "value",
+            label: "TFSA Current Value",
+        },
     },
-    RRSP: {
-        color:  "#8CB8B7",
-        age1: 65,
-        reg: "RRSP",
-        taxable: false, 
-        stream: "RRSP Current Value",
-        age2: 96,
-        id: "RRSP",
-        type: "asset",
-        value: 0,
-    },
-    Other: {
-        color:  "#8CB8B7",
-        age1: 65,
-        reg: "Other",
-        taxable: false, 
-        stream: "TOtherCurrent Value",
-        age2: 96,
-        id: "Other",
-        type: "asset",
-        value: 0,
+    RRSPcurrentValue: {
+        category: "assets",                                                                                                   //this is the initial state of an item being stored to the reducer. 
+        label: "RRSP Current Value",                                                                                                            //the label is editable by the user and is what is displayed 
+        subCategory: "investmentAssets",   
+        registration: "TFSA", 
+        id: "RRSPcurrentValue",                                                                                                         //this referes to if the account is a TFSA or RRSP or property
+        value: {                                                                                                                 //The current value of the assets
+            rangeBarValue: 0,
+            financialValue: 0,
+            id: "RRSPcurrentValue",   
+            name: "value",
+            label: "RRSP Current Value",
+        },
     },
 }
 

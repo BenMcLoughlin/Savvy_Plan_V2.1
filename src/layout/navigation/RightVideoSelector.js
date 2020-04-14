@@ -88,7 +88,7 @@ const VideoSelect = styled.div`
     align-items: center;
     justify-content: space-around;
     position: relative;
-    background: ${props => props.selected ? "black" : null};
+    background: ${props => props.selected ? "#536D7A" : null};
     border-bottom: ${props => props.theme.border.primary};
 `
 const VideoTitle = styled.div`
@@ -111,7 +111,9 @@ const Play = styled(PlayIcon)`
     height: 3.5rem;
     color: #8CB8B7;
     opacity: ${props => props.selected ? 0 : 1};
-
+    position: absolute; 
+    top: 1.2rem;
+    right: 1.4rem;
 `
 const Column = styled.div`
     display: flex;

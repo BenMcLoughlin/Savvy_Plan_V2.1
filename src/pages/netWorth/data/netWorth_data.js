@@ -47,7 +47,7 @@ export const netWorthWizard_data = [                                            
 ]
 
 
-export const individualItem_data = ( bookValueLabel, category, currentValueLabel, interestRateLabel, registration, subCategory) => ({
+export const netWorthInstance_data = ( bookValueLabel, category, currentValueLabel, interestRateLabel, registration, subCategory) => ({
     category: category,                                                                                                   //this is the initial state of an item being stored to the reducer. 
     label: "",                                                                                                            //the label is editable by the user and is what is displayed 
     subCategory: subCategory,   

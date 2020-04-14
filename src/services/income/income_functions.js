@@ -280,13 +280,12 @@ export const calculateCcb = (birthYear, main_reducer, user_reducer) => {
                     age1: age, 
                     type: "otherIncome", 
                     stream: "Child Benefit", 
-                    taxable: true, 
+                    taxable: false, 
                     age2: age + 1, 
                     incomeType: "otherIncome",
                     value: value,
             })
-        }
-                      console.log(array);                                                                      
+        }                                                            
         return array
 
 

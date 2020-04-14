@@ -1,19 +1,25 @@
 import React, {useState} from "react"
-import {setKeyValue_action, setNestedKeyValue_action} from "redux/actions"
+import {setKeyValue_action, setNestedKeyValue_action, setValue_action} from "redux/actions"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import RangeBar from "UI/rangeBar1/RangeBar"
+import RangeBarOld from "UI/rangeBar/RangeBar"
+import {netWorthInstance_data} from "pages/netWorth/data/netWorth_data"
 
-const Accounts = ({netWorth_reducer, main_reducer, count, setNestedKeyValue_action}) => {
+const Accounts = ({netWorth_reducer, main_reducer, count, setNestedKeyValue_action, setValue_action}) => {
 
      const [accounts, setAccount] = useState({
          TFSA: false, 
          RRSP: false, 
      })
+     const {TFSAcurrentValue, RRSPcurrentValue} = netWorth_reducer
+   
+     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                              //sets the value in the reducer
+      const {id} = rangeBarProps
+      setValue_action(id, logValue, rangeBarValue, rangeBarProps, "netWorth_reducer" )
+  }       
 
 
-
-     const {TFSA, RRSP} = netWorth_reducer
      const {TFSAcontribution, RRSPcontribution} = main_reducer
 
 return (
@@ -29,18 +35,13 @@ return (
 
                     {
                         count === 1 ?  Object.keys(accounts).filter(d => accounts[d] === true).map(d => {
-                            const instance = d === "TFSA" ? TFSA : RRSP 
+                            const instance = d === "TFSA" ? TFSAcurrentValue : RRSPcurrentValue 
                             console.log(instance);
                             return (
-                          
-                 
                             <Select>
-                                        <RangeBar
-                                                style={{marginLeft: "-12rem"}}
-                                                setNestedKeyValue_action={setNestedKeyValue_action}                                                                   //this allows the user to change the value of the income stream
-                                                reducer="netWorth_reducer"
-                                                label={`${d} Current Value`}
-                                                instance={instance}     
+                                        <RangeBarOld
+                                              rangeBarProps={instance.value}
+                                              setValue={setValue}  
                                             />
                              </Select>
   
@@ -74,7 +75,7 @@ const mapStateToProps = (state) => ({
     main_reducer: state.main_reducer,
 })
 
-export default connect(mapStateToProps, {setKeyValue_action, setNestedKeyValue_action})(Accounts)
+export default connect(mapStateToProps, {setKeyValue_action, setNestedKeyValue_action, setValue_action})(Accounts)
 
 const Wrapper = styled.div`
     width: 60rem;

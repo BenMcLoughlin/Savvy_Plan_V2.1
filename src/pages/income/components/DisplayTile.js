@@ -21,14 +21,17 @@ const DisplayTile = ({delete_action, rrspMinWithdrawal_selector, income_selector
     }                                                                       
     }              
     const income = stream === "RRSP Withdrawals" ? (value + rrspMinWithdrawal_selector) : value
-  
+     
     const openEditIncome = () => {
-        if(stream !== "Child Benefit" || stream !== "TFSA" ) {
-            setKeyValue_action("stream", "ui_reducer", stream)  
-            setKeyValue_action("id", "ui_reducer", id)  
+        if (stream === "Child Benefit") {return}
+        if (stream === "TFSA") {return}
+        else {
+              setKeyValue_action("stream", "ui_reducer", stream)  
+              setKeyValue_action("id", "ui_reducer", id)  
         }
-    }
 
+    }
+;
     return (
         <Item label={stream} color={color} >
             <Text onClick={() => openEditIncome()}>                                                                                                 {/*When the stream is clicked the id is set which fills out the edit form with the items details */} 

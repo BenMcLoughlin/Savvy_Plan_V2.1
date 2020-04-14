@@ -29,7 +29,7 @@ const Children = ({user_reducer, setKeyValue_action, setNestedKeyValue_action}) 
       };
 
 
-      const childOptions = ["Yes", "No", "One Day"]
+      const childOptions = ["Yes", "No", "Other"]
       const childCounter = [1,2,3,4,5,6]
       const status = ["Married", "Single", "Other"]
 return (

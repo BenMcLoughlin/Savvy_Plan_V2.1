@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from "styled-components"
 import {connect} from "react-redux"
-import {income_selectorWithRRSP} from "redux/main/income_selectors"
+import {income_selector} from "redux/main/income_selectors"
 
-const Header = ({income_selectorWithRRSP}) => {
+const Header = ({income_selector}) => {
  
-    let {rrsp_selector1: {value: rrsp}, cpp_selector: {value: cpp},
-           TFSAwithdrawal: {value: tfsa},} = income_selectorWithRRSP
+    let {rrsp_selector1: {value: rrsp}, cpp_selector: {value: cpp}, 
+    oas_selector: {value: oas}, TFSAwithdrawal: {value: tfsa},} = income_selector
 
 return (
             <Wrapper>
@@ -22,7 +22,7 @@ return (
                             <h4>CPP</h4>
                         </Summary>
                         <Summary >
-                        {`${(0)/1000}k`}
+                        {`${Math.round(oas/1000)}k`}
                             <h4 >OAS</h4>
                         </Summary>
                         <Vr/>
@@ -36,7 +36,7 @@ return (
                         </Summary>
                 </Container>
                 <Summary>
-                {`${Math.round((cpp + + tfsa + rrsp)/1000)}k`}
+                {`${Math.round((cpp + + tfsa + rrsp + oas)/1000)}k`}
                 <h4>Retirement Income</h4>
                 </Summary>
                 </Right>
@@ -46,7 +46,7 @@ return (
 }
 
 const mapStateToProps = (state) => ({
-    income_selectorWithRRSP: income_selectorWithRRSP(state),
+    income_selector: income_selector(state),
 })
 
 export default connect(mapStateToProps, {})(Header )

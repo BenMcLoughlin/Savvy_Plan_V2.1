@@ -63,20 +63,21 @@ const ButtonRightWrapper = styled.div`
     left: 95rem;
 `
 const MiniRangeBarWrapper = styled.div`
-    height: 24rem;
+    height: 18rem;
     width: 60rem;
     display: flex;
+    align-items: flex-end;
     flex-wrap: wrap;
 `
 const Wrapper = styled.div`
-    width: 70rem;
+    width: 68rem;
     border-radius: 5px;
     overflow: hidden;
     height: 28rem;                                                    
     border: ${props => props.theme.border.primary};
     position: absolute;
-    top: 35rem;
-    left: 36rem;
+    top: 34rem;
+    left: 39rem;
     display: flex;
     z-index: 700;
     background: ${props => props.theme.color.ice};

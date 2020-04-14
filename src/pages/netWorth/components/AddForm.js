@@ -9,7 +9,7 @@ import MiniRangeBar  from "UI/miniRangeBar/MiniRangeBar"
 import ButtonLight from "UI/buttons/ButtonLight"
 import {add_action} from "redux/actions"
 import {propertyNames_selector} from "redux/netWorth/netWorth_selectors"
-import {individualItem_data} from "pages/netWorth/data/netWorth_data"
+import {netWorthInstance_data} from "pages/netWorth/data/netWorth_data"
 
 
 //THe add form is used to add individual items to the users net worth.
@@ -17,12 +17,12 @@ import {individualItem_data} from "pages/netWorth/data/netWorth_data"
 const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFormSubCategory, accountTypeArray, bookValueLabel, currentValueLabel, interestRateLabel, add_action, propertyNames_selector, parent}) => {    
 
 
-    const initialState = individualItem_data(bookValueLabel, category, currentValueLabel, interestRateLabel, accountTypeArray[0], subCategory)     //initial State is found in data 
+    const newInstance = netWorthInstance_data(bookValueLabel, category, currentValueLabel, interestRateLabel, accountTypeArray[0], subCategory)     //initial State is found in data 
 
-    const [state, setState] = useState({...initialState})
+    const [state, setState] = useState({...newInstance})
  
     useEffect(() => {                                                                                                         //ensures state is updated on every page change
-        setState({...initialState, subCategory: subCategory})
+        setState({...newInstance, subCategory: subCategory})
     }, [subCategory])
 
     const setValue = (logValue, rangeBarValue, rangeBarProps) => {                                                             //receives numbers from range bar and sets them in state
@@ -45,7 +45,7 @@ const AddForm = ({category, subCategory, user_reducer, savings_reducer, setAddFo
         setAddFormSubCategory(false)
         const id = (Math.random() * 10000000000).toFixed()                                                                    // Creates a unique id
         add_action(id, state, "netWorth_reducer")                                                                             // Sets item in reducer
-        setState({...initialState})     
+        setState({...newInstance})     
     }
 
 console.log(subCategory);
@@ -57,7 +57,7 @@ console.log(subCategory);
                 <Left>                                                                                                  {/* Choose one is used to select the account type */}
                     <ChooseOne
                             array={subCategory === "securedDebt" ? propertyNames_selector.concat("None of These") : accountTypeArray }  //if it is secored (a mortgage) it has to be linked to the property its secured against
-                            setValue={(value) => setState({...initialState, registration: value})}
+                            setValue={(value) => setState({...newInstance, registration: value})}
                             value ={"TFSA"}
                             subCategory={subCategory}
                         />

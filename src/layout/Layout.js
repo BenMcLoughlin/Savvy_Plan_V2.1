@@ -3,7 +3,7 @@ import Header from "./Header"
 import Footer from "./Footer"
 import {Route} from "react-router-dom"
 import Dashboard from "pages/dashboard/Dashboard"
-import NetWorth from "pages/netWorth1/NetWorth"
+import NetWorth from "pages/netWorth/NetWorth"
 import CreditScoreApp from "pages/credit/CreditScoreApp"
 import Income from "pages/income/Income"
 import Savings from "pages/savings/Savings"
@@ -15,14 +15,9 @@ import SignUp from "pages/login/SignUp"
 import {ThemeProvider} from "styled-components"
 import { lightTheme} from "style/Themes"
 import styled from "styled-components"
-import LeftNavBar from "./navigation/LeftNavBar"
-import RightVideoSelector from "./navigation/RightVideoSelector"
-import WithSpinner from "HOC/withSpinner/WithSpinner"
 import {connect} from "react-redux"
 import Spending from "pages/spending/Spending"
 import './baseStyles.css'
-
-const DashboardWithSpinner = WithSpinner(Dashboard);
 
 
 const Layout = ({auth, state}) => {
@@ -30,7 +25,6 @@ const Layout = ({auth, state}) => {
             <ThemeProvider theme={lightTheme}>
                 <>
                 <Header auth={auth}/>
-                <LeftNavBar/>
                 <GridContainer>  
                         <Route exact path="/" component={LandingPage}/>
                         <Route path="/onboarding" component={OnboardProcess}/>
@@ -44,7 +38,7 @@ const Layout = ({auth, state}) => {
                         <Route path="/Login" component={Login}/>
                         <Route path="/SignUp" component={SignUp}/>
                 </GridContainer>                        
-                <RightVideoSelector/>
+     
                 <Footer/>
                 </>
             </ThemeProvider>

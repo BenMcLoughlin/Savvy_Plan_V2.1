@@ -55,6 +55,7 @@ const RangeBarWrapper = styled.div`
     margin-top: 1rem;
     position: relative;
     width: 23rem;
+    margin-left: -3rem;
 
 `
 const  CloseWrapper = styled.div`

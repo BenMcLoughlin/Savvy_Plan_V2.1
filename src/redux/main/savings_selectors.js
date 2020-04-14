@@ -21,7 +21,7 @@ export const tfsaAccounts_selector = createSelector(
 
 export const tfsaCurrentBalance = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) =>  Object.values(netWorth_reducer).filter(d => d.registration === "TFSA").length > 0 ? Object.values(netWorth_reducer).filter(d => d.registration === "TFSA").map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
+    (netWorth_reducer) => netWorth_reducer.TFSAcurrentValue.value.financialValue
 )
 
 export const rate1 = createSelector(
@@ -86,7 +86,7 @@ export const tfsaBar_selector = createSelector(
 
 export const rrspCurrentBalance = createSelector(
     [netWorth_reducer],
-    (netWorth_reducer) =>  Object.values(netWorth_reducer).filter(d => d.registration === "RRSP").length > 0 ? Object.values(netWorth_reducer).filter(d => d.registration === "RRSP").map(d => d.value.financialValue).reduce((acc, num) => acc + num) : 0
+    (netWorth_reducer) => netWorth_reducer.RRSPcurrentValue.value.financialValue
 )
 
 export const rrspProjection_selector = createSelector(                                                                     

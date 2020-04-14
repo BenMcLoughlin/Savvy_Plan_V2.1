@@ -8,7 +8,7 @@ const Header = ({monthly, toggleMonthly}) => {
         <Container>
             <Left>
                 <h1>
-                    Lifetime Spending
+                    UNDER CONSTRUCTION
                 </h1>
             </Left>
             <Right>

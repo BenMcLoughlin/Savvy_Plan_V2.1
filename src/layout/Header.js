@@ -6,6 +6,7 @@ import {auth} from "firebase/firebaseUtils"
 import LinkButton from "UI/buttons/LinkButton"
 import {connect} from "react-redux"
 import {signOut_action} from "redux/auth/auth_actions"
+import ButtonLight from "UI/buttons/ButtonLight.js"
 
  function Header({auth, signOut_action}) {
 
@@ -23,23 +24,28 @@ import {signOut_action} from "redux/auth/auth_actions"
             <Right>
           
             <Hr/>
-                <PageSelect to="/" activeClassName="active">
+                <PageSelect to="/dashboard">
                         DASHBOARD
                 </PageSelect>
             <Hr/>
-                    <PageSelect to="/Learn" activeClassName="active">
+                    <PageSelect to="/Learn">
                        ACCOUNT
                     </PageSelect>
             <Hr/>
             {
                 auth.uid ? 
+                <>
                     <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut_action()}>Sign Out</LinkButton>
+                    <Button  onClick={() => window.location.href = 'https://forms.gle/FoS93bhrsoVhUtb77'}>Feedback</Button>
+                </>
                 :
                 <React.Fragment>
                     <LinkButton  to='/Login' text={"Login"}>Login</LinkButton>
                     <LinkButton to='/SignUp' text={"SignUp"}>Sign Up</LinkButton>
+                    <ButtonLight  text={"Feedback"} onClick={() => window.location.href = 'https://forms.gle/FoS93bhrsoVhUtb77'}></ButtonLight>
                 </React.Fragment>
             }
+           
             </Right>
                 
         </HeaderContainer>
@@ -56,8 +62,7 @@ export const HeaderContainer = styled.div`
     text-align: center;
     display: flex;
     height: 6rem;
-    background: ${props => props.theme.color.slate};
-    font-weight: 400;    
+    background: ${props => props.theme.color.slate};  
 `
 const Logo = styled.div`
         width: 10rem;
@@ -126,10 +131,24 @@ const Hr = styled.hr`
 `
 
 
-export const StyledNavLink = styled(NavLink)`
- 
-  `
+const Button = styled.a`
+padding: 1rem 2rem 1rem 2rem;
+min-width: 11rem;
+width: auto;
+height: 5rem;
+margin: 1rem;
+cursor: pointer;
+outline: none;
+border-radius: 5rem;
+text-transform: uppercase;
+position: relative;
+font-size: 1.4rem;
+  background: ${props => props.theme.color.ice};
+  color: ${props => props.theme.color.slate};
+  display: flex;
+  align-content: center;
 
+`
 //
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_FILE DETAILS-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_//
 // Website header rendering the website title, buttons that change the theme, and a login button. 

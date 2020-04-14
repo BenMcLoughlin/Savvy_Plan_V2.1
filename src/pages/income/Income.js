@@ -10,6 +10,7 @@ import {setKeyValue_action} from "redux/actions"
 import EditPension from "pages/income/components/EditPension"
 import DisplayBox from "pages/income/components/DisplayBox"
 import {displayBox_data} from "pages/income/data/income_data"
+import RightVideoSelector from "layout/navigation/RightVideoSelector"
 
 const Income = ({ui_reducer, setKeyValue_action}) => {
   
@@ -23,7 +24,10 @@ console.log('ui_reducer', ui_reducer);
     }, [])                                                                                                                                 // Id refers to the income object, such as "Wal Mart Employment" from age 22-27, we will call this an instance
       
     return (
+        <>
+            <RightVideoSelector/>
             <Page>
+                
               <Header/>                                                                                                               
                  <ChartPlaceHolder>
                     <IncomeBarChart/>
@@ -47,6 +51,7 @@ console.log('ui_reducer', ui_reducer);
                 }
 
             </Page>
+         </>
         )
 }
 

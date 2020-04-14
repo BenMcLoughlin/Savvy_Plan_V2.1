@@ -9,7 +9,7 @@ import {Navicon} from "@styled-icons/evil/Navicon"
 // import {Edit3} from "styled-icons/feather/Edit3"
 // import {Play} from "styled-icons/evil/Play"
 import {CloseCircle, ArrowLeftS, ArrowRightS, ArrowDownS, PlayCircle} from "@styled-icons/remix-line"
-
+import {Wpforms} from "@styled-icons/fa-brands/Wpforms"
 
 const sharedIconAttributes = `
     height: 2.4rem;
@@ -54,6 +54,11 @@ export const Edit = styled.div`
     color: ${props => props.theme.color.lightGrey}
 `
 export const PlayIcon = styled(PlayCircle)`
+    height: 2.2rem;
+    width: 2.2rem;
+    color: ${props => props.theme.color.lightGrey}
+`
+export const Form = styled(Wpforms)`
     height: 2.2rem;
     width: 2.2rem;
     color: ${props => props.theme.color.lightGrey}

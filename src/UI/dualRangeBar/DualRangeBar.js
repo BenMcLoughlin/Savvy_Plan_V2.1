@@ -52,7 +52,7 @@ const DualRangeBar = ({bottom, top, setValue, title}) =>  {
                     onChange={(e) => handleChange(e)}
                     value={bottom}
                     min={18}
-                    max={95}
+                    max={96}
                     step={1}
             />
             {/* this controls the thumb of the top value*/}
@@ -63,7 +63,7 @@ const DualRangeBar = ({bottom, top, setValue, title}) =>  {
                     onChange={(e) => handleChange(e)}
                     value={top}
                     min={18}
-                    max={95}
+                    max={96}
                     step={1}
             />
             {/* this is the bar that sits on top and sets the color of the inner area*/}

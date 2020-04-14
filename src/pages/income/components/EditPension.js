@@ -114,7 +114,7 @@ const Right = styled.div`
 
 const Container = styled.div`
     width: 100%;
-    height: 22rem;
+    height: 100%;
     border-radius: 5px;
     overflow: hidden;
     position: relative;

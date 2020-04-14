@@ -32,7 +32,7 @@ const NetWorth = ({progress_reducer, setKeyValue_action}) => {
                 <DisplayBox                
                 category={d.category}
                 subCategory={d.subCategory}
-                setItemId={() => null}
+                setId={() => null}
             />
          </DisplayWrapper>
         <AddFormWrapper>                                                                                 {/* form that enables users to add new items*/}  
