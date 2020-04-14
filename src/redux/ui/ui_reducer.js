@@ -7,6 +7,8 @@ const initialState = {
         id2: "TFSAcontribution",
         videoUrl: "", 
         incomeVisited: false, 
+        count: 0, 
+        netWorthDisplay: "assets", 
    }
 
  const ui_reducer = (state = initialState, action) => {
