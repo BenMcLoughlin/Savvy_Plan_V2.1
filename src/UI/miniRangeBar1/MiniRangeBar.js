@@ -6,7 +6,8 @@ import MiniRangeBarSlider from "UI/miniRangeBar/Components/MiniRangeBarSlider"
 
 
 const MiniRangeBar = ({name, label, numberType, max, min, reducer, setKeyValue_action, step, value}) =>  {
-console.log((value-min)/(max-min));
+console.log(label);
+
         return (
             < RangeBarWrapper>
                  <Label>{label}</Label>
@@ -22,9 +23,10 @@ console.log((value-min)/(max-min));
                      <ValueWrapper>
                         <Value
                         type="text"
+                        autoComplete="off"
                         value={numberType === "percentage" ? `${(value*100).toFixed(1)} %` : value.toLocaleString()}
                         autoComplete="off"
-                        onChange={(e) => null}
+                        onChange={name !== "lifeSpan" ? (e) => setKeyValue_action(name, reducer, (+e.target.value > 0 ? +e.target.value : 0) ) : null}
                         />   
                      </ValueWrapper>
             </RangeBarWrapper>
@@ -103,10 +105,6 @@ const Value = styled.input`
     left: 40%;
     top: -20%;
     };
-    &:focus {
-    border-bottom: 3px solid ${props => props.theme.color.sandy};
-    
-    }
 `
 const Label = styled.div`
         width: 14rem;

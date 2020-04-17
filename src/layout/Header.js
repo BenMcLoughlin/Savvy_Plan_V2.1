@@ -36,13 +36,13 @@ import ButtonLight from "UI/buttons/ButtonLight.js"
                 auth.uid ? 
                 <>
                     <LinkButton  to='/landingpage' text={"Sign Out"} onClick={() => signOut_action()}>Sign Out</LinkButton>
-                    <Button  onClick={() => window.location.href = 'https://forms.gle/FoS93bhrsoVhUtb77'}>Feedback</Button>
+                    <Button  onClick={() => window.location.href = 'https://forms.gle/bYaafXK4GKXaJY3eA'}>Feedback</Button>
                 </>
                 :
                 <React.Fragment>
-                    <LinkButton  to='/Login' text={"Login"}>Login</LinkButton>
-                    <LinkButton to='/SignUp' text={"SignUp"}>Sign Up</LinkButton>
-                    <ButtonLight  text={"Feedback"} onClick={() => window.location.href = 'https://forms.gle/FoS93bhrsoVhUtb77'}></ButtonLight>
+                    {/* <LinkButton  to='/Login' text={"Login"}>Login</LinkButton> */}
+                    {/* <LinkButton to='/onboarding' text={"SignUp"}>Sign Up</LinkButton> */}
+                    <ButtonLight  text={"Feedback"} onClick={() => window.location.href = 'https://forms.gle/bYaafXK4GKXaJY3eA'}></ButtonLight>
                 </React.Fragment>
             }
            

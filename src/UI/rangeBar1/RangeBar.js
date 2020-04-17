@@ -14,10 +14,10 @@ import {logslider, inverseLogslider} from "services/general/logorithmic_function
                            if (second_reducer) {setNestedKeyValue_action("value",  instance.id, second_reducer, logslider(e.target.value))}     //sometimes we want the rangebar to be changing two values in two different reducers, eg withdrawals also changes income
                             setNestedKeyValue_action("value",  instance.id, reducer, logslider(e.target.value))
                         }}
-                       value={inverseLogslider(instance.value)}
+                       value={inverseLogslider(instance.value) > 0 ? inverseLogslider(instance.value) : 0}
                        max={100}
                        step={0.1}
-                       percentage={`${(inverseLogslider(instance.value > 0 ? instance.value : 10000)/100)*100}%`}
+                       percentage={`${(inverseLogslider(instance.value > 0 ? instance.value : 100)/100)*100}%`}
                      />
                      <Value
                        type="text"

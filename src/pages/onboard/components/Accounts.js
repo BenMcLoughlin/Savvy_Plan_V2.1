@@ -19,9 +19,9 @@ const Accounts = ({netWorth_reducer, main_reducer, count, setNestedKeyValue_acti
       setValue_action(id, logValue, rangeBarValue, rangeBarProps, "netWorth_reducer" )
   }       
 
-
      const {TFSAcontribution, RRSPcontribution} = main_reducer
-
+console.log(TFSAcurrentValue);
+console.log(RRSPcurrentValue);
 return (
    <Wrapper className="ACCOUNTS">
 
